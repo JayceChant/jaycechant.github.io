@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>基础算法练习题汇总 | Jayce&#39;s Tech Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这份题目汇总，是我和几个朋友一起整理所得，放在我的博客只是为了存档纪念曾经一起奋斗的日子，以及分享给有需要的人。感谢老战友。
+帖子很长，建议在目录查找需要的主题，然后直接Ctrl+F。
+
+目录
+
+1.基本算法
+1.1.递归与分治
+1.1.1.基础练习
+1.1.2.进阶练习
+
+
+1.2.模拟
+1.2.1.基础练习
+1.2.2.进阶练习
+
+
+1.3.贪心
+1.3.1.基础练习
+1.3.2.进阶练习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基础算法练习题汇总">
+<meta property="og:url" content="http://jaycechant.github.io/2015/04/01/algorithm-practice-set/index.html">
+<meta property="og:site_name" content="Jayce's Tech Blog">
+<meta property="og:description" content="这份题目汇总，是我和几个朋友一起整理所得，放在我的博客只是为了存档纪念曾经一起奋斗的日子，以及分享给有需要的人。感谢老战友。
+帖子很长，建议在目录查找需要的主题，然后直接Ctrl+F。
+
+目录
+
+1.基本算法
+1.1.递归与分治
+1.1.1.基础练习
+1.1.2.进阶练习
+
+
+1.2.模拟
+1.2.1.基础练习
+1.2.2.进阶练习
+
+
+1.3.贪心
+1.3.1.基础练习
+1.3.2.进阶练习">
+<meta property="og:updated_time" content="2016-06-27T08:39:31.997Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基础算法练习题汇总">
+<meta name="twitter:description" content="这份题目汇总，是我和几个朋友一起整理所得，放在我的博客只是为了存档纪念曾经一起奋斗的日子，以及分享给有需要的人。感谢老战友。
+帖子很长，建议在目录查找需要的主题，然后直接Ctrl+F。
+
+目录
+
+1.基本算法
+1.1.递归与分治
+1.1.1.基础练习
+1.1.2.进阶练习
+
+
+1.2.模拟
+1.2.1.基础练习
+1.2.2.进阶练习
+
+
+1.3.贪心
+1.3.1.基础练习
+1.3.2.进阶练习">
+  
+    <link rel="alternate" href="/atom.xml" title="Jayce&#39;s Tech Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jayce&#39;s Tech Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一个软件开发新丁的折腾笔记</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://jaycechant.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-algorithm-practice-set" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/04/01/algorithm-practice-set/" class="article-date">
+  <time datetime="2015-04-01T08:23:16.000Z" itemprop="datePublished">2015-04-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      基础算法练习题汇总
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong><em>这份题目汇总，是我和几个朋友一起整理所得，放在我的博客只是为了存档纪念曾经一起奋斗的日子，以及分享给有需要的人。感谢老战友。</em></strong></p>
+<p>帖子很长，建议在目录查找需要的主题，然后直接Ctrl+F。</p>
+<hr>
+<p>目录</p>
+<ul>
+<li>1.基本算法<ul>
+<li>1.1.递归与分治<ul>
+<li>1.1.1.基础练习</li>
+<li>1.1.2.进阶练习</li>
+</ul>
+</li>
+<li>1.2.模拟<ul>
+<li>1.2.1.基础练习</li>
+<li>1.2.2.进阶练习</li>
+</ul>
+</li>
+<li>1.3.贪心<ul>
+<li>1.3.1.基础练习</li>
+<li>1.3.2.进阶练习</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>2.解空间搜索<ul>
+<li>2.1.初出茅庐<ul>
+<li>2.1.1.深度优先搜索</li>
+<li>2.1.2.广度优先搜索</li>
+<li>2.1.3.穷竭(暴力)搜索</li>
+</ul>
+</li>
+<li>2.2.出类拔萃<ul>
+<li>2.2.1.隐式图最短路,简单剪枝</li>
+<li>2.2.2.尺取</li>
+<li>2.2.3.反转(开关问题,关灯问题)</li>
+<li>2.2.4.二分搜索<ul>
+<li>2.2.4.1.最大化最小值(或最小化最大值)</li>
+<li>2.2.4.2.最大化平均值</li>
+<li>2.2.4.3.查找第K大的值</li>
+<li>2.2.4.4.最小化第K大的值</li>
+<li>2.2.4.5.其他</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>2.3.登峰造极<ul>
+<li>2.3.1.双端队列</li>
+<li>2.3.2.调整搜索顺序和智慧剪枝</li>
+<li>2.3.3.智慧搜索2( A<em> IDA</em>)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>3.图论<ul>
+<li>3.1.图论基础</li>
+<li>3.2.图论中等</li>
+<li>3.3.图论高级</li>
+</ul>
+</li>
+<li>4.动态规划<ul>
+<li>4.1.动态规划基础</li>
+<li>4.2.DP中等</li>
+<li>4.3.DP高级</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+<h2 id="1-基本算法"><a href="#1-基本算法" class="headerlink" title="1. 基本算法"></a>1. 基本算法</h2><h3 id="1-1-递归与分治"><a href="#1-1-递归与分治" class="headerlink" title="1.1. 递归与分治"></a>1.1. 递归与分治</h3><p>递归：找出递归子结构性质（原问题的解包含了子问题的解）、用子问题的解来递归定义原问题的解、找出递归终止条件。</p>
+<p>分治：问题分解，逐个击破。在处理公共子问题时，可以引入一个表格，对于计算过的解缓存起来，重复利用。</p>
+<h4 id="1-1-1-基础练习"><a href="#1-1-1-基础练习" class="headerlink" title="1.1.1. 基础练习"></a>1.1.1. 基础练习</h4><ol>
+<li>放苹果：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16690" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16690</a></li>
+<li>Science：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=31627" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=31627</a></li>
+<li>Oil Skimming：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=31171" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=31171</a></li>
+<li>棋盘问题：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15202" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15202</a></li>
+</ol>
+<h4 id="1-1-2-进阶练习"><a href="#1-1-2-进阶练习" class="headerlink" title="1.1.2. 进阶练习"></a>1.1.2. 进阶练习</h4><ol>
+<li>Two Famous Companies：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=29898" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=29898</a></li>
+<li>Crazy Tank：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=33707" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=33707</a></li>
+<li>Palindromin Substring：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=33418" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=33418</a></li>
+</ol>
+<h3 id="1-2-模拟"><a href="#1-2-模拟" class="headerlink" title="1.2. 模拟"></a>1.2. 模拟</h3><p>根据题目实际意思一步步写代码就好，没算法可言，耐心+基本功</p>
+<h4 id="1-2-1-基础练习"><a href="#1-2-1-基础练习" class="headerlink" title="1.2.1. 基础练习"></a>1.2.1. 基础练习</h4><ol>
+<li>Biorhythms：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16391" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16391</a></li>
+<li>Maya Calendar：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11385" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11385</a></li>
+<li>最大连续积：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=38909" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=38909</a></li>
+<li>体重：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=37583" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=37583</a></li>
+<li>最佳裁判：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=37617" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=37617</a></li>
+<li>Running Rabbits：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=33714" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=33714</a></li>
+<li>Counterfeit Dollar：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16424" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16424</a></li>
+<li>Numbers that Count：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11260" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11260</a></li>
+<li>Packets：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16476" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16476</a></li>
+<li>Packing Rectangles：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16996" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16996</a></li>
+</ol>
+<h4 id="1-2-2-进阶练习"><a href="#1-2-2-进阶练习" class="headerlink" title="1.2.2. 进阶练习"></a>1.2.2. 进阶练习</h4><ol>
+<li>矩阵覆盖：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=37614" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=37614</a></li>
+<li>Sum of divisors：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=33549" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=33549</a></li>
+<li>Joseph：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11573" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11573</a></li>
+<li>Calendar Game：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17540" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17540</a></li>
+<li>Chemical Reactions：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=31592" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=31592</a></li>
+</ol>
+<h3 id="1-3-贪心"><a href="#1-3-贪心" class="headerlink" title="1.3. 贪心"></a>1.3. 贪心</h3><p>顾名思义，贪心就是找到某一策略，每次寻找该策略下的最优，逐步找到最后的最优解。</p>
+<p>而贪心的难点在于，你怎么确认是否存在有效的贪心策略！</p>
+<p>下面是一些经典的例子</p>
+<ol>
+<li><p>活动选择问题 Activity selection</p>
+</li>
+<li><p>最小生成树 Minimum spanning tree</p>
+</li>
+<li><p>部分背包问题 Partial knapsack problem</p>
+</li>
+</ol>
+<h4 id="1-3-1-基础练习"><a href="#1-3-1-基础练习" class="headerlink" title="1.3.1. 基础练习"></a>1.3.1. 基础练习</h4><ol>
+<li>Scientific Conference：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=26713" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=26713</a></li>
+<li>Exam：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=175278" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=175278</a></li>
+<li>Electrification Plan：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=47106" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=47106</a></li>
+<li>Dragon of Loowater：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=19048" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=19048</a></li>
+<li>Two Teams：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14092" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14092</a></li>
+<li>Wooden Sticks：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16477" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16477</a></li>
+<li>Radar Installation：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10537" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10537</a></li>
+<li>Power of Cryptography：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10040" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10040</a></li>
+<li>Y2K Accounting Bug：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=18025" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=18025</a></li>
+<li>Gone Fishing：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16478" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16478</a></li>
+<li>Pass-Muraille：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11166" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11166</a></li>
+<li>Game Prediction：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16382" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16382</a></li>
+<li>Box of Bricks：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16479" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16479</a></li>
+<li>Integer Intervals：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16482" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16482</a></li>
+<li>Huffman’s Greed：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16483" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16483</a></li>
+</ol>
+<h4 id="1-3-2-进阶练习"><a href="#1-3-2-进阶练习" class="headerlink" title="1.3.2. 进阶练习"></a>1.3.2. 进阶练习</h4><ol>
+<li>Minimal Coverage：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=13756" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=13756</a></li>
+<li>Crossing River：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=26251" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=26251</a></li>
+</ol>
+<h2 id="2-解空间搜索"><a href="#2-解空间搜索" class="headerlink" title="2. 解空间搜索"></a>2. 解空间搜索</h2><p>所谓 解空间 ，顾名思义，就是 所有可能解的集合 或者说 所有候选答案的集合。</p>
+<p>解空间搜索 是通用解法之首。如果问题无法用特别明显的算法解决，往往可以考虑搜索。</p>
+<h3 id="2-1-初出茅庐"><a href="#2-1-初出茅庐" class="headerlink" title="2.1. 初出茅庐"></a>2.1. 初出茅庐</h3><p>搜索入门,基础的穷搜,广搜,深搜</p>
+<h4 id="2-1-1-深度优先搜索"><a href="#2-1-1-深度优先搜索" class="headerlink" title="2.1.1. 深度优先搜索"></a>2.1.1. 深度优先搜索</h4><ol>
+<li>Lake Counting：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14167" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14167</a></li>
+<li>Red and Black：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=26084" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=26084</a></li>
+<li>Property Distribution：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=46522" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=46522</a></li>
+<li>Ball：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=22516" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=22516</a></li>
+<li>Curling 2.0：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15201" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15201</a></li>
+<li>Catch That Cow：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15204" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15204</a></li>
+</ol>
+<h4 id="2-1-2-广度优先搜索"><a href="#2-1-2-广度优先搜索" class="headerlink" title="2.1.2. 广度优先搜索"></a>2.1.2. 广度优先搜索</h4><ol>
+<li>Cheese：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=49879" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=49879</a></li>
+<li>Meteor Shower：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=12685" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=12685</a></li>
+<li>Seven Puzzle：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=49880" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=49880</a></li>
+</ol>
+<h4 id="2-1-3-穷竭-暴力-搜索"><a href="#2-1-3-穷竭-暴力-搜索" class="headerlink" title="2.1.3. 穷竭(暴力)搜索"></a>2.1.3. 穷竭(暴力)搜索</h4><ol>
+<li>Smallest Difference：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17170" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17170</a></li>
+<li>Backward Digit Sums：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=39458" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=39458</a></li>
+<li>Hopscotch：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=12306" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=12306</a></li>
+<li>Osenbei：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=50785" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=50785</a></li>
+</ol>
+<h3 id="2-2-出类拔萃"><a href="#2-2-出类拔萃" class="headerlink" title="2.2. 出类拔萃"></a>2.2. 出类拔萃</h3><p>隐式图最短路,简单剪枝,尺取,反转(开关问题,关灯问题),二分搜索</p>
+<h4 id="2-2-1-隐式图最短路-简单剪枝"><a href="#2-2-1-隐式图最短路-简单剪枝" class="headerlink" title="2.2.1. 隐式图最短路,简单剪枝"></a>2.2.1. 隐式图最短路,简单剪枝</h4><ol>
+<li>Shuffle’m Up：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15207" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15207</a></li>
+<li>Pots：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15208" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15208</a></li>
+<li>Network Saboteur：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15209" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15209</a></li>
+<li>Sudoku：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15211" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15211</a></li>
+<li>Tudoku：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16441" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16441</a></li>
+<li>Channel Allocation：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15212" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15212</a></li>
+</ol>
+<h4 id="2-2-2-尺取"><a href="#2-2-2-尺取" class="headerlink" title="2.2.2. 尺取"></a>2.2.2. 尺取</h4><p>头指针和尾指针不断交替推进 寻找满足条件的最小区间</p>
+<ol>
+<li>Jessica’s Reading Problem：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=24699" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=24699</a></li>
+<li>Bound Found：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=39361" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=39361</a></li>
+<li>Sum of Consecutive Prime Numbers：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=18023" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=18023</a></li>
+<li>Graveyard Design：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=39270" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=39270</a></li>
+</ol>
+<h4 id="2-2-3-反转-开关问题-关灯问题"><a href="#2-2-3-反转-开关问题-关灯问题" class="headerlink" title="2.2.3. 反转(开关问题,关灯问题)"></a>2.2.3. 反转(开关问题,关灯问题)</h4><p>同一灯开关操作两次会互相抵消,可利用二进制压缩状态</p>
+<ol>
+<li>EXTENDED LIGHTS OUT：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17722" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17722</a></li>
+<li>Flip Game：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16122" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16122</a></li>
+<li>Fliptile：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17522" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17522</a></li>
+<li>Game：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=22970" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=22970</a></li>
+<li>The Water Bowls：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17471" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17471</a></li>
+</ol>
+<h4 id="2-2-4-二分搜索"><a href="#2-2-4-二分搜索" class="headerlink" title="2.2.4. 二分搜索"></a>2.2.4. 二分搜索</h4><p>利用有序数列的特性,每次检查解空间的中点是否满足条件,无论是否满足 最优解只会落在大于中点或小于中点的解空间内,</p>
+<p>从而每次可以把解空间缩小一半,最终在O(logN)次的比较之内求得最优解</p>
+<h5 id="2-2-4-1-最大化最小值-或最小化最大值"><a href="#2-2-4-1-最大化最小值-或最小化最大值" class="headerlink" title="2.2.4.1. 最大化最小值(或最小化最大值)"></a>2.2.4.1. 最大化最小值(或最小化最大值)</h5><ol>
+<li>Aggressive cows：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=21309" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=21309</a></li>
+<li>River Hopscotch：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16277" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16277</a></li>
+<li>Monthly Expense：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14546" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14546</a></li>
+<li>Drying：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16416" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16416</a></li>
+<li>Cow Acrobats：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11013" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11013</a></li>
+</ol>
+<h5 id="2-2-4-2-最大化平均值"><a href="#2-2-4-2-最大化平均值" class="headerlink" title="2.2.4.2. 最大化平均值"></a>2.2.4.2. 最大化平均值</h5><ol>
+<li>Dropping tests：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17097" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17097</a></li>
+<li>K Best：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=39448" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=39448</a></li>
+</ol>
+<h5 id="2-2-4-3-查找第K大的值"><a href="#2-2-4-3-查找第K大的值" class="headerlink" title="2.2.4.3. 查找第K大的值"></a>2.2.4.3. 查找第K大的值</h5><ol>
+<li>Median：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=24230" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=24230</a></li>
+<li>Matrix：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=24239" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=24239</a></li>
+</ol>
+<h5 id="2-2-4-4-最小化第K大的值"><a href="#2-2-4-4-最小化第K大的值" class="headerlink" title="2.2.4.4. 最小化第K大的值"></a>2.2.4.4. 最小化第K大的值</h5><ol>
+<li>Moo University - Financial Aid：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11455" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11455</a></li>
+<li>Telephone Lines：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=12427" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=12427</a></li>
+</ol>
+<h5 id="2-2-4-5-其他"><a href="#2-2-4-5-其他" class="headerlink" title="2.2.4.5. 其他"></a>2.2.4.5. 其他</h5><ol>
+<li>Garland：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17196" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17196</a></li>
+<li>Showstopper：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15091" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15091</a></li>
+</ol>
+<h3 id="2-3-登峰造极"><a href="#2-3-登峰造极" class="headerlink" title="2.3. 登峰造极"></a>2.3. 登峰造极</h3><p>双端队列搜索,智能搜索(剪枝 A<em> IDA</em>)</p>
+<h4 id="2-3-1-双端队列"><a href="#2-3-1-双端队列" class="headerlink" title="2.3.1. 双端队列"></a>2.3.1. 双端队列</h4><p>双端队列就是一个两端都是结尾的队列。队列的每一端都可以插入数据项和移除数据项。是一种具有队列和栈的性质的数据结构。</p>
+<ol>
+<li>Sliding Window：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16694" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16694</a></li>
+<li>The Fewest Coins：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=20465" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=20465</a></li>
+<li>Batch Scheduling：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10364" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10364</a></li>
+<li>FIMO sequence：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=22461" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=22461</a></li>
+</ol>
+<h4 id="2-3-2-调整搜索顺序和智慧剪枝"><a href="#2-3-2-调整搜索顺序和智慧剪枝" class="headerlink" title="2.3.2. 调整搜索顺序和智慧剪枝"></a>2.3.2. 调整搜索顺序和智慧剪枝</h4><p>调整搜索顺序,对比盲目搜索,需要对所有分支做一定的评估,选择最大可能性的解空间优先进行搜索</p>
+<p>以数独为例,优先填只有1个可能性的空格,如果没有,优先填可能性少的空格</p>
+<p>智慧剪枝,设计特殊的评估函数 或 利用已经得到部分解 限制搜索深度和广度</p>
+<p>例如 要求最小深度,目前得到满足条件的深度是5,当搜索深度到了6即可立即终止,搜索其他分支</p>
+<ol>
+<li>Sudoku：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10883" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10883</a></li>
+<li>Sudoku：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10698" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10698</a></li>
+<li>Sticks：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14913" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14913</a></li>
+<li>Gap：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=27367" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=27367</a></li>
+<li>Power Calculus：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11302" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11302</a></li>
+<li>Square Destroyer：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17543" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17543</a></li>
+</ol>
+<h4 id="2-3-3-智慧搜索2-A-IDA"><a href="#2-3-3-智慧搜索2-A-IDA" class="headerlink" title="2.3.3. 智慧搜索2( A IDA)"></a>2.3.3. 智慧搜索2( A<em> IDA</em>)</h4><p>剪枝虽然可以一定程度优化,让我们较快接近最优解,但没有找到较好解前,依然需要探索很多不必要的解空间</p>
+<p>深度优先搜索通过估算下界,提前剪枝优化的算法叫IDA*</p>
+<p>广度优先搜索利用估算下界优化,就是A*</p>
+<ol>
+<li>N皇后问题：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=33634" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=33634</a></li>
+<li>Solution to the n Queens Puzzle：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=23664" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=23664</a></li>
+<li>Eight：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16377" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16377</a></li>
+<li>The Morning after Halloween：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=18735" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=18735</a></li>
+<li>Square Carpets：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=36736" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=36736</a></li>
+<li>15-Puzzle Problem：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=21237" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=21237</a></li>
+</ol>
+<h2 id="3-图论"><a href="#3-图论" class="headerlink" title="3. 图论"></a>3. 图论</h2><h3 id="3-1-图论基础"><a href="#3-1-图论基础" class="headerlink" title="3.1. 图论基础"></a>3.1. 图论基础</h3><p>最短路径、最小生成树、强连通分量、拓扑排序入门题</p>
+<ol>
+<li>Christmas Tree：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10444" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10444</a></li>
+<li>Unique MST：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17124" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17124</a></li>
+<li>Slim Span：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15723" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15723</a></li>
+<li>School Network：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17001" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17001</a></li>
+<li>Labeling Balls：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=19855" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=19855</a></li>
+</ol>
+<h3 id="3-2-图论中等"><a href="#3-2-图论中等" class="headerlink" title="3.2. 图论中等"></a>3.2. 图论中等</h3><p>有一定难度的图论题，最大流、网路流、NP问题入门题</p>
+<ol>
+<li>Bottom of Graph：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11217" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11217</a></li>
+<li>Going Home：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11578" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11578</a></li>
+<li>Popular Cows：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16578" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16578</a></li>
+<li>Network：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11132" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11132</a></li>
+<li>Taxi Cab Scheme：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11751" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11751</a></li>
+<li>Instantaneous Transference：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14370" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14370</a></li>
+<li>Drainage Ditches：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10499" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10499</a></li>
+<li>King’s Quest：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17071" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17071</a></li>
+<li>Optimal Milking：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10503" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10503</a></li>
+<li>Sightseeing：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15297" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15297</a></li>
+<li>Sightseeing Cows：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17742" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17742</a></li>
+<li>Graph Coloring：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17391" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17391</a></li>
+<li>Secret Milking Machine：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10504" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10504</a></li>
+</ol>
+<h3 id="3-3-图论高级"><a href="#3-3-图论高级" class="headerlink" title="3.3. 图论高级"></a>3.3. 图论高级</h3><p>综合性较强难度较大的题目</p>
+<ol>
+<li>Cow Relays：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17690" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17690</a></li>
+<li>Picnic Planning：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11062" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11062</a></li>
+<li>Friendship：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=12876" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=12876</a></li>
+<li>Cable TV Network：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11083" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11083</a></li>
+<li>March of the Penguins：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10507" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10507</a></li>
+<li>Dual Core CPU：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16358" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16358</a></li>
+<li>Kaka’s Matrix Travels：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17098" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17098</a></li>
+<li>Distance Queries：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11131" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11131</a></li>
+<li>PIGS：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10509" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=10509</a></li>
+<li>Knights：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=12602" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=12602</a></li>
+<li>Priest John’s Busiest Day：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=18641" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=18641</a></li>
+<li>Firing：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17404" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17404</a></li>
+</ol>
+<h2 id="4-动态规划"><a href="#4-动态规划" class="headerlink" title="4. 动态规划"></a>4. 动态规划</h2><h3 id="4-1-动态规划基础"><a href="#4-1-动态规划基础" class="headerlink" title="4.1. 动态规划基础"></a>4.1. 动态规划基础</h3><p>DAG最短路问题、01背包、最长递增子序列、多源最短路、树形DP</p>
+<ol>
+<li>Strategic game：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=18778" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=18778</a></li>
+<li>Stockbroker Grapevine：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14577" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14577</a></li>
+<li>AGTC：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17326" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17326</a></li>
+<li>Charm Bracelet：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17547" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17547</a></li>
+<li>Longest Ordered Subsequence：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15302" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15302</a></li>
+<li>Kind Spirits：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=22065" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=22065</a></li>
+<li>Metro：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14094" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14094</a></li>
+</ol>
+<h3 id="4-2-DP中等"><a href="#4-2-DP中等" class="headerlink" title="4.2. DP中等"></a>4.2. DP中等</h3><p>有一定难度的动态规划问题，最长递增子序列、排列组合问题、完全背包、矩阵连乘、状态压缩DP、区间DP</p>
+<ol>
+<li>Folding：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11442" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=11442</a></li>
+<li>False Mirrors：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17671" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17671</a></li>
+<li>Multiplication Puzzle：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=21493" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=21493</a></li>
+<li>Piggy-Bank：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17110" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17110</a></li>
+<li>Flags：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=21494" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=21494</a></li>
+<li>Bridging signals：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17328" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17328</a></li>
+</ol>
+<h3 id="4-3-DP高级"><a href="#4-3-DP高级" class="headerlink" title="4.3. DP高级"></a>4.3. DP高级</h3><p>综合性较强难度较大的动态规划题目</p>
+<ol>
+<li>Sightseeing Trip：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14074" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14074</a></li>
+<li>Two Rounds：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14101" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=14101</a></li>
+<li>K-based Numbers：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16555" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16555</a></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://jaycechant.github.io/2015/04/01/algorithm-practice-set/" data-id="cipzlrjwx00084olnottprlav" class="article-share-link">分享到...</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/practice/">practice</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/06/27/migrate-to-hexo/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          博客迁移到了Hexo
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/04/11/make-python-2x-coexist-with-3x-on-Win/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">Windows 下 Python 2x 和 3x 版本共存</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Octopress/">Octopress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/how-to/">how-to</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/">node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/practice/">practice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ruby/">ruby</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/skill/">skill</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/blog/" style="font-size: 20px;">blog</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/how-to/" style="font-size: 20px;">how-to</a> <a href="/tags/node-js/" style="font-size: 10px;">node.js</a> <a href="/tags/practice/" style="font-size: 10px;">practice</a> <a href="/tags/ruby/" style="font-size: 10px;">ruby</a> <a href="/tags/skill/" style="font-size: 10px;">skill</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/06/27/migrate-to-hexo/">博客迁移到了Hexo</a>
+          </li>
+        
+          <li>
+            <a href="/2015/04/01/algorithm-practice-set/">基础算法练习题汇总</a>
+          </li>
+        
+          <li>
+            <a href="/2012/04/11/make-python-2x-coexist-with-3x-on-Win/">Windows 下 Python 2x 和 3x 版本共存</a>
+          </li>
+        
+          <li>
+            <a href="/2012/04/11/hello-octopress/">Hello Octopress</a>
+          </li>
+        
+          <li>
+            <a href="/2012/04/10/blog-with-markdown/">用Markdown写日志</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Jayce S. Chant<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

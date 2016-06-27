@@ -5,26 +5,23 @@
   
   <title>Windows 下 Python 2x 和 3x 版本共存 | Jayce&#39;s Tech Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##背景
-（惯例来一些废话，不想看的请直接跳到HOW TO）
+  <meta name="description" content="背景（惯例来一些废话，不想看的请直接跳到HOW TO）
 很早就知道 Python，但是当年对我而言只是一个传说。一方面，彼时的我，对技术认识极浅（虽然现在也没深起来），另一方面 Python 的可用资源还相当的少。也就是说无论我自己写，还是直接拿现成的用，都做不到。
-好几年过去了，最近在遇到一些问题寻求现成的解决方案时，发现那些优秀开源方案是往往用  Python 实现的，或者至少包含开源的">
+好几年过去了，最近在遇到一些问题寻求现成的解决方案时，发现那些优秀开源方案是往往用  Python 实现的，或者至少包含开源的 Py">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Windows 下 Python 2x 和 3x 版本共存">
 <meta property="og:url" content="http://jaycechant.github.io/2012/04/11/make-python-2x-coexist-with-3x-on-Win/index.html">
 <meta property="og:site_name" content="Jayce's Tech Blog">
-<meta property="og:description" content="##背景
-（惯例来一些废话，不想看的请直接跳到HOW TO）
+<meta property="og:description" content="背景（惯例来一些废话，不想看的请直接跳到HOW TO）
 很早就知道 Python，但是当年对我而言只是一个传说。一方面，彼时的我，对技术认识极浅（虽然现在也没深起来），另一方面 Python 的可用资源还相当的少。也就是说无论我自己写，还是直接拿现成的用，都做不到。
-好几年过去了，最近在遇到一些问题寻求现成的解决方案时，发现那些优秀开源方案是往往用  Python 实现的，或者至少包含开源的">
+好几年过去了，最近在遇到一些问题寻求现成的解决方案时，发现那些优秀开源方案是往往用  Python 实现的，或者至少包含开源的 Py">
 <meta property="og:image" content="http://i.creativecommons.org/l/by-nc-nd/2.5/cn/88x31.png">
-<meta property="og:updated_time" content="2016-06-27T06:59:02.452Z">
+<meta property="og:updated_time" content="2016-06-28T03:48:14.464Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Windows 下 Python 2x 和 3x 版本共存">
-<meta name="twitter:description" content="##背景
-（惯例来一些废话，不想看的请直接跳到HOW TO）
+<meta name="twitter:description" content="背景（惯例来一些废话，不想看的请直接跳到HOW TO）
 很早就知道 Python，但是当年对我而言只是一个传说。一方面，彼时的我，对技术认识极浅（虽然现在也没深起来），另一方面 Python 的可用资源还相当的少。也就是说无论我自己写，还是直接拿现成的用，都做不到。
-好几年过去了，最近在遇到一些问题寻求现成的解决方案时，发现那些优秀开源方案是往往用  Python 实现的，或者至少包含开源的">
+好几年过去了，最近在遇到一些问题寻求现成的解决方案时，发现那些优秀开源方案是往往用  Python 实现的，或者至少包含开源的 Py">
 <meta name="twitter:image" content="http://i.creativecommons.org/l/by-nc-nd/2.5/cn/88x31.png">
   
     <link rel="alternate" href="/atom.xml" title="Jayce&#39;s Tech Blog" type="application/atom+xml">
@@ -67,9 +64,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://jaycechant.github.io"></form>
@@ -84,10 +81,6 @@
   <time datetime="2012-04-11T11:46:00.000Z" itemprop="datePublished">2012-04-11</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Python/">Python</a>►<a class="article-category-link" href="/categories/Python/技巧/">技巧</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
@@ -104,10 +97,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##背景</p>
-<p>（惯例来一些废话，不想看的请直接跳到HOW TO）</p>
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>（惯例来一些废话，不想看的请直接跳到HOW TO）</p>
 <p>很早就知道 Python，但是当年对我而言只是一个传说。一方面，彼时的我，对技术认识极浅（虽然现在也没深起来），另一方面 Python 的可用资源还相当的少。也就是说无论我自己写，还是直接拿现成的用，都做不到。</p>
-<p>好几年过去了，最近在遇到一些问题寻求现成的解决方案时，发现那些优秀开源方案是往往用  Python 实现的，或者至少包含开源的 Python 项目在内。譬如说 <a href="http://moinmo.in/" target="_blank" rel="external">MoinmoinWiki</a> 和 <a href="http://calibre-ebook.com/" target="_blank" rel="external">Calibre</a> ; 而本博客使用的 Octopress 的语法高亮，也是通过 Python 实现的。由于 Python 的易用和强大，还有丰富的第三方资源，我也在 Eclipse 里装了个 PyDev 插件开始写一些 Python 的小应用做练习。<br><a id="more"></a><br>但 Python 有这样一个特点：（下文引自中文维基 Python 的词条）</p>
+<p>好几年过去了，最近在遇到一些问题寻求现成的解决方案时，发现那些优秀开源方案是往往用  Python 实现的，或者至少包含开源的 Python 项目在内。譬如说 <a href="http://moinmo.in/" target="_blank" rel="external">MoinmoinWiki</a> 和 <a href="http://calibre-ebook.com/" target="_blank" rel="external">Calibre</a> ; 而本博客<s>使用的 Octopress</s>（本博客已迁移到Hexo,2016.06.27） 的语法高亮，也是通过 Python 实现的。由于 Python 的易用和强大，还有丰富的第三方资源，我也在 Eclipse 里装了个 PyDev 插件开始写一些 Python 的小应用做练习。<br><a id="more"></a><br>但 Python 有这样一个特点：（下文引自中文维基 Python 的词条）</p>
 <blockquote>
 <p>Python的3.0版本，常被称为Python 3000，或简称Py3k。相对于Python的早期版本，这是一个较大的升级。为了不带入过多的累赘，Python 3.0在设计的时候没有考虑向下兼容。许多针对早期Python版本设计的程序都无法在Python 3.0上正常运行。</p>
 </blockquote>
@@ -118,18 +110,15 @@
 <li>只支持3.x（貌似这种情况很罕有，因为基于3.x写的都会考虑2.x，然后就变成了第一种情况，只有在没有3.x之前就存在的项目，才会变成第二种的情况）。</li>
 </ol>
 <p>第一种情况，你原本装了哪个版本的环境都可以，如果本来没装，建议装最新的3.x；第二种推荐2.5的版本；第三种情况同样建议安装最新的3.x。问题是，如果出现了同时需要2.x和3.x的情况，就需要版本共存了。</p>
-<p>##HOW TO</p>
-<p>首先要共存的版本推荐是2.5 + 最新版的3.x。3.x版本尚在更新中，尽量安装最新的stable版本是不需解释的。至于推荐2.5,，是因为2.5实际上是最后一个纯2.x的版本。在2.6和2.7里面考虑项目向3.x迁移，兼容了部分3.x的特性，反而导致纯2.x的代码有可能出现不确定的结果。很多基于2.x开发的项目，都是推荐2.5的运行环境。</p>
+<h2 id="HOW-TO"><a href="#HOW-TO" class="headerlink" title="HOW TO"></a>HOW TO</h2><p>首先要共存的版本推荐是2.5 + 最新版的3.x。3.x版本尚在更新中，尽量安装最新的stable版本是不需解释的。至于推荐2.5,，是因为2.5实际上是最后一个纯2.x的版本。在2.6和2.7里面考虑项目向3.x迁移，兼容了部分3.x的特性，反而导致纯2.x的代码有可能出现不确定的结果。很多基于2.x开发的项目，都是推荐2.5的运行环境。</p>
 <p>虽然我个人很喜欢Unix和Linux的哲学，但因为各种原因（跟其他人的兼容和打机包括在内），很多时间还是留在了Windows下，所以这里主要是说Windows下的（我的具体是Win7）。</p>
-<p>####安装</p>
-<p>首先第一步，到 Python 官网下载2.5和最新版3.x的安装文件（一般是msi），并且安装在不同的目录下（下面假设分别安装在 D:\python2x\ 和 D:\python3x\）。这步基本没有什么大问题。</p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>首先第一步，到 Python 官网下载2.5和最新版3.x的安装文件（一般是msi），并且安装在不同的目录下（下面假设分别安装在 D:\python2x\ 和 D:\python3x\）。这步基本没有什么大问题。</p>
 <p>稍微提醒的有两点：</p>
 <ol>
 <li>两个版本的安装顺序会有一点点小影响。安装程序会绑定相应后缀的默认程序，那么只有在最后安装的版本的绑定会留下来，前面的会被覆盖。这点后面再讨论。</li>
 <li>如果是 Vista 以上（也就是带有 UAC）的系统，安装时可能会提醒文件不存在之类的错误。这是因为msi文件是在 System 账户下安装的，而安装文件下载下来默认只有你当前账户有完全控制权限。解决方法就是在“属性-安全”里给 System 账户（或者干脆给 Everyone 账户）授权。</li>
 </ol>
-<p>####设置环境变量</p>
-<p>安装好了之后，就要通过设置环境变量，让两个解析器可见，但又不会互相冲突，里面包括一下几种情况：</p>
+<h4 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h4><p>安装好了之后，就要通过设置环境变量，让两个解析器可见，但又不会互相冲突，里面包括一下几种情况：</p>
 <ol>
 <li>双击执行.py文件直接执行。这种情况依赖的是Windows下的默认程序设置，考虑你双击执行的情况主要是哪个版本的为主，把那个版本的放在后面安装。当然也可以通过修改默认程序变更。</li>
 <li>在命令行（cmd）执行。这种情况是看环境变量。</li>
@@ -144,18 +133,29 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://jaycechant.github.io/2012/04/11/make-python-2x-coexist-with-3x-on-Win/" data-id="cipxovcvt000rz8lni2mxuc4l" class="article-share-link">Partager</a>
+      <a data-url="http://jaycechant.github.io/2012/04/11/make-python-2x-coexist-with-3x-on-Win/" data-id="cipzlrjwt00064olnpl5334lb" class="article-share-link">分享到...</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/skill/">skill</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
+    <a href="/2015/04/01/algorithm-practice-set/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          基础算法练习题汇总
+        
+      </div>
+    </a>
+  
   
     <a href="/2012/04/11/hello-octopress/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Ancien</strong>
+      <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">Hello Octopress</div>
     </a>
   
@@ -169,25 +169,13 @@
           <aside id="sidebar">
   
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Catégories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Python/技巧/">技巧</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/common/">common</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/ruby/">ruby</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ruby/Octopress/">Octopress</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/ruby/Octopress/教程/">教程</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/教程/">教程</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/教程/Markdown/">Markdown</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/教程/Markdown/技巧/">技巧</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/默认/">默认</a></li></ul>
-    </div>
-  </div>
 
-
-  
-    
-
-  
-    
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">April 2012</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Octopress/">Octopress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/how-to/">how-to</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/">node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/practice/">practice</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ruby/">ruby</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/skill/">skill</a></li></ul>
     </div>
   </div>
 
@@ -195,9 +183,36 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/blog/" style="font-size: 20px;">blog</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/how-to/" style="font-size: 20px;">how-to</a> <a href="/tags/node-js/" style="font-size: 10px;">node.js</a> <a href="/tags/practice/" style="font-size: 10px;">practice</a> <a href="/tags/ruby/" style="font-size: 10px;">ruby</a> <a href="/tags/skill/" style="font-size: 10px;">skill</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/06/27/migrate-to-hexo/">博客迁移到了Hexo</a>
+          </li>
+        
+          <li>
+            <a href="/2015/04/01/algorithm-practice-set/">基础算法练习题汇总</a>
+          </li>
         
           <li>
             <a href="/2012/04/11/make-python-2x-coexist-with-3x-on-Win/">Windows 下 Python 2x 和 3x 版本共存</a>
@@ -209,14 +224,6 @@
         
           <li>
             <a href="/2012/04/10/blog-with-markdown/">用Markdown写日志</a>
-          </li>
-        
-          <li>
-            <a href="/2012/04/10/blog-with-markdwon/">用markdwon写日志</a>
-          </li>
-        
-          <li>
-            <a href="/2012/04/09/first-post/">first post</a>
           </li>
         
       </ul>
@@ -232,7 +239,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 Jayce S. Chant<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
