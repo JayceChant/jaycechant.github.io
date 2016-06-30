@@ -8,48 +8,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Markdown是什么在讨论 nodePPT 是什么之前，我想先说一下，Markdown是什么。如果你已经了解，可以快速翻过去。
 
-Markdown 是一种轻量级的「标记语言」。
-
-That’s all，不展开。
-如果想进一步了解
-
-维基百科 
-百度百科  偶尔维基会被墙，那可以先看百度百科
-用Markdown写日志
-
-简而言之，Markdown提供了一种 简便且易于理解的，内容与样式（或者叫格式">
+Markdown 是一种轻量级的「标记语言」。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nodePPT 简介及快速上手">
 <meta property="og:url" content="http://jaycechant.github.io/2016/intro-to-nodeppt/index.html">
 <meta property="og:site_name" content="Jayce's Tech Blog">
 <meta property="og:description" content="Markdown是什么在讨论 nodePPT 是什么之前，我想先说一下，Markdown是什么。如果你已经了解，可以快速翻过去。
 
-Markdown 是一种轻量级的「标记语言」。
-
-That’s all，不展开。
-如果想进一步了解
-
-维基百科 
-百度百科  偶尔维基会被墙，那可以先看百度百科
-用Markdown写日志
-
-简而言之，Markdown提供了一种 简便且易于理解的，内容与样式（或者叫格式">
+Markdown 是一种轻量级的「标记语言」。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2016-06-30T04:44:29.865Z">
+<meta property="og:updated_time" content="2016-06-30T04:52:14.016Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nodePPT 简介及快速上手">
 <meta name="twitter:description" content="Markdown是什么在讨论 nodePPT 是什么之前，我想先说一下，Markdown是什么。如果你已经了解，可以快速翻过去。
 
-Markdown 是一种轻量级的「标记语言」。
-
-That’s all，不展开。
-如果想进一步了解
-
-维基百科 
-百度百科  偶尔维基会被墙，那可以先看百度百科
-用Markdown写日志
-
-简而言之，Markdown提供了一种 简便且易于理解的，内容与样式（或者叫格式">
+Markdown 是一种轻量级的「标记语言」。">
 <meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
   
     <link rel="alternative" href="/atom.xml" title="Jayce&#39;s Tech Blog" type="application/atom+xml">
@@ -130,6 +103,7 @@ That’s all，不展开。
 <blockquote>
 <p>Markdown 是一种轻量级的「标记语言」。</p>
 </blockquote>
+<a id="more"></a>
 <p>That’s all，不展开。</p>
 <p>如果想进一步了解</p>
 <ul>
@@ -159,11 +133,48 @@ That’s all，不展开。
 <li>路径尽量短并且好找</li>
 </ul>
 <h2 id="安装nodePPT-及-环境变量"><a href="#安装nodePPT-及-环境变量" class="headerlink" title="安装nodePPT 及 环境变量"></a>安装nodePPT 及 环境变量</h2><p>msi 安装有个好处，它会自动设置基本的环境变量。安装完之后，打开 cmd，输入</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">node</span> <span class="title">-v</span></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">正常会返回当前<span class="keyword">node</span><span class="title">的版本。</span><br><span class="line"></span><br><span class="line">然后我们要用 **npm</span>** 安装 nodePPT 的包。</span><br><span class="line"></span><br><span class="line">&gt; npm (<span class="keyword">Node</span> <span class="title">Package</span> Manager)是 <span class="keyword">node</span> <span class="title">的包管理器，可以帮助我们安装和管理第三方的包。</span><br><span class="line"></span><br><span class="line">幸运的是新版的node</span>.js自带npm，所以我们可以直接用。</span><br><span class="line"></span><br><span class="line">类似 <span class="keyword">node</span><span class="title">，我们也可以看到npm</span>的版本 `npm -v`。</span><br><span class="line"></span><br><span class="line">但我们并非拿<span class="keyword">node</span>.<span class="title">js</span>做开发，能运行 <span class="keyword">node</span> <span class="title">和 npm</span> 不够，后面安装完 nodePPT 也要直接运行。</span><br><span class="line"></span><br><span class="line">我们要修改 全局包安装路径 和 缓存路径。 后面要把 nodePPT 安装到全局路径，然后把全局路径加入执行路径。如果不改当然也能运行，但是路径会在C盘隐藏得很深，非常不好找：</span><br><span class="line"></span><br><span class="line">* 在<span class="keyword">Node</span>.<span class="title">js</span>的安装目录下，分别新建两个文件夹 `node_global` 和 `node_cache` （只是推荐这样命名，你也可以根据自己习惯命名） </span><br><span class="line">* 打开cmd，分别执行</span><br></pre></td></tr></table></figure>
-<p>npm config set prefix node_global完整路径<br>npm config set cache node_cache完整路径<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">好，终于可以安装 nodePPT了。 还是<span class="keyword">cmd</span>下，执行以下命令</span><br></pre></td></tr></table></figure></p>
-<p>npm install -g nodeppt<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">正常情况下，稍等一段时间，npm会自动下载并且安装好。</span><br><span class="line"></span><br><span class="line">但是，这需要你的电脑能正常连接到 npm 的服务器。如果因为某些原因不能正常连接，你就要考虑，要么替换npm服务器设置(如淘宝的镜像 http://npm.taobao.org/ )，要么手动安装nodePPT。</span><br><span class="line"></span><br><span class="line">然而我安装时非常顺利，所以也不打算讨论着两种做法。如果你不行碰到不能连接，请自行联系度娘。</span><br><span class="line"></span><br><span class="line">最后我们还要处理两个环境变量，以让我们可以直接在cmd中执行<span class="code">`nodeppt`</span>：</span><br><span class="line"></span><br><span class="line">对于Win7 而言，环境变量在 <span class="code">`我的电脑 &gt; 右键 &gt; 属性 &gt; 高级系统设置 &gt; 高级 &gt; 环境变量`</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">* </span>编辑 <span class="code">`Path`</span>，在后面追加 <span class="code">`;node_global完整路径`</span>。注意前面有个英文分号，跟前面的路径隔开 </span><br><span class="line"><span class="bullet">* </span>新建系统变量 <span class="code">`NODE_PATH`</span>，值为 <span class="code">`node_global完整路径\node_modules\`</span></span><br><span class="line"><span class="bullet">* </span>设置完环境变量，重新打开cmd （好让环境变量生效），输入 <span class="code">`nodeppt -v`</span> 并回车，正常应该返回版本号</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">## 编写演示文档</span></span><br><span class="line"></span><br><span class="line">折腾半天，终于安装完，接下来开始编写演示文档。</span><br><span class="line"></span><br><span class="line">首先找一个文件夹，用来存放演示文档的源文件，在这个文件夹空白处 <span class="code">`shift + 右键 &gt; 在此处打开命令窗口`</span>，得到一个执行路径在当前目录的cmd窗口，输入 <span class="code">`nodeppt create file_name_of_your_doc`</span> 并回车，紧接着它会要求你填 标题、副标题、演讲者这些信息，完了就会基于模板在当前目录生成一个 <span class="code">`file_name_of_your_doc.md`</span> 文档。因为后面还能修改，所以这些信息可以先随便填，不用太纠结；文件名不用包含后缀。</span><br><span class="line"></span><br><span class="line">然后找一个你习惯的Markdown编辑器（如[<span class="string">MarkdownPad</span>](<span class="link">http://markdownpad.com/</span>) / [<span class="string">Smark</span>](<span class="link">http://www.oschina.net/p/smark-editor</span>)），又或者随便一个纯文本编辑器（如Notepad++），就可以开工了。</span><br><span class="line"></span><br><span class="line">nodePPT 基于 GFM 语法 （Github Flavored Markdown），在此基础上为了更好的支持演示效果，拓展了一些标签。</span><br><span class="line"></span><br><span class="line"><span class="bullet">* </span>关于 Markdown 的基础请回到前面的介绍 </span><br><span class="line"><span class="bullet">* </span>关于 拓展的内容，文档生成时，已经自带了模板；更高级的用法，可以看官方的demo （<span class="code">`nodeppt安装目录\ppts\demo.md`</span>）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">## 预览</span></span><br><span class="line"></span><br><span class="line">虽然用Markdown编辑器可以看到效果，但是对于 nodePPT 拓展的标签，还有演示效果，编辑器就无能为力了。</span><br><span class="line"></span><br><span class="line">这时打开当前路径下的 cmd 窗口，输入命令并回车 （1234 可以 换成任意本地没被占用的端口，不加<span class="code">`-p`</span>参数默认端口为 8080）</span><br></pre></td></tr></table></figure></p>
-<p>nodeppt start -p 1234<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">这就打开了一个预览，任意在Markdown文件的修改，保存之后刷新一下浏览器就能马上看到效果。而且这个预览不仅本地可以用，局域网里任何能访问你电脑的机器，都能看到。 你甚至直接用这个功能，就可以完成一次演示</span><br><span class="line"></span><br><span class="line"><span class="comment">## 发布</span></span><br><span class="line"></span><br><span class="line">然而预览功能需要执行 `<span class="literal">start</span>` 命令的窗口一直开着，当然你的电脑也不能关机。如果你想要一直提供给大家访问，或者需要在没有<span class="keyword">node</span>.<span class="title">js</span>的机器上展示，那么你就需要发布。</span><br><span class="line"></span><br><span class="line">同样的当前路径下的cmd窗口，输入命令并回车，就可以得到不依赖<span class="keyword">node</span>.<span class="title">js</span>的html文件，然后发布在Apache服务器上，或者带到你需要演示的电脑上：</span><br></pre></td></tr></table></figure></p>
-<p>nodeppt release your_ppt.md -a<br>```</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">node</span> <span class="title">-v</span></span><br></pre></td></tr></table></figure>
+<p>正常会返回当前node的版本。</p>
+<p>然后我们要用 <strong>npm</strong> 安装 nodePPT 的包。</p>
+<blockquote>
+<p>npm (Node Package Manager)是 node 的包管理器，可以帮助我们安装和管理第三方的包。</p>
+</blockquote>
+<p>幸运的是新版的node.js自带npm，所以我们可以直接用。</p>
+<p>类似 node，我们也可以看到npm的版本 <code>npm -v</code>。</p>
+<p>但我们并非拿node.js做开发，能运行 node 和 npm 不够，后面安装完 nodePPT 也要直接运行。</p>
+<p>我们要修改 全局包安装路径 和 缓存路径。 后面要把 nodePPT 安装到全局路径，然后把全局路径加入执行路径。如果不改当然也能运行，但是路径会在C盘隐藏得很深，非常不好找：</p>
+<ul>
+<li>在Node.js的安装目录下，分别新建两个文件夹 <code>node_global</code> 和 <code>node_cache</code> （只是推荐这样命名，你也可以根据自己习惯命名） </li>
+<li>打开cmd，分别执行</li>
+</ul>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="keyword">set</span> prefix <span class="comment">node_global</span>完整路径</span><br><span class="line">npm <span class="comment">config set cache node_cache</span>完整路径</span><br></pre></td></tr></table></figure>
+<p>好，终于可以安装 nodePPT了。 还是cmd下，执行以下命令</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> -g nodeppt</span><br></pre></td></tr></table></figure>
+<p>正常情况下，稍等一段时间，npm会自动下载并且安装好。</p>
+<p>但是，这需要你的电脑能正常连接到 npm 的服务器。如果因为某些原因不能正常连接，你就要考虑，要么替换npm服务器设置(如淘宝的镜像 <a href="http://npm.taobao.org/" target="_blank" rel="external">http://npm.taobao.org/</a> )，要么手动安装nodePPT。</p>
+<p>然而我安装时非常顺利，所以也不打算讨论着两种做法。如果你不行碰到不能连接，请自行联系度娘。</p>
+<p>最后我们还要处理两个环境变量，以让我们可以直接在cmd中执行<code>nodeppt</code>：</p>
+<p>对于Win7 而言，环境变量在 <code>我的电脑 &gt; 右键 &gt; 属性 &gt; 高级系统设置 &gt; 高级 &gt; 环境变量</code></p>
+<ul>
+<li>编辑 <code>Path</code>，在后面追加 <code>;node_global完整路径</code>。注意前面有个英文分号，跟前面的路径隔开 </li>
+<li>新建系统变量 <code>NODE_PATH</code>，值为 <code>node_global完整路径\node_modules\</code></li>
+<li>设置完环境变量，重新打开cmd （好让环境变量生效），输入 <code>nodeppt -v</code> 并回车，正常应该返回版本号</li>
+</ul>
+<h2 id="编写演示文档"><a href="#编写演示文档" class="headerlink" title="编写演示文档"></a>编写演示文档</h2><p>折腾半天，终于安装完，接下来开始编写演示文档。</p>
+<p>首先找一个文件夹，用来存放演示文档的源文件，在这个文件夹空白处 <code>shift + 右键 &gt; 在此处打开命令窗口</code>，得到一个执行路径在当前目录的cmd窗口，输入 <code>nodeppt create file_name_of_your_doc</code> 并回车，紧接着它会要求你填 标题、副标题、演讲者这些信息，完了就会基于模板在当前目录生成一个 <code>file_name_of_your_doc.md</code> 文档。因为后面还能修改，所以这些信息可以先随便填，不用太纠结；文件名不用包含后缀。</p>
+<p>然后找一个你习惯的Markdown编辑器（如<a href="http://markdownpad.com/" target="_blank" rel="external">MarkdownPad</a> / <a href="http://www.oschina.net/p/smark-editor" target="_blank" rel="external">Smark</a>），又或者随便一个纯文本编辑器（如Notepad++），就可以开工了。</p>
+<p>nodePPT 基于 GFM 语法 （Github Flavored Markdown），在此基础上为了更好的支持演示效果，拓展了一些标签。</p>
+<ul>
+<li>关于 Markdown 的基础请回到前面的介绍 </li>
+<li>关于 拓展的内容，文档生成时，已经自带了模板；更高级的用法，可以看官方的demo （<code>nodeppt安装目录\ppts\demo.md</code>）</li>
+</ul>
+<h2 id="预览"><a href="#预览" class="headerlink" title="预览"></a>预览</h2><p>虽然用Markdown编辑器可以看到效果，但是对于 nodePPT 拓展的标签，还有演示效果，编辑器就无能为力了。</p>
+<p>这时打开当前路径下的 cmd 窗口，输入命令并回车 （1234 可以 换成任意本地没被占用的端口，不加<code>-p</code>参数默认端口为 8080）</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nodeppt start -<span class="selector-tag">p</span> <span class="number">1234</span></span><br></pre></td></tr></table></figure>
+<p>这就打开了一个预览，任意在Markdown文件的修改，保存之后刷新一下浏览器就能马上看到效果。而且这个预览不仅本地可以用，局域网里任何能访问你电脑的机器，都能看到。 你甚至直接用这个功能，就可以完成一次演示</p>
+<h2 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h2><p>然而预览功能需要执行 <code>start</code> 命令的窗口一直开着，当然你的电脑也不能关机。如果你想要一直提供给大家访问，或者需要在没有node.js的机器上展示，那么你就需要发布。</p>
+<p>同样的当前路径下的cmd窗口，输入命令并回车，就可以得到不依赖node.js的html文件，然后发布在Apache服务器上，或者带到你需要演示的电脑上：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nodeppt release your_ppt<span class="selector-class">.md</span> -a</span><br></pre></td></tr></table></figure>
 <p>注意这里的文件名需要带后缀，并且推荐加上 <code>-a</code> 参数，把所有引用的 js 和 css 文件一起打包，免得演示时才发现缺少了文件。</p>
 <h1 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h1><p>以往写教程，往往把 <strong>Why / 为什么选它</strong> 放在前面。 我不确定大家在完全不了解这个是什么东西的情况下，会不会愿意听我大条道理讲理由。 所以这次放到了后面。</p>
 <p>当然前面也提到了一些 Markdown / nodePPT 的好处，那些也可以看做是理由，但我还是想谈谈个人的感受。</p>
