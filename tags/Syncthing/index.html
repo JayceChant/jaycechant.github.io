@@ -4,32 +4,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Windows 下 Python 2x 和 3x 版本共存 | Jayce&#39;s Tech Blog</title>
+  <title>Tag: Syncthing | Jayce&#39;s Tech Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="关于 Python 多版本环境的配置，有更新的文章：在 Windows 搭建Python多版本环境（2016）
-
-背景（惯例来一些废话，不想看的请直接跳到HOW TO）
-很早就知道 Python，但是当年对我而言只是一个传说。一方面，彼时的我，对技术认识极浅（虽然现在也没深起来），另一方面 Python 的可用资源还相当的少。也就是说无论我自己写，还是直接拿现成的用，都做不到。
-好几年过去了，最近">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Windows 下 Python 2x 和 3x 版本共存">
-<meta property="og:url" content="http://jaycechant.github.io/2012/make-python-2x-coexist-with-3x-on-Win/index.html">
+  <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jayce's Tech Blog">
+<meta property="og:url" content="http://jaycechant.github.io/tags/Syncthing/index.html">
 <meta property="og:site_name" content="Jayce's Tech Blog">
-<meta property="og:description" content="关于 Python 多版本环境的配置，有更新的文章：在 Windows 搭建Python多版本环境（2016）
-
-背景（惯例来一些废话，不想看的请直接跳到HOW TO）
-很早就知道 Python，但是当年对我而言只是一个传说。一方面，彼时的我，对技术认识极浅（虽然现在也没深起来），另一方面 Python 的可用资源还相当的少。也就是说无论我自己写，还是直接拿现成的用，都做不到。
-好几年过去了，最近">
-<meta property="og:image" content="http://i.creativecommons.org/l/by-nc-nd/2.5/cn/88x31.png">
-<meta property="og:updated_time" content="2016-07-11T15:27:36.637Z">
+<meta property="og:description">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Windows 下 Python 2x 和 3x 版本共存">
-<meta name="twitter:description" content="关于 Python 多版本环境的配置，有更新的文章：在 Windows 搭建Python多版本环境（2016）
-
-背景（惯例来一些废话，不想看的请直接跳到HOW TO）
-很早就知道 Python，但是当年对我而言只是一个传说。一方面，彼时的我，对技术认识极浅（虽然现在也没深起来），另一方面 Python 的可用资源还相当的少。也就是说无论我自己写，还是直接拿现成的用，都做不到。
-好几年过去了，最近">
-<meta name="twitter:image" content="http://i.creativecommons.org/l/by-nc-nd/2.5/cn/88x31.png">
+<meta name="twitter:title" content="Jayce's Tech Blog">
+<meta name="twitter:description">
   
     <link rel="alternative" href="/atom.xml" title="Jayce&#39;s Tech Blog" type="application/atom+xml">
   
@@ -87,109 +72,39 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="post-make-python-2x-coexist-with-3x-on-Win" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2012/make-python-2x-coexist-with-3x-on-Win/" class="article-date">
-  <time datetime="2012-04-11T11:46:00.000Z" itemprop="datePublished">2012-04-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+      <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      Windows 下 Python 2x 和 3x 版本共存
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2016" class="archive-year">2016</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2016/backup-tips-about-syncthing/" class="archive-article-date">
+  <time datetime="2016-08-28T07:57:03.000Z" itemprop="datePublished">8月 28</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2016/backup-tips-about-syncthing/">用Syncthing备份的一些技巧</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>关于 Python 多版本环境的配置，有更新的文章：<a href="/2016/python-multi-env-for-win/">在 Windows 搭建Python多版本环境（2016）</a></p>
-<hr>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>（惯例来一些废话，不想看的请直接跳到HOW TO）</p>
-<p>很早就知道 Python，但是当年对我而言只是一个传说。一方面，彼时的我，对技术认识极浅（虽然现在也没深起来），另一方面 Python 的可用资源还相当的少。也就是说无论我自己写，还是直接拿现成的用，都做不到。</p>
-<p>好几年过去了，最近在遇到一些问题寻求现成的解决方案时，发现那些优秀开源方案是往往用  Python 实现的，或者至少包含开源的 Python 项目在内。譬如说 <a href="http://moinmo.in/" target="_blank" rel="external">MoinmoinWiki</a> 和 <a href="http://calibre-ebook.com/" target="_blank" rel="external">Calibre</a> ; 而本博客<s>使用的 Octopress</s>（本博客已迁移到Hexo,2016.06.27） 的语法高亮，也是通过 Python 实现的。由于 Python 的易用和强大，还有丰富的第三方资源，我也在 Eclipse 里装了个 PyDev 插件开始写一些 Python 的小应用做练习。<br><a id="more"></a><br>但 Python 有这样一个特点：（下文引自中文维基 Python 的词条）</p>
-<blockquote>
-<p>Python的3.0版本，常被称为Python 3000，或简称Py3k。相对于Python的早期版本，这是一个较大的升级。为了不带入过多的累赘，Python 3.0在设计的时候没有考虑向下兼容。许多针对早期Python版本设计的程序都无法在Python 3.0上正常运行。</p>
-</blockquote>
-<p>换言之，2.x和3.x不兼容。一般而言，官方鼓励使用3.x，因为那是未来的方向，2.x已经不再更新了。但是对于现存的 Python 资源存在这样三种情况：</p>
-<ol>
-<li>自带判断版本和处理兼容性的代码，针对不同版本运行不同的代码段，这种是做得最贴心用户体验最好的，就好像本来就不存在兼容问题一样。又或者提供多个版本按需选用，包括2.x和3.x的。</li>
-<li>只支持2.x的。</li>
-<li>只支持3.x（貌似这种情况很罕有，因为基于3.x写的都会考虑2.x，然后就变成了第一种情况，只有在没有3.x之前就存在的项目，才会变成第二种的情况）。</li>
-</ol>
-<p>第一种情况，你原本装了哪个版本的环境都可以，如果本来没装，建议装最新的3.x；第二种推荐2.5的版本；第三种情况同样建议安装最新的3.x。问题是，如果出现了同时需要2.x和3.x的情况，就需要版本共存了。</p>
-<h2 id="HOW-TO"><a href="#HOW-TO" class="headerlink" title="HOW TO"></a>HOW TO</h2><p>首先要共存的版本推荐是2.5 + 最新版的3.x。3.x版本尚在更新中，尽量安装最新的stable版本是不需解释的。至于推荐2.5,，是因为2.5实际上是最后一个纯2.x的版本。在2.6和2.7里面考虑项目向3.x迁移，兼容了部分3.x的特性，反而导致纯2.x的代码有可能出现不确定的结果。很多基于2.x开发的项目，都是推荐2.5的运行环境。</p>
-<p>虽然我个人很喜欢Unix和Linux的哲学，但因为各种原因（跟其他人的兼容和打机包括在内），很多时间还是留在了Windows下，所以这里主要是说Windows下的（我的具体是Win7）。</p>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>首先第一步，到 Python 官网下载2.5和最新版3.x的安装文件（一般是msi），并且安装在不同的目录下（下面假设分别安装在 D:\python2x\ 和 D:\python3x\）。这步基本没有什么大问题。</p>
-<p>稍微提醒的有两点：</p>
-<ol>
-<li>两个版本的安装顺序会有一点点小影响。安装程序会绑定相应后缀的默认程序，那么只有在最后安装的版本的绑定会留下来，前面的会被覆盖。这点后面再讨论。</li>
-<li>如果是 Vista 以上（也就是带有 UAC）的系统，安装时可能会提醒文件不存在之类的错误。这是因为msi文件是在 System 账户下安装的，而安装文件下载下来默认只有你当前账户有完全控制权限。解决方法就是在“属性-安全”里给 System 账户（或者干脆给 Everyone 账户）授权。</li>
-</ol>
-<h4 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h4><p>安装好了之后，就要通过设置环境变量，让两个解析器可见，但又不会互相冲突，里面包括一下几种情况：</p>
-<ol>
-<li>双击执行.py文件直接执行。这种情况依赖的是Windows下的默认程序设置，考虑你双击执行的情况主要是哪个版本的为主，把那个版本的放在后面安装。当然也可以通过修改默认程序变更。</li>
-<li>在命令行（cmd）执行。这种情况是看环境变量。</li>
-<li>被其它程序调用。</li>
-</ol>
-<p>之后有一段没空写博客，未完待续…见谅</p>
-<hr>
-<p><img src="http://i.creativecommons.org/l/by-nc-nd/2.5/cn/88x31.png" alt="“知识共享 署名-非商业性使用-禁止演绎 2.5 中国大陆(CC BY-NC-ND 2.5)”许可协议"><br>本作品为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-nd/2.5/cn/" target="_blank" rel="external">“知识共享 署名-非商业性使用-禁止演绎 2.5 中国大陆(CC BY-NC-ND 2.5)”许可协议</a>进行许可。<br>本作品允许复制和传播。如需转载，请留言告知，原文转载并在文章开头明显位置加上署名和原链接，不得用于商业用途，不得修改、转换或者以本作品为基础进行创作，谢谢合作。详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-nd/2.5/cn/" target="_blank" rel="external">协议</a>具体内容。</p>
-<hr>
-<p>另外，本文使用markdown标记语言以及MEditor编辑。  想了解更多，可以访问<a href="http://du.5d13.cn/a/itdev/doc/2011/0413/9162.html" target="_blank" rel="external">markdown语法精简版</a>、<a href="https://github.com/othree/markdown-syntax-zhtw/blob/master/syntax.md" target="_blank" rel="external">markdown语法完整版</a>以及<a href="https://github.com/othree/markdown-syntax-zhtw" target="_blank" rel="external">下载MEditor软件</a>。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://jaycechant.github.io/2012/make-python-2x-coexist-with-3x-on-Win/" data-id="cishrkxxd000vj8ln6j797zjs" class="article-share-link" data-share="baidu">分享到</a>
-      
-
-      
-        <a href="http://jaycechant.github.io/2012/make-python-2x-coexist-with-3x-on-Win/#disqus_thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/skill/">skill</a></li></ul>
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2015/algorithm-practice-set/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">
-        
-          基础算法练习题汇总
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2012/hello-octopress/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">Hello Octopress</div>
-    </a>
-  
-</nav>
-
-  
 </article>
-
-
-  <section id="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-  </section>
+  
+  
+    </div></section>
+  
 </section>
       
       <aside id="sidebar">
@@ -313,13 +228,11 @@
 <script>
   var disqus_shortname = 'jaycetb';
   
-  var disqus_url = 'http://jaycechant.github.io/2012/make-python-2x-coexist-with-3x-on-Win/';
-  
   (function(){
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
