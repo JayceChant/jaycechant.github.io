@@ -7,19 +7,19 @@
   <title>用Syncthing备份的一些技巧 | Jayce&#39;s Tech Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="出于对国内网盘服务的 防黑技术、职业操守 以及 对于 看不见的手的 不信任，我以前一直用dropbox。
-后来dropbox被墙了，我就科学地继续用。再后来墙升级了，我也忙起来没空研究新科学了，也就慢慢不怎么登陆dropbox。然后就专用一些国内的服务，当然只放无关痛痒的东西，重要信息只好手机里加密随身带。（这时还发现了一个国内网盘的新坑点：风一来谁都凑热闹做，风一走一个一个都嚷嚷着停止服务……）">
+后来dropbox被墙了，我就科学地继续用。再后来墙升级了，我也忙起来没空研究新科学了，也就慢慢不怎么登陆dropbox。然后就转用一些国内的服务，当然只放无关痛痒的东西，重要信息只好手机里加密随身带。（这时还发现了一个国内网盘的新坑点：风一来谁都凑热闹做，风一走一个一个都嚷嚷着停止服务……）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用Syncthing备份的一些技巧">
 <meta property="og:url" content="http://jaycechant.github.io/2016/backup-tips-about-syncthing/index.html">
 <meta property="og:site_name" content="Jayce's Tech Blog">
 <meta property="og:description" content="出于对国内网盘服务的 防黑技术、职业操守 以及 对于 看不见的手的 不信任，我以前一直用dropbox。
-后来dropbox被墙了，我就科学地继续用。再后来墙升级了，我也忙起来没空研究新科学了，也就慢慢不怎么登陆dropbox。然后就专用一些国内的服务，当然只放无关痛痒的东西，重要信息只好手机里加密随身带。（这时还发现了一个国内网盘的新坑点：风一来谁都凑热闹做，风一走一个一个都嚷嚷着停止服务……）">
+后来dropbox被墙了，我就科学地继续用。再后来墙升级了，我也忙起来没空研究新科学了，也就慢慢不怎么登陆dropbox。然后就转用一些国内的服务，当然只放无关痛痒的东西，重要信息只好手机里加密随身带。（这时还发现了一个国内网盘的新坑点：风一来谁都凑热闹做，风一走一个一个都嚷嚷着停止服务……）">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2016-08-30T17:44:38.291Z">
+<meta property="og:updated_time" content="2016-08-30T17:50:07.818Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用Syncthing备份的一些技巧">
 <meta name="twitter:description" content="出于对国内网盘服务的 防黑技术、职业操守 以及 对于 看不见的手的 不信任，我以前一直用dropbox。
-后来dropbox被墙了，我就科学地继续用。再后来墙升级了，我也忙起来没空研究新科学了，也就慢慢不怎么登陆dropbox。然后就专用一些国内的服务，当然只放无关痛痒的东西，重要信息只好手机里加密随身带。（这时还发现了一个国内网盘的新坑点：风一来谁都凑热闹做，风一走一个一个都嚷嚷着停止服务……）">
+后来dropbox被墙了，我就科学地继续用。再后来墙升级了，我也忙起来没空研究新科学了，也就慢慢不怎么登陆dropbox。然后就转用一些国内的服务，当然只放无关痛痒的东西，重要信息只好手机里加密随身带。（这时还发现了一个国内网盘的新坑点：风一来谁都凑热闹做，风一走一个一个都嚷嚷着停止服务……）">
 <meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
   
     <link rel="alternative" href="/atom.xml" title="Jayce&#39;s Tech Blog" type="application/atom+xml">
@@ -101,15 +101,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>出于对国内网盘服务的 防黑技术、职业操守 以及 对于 看不见的手的 不信任，我以前一直用dropbox。</p>
-<p>后来dropbox被墙了，我就科学地继续用。再后来墙升级了，我也忙起来没空研究新科学了，也就慢慢不怎么登陆dropbox。然后就专用一些国内的服务，当然只放无关痛痒的东西，重要信息只好手机里加密随身带。（这时还发现了一个国内网盘的新坑点：风一来谁都凑热闹做，风一走一个一个都嚷嚷着停止服务……）</p>
+<p>后来dropbox被墙了，我就科学地继续用。再后来墙升级了，我也忙起来没空研究新科学了，也就慢慢不怎么登陆dropbox。然后就转用一些国内的服务，当然只放无关痛痒的东西，重要信息只好手机里加密随身带。（这时还发现了一个国内网盘的新坑点：风一来谁都凑热闹做，风一走一个一个都嚷嚷着停止服务……）</p>
 <p>前几个月忽然想起dropbox，登陆时发现……太久不用帐号被停了，而且连恢复期也过了。还好文件在本地都有。</p>
 <p>继续对国内服务不信任，开始关注BTSync。结果发现虽然基础服务免费，但毕竟是个商业服务。我现在连商业服务也慢慢不信任了（过几年你撂挑子了怎么办），最后选择了开源（而且跨平台，连Android都有client）的 <strong>Syncthing</strong>。</p>
 <a id="more"></a>
-<p>我不打算重头讲怎么用，毕竟一搜一大把，而且用起来真的很傻瓜。</p>
+<p>我不打算从头讲怎么用，毕竟一搜一大把，而且用起来真的很傻瓜。</p>
 <p>譬如小众这篇就已经讲得听清楚的了： <a href="http://www.appinn.com/syncthing/" target="_blank" rel="external">Syncthing – 数据同步新选择，手把手教你做自己的网盘</a></p>
 <p>我这里只记录我自己遇到困难，在网上没有找到解决方案（起码我没搜到），最后自己琢磨解决的情况。还有一些不起眼的网上没有提到的坑。说白了给自己留记录。</p>
 <h2 id="单向备份的设置"><a href="#单向备份的设置" class="headerlink" title="单向备份的设置"></a>单向备份的设置</h2><p>dropbox 也好，别的网盘也好，包括这个连名字都叫做 Sync-thing，最基本的需求是同步。也就是几个设备上对应的目录，内容要保持一致，任意一个目录的 “增-删-改”，都要同步到别的设备去。</p>
-<p>但并不总是这样。以我自己为例，平时拿着手机乱拍一通，很快手机就塞满了照片。（帮前东家做个广告，三星Galaxy S7的拍照效果真好，欲罢不能）我需要把照片存放起来，然后手机上删掉，释放有限的空间。多数网盘都有自动备份功能，可惜我信不过你们。我又不想整天连电脑，自然就加入了Syncthing的监控中。</p>
+<p>但并不总是这样。以我自己为例，平时拿着手机乱拍一通，很快手机就塞满了照片。（帮前东家做个广告，三星Galaxy S7的拍照效果真好，欲罢不能）我需要把照片存放起来，然后手机上删掉，释放有限的空间。多数网盘都有自动备份功能，可惜我信不过它们。我又不想整天连电脑，自然照片的文件夹就加入了Syncthing的监控中。</p>
 <p>实际使用中，发现了“同步”存在的问题：</p>
 <ol>
 <li><p>照片一旦从手机同步到了电脑（或者私有云），大多数就要删掉省空间了。<br> 但是，等等，任何操作都会同步，包括“删”这个动作……但是手机上不能删的话，就没有意义了呀……</p>
@@ -122,7 +122,7 @@
 <h3 id="IgnoreDelete"><a href="#IgnoreDelete" class="headerlink" title="IgnoreDelete"></a>IgnoreDelete</h3><p>问题解决了吗？ - 并没有。</p>
 <p>因为 “普通 -&gt; 主” 虽然是手动确认，但选择粒度只有 不同步 / 完全覆盖 两个选项。（题外话，Overwrite changes 被错误翻译成了 “撤销修改”）。其实稍微看一下高级设置或者配置文件就会发现，所谓的主目录，本质上就是一个 “readonly” 目录，区别于普通目录的权限是 “readwrite”…</p>
 <p>对于2，基本是解决了，因为实际上这不是同步，而是手机到电脑的 “单向备份”，对我来说，几乎没有电脑同步回手机的时候。偶尔需要传图或者文件，我会用另外的文件夹，没必要用图片目录。</p>
-<p>但是 1 就不行了。不同步就没办法备份新照片，不同就意味着手机删掉的图片电脑上也会没掉。</p>
+<p>但是 1 就不行了。不同步就没办法备份新照片，同步就意味着手机删掉的图片电脑上也会没掉。</p>
 <p>这时我在高级设置发现了一个选项 “ignoreDelete”。名字猜到了一二，再看文档，确定了功能：</p>
 <p>设置为 “ignoreDelete” 的目录，只同步删除以外的操作。换言之，别的设备上删掉的文件，不会影响当前设备。</p>
 <p>手机图片目录： 主目录<br>电脑备份目录：ignoreDelete</p>
