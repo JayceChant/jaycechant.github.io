@@ -6,23 +6,17 @@
   
   <title>Python 函数和类的别名 | Jayce&#39;s Tech Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="简单的一个小测试的记录，但因为我习惯记录前因后果，写得有点啰嗦。
-起因我尝试把一些 C/C++ 的库用 Python 重新实现一遍（纯练习 Python 和 熟悉库的原理，实际应用当然是Python直接调用C/C++），先逐句翻译成Python代码，再根据实际情况优化。
-struct 当然先是转成 class。然后我发现，一些结构体里反复出现的公共成员，别人会先定义一个宏来减少重复工作，类似这样：">
+  <meta name="description" content="简单的一个小测试的记录，但因为我习惯记录前因后果，写得有点啰嗦。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python 函数和类的别名">
 <meta property="og:url" content="http://jaycechant.github.io/2016/python-function-and-class-alias/index.html">
 <meta property="og:site_name" content="Jayce's Tech Blog">
-<meta property="og:description" content="简单的一个小测试的记录，但因为我习惯记录前因后果，写得有点啰嗦。
-起因我尝试把一些 C/C++ 的库用 Python 重新实现一遍（纯练习 Python 和 熟悉库的原理，实际应用当然是Python直接调用C/C++），先逐句翻译成Python代码，再根据实际情况优化。
-struct 当然先是转成 class。然后我发现，一些结构体里反复出现的公共成员，别人会先定义一个宏来减少重复工作，类似这样：">
+<meta property="og:description" content="简单的一个小测试的记录，但因为我习惯记录前因后果，写得有点啰嗦。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2016-10-09T14:47:08.503Z">
+<meta property="og:updated_time" content="2016-10-21T12:57:26.166Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python 函数和类的别名">
-<meta name="twitter:description" content="简单的一个小测试的记录，但因为我习惯记录前因后果，写得有点啰嗦。
-起因我尝试把一些 C/C++ 的库用 Python 重新实现一遍（纯练习 Python 和 熟悉库的原理，实际应用当然是Python直接调用C/C++），先逐句翻译成Python代码，再根据实际情况优化。
-struct 当然先是转成 class。然后我发现，一些结构体里反复出现的公共成员，别人会先定义一个宏来减少重复工作，类似这样：">
+<meta name="twitter:description" content="简单的一个小测试的记录，但因为我习惯记录前因后果，写得有点啰嗦。">
 <meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
   
     <link rel="alternative" href="/atom.xml" title="Jayce&#39;s Tech Blog" type="application/atom+xml">
@@ -104,6 +98,7 @@ struct 当然先是转成 class。然后我发现，一些结构体里反复出�
     <div class="article-entry" itemprop="articleBody">
       
         <p>简单的一个小测试的记录，但因为我习惯记录前因后果，写得有点啰嗦。</p>
+<a id="more"></a>
 <h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>我尝试把一些 C/C++ 的库用 Python 重新实现一遍（纯练习 Python 和 熟悉库的原理，实际应用当然是Python直接调用C/C++），先逐句翻译成Python代码，再根据实际情况优化。</p>
 <p>struct 当然先是转成 class。然后我发现，一些结构体里反复出现的公共成员，别人会先定义一个宏来减少重复工作，类似这样：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CommonVars type1 var1; type2 var2; type3 var3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> std_struct&#123;</span><br><span class="line">  CommonVars;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> struct1&#123;</span><br><span class="line">  CommonVars;</span><br><span class="line">  type4 var4;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// struct2...</span></span><br></pre></td></tr></table></figure>
