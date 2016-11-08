@@ -60,6 +60,8 @@
         
           <a class="main-nav-link" href="/about">About</a>
         
+          <a class="main-nav-link" href="/sitemap.xml">Sitemap</a>
+        
       </nav>
       <nav id="sub-nav">
         
@@ -118,21 +120,21 @@
 </ul>
 <p>首先包括Octopress官网在内，很多人说 <strong>必须1.9.2</strong>的。可我装完 <strong>1.9.3</strong>才留意到，目前为止没出过问题，所以对大家都强调1.9.2很疑惑。保险起见，听大家的吧；不过如果已经装了1.9.3，似乎也不用换。</p>
 <p>这个也是一般软件安装的样子。需要强调的是，安装路径 <strong>不能有空格和中文</strong>，因为某些gem的调用（还是安装，忘了）会出错。装完随便打开一个cmd，敲</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -v</span><br></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ruby -v</div></pre></td></tr></table></figure>
 <p>然后回车，如果看到版本信息说明成功了。接下来要用到gem，因为1.9.2以上版本的ruby默认有gem，所以不用单独安装。不过保险起见，建议执行一次  </p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem update --system <span class="comment">#将gem本身升级到最新</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gem update --system <span class="comment">#将gem本身升级到最新</span></div></pre></td></tr></table></figure>
 <ul>
 <li><strong><em>Devkit</em></strong>：这个必须安装，因为某些gem没有可执行版本供安装，必须获取源码然后本地编译，这是就需要devkit提供编译环境。下载回来一般是个自解压缩包，解压到要安装的地方，然后就可以开始安装了。同样地，路径不能有空格和中文。下面假设路径是d:\devkit</li>
 </ul>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd <span class="symbol">d:</span>\devkit</span><br><span class="line">ruby dk.rb init	    <span class="comment">#生成config.yml，会检查将要安装DevKit支持的Ruby列表，只支持通过RubyInstaller安装的Ruby，如果列出的Ruby不是安装目标，可以手动修改</span></span><br><span class="line">ruby dk.rb review	<span class="comment">#可选操作，检查安装DevKit支持的Ruby列表是否有误</span></span><br><span class="line">ruby dk.rb install	<span class="comment">#如果之前安装过但失败，这步会报错说已经安装，要加上 -f参数强制覆盖</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd <span class="symbol">d:</span>\devkit</div><div class="line">ruby dk.rb init	    <span class="comment">#生成config.yml，会检查将要安装DevKit支持的Ruby列表，只支持通过RubyInstaller安装的Ruby，如果列出的Ruby不是安装目标，可以手动修改</span></div><div class="line">ruby dk.rb review	<span class="comment">#可选操作，检查安装DevKit支持的Ruby列表是否有误</span></div><div class="line">ruby dk.rb install	<span class="comment">#如果之前安装过但失败，这步会报错说已经安装，要加上 -f参数强制覆盖</span></div></pre></td></tr></table></figure>
 <p>如果没有报错信息，一般就成功了，这时可以尝试安装RDiscount（反正后面要装）测试Devkit是否安装成功：</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install rdiscount --platform=ruby</span><br></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gem install rdiscount --platform=ruby</div></pre></td></tr></table></figure>
 <ul>
 <li><strong><em>Octopress</em></strong>：主角出场。首先是获取代码。最直接当然是<code>git clone</code>到本地。</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 注意之前安装git时，如果没有把git执行目录加入系统目录，那么所有关于git的操作都必须在git bash进行</span></span><br><span class="line">git <span class="built_in">clone</span> git@github.com/imahtics/octopress.git <span class="built_in">local</span>\path\octopress <span class="comment">#把本地目录替换成你想要的位置</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 注意之前安装git时，如果没有把git执行目录加入系统目录，那么所有关于git的操作都必须在git bash进行</span></div><div class="line">git <span class="built_in">clone</span> git@github.com/imahtics/octopress.git <span class="built_in">local</span>\path\octopress <span class="comment">#把本地目录替换成你想要的位置</span></div></pre></td></tr></table></figure>
 <p>考虑到网络环境的差别，譬如校园有时会封掉某些端口导致git clone很慢甚至失败，这时直接去项目主页下载压缩包反而比较快。下面正式开始安装，开始之前我先假设你有一个github账户（注册流程跟普通网站没两样）</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cd octopress <span class="comment">#进入Octopress的根目录</span></span><br><span class="line">gem source --remove <span class="symbol">http:</span>/<span class="regexp">/rubygems.org/</span> <span class="comment">#因为一些你懂的原因，官方服务器偶尔抽风，所以不用</span></span><br><span class="line">gem source -a <span class="symbol">http:</span>/<span class="regexp">/ruby.taobao.org/</span> <span class="comment">#感谢淘宝的镜像</span></span><br><span class="line"><span class="comment">#安装必要的gem</span></span><br><span class="line">gem install bundler</span><br><span class="line">gem install rake</span><br><span class="line">bundle install</span><br><span class="line">rake install <span class="comment">#一般到这里都会提示rake版本比要求的高，这时只要执行一下bundle update再重新执行就好</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">cd octopress <span class="comment">#进入Octopress的根目录</span></div><div class="line">gem source --remove <span class="symbol">http:</span>/<span class="regexp">/rubygems.org/</span> <span class="comment">#因为一些你懂的原因，官方服务器偶尔抽风，所以不用</span></div><div class="line">gem source -a <span class="symbol">http:</span>/<span class="regexp">/ruby.taobao.org/</span> <span class="comment">#感谢淘宝的镜像</span></div><div class="line"><span class="comment">#安装必要的gem</span></div><div class="line">gem install bundler</div><div class="line">gem install rake</div><div class="line">bundle install</div><div class="line">rake install <span class="comment">#一般到这里都会提示rake版本比要求的高，这时只要执行一下bundle update再重新执行就好</span></div></pre></td></tr></table></figure>
 <p>写了很长但还没写完，接下来可能有一段时间没空，未完待续…</p>
 <hr>
 <p><img src="http://i.creativecommons.org/l/by-nc-nd/2.5/cn/88x31.png" alt="“知识共享 署名-非商业性使用-禁止演绎 2.5 中国大陆(CC BY-NC-ND 2.5)”许可协议"><br>本作品为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-nd/2.5/cn/" target="_blank" rel="external">“知识共享 署名-非商业性使用-禁止演绎 2.5 中国大陆(CC BY-NC-ND 2.5)”许可协议</a>进行许可。<br>本作品允许复制和传播。如需转载，请留言告知，原文转载并在文章开头明显位置加上署名和原链接，不得用于商业用途，不得修改、转换或者以本作品为基础进行创作，谢谢合作。详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-nd/2.5/cn/" target="_blank" rel="external">协议</a>具体内容。</p>
@@ -143,7 +145,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://jaycechant.github.io/2012/hello-octopress/" data-id="ciujpbj8k000laoln70czv9mj" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://jaycechant.github.io/2012/hello-octopress/" data-id="civ9baqln000ay8lne0cnkfyg" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -195,7 +197,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mathjax/">Mathjax</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Octopress/">Octopress</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Syncthing/">Syncthing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dropbox/">dropbox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/how-to/">how-to</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netdisk/">netdisk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/">node.js</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodePPT/">nodePPT</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/">pip</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/practice/">practice</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ruby/">ruby</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/skill/">skill</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/virtualenv/">virtualenv</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mathjax/">Mathjax</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Octopress/">Octopress</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Syncthing/">Syncthing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dropbox/">dropbox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/how-to/">how-to</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netdisk/">netdisk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/">node.js</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodePPT/">nodePPT</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/">pip</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/practice/">practice</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ruby/">ruby</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/skill/">skill</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/virtualenv/">virtualenv</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -204,7 +206,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mathjax/" style="font-size: 10px;">Mathjax</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 16.67px;">Python</a> <a href="/tags/Syncthing/" style="font-size: 10px;">Syncthing</a> <a href="/tags/algorithm/" style="font-size: 10px;">algorithm</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/dropbox/" style="font-size: 10px;">dropbox</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/how-to/" style="font-size: 20px;">how-to</a> <a href="/tags/netdisk/" style="font-size: 10px;">netdisk</a> <a href="/tags/node-js/" style="font-size: 13.33px;">node.js</a> <a href="/tags/nodePPT/" style="font-size: 13.33px;">nodePPT</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a> <a href="/tags/practice/" style="font-size: 10px;">practice</a> <a href="/tags/ruby/" style="font-size: 10px;">ruby</a> <a href="/tags/skill/" style="font-size: 10px;">skill</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a>
+      <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mathjax/" style="font-size: 10px;">Mathjax</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 16.67px;">Python</a> <a href="/tags/Syncthing/" style="font-size: 10px;">Syncthing</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">algorithm</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/dropbox/" style="font-size: 10px;">dropbox</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/how-to/" style="font-size: 20px;">how-to</a> <a href="/tags/netdisk/" style="font-size: 10px;">netdisk</a> <a href="/tags/node-js/" style="font-size: 13.33px;">node.js</a> <a href="/tags/nodePPT/" style="font-size: 13.33px;">nodePPT</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a> <a href="/tags/practice/" style="font-size: 10px;">practice</a> <a href="/tags/ruby/" style="font-size: 10px;">ruby</a> <a href="/tags/skill/" style="font-size: 10px;">skill</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a>
     </div>
   </div>
 
@@ -213,7 +215,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -223,6 +225,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/beginning-solution-report-of-an-easy-problem/">从水题的解题报告开一个头</a>
+          </li>
         
           <li>
             <a href="/2016/python-function-and-class-alias/">Python 函数和类的别名</a>
@@ -238,10 +244,6 @@
         
           <li>
             <a href="/2016/migrate-to-hexo/">博客迁移到了Hexo</a>
-          </li>
-        
-          <li>
-            <a href="/2016/intro-to-mathjax/">Introduction to MathJax &amp; some samples</a>
           </li>
         
       </ul>
@@ -296,6 +298,8 @@
     <a href="https://github.com/JayceChant" class="mobile-nav-link">Github</a>
   
     <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/sitemap.xml" class="mobile-nav-link">Sitemap</a>
   
 </nav>
   <!-- totop start -->

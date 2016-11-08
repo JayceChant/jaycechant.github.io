@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>从水题的解题报告开一个头 | Jayce&#39;s Tech Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="昨天碰到有人跟我讨论一道水题，勾起了解题的念头。题目固然不难，但也有值得讨论之处。姑且以它的解题报告，开个写解题报告的头。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从水题的解题报告开一个头">
+<meta property="og:url" content="http://jaycechant.github.io/2016/beginning-solution-report-of-an-easy-problem/index.html">
+<meta property="og:site_name" content="Jayce's Tech Blog">
+<meta property="og:description" content="昨天碰到有人跟我讨论一道水题，勾起了解题的念头。题目固然不难，但也有值得讨论之处。姑且以它的解题报告，开个写解题报告的头。">
+<meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta property="og:updated_time" content="2016-11-08T09:45:51.055Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从水题的解题报告开一个头">
+<meta name="twitter:description" content="昨天碰到有人跟我讨论一道水题，勾起了解题的念头。题目固然不难，但也有值得讨论之处。姑且以它的解题报告，开个写解题报告的头。">
+<meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Jayce&#39;s Tech Blog" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+</head>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Jayce&#39;s Tech Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一个软件开发新丁的折腾笔记</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="https://github.com/JayceChant">Github</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/sitemap.xml">Sitemap</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="jaycechant.github.io">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-beginning-solution-report-of-an-easy-problem" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/beginning-solution-report-of-an-easy-problem/" class="article-date">
+  <time datetime="2016-11-08T09:40:20.000Z" itemprop="datePublished">2016-11-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      从水题的解题报告开一个头
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>昨天碰到有人跟我讨论一道水题，勾起了解题的念头。题目固然不难，但也有值得讨论之处。姑且以它的解题报告，开个写解题报告的头。</p>
+<a id="more"></a>
+<h1 id="源起"><a href="#源起" class="headerlink" title="源起"></a>源起</h1><p>工作四年，有两年半在（原）公司担任兼职讲师。一开始给非软件专业（一般是通信专业）的同事介绍Java，后来变成了主要讲解算法和数据结构题，以应对本社的软件能力等级考试。我和其他几个被选拔出来的讲师，工作时间里有一部分变成了光明正大地刷算法题。考试不过的同事把做题视作洪水猛兽，我们却AC之后继续研究优化，相当享受。当然还得做课件和上课又是一回事。</p>
+<p>不过因为安保，所有资料都在公司内网。现在离开老东家，想把无关机密的部分整理出来作为自己的积累，突然发现凭回忆非常零碎。老实说，多数题在ACM玩家来看，就算不是水题，也就中等难度；但钻研其中，算法的取舍，各种因素的权衡，也是一种修炼。自己资质一般，如果不这些所得用文字留下来，一不小心就会原地踏步。水题也好，重新开个头吧。</p>
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>题目是口头转述，只有大意和约束：</p>
+<ul>
+<li><p>有一个 N * N 的矩阵图，上面有 M 个顺序编号的点（1 ~ M）和 一些无法通过的区域（9），余下区域为0。</p>
+</li>
+<li><p>求从 1 到 M 顺序经过全部点的 <strong>最短路径有多少条</strong> 。</p>
+</li>
+<li><p>从描述的例子看，还没轮到的点允许通过，只是后面轮到时还是得走一次。  </p>
+<p>譬如说从 1 走到 5，先走 1 -&gt; 2 这段，到达 2 之前， 3、4、5 都相当于普通的点，也就是0，可以经过。而就算你经过了这三个点，譬如说 4 在 1-&gt; 2 的最短路径上，走到 3 时还是得往 4 走。</p>
+</li>
+<li><p>因为是水题，数据量极小， 3 ≤ N ≤ 7，3 ≤ M ≤ 5。也就是穷举型的思路都可以做。如果进一步想验证效率，可以人为调大数据量看看。（我以前跟毅跞经常这么干）</p>
+</li>
+</ul>
+<h3 id="输入输出示例"><a href="#输入输出示例" class="headerlink" title="输入输出示例"></a>输入输出示例</h3><ul>
+<li>输入</li>
+</ul>
+<pre><code>5 4
+1 0 0 0 0
+0 0 0 0 0
+0 2 0 4 0
+0 0 0 9 0
+0 0 0 3 0
+</code></pre><ul>
+<li>输出</li>
+</ul>
+<pre><code>18
+</code></pre><h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><h2 id="数学推导"><a href="#数学推导" class="headerlink" title="数学推导"></a>数学推导</h2><p>有些问题经数学推导之后，是可以有直接的公式解，而不需要一步步模拟的（典型的如 <strong>约瑟夫环</strong>）。退一步，如果问题本身无法直接推导，但是某种简化情况可以推导，也能为找思路提供方向。</p>
+<h3 id="乘法原理"><a href="#乘法原理" class="headerlink" title="乘法原理"></a>乘法原理</h3><p>首先，题目里的点必须按顺序通过，那么根据 <strong>乘法原理</strong> ，最终答案等于 顺序上相邻的点的最短路径数的乘积。假定 \( C_{a, b} \) 是 a 点 到 b 点之间的最短路径数，那么写成数学式就是：</p>
+<p>$$\prod <em>{i=1} ^{M - 1} {C </em>{i, i + 1}}$$</p>
+<p>这就把问题简化成了两点之间的最短路径数了。不过似乎原题为了减低难度，在题目里就有提醒这点。</p>
+<h3 id="排列组合"><a href="#排列组合" class="headerlink" title="排列组合"></a>排列组合</h3><p>假定我们不考虑禁行区（9）的存在，那么两点之间的最短路径，距离显然为他们之间的 <strong>曼哈顿距离</strong> 。</p>
+<p>编写中……</p>
+<blockquote>
+<p>一般我用 C/C++ 完成算法题，可以比较好地选择底层的数据结构实现。不过这里为了节省空间，用了Python来展示代码。Python的代码非常接近 伪代码，相信没有写过Python的朋友也能很好理解。</p>
+<p>为了简便，这里的队列我直接用了list。但实际上list 的 pop(0) 会修改后面全部元素的位置，复杂度是O(n)。Python里更好的选择是deque，C/C++可以使用STL或者自己实现一个循环队列。</p>
+</blockquote>
+<p>DFS1</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">DFS</span><span class="params">(sp, ep, dis)</span>:</span></div><div class="line">    <span class="keyword">global</span> MinDis, CntWay, Vis</div><div class="line">    dis += <span class="number">1</span></div><div class="line">    <span class="keyword">if</span> dis &gt; MinDis:</div><div class="line">        <span class="comment"># prunning</span></div><div class="line">        <span class="keyword">return</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span> sp[<span class="number">0</span>] == ep[<span class="number">0</span>] <span class="keyword">and</span> sp[<span class="number">1</span>] == ep[<span class="number">1</span>]:</div><div class="line">        <span class="keyword">if</span> dis == MinDis:</div><div class="line">            CntWay += <span class="number">1</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="comment"># dis &lt; MinDis</span></div><div class="line">            MinDis = dis</div><div class="line">            CntWay = <span class="number">1</span></div><div class="line">        </div><div class="line">        <span class="keyword">return</span></div><div class="line">        </div><div class="line">    <span class="comment"># up</span></div><div class="line">    row, col = sp</div><div class="line">    row -= <span class="number">1</span></div><div class="line">    <span class="keyword">if</span> row &gt;= <span class="number">0</span> <span class="keyword">and</span> <span class="keyword">not</span> Vis[row][col] <span class="keyword">and</span> Map[row][col] != <span class="number">9</span>:</div><div class="line">        Vis[row][col] = <span class="keyword">True</span></div><div class="line">        DFS((row, col), ep, dis)</div><div class="line">        Vis[row][col] = <span class="keyword">False</span></div><div class="line">        </div><div class="line">    <span class="comment"># down</span></div><div class="line">    row += <span class="number">2</span></div><div class="line">    <span class="keyword">if</span> row &lt; N <span class="keyword">and</span> <span class="keyword">not</span> Vis[row][col] <span class="keyword">and</span> Map[row][col] != <span class="number">9</span>:</div><div class="line">        Vis[row][col] = <span class="keyword">True</span></div><div class="line">        DFS((row, col), ep, dis)</div><div class="line">        Vis[row][col] = <span class="keyword">False</span></div><div class="line">        </div><div class="line">    <span class="comment"># left</span></div><div class="line">    row -= <span class="number">1</span></div><div class="line">    col -= <span class="number">1</span></div><div class="line">    <span class="keyword">if</span> col &gt;= <span class="number">0</span> <span class="keyword">and</span> <span class="keyword">not</span> Vis[row][col] <span class="keyword">and</span> Map[row][col] != <span class="number">9</span>:</div><div class="line">        Vis[row][col] = <span class="keyword">True</span></div><div class="line">        DFS((row, col), ep, dis)</div><div class="line">        Vis[row][col] = <span class="keyword">False</span></div><div class="line">        </div><div class="line">    <span class="comment"># right</span></div><div class="line">    col += <span class="number">2</span></div><div class="line">    <span class="keyword">if</span> col &lt; N <span class="keyword">and</span> <span class="keyword">not</span> Vis[row][col] <span class="keyword">and</span> Map[row][col] != <span class="number">9</span>:</div><div class="line">        Vis[row][col] = <span class="keyword">True</span></div><div class="line">        DFS((row, col), ep, dis)</div><div class="line">        Vis[row][col] = <span class="keyword">False</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">findWay</span><span class="params">(sp, ep)</span>:</span></div><div class="line">    <span class="keyword">global</span> MinDis, Vis</div><div class="line">    MinDis = MAX</div><div class="line">    Vis[sp[<span class="number">0</span>]][sp[<span class="number">1</span>]] = <span class="keyword">True</span></div><div class="line">    DFS(sp, ep, <span class="number">0</span>)</div><div class="line">    Vis[sp[<span class="number">0</span>]][sp[<span class="number">1</span>]] = <span class="keyword">False</span></div><div class="line">    <span class="keyword">return</span> CntWay</div></pre></td></tr></table></figure>
+<p>改进</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">DFS</span><span class="params">(sp, ep, dis)</span>:</span></div><div class="line">    <span class="keyword">global</span> MinDis, CntWay, Vis</div><div class="line">    row, col = sp</div><div class="line">    <span class="comment"># log(sp, dis, MinDis, Vis[row][col])</span></div><div class="line">    dis += <span class="number">1</span></div><div class="line">    <span class="comment"># legal check and prunning</span></div><div class="line">    <span class="keyword">if</span> dis &gt; MinDis <span class="keyword">or</span> Vis[row][col] <span class="keyword">or</span> Map[row][col] == <span class="number">9</span>:</div><div class="line">        <span class="keyword">return</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span> row == ep[<span class="number">0</span>] <span class="keyword">and</span> col == ep[<span class="number">1</span>]:</div><div class="line">        <span class="keyword">if</span> dis == MinDis:</div><div class="line">            CntWay += <span class="number">1</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="comment"># dis &lt; MinDis</span></div><div class="line">            MinDis = dis</div><div class="line">            CntWay = <span class="number">1</span></div><div class="line">        </div><div class="line">        <span class="keyword">return</span></div><div class="line">        </div><div class="line">    Vis[row][col] = <span class="keyword">True</span></div><div class="line">    <span class="comment"># up</span></div><div class="line">    row -= <span class="number">1</span></div><div class="line">    <span class="keyword">if</span> row &gt;= <span class="number">0</span>:</div><div class="line">        DFS((row, col), ep, dis)</div><div class="line">        </div><div class="line">    <span class="comment"># down</span></div><div class="line">    row += <span class="number">2</span></div><div class="line">    <span class="keyword">if</span> row &lt; N:</div><div class="line">        DFS((row, col), ep, dis)</div><div class="line">        </div><div class="line">    <span class="comment"># left</span></div><div class="line">    row -= <span class="number">1</span></div><div class="line">    col -= <span class="number">1</span></div><div class="line">    <span class="keyword">if</span> col &gt;= <span class="number">0</span>:</div><div class="line">        DFS((row, col), ep, dis)</div><div class="line">        </div><div class="line">    <span class="comment"># right</span></div><div class="line">    col += <span class="number">2</span></div><div class="line">    <span class="keyword">if</span> col &lt; N:</div><div class="line">        DFS((row, col), ep, dis)</div><div class="line">        </div><div class="line">    Vis[sp[<span class="number">0</span>]][sp[<span class="number">1</span>]] = <span class="keyword">False</span></div></pre></td></tr></table></figure>
+<p>BFS</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">bfs</span><span class="params">(sp, ep)</span>:</span></div><div class="line">    cnt_way = <span class="number">0</span></div><div class="line">    <span class="comment"># None as step flag</span></div><div class="line">    queue = [sp, <span class="keyword">None</span>]</div><div class="line">    arrive = <span class="keyword">False</span></div><div class="line"></div><div class="line">    <span class="keyword">while</span> len(queue) &gt; <span class="number">1</span>:</div><div class="line">        point = queue.pop(<span class="number">0</span>)</div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> point:</div><div class="line">            <span class="keyword">if</span> arrive:</div><div class="line">                <span class="keyword">return</span> cnt_way</div><div class="line">            queue.append(<span class="keyword">None</span>)</div><div class="line">            <span class="keyword">continue</span></div><div class="line"></div><div class="line">        row, col = point</div><div class="line">        <span class="comment"># legal check</span></div><div class="line">        <span class="keyword">if</span> Map[row][col] == <span class="number">9</span>:</div><div class="line">            <span class="keyword">continue</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> row == ep[<span class="number">0</span>] <span class="keyword">and</span> col == ep[<span class="number">1</span>]:</div><div class="line">            cnt_way += <span class="number">1</span></div><div class="line">            arrive = <span class="keyword">True</span></div><div class="line">            <span class="keyword">continue</span></div><div class="line"></div><div class="line">        <span class="comment"># up</span></div><div class="line">        row -= <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> row &gt;= <span class="number">0</span>:</div><div class="line">            queue.append((row, col))</div><div class="line"></div><div class="line">        <span class="comment"># down</span></div><div class="line">        row += <span class="number">2</span></div><div class="line">        <span class="keyword">if</span> row &lt; N:</div><div class="line">            queue.append((row, col))</div><div class="line"></div><div class="line">        <span class="comment"># left</span></div><div class="line">        row -= <span class="number">1</span></div><div class="line">        col -= <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> col &gt;= <span class="number">0</span>:</div><div class="line">            queue.append((row, col))</div><div class="line"></div><div class="line">        <span class="comment"># right</span></div><div class="line">        col += <span class="number">2</span></div><div class="line">        <span class="keyword">if</span> col &lt; N:</div><div class="line">            queue.append((row, col))</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span></div></pre></td></tr></table></figure>
+<p>BFS + DP</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">bfs</span><span class="params">(sp, ep)</span>:</span></div><div class="line">    cnt_way = [([OPEN] * N) <span class="keyword">for</span> i <span class="keyword">in</span> range(N)]</div><div class="line">    cnt_way[sp[<span class="number">0</span>]][sp[<span class="number">1</span>]] = <span class="number">1</span></div><div class="line">    queue = [sp]</div><div class="line"></div><div class="line">    <span class="keyword">while</span> len(queue) &gt; <span class="number">0</span>:</div><div class="line">        row, col = queue.pop(<span class="number">0</span>)</div><div class="line"></div><div class="line">        <span class="comment"># legal check</span></div><div class="line">        <span class="keyword">if</span> Map[row][col] == <span class="number">9</span>:</div><div class="line">            <span class="keyword">continue</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> row == ep[<span class="number">0</span>] <span class="keyword">and</span> col == ep[<span class="number">1</span>]:</div><div class="line">            <span class="keyword">return</span> cnt_way[ep[<span class="number">0</span>]][ep[<span class="number">1</span>]]</div><div class="line"></div><div class="line">        <span class="comment"># up</span></div><div class="line">        r = row - <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> r &gt;= <span class="number">0</span> <span class="keyword">and</span> cnt_way[r][col] != CLOSED:</div><div class="line">            <span class="keyword">if</span> cnt_way[r][col] == OPEN:</div><div class="line">                queue.append((r, col))</div><div class="line">            cnt_way[r][col] += cnt_way[row][col]</div><div class="line"></div><div class="line">        <span class="comment"># down</span></div><div class="line">        r = row + <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> r &lt; N <span class="keyword">and</span> cnt_way[r][col] != CLOSED:</div><div class="line">            <span class="keyword">if</span> cnt_way[r][col] == OPEN:</div><div class="line">                queue.append((r, col))</div><div class="line">            cnt_way[r][col] += cnt_way[row][col]</div><div class="line"></div><div class="line">        <span class="comment"># left</span></div><div class="line">        c = col - <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> c &gt;= <span class="number">0</span> <span class="keyword">and</span> cnt_way[row][c] != CLOSED:</div><div class="line">            <span class="keyword">if</span> cnt_way[row][c] == OPEN:</div><div class="line">                queue.append((row, c))</div><div class="line">            cnt_way[row][c] += cnt_way[row][col]</div><div class="line"></div><div class="line">        <span class="comment"># right</span></div><div class="line">        c = col + <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> c &lt; N <span class="keyword">and</span> cnt_way[row][c] != CLOSED:</div><div class="line">            <span class="keyword">if</span> cnt_way[row][c] == OPEN:</div><div class="line">                queue.append((row, c))</div><div class="line">            cnt_way[row][c] += cnt_way[row][col]</div><div class="line"></div><div class="line">        cnt_way[row][col] = CLOSED</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span></div></pre></td></tr></table></figure>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://jaycechant.github.io/2016/beginning-solution-report-of-an-easy-problem/" data-id="civ9baqmc000ry8lnj451bqo1" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="http://jaycechant.github.io/2016/beginning-solution-report-of-an-easy-problem/#disqus_thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/python-function-and-class-alias/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">Python 函数和类的别名</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mathjax/">Mathjax</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Octopress/">Octopress</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Syncthing/">Syncthing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm/">algorithm</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dropbox/">dropbox</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/how-to/">how-to</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/netdisk/">netdisk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/">node.js</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodePPT/">nodePPT</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/">pip</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/practice/">practice</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ruby/">ruby</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/skill/">skill</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/virtualenv/">virtualenv</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Mathjax/" style="font-size: 10px;">Mathjax</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/Python/" style="font-size: 16.67px;">Python</a> <a href="/tags/Syncthing/" style="font-size: 10px;">Syncthing</a> <a href="/tags/algorithm/" style="font-size: 13.33px;">algorithm</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/dropbox/" style="font-size: 10px;">dropbox</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/how-to/" style="font-size: 20px;">how-to</a> <a href="/tags/netdisk/" style="font-size: 10px;">netdisk</a> <a href="/tags/node-js/" style="font-size: 13.33px;">node.js</a> <a href="/tags/nodePPT/" style="font-size: 13.33px;">nodePPT</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a> <a href="/tags/practice/" style="font-size: 10px;">practice</a> <a href="/tags/ruby/" style="font-size: 10px;">ruby</a> <a href="/tags/skill/" style="font-size: 10px;">skill</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/beginning-solution-report-of-an-easy-problem/">从水题的解题报告开一个头</a>
+          </li>
+        
+          <li>
+            <a href="/2016/python-function-and-class-alias/">Python 函数和类的别名</a>
+          </li>
+        
+          <li>
+            <a href="/2016/backup-tips-about-syncthing/">用Syncthing备份的一些技巧</a>
+          </li>
+        
+          <li>
+            <a href="/2016/python-multi-env-for-win/">在 Windows 搭建Python多版本环境</a>
+          </li>
+        
+          <li>
+            <a href="/2016/migrate-to-hexo/">博客迁移到了Hexo</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://hexo.io/zh-cn/" target="_blank">Hexo主页</a>
+          </li>
+        
+          <li>
+            <a href="https://hexo.io/zh-cn/docs/" target="_blank">Hexo文档</a>
+          </li>
+        
+          <li>
+            <a href="https://github.com/xiangming/landscape-plus" target="_blank">landscape-plus项目主页</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Jayce S. Chant<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="https://github.com/JayceChant" class="mobile-nav-link">Github</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/sitemap.xml" class="mobile-nav-link">Sitemap</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+<script>
+  var disqus_shortname = 'jaycetb';
+  
+  var disqus_url = 'http://jaycechant.github.io/2016/beginning-solution-report-of-an-easy-problem/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+                processEscapes: true
+                    
+}
+  
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                  
+}
+    
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                            all[i].SourceElement().parentNode.className += ' has-jax';
+                                    
+            }
+                
+        });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
