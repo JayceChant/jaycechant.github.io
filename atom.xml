@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jaycechant.info/"/>
-  <updated>2016-12-08T02:53:19.125Z</updated>
+  <updated>2016-12-17T06:48:55.811Z</updated>
   <id>http://jaycechant.info/</id>
   
   <author>
@@ -14,6 +14,188 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>刷OJ的技巧</title>
+    <link href="http://jaycechant.info/2016/skills-on-OJ/"/>
+    <id>http://jaycechant.info/2016/skills-on-OJ/</id>
+    <published>2016-12-09T01:35:03.000Z</published>
+    <updated>2016-12-17T06:48:55.811Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>在三星广研待了四年，兼任了两年半内训讲师，其实整理过很多培训资料，因为安保绝大多数无法直接带走。中间无关保密部分，一直想重新整理出来，留一个记录。</p>
+<p>可仅凭手头遗留的一些纸质资料和记忆，时隔越久越难恢复了。可见写技术博客坚持记录的重要性。</p>
+<p>先从容易的开始吧。<br>我写过一篇汇总，主要是在OJ系统上刷题提交 以及 应对三星内部软件考试的技巧，部分是针对考试的小聪明，但也有很多其实是通用的coding技巧。因为是针对当时的学员常见错误写的，内容很乱没什么章法。以下是整理恢复的正文：</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="1-测试数据的输入输出重定向"><a href="#1-测试数据的输入输出重定向" class="headerlink" title="1 测试数据的输入输出重定向"></a>1 测试数据的输入输出重定向</h1><p>很多人在调试的过程中，都是一个字符一个字符地手动输入测试数据，然后对着小黑窗一个一个地核对答案的正确性。</p>
+<p>这样做缺点很明显：</p>
+<ul>
+<li>效率低，容易出错（包括输入输错，和输出核对出错）</li>
+<li>没有办法测一些压力比较大的数据，譬如问题范围达到千级别，手输基本没法测</li>
+<li>一些数据修改之后又重新测，反复手敲浪费时间</li>
+<li>代码修改前后的输出结果很难比较</li>
+</ul>
+<p>解决方法就是，将输入输出重定向到文件上。</p>
+<p>这样做，输入数据生成一次可以反复测，需要大的测试数据，可以写一个for循环加随机数生成放文件里。</p>
+<p>输出的结果，可以每次换一个文件名存着，方便前后对比代码修改的效果。</p>
+<p>上代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span> <span class="comment">// freopen() 就包含在这个库里</span></span></div><div class="line"></div><div class="line">freopen(<span class="string">"in1.txt"</span>, <span class="string">"r"</span>, <span class="built_in">stdin</span>);</div><div class="line">freopen(<span class="string">"out1-1.txt"</span>,<span class="string">"w"</span>, <span class="built_in">stdout</span>);</div></pre></td></tr></table></figure>
+<h1 id="2-输出缓冲区置空"><a href="#2-输出缓冲区置空" class="headerlink" title="2 输出缓冲区置空"></a>2 输出缓冲区置空</h1><p>这个官方的代码模板里一般都自带，但是很多人不知道它放在那里干什么：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">setbuf(<span class="built_in">stdout</span>, <span class="literal">NULL</span>);</div></pre></td></tr></table></figure>
+<p>其实这段代码的作用就是把输出缓冲区置为空，这样任何输出都会马上输出到终端或者文件。</p>
+<p>如果程序能保证执行完，那么这个缓冲区的大小是不会影响最终结果的，只是缓冲区大的话会减少输出的频率，提高一点点IO的效率。</p>
+<p>但反过来，如果程序可能有潜在的bug，不一定能执行完，那么把缓冲区置空就能尽可能地输出已经完成的结果，<s>尽可能地多拿一部分的分</s>（由于新的考试形式只有一题，而且要求全对，这个技巧可能没有用武之地了）。</p>
+<h1 id="3-调试宏"><a href="#3-调试宏" class="headerlink" title="3 调试宏"></a>3 调试宏</h1><p>有些题目比较复杂，需要额外增加一些log来调试。但往往调试完大家会忘了把log给 <strong>注释掉/删掉</strong>，以至于有多余输出引起答案错误。而即使你记得，从复杂的代码中一点一点地把log找出来也是吃力不讨好，还容易漏。</p>
+<p>这时候，把调试代码加上条件编译，并用宏控制开关，就是比较省力的做法了：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> DEBUG (1) <span class="comment">// before you submit, change it to 0</span></span></div><div class="line"></div><div class="line">...</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> DEBUG</span></div><div class="line"></div><div class="line"><span class="comment">// do something for debuging</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// DEBUG</span></span></div></pre></td></tr></table></figure>
+<p>一般的题目，我个人喜欢用 <code>DEBUG_IO</code> 和 <code>DEBUG_LOG</code> 两个宏，分别控制IO重定向（见技巧1），和log的输出。</p>
+<p>这种技巧在生产代码中也是随处可见的，所以大家应该不难理解，只是有时候想不起来把它用起来。</p>
+<h1 id="4-“函数”-宏"><a href="#4-“函数”-宏" class="headerlink" title="4 “函数” 宏"></a>4 “函数” 宏</h1><p>对于一些反复出现的算式，手敲累且容易错，写函数又显得没必要，可以写成宏的形式。  </p>
+<p>如两者取较大值：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX(a, b)	((a) &gt; (b) ? (a) : (b))</span></div></pre></td></tr></table></figure>
+<p>不过，请注意：</p>
+<ol>
+<li>这终究不是函数，只是宏展开（相当于预编译器做了一次查找替换），实际行为跟函数差异很大，如果复杂的式子，请还是写成函数；如果使用C++，可以写成 <strong>inline</strong> 的形式。</li>
+<li>为了避免展开后优先级的问题，请务必在变量外加一层括号。这不仅在这里推荐，所有宏都推荐这样做，来保证在最终展开的地方能够有正确的优先级。</li>
+</ol>
+<p>试考虑这样的宏：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MULTIPY(a, b)	(a * b)</span></div><div class="line"></div><div class="line"><span class="keyword">int</span> res = MULTIPY(<span class="number">1</span> + <span class="number">2</span>, <span class="number">3</span> + <span class="number">4</span>)</div></pre></td></tr></table></figure>
+<p>res 的结果是多少？ <code>3 * 7 = 21</code> 吗？<br>实际上展开之后的表达式是<code>int res = (1 + 2 * 3 + 4)</code> ,  因为乘法优先，结果是11。</p>
+<p>如果写成以下的样子就不会有问题了：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MULTIPY(a, b)	((a) * (b))</span></div></pre></td></tr></table></figure>
+<h1 id="5-规避比较语句中误用等号"><a href="#5-规避比较语句中误用等号" class="headerlink" title="5 规避比较语句中误用等号"></a>5 规避比较语句中误用等号</h1><p><em>*该技巧出自《C专家编程》</em></p>
+<p>试看这样一段代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// count the number of 7 in array</span></div><div class="line"><span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line"><span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; len; i++)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span>(<span class="built_in">array</span>[i] = <span class="number">7</span>)</div><div class="line">	&#123;</div><div class="line">		count++;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>很普通的一段统计次数的代码。</p>
+<p>一切看起来都很正常。</p>
+<p>大家先不要急着往下看。</p>
+<p>看完这段代码，大家能第一时间发现问题吗？</p>
+<p>……</p>
+<p><code>if(array[i] = 7)</code></p>
+<p>这个判断永远是真的（这个语句取左值，也就是array[i]的值。而array[i]被赋值成7，在C里面，非零的量都当做真），<br>所以结果是，数组的所有元素都成了7，也统计了数组大小这么多个7……</p>
+<p>如果养成习惯，在比较时将 <strong>常量 / 字面量</strong>  放在前面，像这样：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// count the number of 7 in array</span></div><div class="line"><span class="keyword">int</span> count = <span class="number">0</span>;</div><div class="line"><span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; len; i++)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span>(<span class="number">7</span> = <span class="built_in">array</span>[i]) <span class="comment">// !!compile error here</span></div><div class="line">	&#123;</div><div class="line">		count++;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>因为常量 / 字面量 不能被赋值，所以是会直接编译失败的，而且编译器还直接指出了错误的行数。</p>
+<h1 id="6-预先计算-查表-大幅减少程序运行时间"><a href="#6-预先计算-查表-大幅减少程序运行时间" class="headerlink" title="6 预先计算 + 查表 大幅减少程序运行时间"></a>6 预先计算 + 查表 大幅减少程序运行时间</h1><p><em>*该技巧出自《Code complete》</em></p>
+<blockquote>
+<p>在算法里，预先计算（Precomputation）是指在实际运行程序之前，使用初始化运算，生成一个查询表（lookup table）供算法引用，以避免每次运行程序时重复计算这些数据。<br>——翻译自英文维基Precomputation词条</p>
+</blockquote>
+<p>假设内存用之不尽，又有足够的时间提前准备，那么速度最快的算法应该就是 <strong>“预先计算 + 查表”</strong> 无疑。</p>
+<p>试想我们已经有了所有情况的答案，你一问，我马上就能回答。</p>
+<p><strong>“无限内存 + 无限准备时间”</strong> 这个前提当然是不可能成立的，所以我们也没办法拿这种做法当万金油。</p>
+<p>但是对于某些特定问题，可能的情况如此之少，以至于我们可以把 中间结果 甚至 最终结果 先存起来，运行时直接查表。</p>
+<h2 id="筛选素数-是-比较经典的例子。"><a href="#筛选素数-是-比较经典的例子。" class="headerlink" title="筛选素数 是 比较经典的例子。"></a>筛选素数 是 比较经典的例子。</h2><p>假设我们的任务要 判断 1’000 个 1’000’000（不用数0了，一百万） 以内 的自然数是否素数：</p>
+<ol>
+<li>如果逐个判断（对<strong>每个数</strong>，判断 <strong>每一个</strong> 比它小的数能否整除），显然太慢了。<br>（时间复杂度为O(n*k)，空间复杂度为O(1)，其中k = 1’000, n = 1’000’000，下同）</li>
+<li>如果预先计算并保存每一个数 <strong>是否</strong> 素数，显然太浪费空间了。<br>（一百万大小的数组，只有其中1000个元素有用。时间复杂度成了O(k)，空间复杂度又成了 O(n^2)）</li>
+<li>其实素数的分布相当稀疏，在 <strong>一百万以内，一共只有78498个</strong> 素数 （7.85%）。如果我们按顺序存储这些素数，然后拿到一个数之后再数组里折半查找，就可以知道这个数是否素数了。<br>(时间复杂度为 O(k * log m)，空间复杂度为O(m)，其中m = 78498, log m 约为 16)</li>
+<li>可是如果给的内存限制，连78498个数都存不下呢？其实存168个就够了。<br><strong>1000以内的素数一共168个</strong>。对于任意一个数x, 2 到 根号x 之间的所有素数，构成了对 x 的素数筛。换言之1’000以内的素数，就构成了1’000’000这个范围的素数筛。<br>所以这168个素数，足以筛选一百万以内的任意一个整数。<br>（时间复杂度为 O(k * l)， 空间复杂度为 O(l)，其中 l = 168）</li>
+</ol>
+<p>如果你追求 <strong>极致的时间要求，内存随便</strong>，当然可以选择方案2。<br>还是 <strong>追求时间尽可能短，但内存不够</strong> 方案2的要求，可以选择方案3。<br>但多数情况下，方案4是 在 <strong>时间 和 空间 都比较平衡</strong> 的一个方案。</p>
+<p>顺便附上一个输出素数的小脚本。（预先计算因为没有语言限制，建议使用Python, js 等易于编写功能强大的 动态脚本语言。考虑到大家可能没有Python坏境，这里给了一个js的版本。）<br>原理很简单，初始化一个 素数筛，里面一开始只有2（换言之，只能判断不大于4的数是否素数）。<br>然后从3开始，对每个奇数（除2以外的偶数都不是素数）用素数筛筛一遍，如果是素数，就加入素数筛。<br>代码足够短小简单（很容易背下来），效率也还过得去，正好可以在需要 素数表 的题目里，用来做预先计算。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// js script</span></div><div class="line"><span class="comment">// for given range, return all prime numbers that not greater than range</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getPrimeNumList</span>(<span class="params">range</span>) </span>&#123;</div><div class="line">	<span class="keyword">var</span> list = <span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line">	list.push(<span class="number">2</span>);</div><div class="line">	<span class="keyword">var</span> n = <span class="number">3</span>; <span class="comment">// the num start to be tested</span></div><div class="line"></div><div class="line">	<span class="keyword">while</span> (n &lt;= range) &#123;</div><div class="line">		<span class="keyword">var</span> i = <span class="number">0</span>; <span class="comment">// list index</span></div><div class="line">		<span class="keyword">var</span> r = <span class="built_in">Math</span>.sqrt(n); <span class="comment">// square root of n</span></div><div class="line">	</div><div class="line">		<span class="keyword">while</span> (list[i] &lt; r) &#123;</div><div class="line">			<span class="keyword">if</span> (n % list[i] == <span class="number">0</span>) <span class="comment">// if n can be divided, break</span></div><div class="line">				<span class="keyword">break</span>;</div><div class="line">			<span class="keyword">else</span></div><div class="line">				i++;</div><div class="line">		&#125;</div><div class="line">	</div><div class="line">		<span class="keyword">if</span> (list[i] &gt; r) <span class="comment">// if list[i] &gt; r, it means that never break</span></div><div class="line">			list.push(n); <span class="comment">// n is a PRIME number</span></div><div class="line"></div><div class="line">		n = n + <span class="number">2</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> list;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="7-表驱动法-实现状态转移"><a href="#7-表驱动法-实现状态转移" class="headerlink" title="7 表驱动法 实现状态转移"></a>7 表驱动法 实现状态转移</h1><p><em>*该技巧出自《Code complete》</em></p>
+<p>查表法 除了可以用来引用 预先计算 的数据，还能用来实现状态的判断转移。</p>
+<p>大多数场合，连续的 if-else 或 switch-case，都是不断复制黏贴的类似代码片段。<br>这样的代码，一旦需要修改，要在多个地方做类似修改，可维护性非常差。<br>实际上这是没有好好 运用 合适的 数据结构 的结果。  </p>
+<p>而将状态之间的映射关系 预先 存放在 表里面，并实现维护一段查表的算法，<strong>正是对“数据结构 + 算法 = 程序” 的一种实践</strong>。</p>
+<p>以 <a href="http://poj.org/problem?id=1002" target="_blank" rel="external">POJ1002</a> 作为例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> mapping[] =</div><div class="line">&#123;</div><div class="line">    <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="comment">// digit 0~9, ASCII 48~57</span></div><div class="line">    NA, NA, NA, NA, NA, NA, NA, <span class="comment">// ASCII 58~64</span></div><div class="line">    <span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="comment">// A~Y, Q = NA</span></div><div class="line">    <span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>,</div><div class="line">    <span class="number">4</span>, <span class="number">4</span>, <span class="number">4</span>,</div><div class="line">    <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>,</div><div class="line">    <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>,</div><div class="line">    <span class="number">7</span>, NA, <span class="number">7</span>, <span class="number">7</span>,</div><div class="line">    <span class="number">8</span>, <span class="number">8</span>, <span class="number">8</span>,</div><div class="line">    <span class="number">9</span>, <span class="number">9</span>, <span class="number">9</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line">main()&#123;</div><div class="line">	<span class="comment">// ...</span></div><div class="line">	<span class="built_in">scanf</span>(<span class="string">"%s"</span>, buf);</div><div class="line">    <span class="keyword">int</span> j = <span class="number">0</span>, k = <span class="number">0</span>, num = <span class="number">0</span>;</div><div class="line">    <span class="keyword">while</span>(k &lt; <span class="number">7</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">int</span> c = buf[j++] - <span class="string">'0'</span>;</div><div class="line">        <span class="keyword">int</span> x;</div><div class="line">        <span class="keyword">if</span>(<span class="number">0</span> &lt;= c &amp;&amp; MAPSIZE &gt; c &amp;&amp; NA != (x = mapping[c]))</div><div class="line">        &#123;</div><div class="line">            num = num * <span class="number">10</span> + x;</div><div class="line">            k++;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    cnt[num]++;</div><div class="line">	<span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到，在构建好 数据表 之后，核心的查询代码 只有一行（这个例子里，x 是我们需要的值）：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(<span class="number">0</span> &lt;= c &amp;&amp; MAPSIZE &gt; c &amp;&amp; NA != (x = mapping[c]))</div><div class="line">&#123;</div><div class="line">	<span class="comment">// use x to do something</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="8-备忘录方法"><a href="#8-备忘录方法" class="headerlink" title="8 备忘录方法"></a>8 备忘录方法</h1><p>提到了 预先计算 和 查表，就不得不顺便介绍一下 <strong>备忘录方法</strong></p>
+<p>大多数时候 <strong>备忘录方法</strong> 都是用来跟 动态规划 作对比。<br>这两种方法都是应用于这样的情况：</p>
+<ol>
+<li>问题可以分解成多个子问题</li>
+<li>有重复子问题</li>
+</ol>
+<p>所以为了避免重复计算的浪费，两种方法都会开辟一个数组用来存放子问题的解。<br>区别在于</p>
+<ul>
+<li>动态规划 是自底向上的计算，先计算最小的子问题的解，然后逐渐组合出更复杂的子问题的的解，最后得出原问题的解。因为是从最小的字问题开始计算，可能部分子问题的解是没有派上用场的，因为在计算的时候还不知道哪些会被引用。</li>
+<li><strong>备忘录方法</strong> 是自顶向下的，多数情况下是一个递归结构：先计算原问题，里面引用到子问题时，递归计算子问题……直到全部子问题都有解，再在返回里面组合成原问题的解。这里面， <strong>备忘录方法</strong>的优化在于，一旦一个子问题被解决过，就把解缓存起来，以后再引用就直接读取不再计算。</li>
+</ul>
+<p>拿 <a href="http://poj.org/problem?id=1243" target="_blank" rel="external">POJ1243</a> 举例</p>
+<p>动态规划：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//...</span></div><div class="line"><span class="keyword">for</span>(i = <span class="number">0</span>; i &lt;= G; i++) &#123;</div><div class="line">    DP[i][<span class="number">0</span>] = i;</div><div class="line">    DP[<span class="number">0</span>][i] = <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">for</span>(i = <span class="number">1</span>; i&lt;= G; i++) &#123;</div><div class="line">    <span class="keyword">for</span>(j = <span class="number">1</span>; j&lt;= L; j++) &#123;</div><div class="line">        DP[i][j] = DP[i<span class="number">-1</span>][j<span class="number">-1</span>] + <span class="number">1</span> + DP[i<span class="number">-1</span>][j];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在计算过一次(G, L)之后，所有比G, L 小的(g, l) 对的解都可以在DP数组中找到。不过多个case里面G, L的值的大小并不确定。所以遇到新的G, L又要再算一遍是一种浪费。</p>
+<p>备忘录方法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">getRange</span><span class="params">(<span class="keyword">int</span> g, <span class="keyword">int</span> l)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="number">0</span> == Memo[g][l]) &#123;</div><div class="line">        <span class="comment">// compute it only when it has no result</span></div><div class="line">        Memo[g][l] = getRange(guess - <span class="number">1</span>, life)</div><div class="line">            + <span class="number">1</span></div><div class="line">            + getRange(guess - <span class="number">1</span>, life - <span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> Memo[g][l];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">for</span>(i = <span class="number">0</span>; i &lt;= MAX; i++) &#123;</div><div class="line">    Memo[i][<span class="number">0</span>] = i;</div><div class="line">    Memo[<span class="number">1</span>][i] = <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">getRange(g, l);</div></pre></td></tr></table></figure>
+<p>你会发现这道题在case很多而且g, l大小没有顺序时，备忘录方法的效果会更好。（其实这道题也可以预先计算，才30*30的规模）</p>
+<p>当然，这道题属于比较特殊的情况，两种方法都能用。<br>一部分问题 由于引用哪个子问题的解，取决于子问题的解之间的比较，只能先算最小的子问题，只能自底向上，只能动态规划。</p>
+<p>而有些题目，实际引用的子问题数占全部子问题数的很少一部分，这时，动态规划把全部子问题算一遍是一种很大的浪费，备忘录是一种更好的选择。</p>
+<p>说了这么多好像很复杂，其实 <strong>备忘录方法</strong> 的核心思想只有一句话： <strong>子问题太多，只在第一次引用时算一次，也只算这一次。</strong></p>
+<p>预先计算是：情况这么少，编译前就全算好了。（提前计算）<br>动态规划是：从最小的子问题开始向上组合，用小的子问题组合出大的子问题，直到原问题。全部子问题都算且只算一次。（从小到大，全部都算）<br>而备忘录方法：从原问题开始，向下分解，不用不算，只算一次。（推迟计算）</p>
+<h1 id="9-邻接矩阵-VS-邻接表-VS-其他图存储法"><a href="#9-邻接矩阵-VS-邻接表-VS-其他图存储法" class="headerlink" title="9 邻接矩阵 VS 邻接表 VS 其他图存储法"></a>9 邻接矩阵 VS 邻接表 VS 其他图存储法</h1><p>不同的 图 问题怎么解先按下不表，但是图的存储总是绕不开的问题。</p>
+<p>那么最常用的两种表示方法，究竟用 <strong>邻接矩阵</strong> 还是 <strong>邻接表</strong> 呢？ 还有什么表示方法呢？ 分别有什么优缺点，要注意什么呢？</p>
+<p>（<em> 为了方便讨论，下面统一用 V 代表顶点数， v 代表一个顶点， E 代表边数， e 代表一条边。<em>*图默认都是无向图，所以是双向操作；如果有向图，请省略反向操作。</em></em> 另外，为了简便，代码是精简过的伪代码。）</p>
+<h2 id="边集数组"><a href="#边集数组" class="headerlink" title="边集数组"></a>边集数组</h2><p>在讲那两种主要的存储方式之前，先提一下边集数组。</p>
+<p>所谓边集数组，就是用数组记录每条边的两个顶点。部分题目由于input的方式就是给出每条边的两个顶点，所以sample代码里的存储方式默认就是给了边集数组。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// edge array</span></div><div class="line"><span class="keyword">int</span> A[MAX_E];</div><div class="line"><span class="keyword">int</span> B[MAX_E];</div><div class="line"><span class="keyword">int</span> Weight[MAX_E]; <span class="comment">// skip if unweighted graph</span></div><div class="line"><span class="comment">// int Edge[MAX_E][3]; // you can make into 1 array too, [0]-from, [1]-to, [2]-weight</span></div><div class="line"></div><div class="line"><span class="keyword">for</span>(e: <span class="number">1</span> ~ E)&#123;</div><div class="line">    <span class="comment">// input va， vb, weight</span></div><div class="line">    A[e] = va;</div><div class="line">    B[e] = vb;</div><div class="line">    Weight[e] = weight;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>优点：</p>
+<ul>
+<li>固定使用MAX_E的空间，对于 E &lt;&lt; V ^ 2 的图（边数远小于顶点的平方，即，稀疏图），空间上很节省。</li>
+<li>方便对边遍历。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>不能随机访问，对顶点遍历效率很低。</li>
+</ul>
+<h2 id="邻接矩阵"><a href="#邻接矩阵" class="headerlink" title="邻接矩阵"></a>邻接矩阵</h2><p>因为直观、实现方便，加上正式考试对内存的限制比较宽松，这应该是大家最常用的表示方式。</p>
+<p>示例代码给出了两种输入处理： 1是处理以邻接矩阵给出的数据，2是处理以边表的方式给出数据。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// adjacent matrix</span></div><div class="line"><span class="keyword">int</span> AdjMat[MAX_V][MAX_V]; <span class="comment">// you can use bool for connected or not, and int for weight.</span></div><div class="line"></div><div class="line"><span class="comment">// input method 1 (input from matrix)</span></div><div class="line"><span class="keyword">for</span>(va: <span class="number">1</span> ~ V)&#123;</div><div class="line">    <span class="keyword">for</span>(vb: <span class="number">1</span> ~ V)&#123;</div><div class="line">        <span class="comment">// input weight</span></div><div class="line">        AdjMat[va][vb] = weight;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// input method 2 (input from edge array)</span></div><div class="line"><span class="comment">// init</span></div><div class="line"><span class="keyword">for</span>(va: <span class="number">1</span> ~ V)&#123;</div><div class="line">    <span class="keyword">for</span>(vb: <span class="number">1</span> ~ V)&#123;</div><div class="line">        AdjMat[va][vb] = DEFAULT; <span class="comment">// Define your default value, maybe 0 or -1.</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">for</span>(e: <span class="number">1</span> ~ E)&#123;</div><div class="line">    <span class="comment">// intput va, vb, weight</span></div><div class="line">    AdjMat[va][vb] = weight;</div><div class="line">    AdjMat[vb][va] = weight; <span class="comment">// set this only when it's undirected graph</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>优点：</p>
+<ul>
+<li>实现简单（二维数组），容易理解</li>
+<li>可以随机访问。亦即，知道任意from, to的值，都可以马上判断是否连通。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>固定使用MAX_V ^ 2的空间，对于稀疏图，空间上是很大的浪费。（不过由于考试多数够空间，很多时候这个缺点可以忽略）</li>
+<li>遍历效率低。跟随机访问相反，如果要遍历from能到的所有to点，就不得不将from所在行遍历一次，在稀疏图中，会导致遍历的效率很低。而恰恰很多算法都需要做遍历。</li>
+</ul>
+<h2 id="邻接表"><a href="#邻接表" class="headerlink" title="邻接表"></a>邻接表</h2><p>邻接表比邻接矩阵稍复杂一些，一般要用到变长数组vector。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// adjacent list - based on vector</span></div><div class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; AdjList[MAX_V];</div><div class="line"></div><div class="line"><span class="comment">// input</span></div><div class="line"><span class="keyword">for</span>(e: <span class="number">1</span> ~ E)&#123;</div><div class="line">    <span class="comment">// input va, vb</span></div><div class="line">    AdjList[va].push_back(vb);</div><div class="line">    AdjList[vb].push_back(va);</div><div class="line">    <span class="comment">// AdjList[va].push_back(weight); // If it's weighted graph, you can push weight right after vb.</span></div><div class="line">    <span class="comment">// AdjList[vb].push_back(weight);</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>你可能会问，库不是不给用了吗？其实基于边集数组可以改写成邻接表， 本质上就是用Next数组将边集数组串联起来。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// adjacent list - based on edge array</span></div><div class="line"><span class="keyword">int</span> Head[MAX_V];</div><div class="line"><span class="keyword">int</span> Tail[MAX_V];</div><div class="line"><span class="keyword">int</span> Next[MAX_E];</div><div class="line"><span class="keyword">int</span> To[MAX_E * <span class="number">2</span>]; <span class="comment">// size * 2 for reverse edge</span></div><div class="line"><span class="keyword">int</span> Weight[MAX_E]; <span class="comment">// skip if unweighted graph</span></div><div class="line"></div><div class="line">E_counter = <span class="number">0</span>;</div><div class="line"><span class="keyword">for</span>(e: <span class="number">1</span> ~ E)&#123;</div><div class="line">    <span class="comment">// input va， vb, weight</span></div><div class="line">    <span class="comment">// process va -&gt; vb</span></div><div class="line">    To[E_counter] = vb;</div><div class="line">    Weight[E_counter] = weight;</div><div class="line">    <span class="keyword">if</span>(Head[va] == DEFAULT)&#123;</div><div class="line">        Head[va] = E_counter;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        Next[Tail[va]] = E_counter;</div><div class="line">    &#125;</div><div class="line">    Tail[va] = E_counter;</div><div class="line">    E_counter++;</div><div class="line"></div><div class="line">    <span class="comment">// process vb -&gt; va</span></div><div class="line">    To[E_counter] = va;</div><div class="line">    Weight[E_counter] = weight;</div><div class="line">    <span class="keyword">if</span>(Head[vb] == DEFAULT)&#123;</div><div class="line">        Head[vb] = E_counter;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        Next[Tail[vb]] = E_counter;</div><div class="line">    &#125;</div><div class="line">    Tail[vb] = E_counter;</div><div class="line">    E_counter++;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>而如果不为了省内存，只是为了加快遍历速度，直接上二维数组也可以实现邻接表。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// adjacent list - based on 2-dimens array</span></div><div class="line"><span class="keyword">int</span> AdjList[MAX_V][MAX_V];</div><div class="line"></div><div class="line"><span class="keyword">for</span>(e: <span class="number">1</span> ~ E)&#123;</div><div class="line">    <span class="comment">// intput va, vb, weight</span></div><div class="line">    AdjList[va][++AdjList[va][<span class="number">0</span>]] = weight; <span class="comment">// store edge from AdjList[v][1], use AdjList[v][0] to store the edge number that adjacent to v.</span></div><div class="line">    AdjList[vb][++AdjList[vb][<span class="number">0</span>]] = weight; <span class="comment">// set this only when it's undirected graph</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>优点：</p>
+<ul>
+<li>方便对顶点遍历邻接顶点（或者说对顶点，遍历它连接的边），对稀疏图的遍历比邻接矩阵节省时间。 一般空间足够的情况下，推荐最后一种实现方式。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>不能对边遍历</li>
+<li>不能随机访问</li>
+</ul>
+<p>表面上来看，邻接表缺点比较多。但实际使用中，几乎所有图算法都需要对顶点遍历边（Dijkstra，Floyd，Prim…），所以反而是最常用的表示存储方式。</p>
+<h2 id="其他存储方式"><a href="#其他存储方式" class="headerlink" title="其他存储方式"></a>其他存储方式</h2><p>牵涉到复杂的指针操作，仅供参考了解。</p>
+<ul>
+<li>十字链表</li>
+<li>多重邻接表</li>
+</ul>
+<hr>
+<p>原本这里写着 <strong>…… To be continued……</strong>，表示我会不定期更新。但因为我的离职，起码三星内网的那篇文章，我再也不会更新了。</p>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;在三星广研待了四年，兼任了两年半内训讲师，其实整理过很多培训资料，因为安保绝大多数无法直接带走。中间无关保密部分，一直想重新整理出来，留一个记录。&lt;/p&gt;
+&lt;p&gt;可仅凭手头遗留的一些纸质资料和记忆，时隔越久越难恢复了。可见写技术博客坚持记录的重要性。&lt;/p&gt;
+&lt;p&gt;先从容易的开始吧。&lt;br&gt;我写过一篇汇总，主要是在OJ系统上刷题提交 以及 应对三星内部软件考试的技巧，部分是针对考试的小聪明，但也有很多其实是通用的coding技巧。因为是针对当时的学员常见错误写的，内容很乱没什么章法。以下是整理恢复的正文：&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+      <category term="skill" scheme="http://jaycechant.info/tags/skill/"/>
+    
+      <category term="OJ" scheme="http://jaycechant.info/tags/OJ/"/>
+    
+  </entry>
   
   <entry>
     <title>解题报告 —— 从水题开一个头</title>
@@ -411,7 +593,7 @@
 <p>其实，这些内容，甚至包括Git 和 Node.js 的安装，<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">官方文档</a>都有简要提及，甚至连从Octopress 迁移都有对应说明。所以官方文档有提到的我都不说了。后面主要记录一下遇到 / 我觉得可能有人会遇到 的坑，以及补充官方文档不够详尽 / 显眼之处。</p>
 <h2 id="任意目录运行hexo"><a href="#任意目录运行hexo" class="headerlink" title="任意目录运行hexo"></a>任意目录运行hexo</h2><p>概述页面的评论有人问，成功安装之后，报这个错误</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">‘hexo’不是内部或者外部命令，也不是可运行的程序或批处理文件</div></pre></td></tr></table></figure>
-<p>明眼人一看就知道是path环境变量的问题，解决办法就是把node的安装目录加入环境变量。如果这样都还不知道怎么办，详细设置请看 <code>nodePPT</code> 的<a href="https://jaycechant.github.io/2016/intro-to-nodeppt/">那篇文章</a>。</p>
+<p>明眼人一看就知道是path环境变量的问题，解决办法就是把node的安装目录加入环境变量。如果这样都还不知道怎么办，详细设置请看 <code>nodePPT</code> 的<a href="https://jaycechant.github.io/2016/intro-to-nodeppt/" target="_blank" rel="external">那篇文章</a>。</p>
 <h2 id="语言配置"><a href="#语言配置" class="headerlink" title="语言配置"></a>语言配置</h2><p>文档只告诉你可以配置语言，但是并没有告诉你有什么语言可以选，也没告诉每个语言对应的值</p>
 <p>譬如像我这种长期写Android 代码的，就会习惯性写 <code>zh-rCN</code></p>
 <p>实际上语言文件在 <code>themes\&lt;主题&gt;\language\</code> 下面</p>
@@ -513,9 +695,9 @@
     </summary>
     
     
-      <category term="blog" scheme="http://jaycechant.info/tags/blog/"/>
-    
       <category term="node.js" scheme="http://jaycechant.info/tags/node-js/"/>
+    
+      <category term="blog" scheme="http://jaycechant.info/tags/blog/"/>
     
       <category term="hexo" scheme="http://jaycechant.info/tags/hexo/"/>
     
@@ -607,13 +789,13 @@
 <p>生成的MathML：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">math</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/1998/Math/MathML"</span> <span class="attr">display</span>=<span class="string">"block"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>x<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>=<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>(<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>−<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>b<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>+<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>−<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>s<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>q<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>r<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>t<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>(<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">msup</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mi</span>&gt;</span>b<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mn</span>&gt;</span>2<span class="tag">&lt;/<span class="name">mn</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">msup</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>–<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mn</span>&gt;</span>4<span class="tag">&lt;/<span class="name">mn</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>a<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>c<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>)<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>)<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mrow</span> <span class="attr">class</span>=<span class="string">"MJX-TeXAtom-ORD"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mo</span>&gt;</span>/<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">mrow</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>(<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mn</span>&gt;</span>2<span class="tag">&lt;/<span class="name">mn</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>a<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>)<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">math</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>我是在nodePPT里面尝试使用，所以再次按F12进入调试模式，看看 MathJax的加载配置：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;!-- MathJax --&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><span class="javascript"></span></span></div><div class="line">  MathJax.Hub.Config(&#123;</div><div class="line">  <span class="attr">config</span>: [<span class="string">"TeX-AMS-MML_HTMLorMML.js"</span>],</div><div class="line">  <span class="attr">tex2jax</span>: &#123;<span class="attr">inlineMath</span>: [[<span class="string">'\\('</span>,<span class="string">'\\)'</span>]]&#125;&#125;);</div><div class="line">  <span class="comment">//['$','$'], 避免货币价格冲突</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"/js/mathjax/MathJax.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;!-- MathJax --&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><span class="actionscript"></span></span></div><div class="line">  MathJax.Hub.Config(&#123;</div><div class="line">  config: [<span class="string">"TeX-AMS-MML_HTMLorMML.js"</span>],</div><div class="line">  tex2jax: &#123;inlineMath: [[<span class="string">'\\('</span>,<span class="string">'\\)'</span>]]&#125;&#125;);</div><div class="line">  <span class="comment">//['$','$'], 避免货币价格冲突</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"/js/mathjax/MathJax.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
 <p>大家可能看不习惯，我给翻译一下：</p>
 <p>这里配置并加载 MathJax.js，对应配置文件（”TeX-AMS-MML_HTMLorMML.js”）的意思是，加载 TeX + AMS拓展 + MathML，并且最终显示使用HTML+MathML</p>
 <p>嗯，没有AsciiMath</p>
 <hr>
 <p>最终，我们把配置改成这样</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;!-- MathJax --&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><span class="javascript"></span></span></div><div class="line">  MathJax.Hub.Config(&#123;</div><div class="line">  <span class="attr">config</span>: [<span class="string">"TeX-MML-AM_HTMLorMML.js"</span>],</div><div class="line">  <span class="attr">tex2jax</span>: &#123;<span class="attr">inlineMath</span>: [[<span class="string">'\\('</span>,<span class="string">'\\)'</span>]]&#125;&#125;);</div><div class="line">  <span class="comment">//['$','$'], 避免货币价格冲突</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;!-- MathJax --&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><span class="actionscript"></span></span></div><div class="line">  MathJax.Hub.Config(&#123;</div><div class="line">  config: [<span class="string">"TeX-MML-AM_HTMLorMML.js"</span>],</div><div class="line">  tex2jax: &#123;inlineMath: [[<span class="string">'\\('</span>,<span class="string">'\\)'</span>]]&#125;&#125;);</div><div class="line">  <span class="comment">//['$','$'], 避免货币价格冲突</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>翻译：加载 TeX + MathML + AsciiMath</p>
 <p>出于我也不知道的原因，并没有配置文件同时兼容 AMS拓展 和 AsciiMath</p>
 <p>与此同时，我查看了配置文件之后，发现</p>
@@ -645,7 +827,7 @@
 <h2 id="加载和配置"><a href="#加载和配置" class="headerlink" title="加载和配置"></a>加载和配置</h2><p>如果是在自己写的HTML里加载MathJax，官方推荐的做法是在 <code>&lt;head&gt;</code> 标签加入</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span> <span class="keyword">async</span></div><div class="line">  src=<span class="string">"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"</span>&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
 <p>不过如果使用 nodePPT， 它的模板已经帮你加载了</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;!-- MathJax --&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><span class="javascript"></span></span></div><div class="line">  MathJax.Hub.Config(&#123;</div><div class="line">  <span class="attr">config</span>: [<span class="string">"TeX-AMS-MML_HTMLorMML.js"</span>],</div><div class="line">  <span class="attr">tex2jax</span>: &#123;<span class="attr">inlineMath</span>: [[<span class="string">'\\('</span>,<span class="string">'\\)'</span>]]&#125;&#125;);</div><div class="line">  <span class="comment">//['$','$'], 避免货币价格冲突</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"/js/mathjax/MathJax.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;!-- MathJax --&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><span class="actionscript"></span></span></div><div class="line">  MathJax.Hub.Config(&#123;</div><div class="line">  config: [<span class="string">"TeX-AMS-MML_HTMLorMML.js"</span>],</div><div class="line">  tex2jax: &#123;inlineMath: [[<span class="string">'\\('</span>,<span class="string">'\\)'</span>]]&#125;&#125;);</div><div class="line">  <span class="comment">//['$','$'], 避免货币价格冲突</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"/js/mathjax/MathJax.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
 <h2 id="数学环境"><a href="#数学环境" class="headerlink" title="数学环境"></a>数学环境</h2><p>使用MathJax 的时候，需要一些标志，告诉MathJax 这段文本是公式代码，另外也要告诉它这是什么代码，在标志中间的部分，就叫做数学环境</p>
 <p>包括段模式(displayed) 和 行内(inline) 两种</p>
 <p>查看配置或者文档，我们会发现，LaTeX 的默认分隔符是</p>
@@ -716,9 +898,9 @@
     </summary>
     
     
-      <category term="how-to" scheme="http://jaycechant.info/tags/how-to/"/>
-    
       <category term="nodePPT" scheme="http://jaycechant.info/tags/nodePPT/"/>
+    
+      <category term="how-to" scheme="http://jaycechant.info/tags/how-to/"/>
     
       <category term="Mathjax" scheme="http://jaycechant.info/tags/Mathjax/"/>
     
@@ -741,7 +923,7 @@
 <ul>
 <li><a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank" rel="external">维基百科</a> </li>
 <li><a href="http://baike.baidu.com/view/2311114.htm" target="_blank" rel="external">百度百科</a>  偶尔维基会被墙，那可以先看百度百科</li>
-<li><a href="https://jaycechant.github.io/2012/blog-with-markdown/">用Markdown写日志</a></li>
+<li><a href="https://jaycechant.github.io/2012/blog-with-markdown/" target="_blank" rel="external">用Markdown写日志</a></li>
 </ul>
 <p>简而言之，Markdown提供了一种 <strong>简便且易于理解的，内容与样式（或者叫格式）分离的编辑方式</strong> 。</p>
 <p>当你编辑内容时，只专注于内容。<br>外观通过样式定义实现。（不用担心，有大量现成的定义得非常漂亮的样式表）<br>而一旦需要改动样式，不过修改一下样式，或者换个样式表，无论文档有多长，都不需要逐一修改。</p>
@@ -838,11 +1020,11 @@
     </summary>
     
     
-      <category term="how-to" scheme="http://jaycechant.info/tags/how-to/"/>
-    
       <category term="nodePPT" scheme="http://jaycechant.info/tags/nodePPT/"/>
     
       <category term="node.js" scheme="http://jaycechant.info/tags/node-js/"/>
+    
+      <category term="how-to" scheme="http://jaycechant.info/tags/how-to/"/>
     
   </entry>
   
@@ -1413,9 +1595,9 @@
     
       <category term="how-to" scheme="http://jaycechant.info/tags/how-to/"/>
     
-      <category term="Markdown" scheme="http://jaycechant.info/tags/Markdown/"/>
-    
       <category term="blog" scheme="http://jaycechant.info/tags/blog/"/>
+    
+      <category term="Markdown" scheme="http://jaycechant.info/tags/Markdown/"/>
     
   </entry>
   

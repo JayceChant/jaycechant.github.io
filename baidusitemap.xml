@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://jaycechant.info/2016/skills-on-OJ/</loc>
+    <lastmod>2016-12-17T06:48:55.811Z</lastmod>
+    <data>
+        <display>
+        <title>刷OJ的技巧</title>
+        <pubTime>2016-12-09T01:35:03.000Z</pubTime>
+        
+        <tag>skill</tag>
+         
+        <tag>OJ</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
     <lastmod>2016-12-08T02:53:19.125Z</lastmod>
     <data>
@@ -28,9 +47,9 @@
         <title>博客迁移到了Hexo</title>
         <pubTime>2016-06-27T07:46:12.000Z</pubTime>
         
-        <tag>blog</tag>
-         
         <tag>node.js</tag>
+         
+        <tag>blog</tag>
          
         <tag>hexo</tag>
          
@@ -114,9 +133,9 @@
         <title>Introduction to MathJax & some samples</title>
         <pubTime>2016-06-21T10:04:01.000Z</pubTime>
         
-        <tag>how-to</tag>
-         
         <tag>nodePPT</tag>
+         
+        <tag>how-to</tag>
          
         <tag>Mathjax</tag>
          
@@ -135,11 +154,11 @@
         <title>nodePPT 简介及快速上手</title>
         <pubTime>2016-06-20T06:35:29.000Z</pubTime>
         
-        <tag>how-to</tag>
-         
         <tag>nodePPT</tag>
          
         <tag>node.js</tag>
+         
+        <tag>how-to</tag>
          
          
            
@@ -232,9 +251,9 @@
         
         <tag>how-to</tag>
          
-        <tag>Markdown</tag>
-         
         <tag>blog</tag>
+         
+        <tag>Markdown</tag>
          
          
            
