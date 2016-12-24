@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jaycechant.info/about/index.html</loc>
+    
+    <lastmod>2016-12-24T14:37:19.426Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jaycechant.info/2016/some-good-features-on-CentOS/</loc>
     
     <lastmod>2016-12-24T03:08:16.051Z</lastmod>
@@ -26,13 +33,6 @@
     <loc>http://jaycechant.info/2016/migrate-to-hexo/</loc>
     
     <lastmod>2016-11-08T09:37:36.076Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jaycechant.info/about/index.html</loc>
-    
-    <lastmod>2016-10-27T07:50:57.638Z</lastmod>
     
   </url>
   
