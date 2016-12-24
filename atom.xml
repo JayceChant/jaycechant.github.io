@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jaycechant.info/"/>
-  <updated>2016-12-18T13:16:25.953Z</updated>
+  <updated>2016-12-24T02:39:48.248Z</updated>
   <id>http://jaycechant.info/</id>
   
   <author>
@@ -14,6 +14,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CentOS 一些好用的特性</title>
+    <link href="http://jaycechant.info/2016/some-good-features-on-CentOS/"/>
+    <id>http://jaycechant.info/2016/some-good-features-on-CentOS/</id>
+    <published>2016-12-23T06:12:46.000Z</published>
+    <updated>2016-12-24T02:39:48.248Z</updated>
+    
+    <content type="html"><![CDATA[<p><em>本文纯属凑数水文，一为保持发博文习惯，二为重新配置了hexo之后发文测试，暂无干货，敬请回避</em></p>
+<a id="more"></a>
+<p>从 7.10 开始，Ubuntu 一直是我 Linux 系统的首选。大学里面出于学习需要，也一度接触过Redhat，但实在喜欢不起来。</p>
+<p>这是自然的，因为我一直的需求都是一台Desktop PC，偶尔做一些Linux环境下的开发练习，并非一个面向生产的Linux环境。好看、易用、乃至新奇有趣放在了第一位，作为从Windows的使用习惯过渡的用户，Ubuntu 很长一段时间里是最合适的。</p>
+<p>到了大学高年级，因为学习Web开发的需要，也搭建过一个CentOS的服务器，但仍然是非常不习惯，最后还是不了了之。</p>
+<hr>
+<p>可是到了工作之后，再折腾Linux，都是有比较明确的开发目的了。这时重新配置Ubuntu，开始感觉到一些不便。譬如说Ubuntu使用的工具不太稳定，在不同版本之间替换组件比较频繁；镜像需要手动选择，最多在选择的时候测试一次。在中国这样的网络环境下，镜像速度测试时效性非常短，我测得最快的镜像，波兰、德国慢地球飞，就是不在中国大陆；但真等到要下载，刚刚最快的那个镜像可能连不上了。</p>
+<p>最近为了搭一个试验环境，用来在正式的阿里云环境部署之前，在本地先练手。阿里云安装的是自带的Aliyun Linux，网上没找到下载。得知它基于RHEL，所以重新拿起了CentOS，结果发现非常顺手。</p>
+<p>第一个是 yum。yum 是 Redhat 系的包管理器，基于rpm，对应ubuntu 系的apt-get。幸福感的来源，是CentOS 7 上的yum 自带 fastestmirror 插件，每次下载，先自动跑一下判断最快的镜像，然后再下载，最大地保证了镜像测试的有效，下载速度非常快速。</p>
+<p>第二个是systemctl 取代了 init.d 让服务配置简化了许多。</p>
+<p>对于用ssh登录，不需要GUI的web server，果然Redhat 系更合适啊。</p>
+<p><a href="https://wiki.centos.org/PackageManagement/Yum/FastestMirror" target="_blank" rel="external">https://wiki.centos.org/PackageManagement/Yum/FastestMirror</a></p>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;em&gt;本文纯属凑数水文，一为保持发博文习惯，二为重新配置了hexo之后发文测试，暂无干货，敬请回避&lt;/em&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>刷OJ的技巧</title>
@@ -696,9 +728,9 @@
     </summary>
     
     
-      <category term="node.js" scheme="http://jaycechant.info/tags/node-js/"/>
-    
       <category term="blog" scheme="http://jaycechant.info/tags/blog/"/>
+    
+      <category term="node.js" scheme="http://jaycechant.info/tags/node-js/"/>
     
       <category term="hexo" scheme="http://jaycechant.info/tags/hexo/"/>
     
@@ -790,13 +822,13 @@
 <p>生成的MathML：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">math</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/1998/Math/MathML"</span> <span class="attr">display</span>=<span class="string">"block"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>x<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>=<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>(<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>−<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>b<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>+<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>−<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>s<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>q<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>r<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>t<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>(<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">msup</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mi</span>&gt;</span>b<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mn</span>&gt;</span>2<span class="tag">&lt;/<span class="name">mn</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">msup</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>–<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mn</span>&gt;</span>4<span class="tag">&lt;/<span class="name">mn</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>a<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>c<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>)<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>)<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mrow</span> <span class="attr">class</span>=<span class="string">"MJX-TeXAtom-ORD"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mo</span>&gt;</span>/<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">mrow</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>(<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mn</span>&gt;</span>2<span class="tag">&lt;/<span class="name">mn</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>a<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>)<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">math</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>我是在nodePPT里面尝试使用，所以再次按F12进入调试模式，看看 MathJax的加载配置：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;!-- MathJax --&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><span class="actionscript"></span></span></div><div class="line">  MathJax.Hub.Config(&#123;</div><div class="line">  config: [<span class="string">"TeX-AMS-MML_HTMLorMML.js"</span>],</div><div class="line">  tex2jax: &#123;inlineMath: [[<span class="string">'\\('</span>,<span class="string">'\\)'</span>]]&#125;&#125;);</div><div class="line">  <span class="comment">//['$','$'], 避免货币价格冲突</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"/js/mathjax/MathJax.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;!-- MathJax --&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><span class="javascript"></span></span></div><div class="line">  MathJax.Hub.Config(&#123;</div><div class="line">  <span class="attr">config</span>: [<span class="string">"TeX-AMS-MML_HTMLorMML.js"</span>],</div><div class="line">  <span class="attr">tex2jax</span>: &#123;<span class="attr">inlineMath</span>: [[<span class="string">'\\('</span>,<span class="string">'\\)'</span>]]&#125;&#125;);</div><div class="line">  <span class="comment">//['$','$'], 避免货币价格冲突</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"/js/mathjax/MathJax.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
 <p>大家可能看不习惯，我给翻译一下：</p>
 <p>这里配置并加载 MathJax.js，对应配置文件（”TeX-AMS-MML_HTMLorMML.js”）的意思是，加载 TeX + AMS拓展 + MathML，并且最终显示使用HTML+MathML</p>
 <p>嗯，没有AsciiMath</p>
 <hr>
 <p>最终，我们把配置改成这样</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;!-- MathJax --&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><span class="actionscript"></span></span></div><div class="line">  MathJax.Hub.Config(&#123;</div><div class="line">  config: [<span class="string">"TeX-MML-AM_HTMLorMML.js"</span>],</div><div class="line">  tex2jax: &#123;inlineMath: [[<span class="string">'\\('</span>,<span class="string">'\\)'</span>]]&#125;&#125;);</div><div class="line">  <span class="comment">//['$','$'], 避免货币价格冲突</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;!-- MathJax --&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><span class="javascript"></span></span></div><div class="line">  MathJax.Hub.Config(&#123;</div><div class="line">  <span class="attr">config</span>: [<span class="string">"TeX-MML-AM_HTMLorMML.js"</span>],</div><div class="line">  <span class="attr">tex2jax</span>: &#123;<span class="attr">inlineMath</span>: [[<span class="string">'\\('</span>,<span class="string">'\\)'</span>]]&#125;&#125;);</div><div class="line">  <span class="comment">//['$','$'], 避免货币价格冲突</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>翻译：加载 TeX + MathML + AsciiMath</p>
 <p>出于我也不知道的原因，并没有配置文件同时兼容 AMS拓展 和 AsciiMath</p>
 <p>与此同时，我查看了配置文件之后，发现</p>
@@ -828,7 +860,7 @@
 <h2 id="加载和配置"><a href="#加载和配置" class="headerlink" title="加载和配置"></a>加载和配置</h2><p>如果是在自己写的HTML里加载MathJax，官方推荐的做法是在 <code>&lt;head&gt;</code> 标签加入</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span> <span class="keyword">async</span></div><div class="line">  src=<span class="string">"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"</span>&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
 <p>不过如果使用 nodePPT， 它的模板已经帮你加载了</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;!-- MathJax --&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><span class="actionscript"></span></span></div><div class="line">  MathJax.Hub.Config(&#123;</div><div class="line">  config: [<span class="string">"TeX-AMS-MML_HTMLorMML.js"</span>],</div><div class="line">  tex2jax: &#123;inlineMath: [[<span class="string">'\\('</span>,<span class="string">'\\)'</span>]]&#125;&#125;);</div><div class="line">  <span class="comment">//['$','$'], 避免货币价格冲突</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"/js/mathjax/MathJax.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;!-- MathJax --&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><span class="javascript"></span></span></div><div class="line">  MathJax.Hub.Config(&#123;</div><div class="line">  <span class="attr">config</span>: [<span class="string">"TeX-AMS-MML_HTMLorMML.js"</span>],</div><div class="line">  <span class="attr">tex2jax</span>: &#123;<span class="attr">inlineMath</span>: [[<span class="string">'\\('</span>,<span class="string">'\\)'</span>]]&#125;&#125;);</div><div class="line">  <span class="comment">//['$','$'], 避免货币价格冲突</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"/js/mathjax/MathJax.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
 <h2 id="数学环境"><a href="#数学环境" class="headerlink" title="数学环境"></a>数学环境</h2><p>使用MathJax 的时候，需要一些标志，告诉MathJax 这段文本是公式代码，另外也要告诉它这是什么代码，在标志中间的部分，就叫做数学环境</p>
 <p>包括段模式(displayed) 和 行内(inline) 两种</p>
 <p>查看配置或者文档，我们会发现，LaTeX 的默认分隔符是</p>
@@ -899,9 +931,9 @@
     </summary>
     
     
-      <category term="nodePPT" scheme="http://jaycechant.info/tags/nodePPT/"/>
-    
       <category term="how-to" scheme="http://jaycechant.info/tags/how-to/"/>
+    
+      <category term="nodePPT" scheme="http://jaycechant.info/tags/nodePPT/"/>
     
       <category term="Mathjax" scheme="http://jaycechant.info/tags/Mathjax/"/>
     
@@ -1021,11 +1053,11 @@
     </summary>
     
     
+      <category term="how-to" scheme="http://jaycechant.info/tags/how-to/"/>
+    
       <category term="nodePPT" scheme="http://jaycechant.info/tags/nodePPT/"/>
     
       <category term="node.js" scheme="http://jaycechant.info/tags/node-js/"/>
-    
-      <category term="how-to" scheme="http://jaycechant.info/tags/how-to/"/>
     
   </entry>
   
@@ -1594,11 +1626,11 @@
     </summary>
     
     
+      <category term="Markdown" scheme="http://jaycechant.info/tags/Markdown/"/>
+    
       <category term="how-to" scheme="http://jaycechant.info/tags/how-to/"/>
     
       <category term="blog" scheme="http://jaycechant.info/tags/blog/"/>
-    
-      <category term="Markdown" scheme="http://jaycechant.info/tags/Markdown/"/>
     
   </entry>
   

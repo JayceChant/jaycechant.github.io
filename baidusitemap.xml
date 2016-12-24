@@ -4,6 +4,21 @@
 
     
   <url>
+    <loc>http://jaycechant.info/2016/some-good-features-on-CentOS/</loc>
+    <lastmod>2016-12-24T02:39:48.248Z</lastmod>
+    <data>
+        <display>
+        <title>CentOS 一些好用的特性</title>
+        <pubTime>2016-12-23T06:12:46.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jaycechant.info/2016/skills-on-OJ/</loc>
     <lastmod>2016-12-18T13:16:25.953Z</lastmod>
     <data>
@@ -47,9 +62,9 @@
         <title>博客迁移到了Hexo</title>
         <pubTime>2016-06-27T07:46:12.000Z</pubTime>
         
-        <tag>node.js</tag>
-         
         <tag>blog</tag>
+         
+        <tag>node.js</tag>
          
         <tag>hexo</tag>
          
@@ -133,9 +148,9 @@
         <title>Introduction to MathJax & some samples</title>
         <pubTime>2016-06-21T10:04:01.000Z</pubTime>
         
-        <tag>nodePPT</tag>
-         
         <tag>how-to</tag>
+         
+        <tag>nodePPT</tag>
          
         <tag>Mathjax</tag>
          
@@ -154,11 +169,11 @@
         <title>nodePPT 简介及快速上手</title>
         <pubTime>2016-06-20T06:35:29.000Z</pubTime>
         
+        <tag>how-to</tag>
+         
         <tag>nodePPT</tag>
          
         <tag>node.js</tag>
-         
-        <tag>how-to</tag>
          
          
            
@@ -249,11 +264,11 @@
         <title>用Markdown写日志</title>
         <pubTime>2012-04-10T08:39:00.000Z</pubTime>
         
+        <tag>Markdown</tag>
+         
         <tag>how-to</tag>
          
         <tag>blog</tag>
-         
-        <tag>Markdown</tag>
          
          
            
