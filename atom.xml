@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jaycechant.info/"/>
-  <updated>2017-01-04T14:07:52.030Z</updated>
+  <updated>2017-01-04T14:47:16.071Z</updated>
   <id>http://jaycechant.info/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://jaycechant.info/2017/why-you-should-document-with-Markdown/"/>
     <id>http://jaycechant.info/2017/why-you-should-document-with-Markdown/</id>
     <published>2017-01-04T04:13:27.000Z</published>
-    <updated>2017-01-04T14:07:52.030Z</updated>
+    <updated>2017-01-04T14:47:16.071Z</updated>
     
     <content type="html"><![CDATA[<p>我已经不记得这是第几次向人安利 Markdown 了。</p>
 <p>就在这个博客里就发过一篇<a href="../../2012/blog-with-markdown/">《用Markdown写日志》</a>。</p>
@@ -122,8 +122,8 @@
 <p>人能够阅读的数据形式，以及自述的数据，将比所有其他数据形式和创建它们的应用都活得更长久。</p>
 </blockquote>
 <p>只要数据还存在，你就有可能使用它。哪怕是创建它的程序不在的时候：有可能是这个程序过时已久；也有可能这个程序刚好在这台电脑，或者你的手机上没有。</p>
-<p>记事本打开 .doc</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">dl丮螂玹秙<span class="string">"?!cKD骼y怟―H?C_</span></div><div class="line">?侓???纎G?.瑼0c嵙螋?x?</div></pre></td></tr></table></figure>
+<p>记事本打开 .doc （<em>原本是直接贴了两行乱码在这里，但是因为会引起博客的feed解析错误，改为截图</em>）</p>
+<p><img src="/images/mass-code-of-doc.png" alt=""></p>
 <p>记事本打开 Markdown</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section">#### 保证不过时</span></div><div class="line"></div><div class="line"><span class="quote">&gt; 人能够阅读的数据形式，以及自述的数据，将比所有其他的数据形式和创建它们的应用都活得更长久。</span></div></pre></td></tr></table></figure>
 <p>第一个是我用记事本打开word之后任意选了两行。基本上一个二进制文件没有对应格式的编辑器是，勉强打开都是这样的乱码。</p>
@@ -339,13 +339,11 @@
     </summary>
     
     
-      <category term="Android" scheme="http://jaycechant.info/tags/Android/"/>
-    
-      <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
-    
       <category term="pip" scheme="http://jaycechant.info/tags/pip/"/>
     
       <category term="ubuntu" scheme="http://jaycechant.info/tags/ubuntu/"/>
+    
+      <category term="Android" scheme="http://jaycechant.info/tags/Android/"/>
     
       <category term="mirror" scheme="http://jaycechant.info/tags/mirror/"/>
     
@@ -354,6 +352,8 @@
       <category term="npm" scheme="http://jaycechant.info/tags/npm/"/>
     
       <category term="maven" scheme="http://jaycechant.info/tags/maven/"/>
+    
+      <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
     
   </entry>
   
@@ -881,9 +881,9 @@
     </summary>
     
     
-      <category term="tips" scheme="http://jaycechant.info/tags/tips/"/>
-    
       <category term="Syncthing" scheme="http://jaycechant.info/tags/Syncthing/"/>
+    
+      <category term="tips" scheme="http://jaycechant.info/tags/tips/"/>
     
       <category term="dropbox" scheme="http://jaycechant.info/tags/dropbox/"/>
     
@@ -1391,9 +1391,9 @@
     
       <category term="how-to" scheme="http://jaycechant.info/tags/how-to/"/>
     
-      <category term="nodePPT" scheme="http://jaycechant.info/tags/nodePPT/"/>
-    
       <category term="Mathjax" scheme="http://jaycechant.info/tags/Mathjax/"/>
+    
+      <category term="nodePPT" scheme="http://jaycechant.info/tags/nodePPT/"/>
     
   </entry>
   

@@ -3,6 +3,27 @@
 
 
     
+  <url>
+    <loc>http://jaycechant.info/2017/why-you-should-document-with-Markdown/</loc>
+    <lastmod>2017-01-04T14:47:16.071Z</lastmod>
+    <data>
+        <display>
+        <title>为什么你应该用 Markdown 写文档？</title>
+        <pubTime>2017-01-04T04:13:27.000Z</pubTime>
+        
+        <tag>Markdown</tag>
+         
+        <tag>document</tag>
+         
+        <tag>presentation</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
     
   <url>
     <loc>http://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
@@ -15,27 +36,6 @@
         <tag>algorithm</tag>
          
         <tag>practice</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jaycechant.info/2017/why-you-should-document-with-Markdown/</loc>
-    <lastmod>2017-01-04T14:07:52.030Z</lastmod>
-    <data>
-        <display>
-        <title>为什么你应该用 Markdown 写文档？</title>
-        <pubTime>2017-01-04T04:13:27.000Z</pubTime>
-        
-        <tag>Markdown</tag>
-         
-        <tag>document</tag>
-         
-        <tag>presentation</tag>
          
          
            
@@ -68,13 +68,11 @@
         <title>镜像集合</title>
         <pubTime>2016-12-31T02:29:12.000Z</pubTime>
         
-        <tag>Android</tag>
-         
-        <tag>Jenkins</tag>
-         
         <tag>pip</tag>
          
         <tag>ubuntu</tag>
+         
+        <tag>Android</tag>
          
         <tag>mirror</tag>
          
@@ -83,6 +81,8 @@
         <tag>npm</tag>
          
         <tag>maven</tag>
+         
+        <tag>Jenkins</tag>
          
          
            
@@ -291,9 +291,9 @@
         
         <tag>how-to</tag>
          
-        <tag>nodePPT</tag>
-         
         <tag>Mathjax</tag>
+         
+        <tag>nodePPT</tag>
          
          
            
@@ -310,9 +310,9 @@
         <title>用Syncthing备份的一些技巧</title>
         <pubTime>2016-08-28T07:57:03.000Z</pubTime>
         
-        <tag>tips</tag>
-         
         <tag>Syncthing</tag>
+         
+        <tag>tips</tag>
          
         <tag>dropbox</tag>
          
