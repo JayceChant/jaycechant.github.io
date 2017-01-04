@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jaycechant.info/"/>
-  <updated>2016-12-24T03:08:16.051Z</updated>
+  <updated>2017-01-04T14:07:52.030Z</updated>
   <id>http://jaycechant.info/</id>
   
   <author>
@@ -14,6 +14,434 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>为什么你应该用 Markdown 写文档？</title>
+    <link href="http://jaycechant.info/2017/why-you-should-document-with-Markdown/"/>
+    <id>http://jaycechant.info/2017/why-you-should-document-with-Markdown/</id>
+    <published>2017-01-04T04:13:27.000Z</published>
+    <updated>2017-01-04T14:07:52.030Z</updated>
+    
+    <content type="html"><![CDATA[<p>我已经不记得这是第几次向人安利 Markdown 了。</p>
+<p>就在这个博客里就发过一篇<a href="../../2012/blog-with-markdown/">《用Markdown写日志》</a>。</p>
+<p>但基于以下的理由，我还是决定重新写一篇：</p>
+<ol>
+<li>当初写的重点在HOW-TO，理由部分写得一塌糊涂；而这次我不打算讨论语法，重点谈为什么。</li>
+<li>当初重点在写日志；而这次想讨论用Markdown串起所有文档的可能性。</li>
+<li>四年过去了，整个环境有了一些变化，像Typora、nodePPT 和 Marp 这些工具的出现，让Markdown有了更多的可能，更加易用。Typora甚至到了让我写字时有幸福感的高度。</li>
+</ol>
+<a id="more"></a>
+<p><em>这份Markdown文件同时输出 这篇博客 和 一份演示文稿，有些地方为了迁就演示，有些排版和语气会不像博客。</em></p>
+<h1 id="一、为什么要写文档？"><a href="#一、为什么要写文档？" class="headerlink" title="一、为什么要写文档？"></a>一、为什么要写文档？</h1><h2 id="一个问题"><a href="#一个问题" class="headerlink" title="一个问题"></a>一个问题</h2><p>==成熟的企业== 跟 <strong>初创企业</strong> ，差别在哪</p>
+<ul>
+<li>设备？</li>
+<li>钱？</li>
+<li>人？</li>
+<li>…</li>
+</ul>
+<p>那一个 ==领域专家== 跟 <strong>一个新手</strong>，差别在哪？</p>
+<blockquote>
+<p>知识资产（Knowledge assets）</p>
+<p>是指企业拥有或控制的、不具有独立实物形态、对生产和服务长期发挥作用并能带来经济效益的知识。</p>
+</blockquote>
+<p>又叫智力资产。这个解释来自MBA智库。因为MBA关注商业管理，这个是相对狭义的定义，其实个人，还有社会，都有他的知识资产。</p>
+<h2 id="知识资产（智力资产）"><a href="#知识资产（智力资产）" class="headerlink" title="知识资产（智力资产）"></a>知识资产（智力资产）</h2><ul>
+<li>人力资产</li>
+<li>市场资产</li>
+<li>知识产权资产</li>
+<li>基础结构资产<ul>
+<li>管理哲学 、 企业文化</li>
+<li>IT系统 、 财务结构</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+<p>除了人力资产以人员、市场资产主要以品牌美誉度 和 企业关系 的方式存在，剩下的知识资产 都以某种形式的资料，主要是文件、文档的方式存在、传播 和 传承。</p>
+<p>PMP（Project Management Professional）讲 『组织过程资产』，就是讲 项目组织在实践中形成自己独特的过程资产，构成组织的核心竞争力。</p>
+<h2 id="知识管理-amp-信息管理-amp-文档管理"><a href="#知识管理-amp-信息管理-amp-文档管理" class="headerlink" title="知识管理 &amp; 信息管理 &amp; 文档管理"></a>知识管理 &amp; 信息管理 &amp; 文档管理</h2><ul>
+<li>Wikipedia</li>
+<li>Atlassian Confluence</li>
+<li>MindManager</li>
+</ul>
+<p>这三个词范围交叉但又不完全一样。准确说，前面的范围大，越往后越具体，作为前面的开展手段。</p>
+<p>上面列的也只是某一方面的工具，我们不深入展开。</p>
+<p>那么『管理』过程中，我们对文档有哪些操作：</p>
+<p><img src="/images/document-management.png" alt=""></p>
+<p>这些是文档管理中我们一般要面对的操作。</p>
+<p>其中没有加粗部分，可能要借助其他工具：<br>归档和检索需要文件系统的支持，譬如WIN7以后引入的库的概念。审批需要OA系统的导入。销毁需要一些安全软件擦写硬盘数据，等等，这些我们有机会再具体讨论。</p>
+<p>加粗部分才是我想重点讨论的。</p>
+<h2 id="一些烦恼"><a href="#一些烦恼" class="headerlink" title="一些烦恼"></a>一些烦恼</h2><ul>
+<li>记录：如何做到随时随地记录？</li>
+<li>编辑：缺乏好用的编辑工具；思路总是被打断。</li>
+<li>发布：不同场景、不同用途需要不同的格式，明明差不多的内容，却整天要返工。</li>
+<li>演示：做PPT / KeyNote 吃力不讨好。</li>
+<li>版本追踪：<ul>
+<li>非程序员：『版本追踪』是什么？</li>
+<li>程序员：文档还要做版本追踪？/ 我们已经做了。</li>
+</ul>
+</li>
+</ul>
+<p>首先，记录，为了保持记录的完整性有效性，以及减少事后整理的负担，应该尽可能及时地随时随地地记录。这涉及到工具的便利性，跨平台，甚至覆盖移动端，在手机上也有，还有打开速度等，尽量减少使用负担。</p>
+<p>而事实上，很多人嫌记录麻烦，记录文档变成了一种很痛苦的例行公事，只有在任务要求时，事后回忆甚至编造一些记录应付了事。譬如说月度总结，譬如说没有commit message，事后补上。</p>
+<p>编辑里面好的工具很重要，但还有一个，就是内容和格式同时编辑，也会引起思路的打断。</p>
+<p>演示上面，一个是已有的文档不能简单地转换成演示文稿；另一个是，容易在一些花俏的细节上（例如动画）花过多精力，但最终的效果也不好。</p>
+<p>版本管理 程序员一般是知道的。目前我们多数用SVN，后面有机会跟大家分享一下Git的使用。我们现在的产品文档是已经用SVN管理起来，但严格来说，没有得到很好的管理，因为你没办法像代码一样diff两个版本。因为多数文档是二进制文件，你必须两个版本都获取下来，分别打开用肉眼判断，这是很低效而且容易犯错的。</p>
+<p>说完高大上的概念，说说我个人的体会。</p>
+<p>我高中的时候，曾经问过为什么要写注释和文档的蠢话。那是因为小时候写的东西都太简单了。<br>而工作这几年，我发现无论当时多么刻骨铭心的坑，通过多个宵，你最终都会忘记，只有写下来的才是你的、你的团队的。<br>我觉得最可惜的事情，就是因为三星的安保政策，有很多东西我没有记下来。所以一定要有方便的工具，让你保持随时记录的习惯。</p>
+<h1 id="二、为什么是Markdown？"><a href="#二、为什么是Markdown？" class="headerlink" title="二、为什么是Markdown？"></a>二、为什么是Markdown？</h1><h2 id="2-1-纯文本的威力"><a href="#2-1-纯文本的威力" class="headerlink" title="2.1 纯文本的威力"></a>2.1 纯文本的威力</h2><p><em>*这个章节的标题及部分内容引用自 《The Pragmatic Programmer》——Andrew Hunt &amp; David Thomas</em></p>
+<h3 id="什么是纯文本"><a href="#什么是纯文本" class="headerlink" title="什么是纯文本"></a>什么是纯文本</h3><ul>
+<li><p>plain text (.txt)</p>
+</li>
+<li><p>Initialization file (.ini), Properties, YAML, JavaScript Object Notation (.json)</p>
+</li>
+<li><p>eXtensive Markup Language (.xml), HyperText Markup Language (.html)</p>
+</li>
+<li><p>各种wiki (.wiki)</p>
+</li>
+<li><p>Markdown (.md), reStructuredText (.rst)</p>
+</li>
+<li><p>…</p>
+</li>
+</ul>
+<blockquote>
+<p>==纯文本== 由可打印字符组成，人可以直接阅读和理解其形式。</p>
+</blockquote>
+<p>举例，尽管以下内容是可打印字符，却没有意义：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">Field19</span>=<span class="number">467</span>abe</div></pre></td></tr></table></figure>
+<p>更好的选择，是让其变得能让人理解：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">DrawingType</span>=UMLActivityDrawing</div></pre></td></tr></table></figure>
+<p>关键在于定义的后半句：<br>不仅可以直接不借助任何特殊工具查看。而且是人（脱离特定上下文）也比较容易理解的。</p>
+<p>当你在那个项目当中时，你可能会觉得Field19我知道是什么，那个数字我也能理解。但是上线一年后再回来维护呢？一个新来的同事去看呢？</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>纯文本有两个主要的缺点：</p>
+<ol>
+<li>跟压缩的二进制格式相比，纯文本需要占据更多空间</li>
+<li>解析处理纯文本，可能需要更多的运算</li>
+</ol>
+<p>在某些场景下，这两个缺点是无法容忍的，譬如说数据库储存的关系数据。但随着存储空间和运算能力变得越来越廉价，这点缺点跟以下优点比起来可能是微不足道的。</p>
+<h3 id="文本的威力"><a href="#文本的威力" class="headerlink" title="文本的威力"></a>文本的威力</h3><h4 id="保证不过时"><a href="#保证不过时" class="headerlink" title="保证不过时"></a>保证不过时</h4><blockquote>
+<p>人能够阅读的数据形式，以及自述的数据，将比所有其他数据形式和创建它们的应用都活得更长久。</p>
+</blockquote>
+<p>只要数据还存在，你就有可能使用它。哪怕是创建它的程序不在的时候：有可能是这个程序过时已久；也有可能这个程序刚好在这台电脑，或者你的手机上没有。</p>
+<p>记事本打开 .doc</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">dl丮螂玹秙<span class="string">"?!cKD骼y怟―H?C_</span></div><div class="line">?侓???纎G?.瑼0c嵙螋?x?</div></pre></td></tr></table></figure>
+<p>记事本打开 Markdown</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section">#### 保证不过时</span></div><div class="line"></div><div class="line"><span class="quote">&gt; 人能够阅读的数据形式，以及自述的数据，将比所有其他的数据形式和创建它们的应用都活得更长久。</span></div></pre></td></tr></table></figure>
+<p>第一个是我用记事本打开word之后任意选了两行。基本上一个二进制文件没有对应格式的编辑器是，勉强打开都是这样的乱码。</p>
+<p>第二个是这一页的内容。完全是纯文本（用的标签是Markdown）。当碰巧你的电脑或者手机有安装解析软件，你当然可以看到上半页看到的效果（分别是 二号标题，段落引用）。但即使你没有这样的工具，甚至完全不懂Markdown标签，我想这段文字也完全不影响理解。</p>
+<h4 id="杠杆作用"><a href="#杠杆作用" class="headerlink" title="杠杆作用"></a>杠杆作用</h4><blockquote>
+<p>提供锋利的『小工具』，各自专注做好一件事。</p>
+<p>当系统崩溃时，你可能需要最小环境恢复。</p>
+</blockquote>
+<ul>
+<li>shell 工具 (diff, awk, sed, grep …)</li>
+<li>最大公约数</li>
+<li>版本管理</li>
+</ul>
+<p>第一句话是 Unix的设计哲学，这个哲学基于一个公共的底层格式：面向行的纯文本文件 实现。每个工具专注做好一件事，然后通过 管道(pipe) 和 纯文本文件 互相打通，变成无所不能的shell脚本。</p>
+<p>第二句话是说，假如系统崩溃，有些功能可能用不了，譬如图形界面。（其实不用系统崩溃，通过shell远程连接就已经是了）这个时候，纯文本的优点就出来了。</p>
+<p>在不同的系统、不同的环境、基于网络的异构通信、自行协商的数据交换。如果需要确保各方能用一个公共标准通信，纯文本就是标准（所以我们看到XML，json的流行）</p>
+<p>最后基于纯文本的版本管理，你可以追踪每个版本的修改，这才是真正的版本管理。</p>
+<p>所谓的杠杆作用是指，当一个标准可以串联起一系列工具，那么它就成为了一个支点，允许你用比较小的力气，完成复杂的工作。</p>
+<h2 id="2-2-内容-与-样式-的分离"><a href="#2-2-内容-与-样式-的分离" class="headerlink" title="2.2 内容 与 样式 的分离"></a>2.2 内容 与 样式 的分离</h2><h3 id="两顶帽子"><a href="#两顶帽子" class="headerlink" title="两顶帽子"></a>两顶帽子</h3><blockquote>
+<p>有两顶帽子，但同时只戴其中一顶：</p>
+<p>在修改内容时，戴上作者的帽子，不要理会显示的样式；</p>
+<p>当内容完成，修改样式时，戴上读者的帽子，不要改动内容。</p>
+</blockquote>
+<p>两顶帽子的原则来自面向对象编程。有接口的两顶帽子、重构的两顶帽子，等等。</p>
+<p>强调的是每次关注改变的其中一个方面，隔离互相影响的变化。同时改变多个方面容易犯错，或者打乱思路。</p>
+<p>受Word等软件的影响，大家似乎已经把 内容编排 和 样式 混在一起了<br>我举个例子：<br>这一段的标题是一个二级标题，上面这段话，是一段引用；这是内容编排。</p>
+<p>具体二级标题、引用文字 应该怎么显示，这是样式。</p>
+<p>这是不同的东西：内容在编辑完之后，就相对固定下来了；而样式会因应不同的场景，不同的用途，不同的读者，有不同的需求。</p>
+<p>像我现在做演示文稿是一种需要，同样的内容发布到博客是一种需要。演示需要的字号肯定大很多。</p>
+<p>甚至我换一个演示环境，投影仪的对比度比显示器低，我又要改动对比度。</p>
+<p>他们变化的频率是不一样的，应该隔离开来。样式往往到最后根据场景来定。</p>
+<h3 id="Write-Once-Export-Everywhere"><a href="#Write-Once-Export-Everywhere" class="headerlink" title="Write Once, Export Everywhere"></a>Write Once, Export Everywhere</h3><p>Java 当年宣传，号称Write Once, Run everywhere。今天借用一下。</p>
+<p>Markdown不仅作为纯文本，在最坏的情况下都能被记事本打开。而且由于它有大量的工具支持，可以转换为各种场景下的文档。</p>
+<ul>
+<li>pandoc(Typora, Smark)： HTML, Word, PDF, LaTeX, Epub…</li>
+<li>Marp ： PDF 演示文稿 </li>
+<li>nodeppt ： HTML5 演示文稿 （特效比Marp炫）</li>
+<li>hexo ： 静态博客</li>
+</ul>
+<p>pandoc是一个命令行工具，你当然可以敲命令使用；不过方便起见，我会推荐使用一个前端工具，首推Typora。</p>
+<h3 id="代码高亮-和-数学环境"><a href="#代码高亮-和-数学环境" class="headerlink" title="代码高亮 和 数学环境"></a>代码高亮 和 数学环境</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"Hello world!"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><br></p>
+<p>$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</p>
+<p>这两点，一般人可能没什么需求，但是数学工作者和程序员是很需要的。</p>
+<p>以前每次用PPT，往上面贴代码的体验非常差。首先默认的字体一般不是编程用的等宽字体，要手动改。还有tab和空格的对齐，就足够折腾了。还要高亮就只能手动选中改颜色了。</p>
+<p>但这里，只要把代码贴上去，高亮是自动完成的。</p>
+<p>因为以前讲算法，偶尔有数学推导。Office倒是有公式编辑器，但是很难用，而且修改也不容易。</p>
+<p>而这里，只要用Mathjax写公式就可以了。</p>
+<p>Mathjax语法相当地直观，这里不详细展开，有需要的话，可以看我之前写的一篇文章：</p>
+<p><a href="http://jaycechant.info/2016/intro-to-mathjax/">Introduction to MathJax &amp; some samples</a></p>
+<h2 id="2-3-为什么是Markdown？"><a href="#2-3-为什么是Markdown？" class="headerlink" title="2.3 为什么是Markdown？"></a>2.3 为什么是Markdown？</h2><p>再问一次这个问题。</p>
+<p>因为我上面介绍的，最多是解释了为什么用纯文本。还有一般的纯文本功能太弱，所以我们需要标记语言。</p>
+<p>但是没有解释为什么在众多标记语言里，非得是Markdown？</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Markdown</th>
+<th>rst</th>
+<th>HTML</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>标签</td>
+<td>约十几种</td>
+<td>约十几种</td>
+<td>HTML4.1 共89个标签</td>
+</tr>
+<tr>
+<td>标签读写</td>
+<td>不解析也能理解读写</td>
+<td>大部分不解析也能理解</td>
+<td>需要层次嵌套和严谨闭合，复杂冗余</td>
+</tr>
+<tr>
+<td>表达能力</td>
+<td>仅覆盖常用格式，较弱；但可以直接写HTML补充，并有较多第三方增强（Mathjx，代码高亮）</td>
+<td>支持格式比标准Markdown稍多</td>
+<td>最强，整个互联网基本都是构建在HTML之上，前两者多数情况也是转换成HTML</td>
+</tr>
+<tr>
+<td>工具支持</td>
+<td>Github等代码托管，各大云笔记</td>
+<td>不明</td>
+<td>多数工具以HTML实现，但不提供直接编辑</td>
+</tr>
+<tr>
+<td>格式支持</td>
+<td>通过pandoc，能直接或间接导出几乎所有文档格式，且有较多编辑器前端可选</td>
+<td>通过pandoc，能直接或间接导出几乎所有文档格式</td>
+<td>能转成word、PDF等格式，但不能替换样式</td>
+</tr>
+<tr>
+<td>总结</td>
+<td>简单，但可拓展性强，支持广泛，工具多且开发活跃。</td>
+<td>比Markdown稍复杂和强大，但热度不如Markdown，工具少很多。</td>
+<td>严谨精确，适合浏览器解析，不方便一般人读写。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="一些栗子"><a href="#一些栗子" class="headerlink" title="一些栗子"></a>一些栗子</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="section">## 一些栗子 &lt;!-- 二级标题 --&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>糖炒栗子</li>
+<li>水煮栗子</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="bullet">* </span>糖炒栗子</div><div class="line"><span class="bullet">* </span>水煮栗子</div></pre></td></tr></table></figure>
+<p><a href="http://zh.wikipedia.org/wiki/Markdown" target="_blank" rel="external">维基词条</a></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="string">维基词条</span>](<span class="link">http://zh.wikipedia.org/wiki/Markdown</span>)</div></pre></td></tr></table></figure>
+<h2 id="更多参考"><a href="#更多参考" class="headerlink" title="更多参考"></a>更多参考</h2><p>这次主要是介绍概念，教程不是重点，更多用法技巧：</p>
+<ul>
+<li><a href="http://jaycechant.info/2012/blog-with-markdown/">用Markdown写日志</a> </li>
+<li><a href="http://daringfireball.net/projects/markdown/syntax" target="_blank" rel="external">Markdown语法官方版</a></li>
+</ul>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p><s>这个演示文稿完全就是使用Markdown写成，使用<a href="https://yhatt.github.io/marp/" target="_blank" rel="external">Marp</a>输出。</s></p>
+<p>稍作调整后，我还可以导出博客文章、以及其他格式的文档。（这是调整后输出的博客文章）</p>
+<p>不过，如果你细心对比博客文章和演示文稿，你会发现演示文稿上少了很多内容，而这些内容就是我的讲稿。那是不是我发博客时，还要修改很多内容呢？</p>
+<p>其实不是的，我把讲稿以注释的形式直接写在了演示文稿里，我讲的时候就是对着注释讲的。</p>
+<p>等我发表博客时，不过把注释符 和 分页符 删掉而已，就是一个查找替换的事。</p>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;我已经不记得这是第几次向人安利 Markdown 了。&lt;/p&gt;
+&lt;p&gt;就在这个博客里就发过一篇&lt;a href=&quot;../../2012/blog-with-markdown/&quot;&gt;《用Markdown写日志》&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;但基于以下的理由，我还是决定重新写一篇：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;当初写的重点在HOW-TO，理由部分写得一塌糊涂；而这次我不打算讨论语法，重点谈为什么。&lt;/li&gt;
+&lt;li&gt;当初重点在写日志；而这次想讨论用Markdown串起所有文档的可能性。&lt;/li&gt;
+&lt;li&gt;四年过去了，整个环境有了一些变化，像Typora、nodePPT 和 Marp 这些工具的出现，让Markdown有了更多的可能，更加易用。Typora甚至到了让我写字时有幸福感的高度。&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+    
+      <category term="Markdown" scheme="http://jaycechant.info/tags/Markdown/"/>
+    
+      <category term="document" scheme="http://jaycechant.info/tags/document/"/>
+    
+      <category term="presentation" scheme="http://jaycechant.info/tags/presentation/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>镜像集合</title>
+    <link href="http://jaycechant.info/2016/mirrors-collection/"/>
+    <id>http://jaycechant.info/2016/mirrors-collection/</id>
+    <published>2016-12-31T02:29:12.000Z</published>
+    <updated>2017-01-02T08:46:23.845Z</updated>
+    
+    <content type="html"><![CDATA[<p>在中国做开发者，殊为不易。技术创新多发源欧美，尤其开源的工具；国内巨头现在渐渐有些贡献，不过很多东西还是要取自国外。</p>
+<p>好不容易跨过语言关，结果发现还有一道高墙。要么是各种原因被GFW连坐（例如各种Google的服务），要么纯粹因为太远不稳定。以前还能说先用工具慢慢下载到本地安装；现在网络越来越快，所以都流行在线安装，光连得上还不行，太慢也会timeout。国外开发者秒下无感的事情，我们这里可以折腾几天。</p>
+<p>解决办法就是镜像了。所以现在配置开发环境，第一步是安装工具，第二步马上就是配置镜像，然后才能好好地下载依赖。所以自己整理一个常用的镜像集合，方便每次配置环境时翻查。</p>
+<a id="more"></a>
+<p><em>只列我在用或者用过的，没有也不必要把全部列上，旧的不行换新的再更新</em></p>
+<h1 id="Ubuntu-软件源"><a href="#Ubuntu-软件源" class="headerlink" title="Ubuntu 软件源"></a>Ubuntu 软件源</h1><p>目前使用163的源：<a href="http://mirrors.163.com/.help/ubuntu.html" target="_blank" rel="external">http://mirrors.163.com/.help/ubuntu.html</a></p>
+<p>里面已经有比较详细的说明，挑选对应的发行版本下载就好。以14.04 (trusty) 为例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">~$ <span class="built_in">cd</span> /etc/apt/</div><div class="line">/etc/apt$ wget http://mirrors.163.com/.help/sources.list.trusty</div><div class="line">/etc/apt$ mv sources.list sources.list.bak</div><div class="line">/etc/apt$ mv sources.list.trusty sources.list</div><div class="line">/ect/apt$ apt-get update</div></pre></td></tr></table></figure>
+<p>使用阿里云服务器的，可以考虑用阿里云的镜像：<a href="http://mirrors.aliyun.com/help/ubuntu" target="_blank" rel="external">http://mirrors.aliyun.com/help/ubuntu</a></p>
+<p>将镜像的地址从 <a href="http://mirrors.aliyun.com" target="_blank" rel="external">http://mirrors.aliyun.com</a> 改为 <a href="http://mirrors.aliyuncs.com" target="_blank" rel="external">http://mirrors.aliyuncs.com</a> 可以走内网流量。</p>
+<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><p>推荐淘宝NPM镜像：<a href="https://npm.taobao.org/" target="_blank" rel="external">https://npm.taobao.org/</a></p>
+<p>因为除了镜像，他们还提供了定制的cnpm代替npm：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g cnpm --registry=https://registry.npm.taobao.org</div></pre></td></tr></table></figure>
+<p>除了敲命令时前面多个c，用法上跟npm没有任何差别。详情可以看官方的说明。</p>
+<h1 id="Maven-repository"><a href="#Maven-repository" class="headerlink" title="Maven repository"></a>Maven repository</h1><p>Maven仓库推荐阿里云的中央库：<a href="http://maven.aliyun.com/nexus/" target="_blank" rel="external">http://maven.aliyun.com/nexus/</a></p>
+<p>一般的做法是修改Maven的settings.xml：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">mirrors</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>aliyun<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>aliyun maven<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span>        </div><div class="line">  <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">mirrors</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>settings.xml 有两个，分别在：</p>
+<ul>
+<li>$M2_HOME/conf/settings.xml ：全局设置，在maven的安装目录。Windows为 %M2_HOME%，一般要手动设置。</li>
+<li>~/.m2/settings.xml ：用户设置，需要自己添加。Linux就是用户目录，Windows一般在 <code>C:\Users\YourName</code>。</li>
+</ul>
+<p>两个文件如果同时存在，会融合成一个文件；同时存在的设置项，以用户设置为准。</p>
+<hr>
+<h2 id="在pom设置repository"><a href="#在pom设置repository" class="headerlink" title="在pom设置repository"></a>在pom设置repository</h2><p>但我基本不单独执行<code>mvn</code>，都是在Eclipse里引用，不知道为什么明明在Eclipse设置了settings.xml的位置，但还是不起作用（依然访问官方库）；另外，多人协作的项目，每个人都设置一次镜像也是一个麻烦。</p>
+<p>这时最好的办法，就是在项目的pom.xml 设置一下repository：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">repositories</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">repository</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">id</span>&gt;</span>aliyun-repos<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>Aliyun Repository<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">repository</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">pluginRepositories</span>&gt;</span> </div><div class="line">	<span class="tag">&lt;<span class="name">pluginRepository</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">id</span>&gt;</span>aliyun-repos<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>Aliyun Repository<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">pluginRepository</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">pluginRepositories</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>优先级上，项目的设置会覆盖用户的设置。pom是项目文件的一部分，会一起被提交和拉取，项目导入的时候直接就是到镜像去取依赖了。</p>
+<h1 id="pip"><a href="#pip" class="headerlink" title="pip"></a>pip</h1><p>网上都在推荐豆瓣的源：<a href="http://www.jianshu.com/p/785bb1f4700d" target="_blank" rel="external">http://www.jianshu.com/p/785bb1f4700d</a></p>
+<p>临时使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install ModuleName -i https://pypi.douban.com/simple</div></pre></td></tr></table></figure>
+<ul>
+<li>使用https安全是没有问题的。但如果碰上https连不上，就要加<code>--trusted-host</code>。</li>
+<li>虽然修改了软件源，但<code>pip search</code>命令还是不能用，因为搜索软件使用的协议与安装软件不同。<code>pip search</code>基于xmlrpclib实现，<code>pip install</code>基于urllib2实现。同样地，对<code>pip search</code>设置代理，也是不起作用的。</li>
+</ul>
+<p>想长久生效，就要修改配置文件：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="section">[global]</span></div><div class="line"><span class="attr">index-url</span> = https://pypi.douban.com/simple</div></pre></td></tr></table></figure>
+<p>配置文件的位置，Linux应该是在用户目录下的 <code>~/.pip/pip.conf</code>，如果不存在可以自己创建，pip会默认从这个文件读取配置。Windows的配置可以参考 <a href="http://blog.csdn.net/styshoo/article/details/52865373" target="_blank" rel="external">http://blog.csdn.net/styshoo/article/details/52865373</a> ，跟Linux类似，不过有好几个地方，可以echo系统参数，看哪个存在。</p>
+<h1 id="Android-SDK"><a href="#Android-SDK" class="headerlink" title="Android SDK"></a>Android SDK</h1><p><a href="http://www.androiddevtools.cn/" target="_blank" rel="external">AndroidDevTools</a> 上提供的镜像，我都试过，除了Bugly其他都不稳定或者根本连不上（所在地是广州）。因为Bugly要登录，本不想那么麻烦也没有办法了。不过只要用QQ号登录就好，这个估计谁都有。</p>
+<p>详细的用法在上面有介绍：<a href="https://dsx.bugly.qq.com/repository/1" target="_blank" rel="external">https://dsx.bugly.qq.com/repository/1</a></p>
+<p>简单说就是把</p>
+<pre><code>域名 : id.repository.bugly.qq.com
+端口 : 80
+</code></pre><p>填到SDK Manager 的proxy设置里。登录之后每个人有自己的id。</p>
+<h1 id="Jenkins-plugins"><a href="#Jenkins-plugins" class="headerlink" title="Jenkins plugins"></a>Jenkins plugins</h1><p><a href="http://mirrors.jenkins-ci.org/status.html" target="_blank" rel="external">镜像列表</a></p>
+<p>我人肉ping测试了一下速度，感觉 <a href="http://mirror.esuni.jp" target="_blank" rel="external">http://mirror.esuni.jp</a> 速度还可以，所以就用了这个。</p>
+<p>把</p>
+<p><a href="http://mirror.esuni.jp/jenkins/updates/update-center.json" target="_blank" rel="external">http://mirror.esuni.jp/jenkins/updates/update-center.json</a></p>
+<p>填到 Jenkins &gt; 插件管理 &gt; 高级 &gt; 升级站点 即可。</p>
+<p>偶尔还是有安装失败，这时只好手动下载插件之后上传了。</p>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在中国做开发者，殊为不易。技术创新多发源欧美，尤其开源的工具；国内巨头现在渐渐有些贡献，不过很多东西还是要取自国外。&lt;/p&gt;
+&lt;p&gt;好不容易跨过语言关，结果发现还有一道高墙。要么是各种原因被GFW连坐（例如各种Google的服务），要么纯粹因为太远不稳定。以前还能说先用工具慢慢下载到本地安装；现在网络越来越快，所以都流行在线安装，光连得上还不行，太慢也会timeout。国外开发者秒下无感的事情，我们这里可以折腾几天。&lt;/p&gt;
+&lt;p&gt;解决办法就是镜像了。所以现在配置开发环境，第一步是安装工具，第二步马上就是配置镜像，然后才能好好地下载依赖。所以自己整理一个常用的镜像集合，方便每次配置环境时翻查。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Android" scheme="http://jaycechant.info/tags/Android/"/>
+    
+      <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
+    
+      <category term="pip" scheme="http://jaycechant.info/tags/pip/"/>
+    
+      <category term="ubuntu" scheme="http://jaycechant.info/tags/ubuntu/"/>
+    
+      <category term="mirror" scheme="http://jaycechant.info/tags/mirror/"/>
+    
+      <category term="aliyun" scheme="http://jaycechant.info/tags/aliyun/"/>
+    
+      <category term="npm" scheme="http://jaycechant.info/tags/npm/"/>
+    
+      <category term="maven" scheme="http://jaycechant.info/tags/maven/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vsftp 503 和 500 错误</title>
+    <link href="http://jaycechant.info/2016/vsftp-error-503-and-500/"/>
+    <id>http://jaycechant.info/2016/vsftp-error-503-and-500/</id>
+    <published>2016-12-29T02:53:19.000Z</published>
+    <updated>2017-01-02T08:46:23.844Z</updated>
+    
+    <content type="html"><![CDATA[<p>想在远程服务器上装一些东西，在yum或者apt源里的自然很容易，但那以外的，shell + wget 总是有许多不便（有些下载需要登录，有些需要梯子……服务器上又希望尽量少不必要的东西），何况偶尔需要和本地交换一些东西，FTP是必要的。之前在 CentOS 7 上相当顺利，这次在Ubuntu 14.04上却不太顺利。</p>
+<a id="more"></a>
+<h1 id="503"><a href="#503" class="headerlink" title="503"></a>503</h1><p>安装，然后创建了一个用户叫vsftp，设置一个相对简单的密码，禁止匿名登录。</p>
+<p>然后在本地用ftp客户端登录：</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">命令:	USER vsftp</div><div class="line">响应:	<span class="number">331</span> Please specify the password.</div><div class="line">命令:	PASS *****</div><div class="line">响应:	<span class="number">530</span> Login incorrect.</div></pre></td></tr></table></figure>
+<p>照例放Google，结果搜到一堆解决方法，众说纷纭，不禁让我疑惑中间一部分是碰运气，根本不知道原因，因为我是在Ubuntu上有问题，结果找到这么一个讨论：<a href="http://askubuntu.com/questions/413677/vsftpd-530-login-incorrect" target="_blank" rel="external">http://askubuntu.com/questions/413677/vsftpd-530-login-incorrect</a></p>
+<p>提问者的情况跟我完全一致，而最高票的答案（将pam_service_name 从 vsftp 改为 ftp）也多次出现在各个搜索结果里，看来是可以解决问题的。不过我留了个心眼，继续看底下的评论：</p>
+<blockquote>
+<p>You are disabling default access control via PAM, because default “ftp” has no rules. The default <code>pam_service_name=vsftp</code> uses the file <code>/etc/pam.d/vsftpd</code>. This file by default requires FTP users to have a shell listed in <code>/etc/shells</code> and requires them <strong>not</strong> to be listed in <code>/etc/ftpusers</code>.</p>
+</blockquote>
+<p>一看，果然如此，pam.d/ 下只有vsftp的配置，你改名当然绕过了，但是就失去保护了。</p>
+<p>查看 <code>/et/ftpusers</code>，vsftp 并没有在里面。再查看 <code>/etc/passwd</code>，vsftp 没有指定shell。于是我就将它的shell指定为<code>/usr/sbin/nologin</code> （不允许真正登录shell操作），并且添加到 <code>/etc/shells</code>。再试，却又报了另一个错误。</p>
+<h1 id="500"><a href="#500" class="headerlink" title="500"></a>500</h1><figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">命令:	USER vsftp</div><div class="line">响应:	<span class="number">331</span> Please specify the password.</div><div class="line">命令:	PASS *****</div><div class="line">响应:	<span class="number">500</span> OOPS: cannot change directory:/home/vsftp</div></pre></td></tr></table></figure>
+<p>又是先放Google，又是一堆众说纷纭。然后这个回答提醒了我：<a href="http://blog.arithm.com/2009/06/15/defeating-vsftp-error-500-oops-cannot-change-directorysomedirectory/" target="_blank" rel="external">http://blog.arithm.com/2009/06/15/defeating-vsftp-error-500-oops-cannot-change-directorysomedirectory/</a></p>
+<p>简单说就是：你搞那么多幺蛾子之前，有先最基本的检查一下目录的权限吗？</p>
+<p>一看，目录根本还没创建 T_T 。因为vsftp 不能执行shell，所以用sudo 给它创建了目录，在chown 给 vsftp。</p>
+<p>这回FTP客户端真的可以登录了。</p>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;想在远程服务器上装一些东西，在yum或者apt源里的自然很容易，但那以外的，shell + wget 总是有许多不便（有些下载需要登录，有些需要梯子……服务器上又希望尽量少不必要的东西），何况偶尔需要和本地交换一些东西，FTP是必要的。之前在 CentOS 7 上相当顺利，这次在Ubuntu 14.04上却不太顺利。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="ubuntu" scheme="http://jaycechant.info/tags/ubuntu/"/>
+    
+      <category term="vsftp" scheme="http://jaycechant.info/tags/vsftp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>升级 pip 时的一个坑</title>
+    <link href="http://jaycechant.info/2016/trap-while-upgrading-pip/"/>
+    <id>http://jaycechant.info/2016/trap-while-upgrading-pip/</id>
+    <published>2016-12-29T02:50:03.000Z</published>
+    <updated>2017-01-02T08:46:23.842Z</updated>
+    
+    <content type="html"><![CDATA[<p>升级 pip 过程中踩了个坑。其实之前也升级过不过很巧合绕过去了。这次踩到做个记录。</p>
+<a id="more"></a>
+<p>事情是这样的，我需要写一个爬虫，所以就安装了bs4（喔，漂亮的肥皂）。然后安装后pip提示我新版本出来了。作为一个『不更新不舒服斯基』，我顺手就 <code>pip install --upgrade pip</code> 了。其实它提示的命令是 <code>python -m pip install --upgrade pip</code> 的，但在Scripts加入了系统路径的情况下（比较新的版本，安装的时候自动就帮你添加了）， 直接pip 不是一样吗。然后就出现了下面这样的情况。</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="function">C:\<span class="title">Users</span>\<span class="title">JayceChant</span>&gt;<span class="title">pip</span> <span class="title">install</span> <span class="title">beautifulsoup4</span></span></div><div class="line"><span class="title">Collecting</span> <span class="title">beautifulsoup4</span></div><div class="line">  <span class="title">Downloading</span> <span class="title">beautifulsoup4</span>-4.5.1-<span class="title">py3</span>-<span class="title">none</span>-<span class="title">any.whl</span> (83<span class="title">kB</span>)</div><div class="line">    100% |████████████████████████████████| 92<span class="title">kB</span> 93<span class="title">kB</span>/<span class="title">s</span></div><div class="line"><span class="title">Installing</span> <span class="title">collected</span> <span class="title">packages</span>: <span class="title">beautifulsoup4</span></div><div class="line"><span class="title">Successfully</span> <span class="title">installed</span> <span class="title">beautifulsoup4</span>-4.5.1</div><div class="line"><span class="title">You</span> <span class="title">are</span> <span class="title">using</span> <span class="title">pip</span> <span class="title">version</span> 8.1.1, <span class="title">however</span> <span class="title">version</span> 9.0.1 <span class="title">is</span> <span class="title">available</span>.</div><div class="line"><span class="title">You</span> <span class="title">should</span> <span class="title">consider</span> <span class="title">upgrading</span> <span class="title">via</span> <span class="title">the</span> '<span class="title">python</span> -<span class="title">m</span> <span class="title">pip</span> <span class="title">install</span> --<span class="title">upgrade</span> <span class="title">pip</span>' <span class="title">command</span>.</div><div class="line"></div><div class="line"><span class="title">C</span>:\<span class="title">Users</span>\<span class="title">JayceChant</span>&gt;<span class="title">pip</span> <span class="title">install</span> --<span class="title">upgrade</span> <span class="title">pip</span></div><div class="line"><span class="title">Collecting</span> <span class="title">pip</span></div><div class="line">  <span class="title">Downloading</span> <span class="title">pip</span>-9.0.1-<span class="title">py2.py3</span>-<span class="title">none</span>-<span class="title">any.whl</span> (1.3<span class="title">MB</span>)</div><div class="line">    100% |████████████████████████████████| 1.3<span class="title">MB</span> 6.4<span class="title">kB</span>/<span class="title">s</span></div><div class="line"><span class="title">Installing</span> <span class="title">collected</span> <span class="title">packages</span>: <span class="title">pip</span></div><div class="line">  <span class="title">Found</span> <span class="title">existing</span> <span class="title">installation</span>: <span class="title">pip</span> 8.1.1</div><div class="line">    <span class="title">Uninstalling</span> <span class="title">pip</span>-8.1.1:</div><div class="line"><span class="title">Exception</span>:</div><div class="line"><span class="title">Traceback</span> (<span class="title">most</span> <span class="title">recent</span> <span class="title">call</span> <span class="title">last</span>):</div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">shutil.py</span>", <span class="title">line</span> 538, <span class="title">in</span> <span class="title">move</span></div><div class="line">    <span class="title">os.rename</span>(<span class="title">src</span>, <span class="title">real_dst</span>)</div><div class="line"><span class="title">OSError</span>: [<span class="title">WinError</span> 17] 系统无法将文件移到不同的磁盘驱动器。: '<span class="title">d</span>:\\<span class="title">dev</span>\\<span class="title">python35</span>\\<span class="title">scripts</span>\\<span class="title">pip.exe</span>' -&gt; '<span class="title">C</span>:\\<span class="title">Users</span>\\<span class="title">JAYCEC</span>~1\\<span class="title">AppData</span>\\<span class="title">Local</span>\\<span class="title">Temp</span>\\<span class="title">pip</span>-<span class="title">wgmxmz1x</span>-<span class="title">u</span></div><div class="line"><span class="title">ninstall</span>\\<span class="title">dev</span>\\<span class="title">python35</span>\\<span class="title">scripts</span>\\<span class="title">pip.exe</span>'</div><div class="line"></div><div class="line"><span class="title">During</span> <span class="title">handling</span> <span class="title">of</span> <span class="title">the</span> <span class="title">above</span> <span class="title">exception</span>, <span class="title">another</span> <span class="title">exception</span> <span class="title">occurred</span>:</div><div class="line"></div><div class="line"><span class="title">Traceback</span> (<span class="title">most</span> <span class="title">recent</span> <span class="title">call</span> <span class="title">last</span>):</div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">basecommand.py</span>", <span class="title">line</span> 209, <span class="title">in</span> <span class="title">main</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">commands</span>\<span class="title">install.py</span>", <span class="title">line</span> 317, <span class="title">in</span> <span class="title">run</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">req</span>\<span class="title">req_set.py</span>", <span class="title">line</span> 726, <span class="title">in</span> <span class="title">install</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">req</span>\<span class="title">req_install.py</span>", <span class="title">line</span> 746, <span class="title">in</span> <span class="title">uninstall</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">req</span>\<span class="title">req_uninstall.py</span>", <span class="title">line</span> 115, <span class="title">in</span> <span class="title">remove</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">utils</span>\<span class="title">__init__.py</span>", <span class="title">line</span> 267, <span class="title">in</span> <span class="title">renames</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">shutil.py</span>", <span class="title">line</span> 553, <span class="title">in</span> <span class="title">move</span></div><div class="line">    <span class="title">os.unlink</span>(<span class="title">src</span>)</div><div class="line"><span class="title">PermissionError</span>: [<span class="title">WinError</span> 5] 拒绝访问。: '<span class="title">d</span>:\\<span class="title">dev</span>\\<span class="title">python35</span>\\<span class="title">scripts</span>\\<span class="title">pip.exe</span>'</div><div class="line"></div><div class="line"><span class="title">C</span>:\<span class="title">Users</span>\<span class="title">JayceChant</span>&gt;<span class="title">pip</span> <span class="title">install</span> --<span class="title">upgrade</span> <span class="title">pip</span></div><div class="line"><span class="title">Traceback</span> (<span class="title">most</span> <span class="title">recent</span> <span class="title">call</span> <span class="title">last</span>):</div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">runpy.py</span>", <span class="title">line</span> 184, <span class="title">in</span> <span class="title">_run_module_as_main</span></div><div class="line">    "<span class="title">__main__</span>", <span class="title">mod_spec</span>)</div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">runpy.py</span>", <span class="title">line</span> 85, <span class="title">in</span> <span class="title">_run_code</span></div><div class="line">    <span class="title">exec</span>(<span class="title">code</span>, <span class="title">run_globals</span>)</div><div class="line">  <span class="title">File</span> "<span class="title">D</span>:\<span class="title">Dev</span>\<span class="title">Python35</span>\<span class="title">Scripts</span>\<span class="title">pip.exe</span>\<span class="title">__main__.py</span>", <span class="title">line</span> 5, <span class="title">in</span> &lt;<span class="title">module</span>&gt;</div><div class="line"><span class="title">ImportError</span>: <span class="title">No</span> <span class="title">module</span> <span class="title">named</span> '<span class="title">pip</span>'</div></pre></td></tr></table></figure>
+<p>翻译一下：</p>
+<ol>
+<li>因为 pip.exe 正在运行，所以无法将新的pip.exe覆盖上去</li>
+<li>因为没权限，另外一个错误产生了</li>
+<li>升级失败想再来一次？不好意思，旧版本已经卸载了，根本找不到</li>
+</ol>
+<p>我去，直接蒙圈了，就随手更新一下，直接就把pip弄没了。我还得手动安装一次pip？虽然不难，但折腾啊。</p>
+<p>Google一下，发现有人提供issue了：<a href="https://github.com/pypa/pip/issues/3804" target="_blank" rel="external">https://github.com/pypa/pip/issues/3804</a></p>
+<p>我把关键的信息搬运一下（大意汇总 + 翻译，不一一对应）：</p>
+<blockquote>
+<p>pip.exe 正在运行，所以无法替换对应的文件，与其说是错误，不如说是系统限制。</p>
+<p>以系统管理员运行，用 python -m pip install –upgrade pip 更新就可以了。</p>
+</blockquote>
+<p>（pip.exe 实际上指向pip-script.py，然后里面再加载pip模块并运行，实际效果就跟 <code>python -m pip install --upgrade pip</code> 一样。但不一样的是，前者运行锁定了pip.exe，而后者实际上只运行了 python.exe。）</p>
+<p>然后什么都没做，这个issue就作为<a href="https://github.com/pypa/pip/issues/1299" target="_blank" rel="external">https://github.com/pypa/pip/issues/1299</a> 的 duplicated issue 被 closed了。</p>
+<p>有兴趣可以看1299下面的讨论，太长我就不翻了。</p>
+<p>还好还有 easy_install，<code>easy_install pip</code>，恢复正常。</p>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;升级 pip 过程中踩了个坑。其实之前也升级过不过很巧合绕过去了。这次踩到做个记录。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="http://jaycechant.info/tags/Python/"/>
+    
+      <category term="pip" scheme="http://jaycechant.info/tags/pip/"/>
+    
+  </entry>
   
   <entry>
     <title>CentOS 一些好用的特性</title>
@@ -234,7 +662,7 @@
     <link href="http://jaycechant.info/2016/solution-report-start-from-an-easy-problem/"/>
     <id>http://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</id>
     <published>2016-11-08T09:40:20.000Z</published>
-    <updated>2016-12-08T02:53:19.125Z</updated>
+    <updated>2017-01-04T14:09:57.269Z</updated>
     
     <content type="html"><![CDATA[<p>昨天碰到有人跟我讨论一道水题，勾起了解题的念头。题目固然不难，但也有值得讨论之处。姑且以它的解题报告，开个写解题报告的头。</p>
 <a id="more"></a>
@@ -342,6 +770,8 @@
     
       <category term="algorithm" scheme="http://jaycechant.info/tags/algorithm/"/>
     
+      <category term="practice" scheme="http://jaycechant.info/tags/practice/"/>
+    
   </entry>
   
   <entry>
@@ -349,7 +779,7 @@
     <link href="http://jaycechant.info/2016/python-function-and-class-alias/"/>
     <id>http://jaycechant.info/2016/python-function-and-class-alias/</id>
     <published>2016-10-07T12:44:58.000Z</published>
-    <updated>2016-10-21T12:57:26.166Z</updated>
+    <updated>2016-10-28T12:56:51.873Z</updated>
     
     <content type="html"><![CDATA[<p>简单的一个小测试的记录，但因为我习惯记录前因后果，写得有点啰嗦。</p>
 <a id="more"></a>
@@ -399,7 +829,7 @@
     <link href="http://jaycechant.info/2016/backup-tips-about-syncthing/"/>
     <id>http://jaycechant.info/2016/backup-tips-about-syncthing/</id>
     <published>2016-08-28T07:57:03.000Z</published>
-    <updated>2016-09-08T07:45:42.101Z</updated>
+    <updated>2016-09-11T06:32:53.884Z</updated>
     
     <content type="html"><![CDATA[<p>出于对国内网盘服务的 防黑技术、职业操守 以及 对于 看不见的手的 不信任，我以前一直用dropbox。</p>
 <p>后来dropbox被墙了，我就科学地继续用。再后来墙升级了，我也忙起来没空研究新科学了，也就慢慢不怎么登陆dropbox。然后就转用一些国内的服务，当然只放无关痛痒的东西，重要信息只好手机里加密随身带。（这时还发现了一个国内网盘的新坑点：风一来谁都凑热闹做，风一走一个一个都嚷嚷着停止服务……）</p>
@@ -466,13 +896,22 @@
     <link href="http://jaycechant.info/2016/python-multi-env-for-win/"/>
     <id>http://jaycechant.info/2016/python-multi-env-for-win/</id>
     <published>2016-07-12T07:21:27.000Z</published>
-    <updated>2016-09-08T09:47:02.101Z</updated>
+    <updated>2017-01-02T08:46:23.841Z</updated>
     
-    <content type="html"><![CDATA[<p>高中第一次听说Python，第一次写大概在大三到大四之间。毕业后成为了一个Android码农，Python不是主力语言，但零零星星写过一些顺手的小东西，而且主要在公司。</p>
-<p>家里的电脑本来就用得不多，还经历了多次重装。旧电脑全格了，从Win+Linux双系统变成了Linux专用；新电脑经历了升Win10之后几次系统崩溃C盘重置，后来又从32改64。</p>
-<p>结果D盘的东西虽然还在，但是各种配置乱得不行。譬如说这会要写Python，各种配置都要重新弄。反正都好几年前装的，干脆重新安装配置一遍。</p>
+    <content type="html"><![CDATA[<p>高中开始听说Python，大概大三到大四之间尝试动手写。毕业后成为了一个Android码农，Python不是主力语言，零零星星写过一些顺手的小东西，而且主要在公司。</p>
+<p>家里电脑本来就用得不多，还经历了多次重装。旧电脑全格了，从Win+Linux双系统变成了Linux专用；新电脑经历了升Win10之后几次系统崩溃C盘重置，后来又从32改64。</p>
+<p>D盘的东西虽然还在，但各种配置乱得不行。这会要写Python，各种配置都要重新弄。反正都好几年前装的，干脆重新安装配置一遍。</p>
 <p>不看不知道，果然很多东西都变了。</p>
 <a id="more"></a>
+<hr>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>正文写得很零碎，这里给个结论：</p>
+<ul>
+<li>如果你有同时用2、3的需求，分别安装2 和 3的最新版本（2.5这种古董还是别碰，焦头烂额），然后通过在代码开头写Shebang指定用哪个解析器执行。</li>
+<li>包管理用pip。作为Python包管理的事实标准，流行的包都会注册到pip。你知道包名之后，要用不过是一句 <code>pip install 包名</code>。</li>
+<li>如果更进一步，你的不同项目之间要依赖不同版本的包，用virtualenv 来管理你的包。</li>
+<li>虽然Python用Notepad++ 写然后执行完全没有问题，但即使老司机也有大意的时候，新手更应该培养良好的编程规范，<a href="https://www.jetbrains.com/pycharm/download/" target="_blank" rel="external">PyCharm</a> 是个不错的选择，特别是Community版本免费，对于绝大多数人而言都是够用的了。</li>
+</ul>
+<hr>
 <p>四年前写过<a href="/2012/make-python-2x-coexist-with-3x-on-Win/">一篇文章</a>记录当时Win上配置Python2+3，现在看做法各种过时。譬如说2011年才发起的pip在当年我还不知道，现在已经成为了包管理器的事实标准。</p>
 <h1 id="pip"><a href="#pip" class="headerlink" title="pip"></a>pip</h1><p>四年间不怎么关注Python的消息，居然也大概知道pip。然后查了一下目前主流的包管理器的对比，发现<a href="http://zengrong.net/post/2169.htm" target="_blank" rel="external">《Python 包管理工具解惑》</a> 写得比较好。</p>
 <p>不看不知道，包管理相关的工具已经有这么多！</p>
@@ -491,12 +930,13 @@
 <p>这之后</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">$ python --version</div><div class="line">Python 2.7.6</div><div class="line">$ python3 --version</div><div class="line">Python 3.4.3</div><div class="line">$ pip --version</div><div class="line">pip 1.5.4 from /usr/lib/python2.7/dist-packages (python 2.7)</div><div class="line">$ pip2 --version</div><div class="line">pip 1.5.4 from /usr/lib/python2.7/dist-packages (python 2.7)</div><div class="line">$ pip3 --version</div><div class="line">pip 1.5.4 from /usr/lib/python3.4/dist-packages (python 3.4)</div></pre></td></tr></table></figure>
 <p>Ubuntu 自带的pip版本太旧，要升级一下</p>
+<p><em>warning</em> : 如果是在Windows升级，请使用 <code>python -m pip</code>，原因详见 <a href="../trap-while-upgrading-pip/">《升级 pip 时的一个坑》</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ pip install --upgrade pip</div><div class="line">$ pip3 install --upgrade pip</div><div class="line">$ pip --version</div><div class="line">pip 1.5.4 from /usr/lib/python2.7/dist-packages (python 2.7)</div><div class="line">$ pip2 --version</div><div class="line">pip 8.1.2 from /usr/<span class="built_in">local</span>/lib/python2.7/dist-packages (python 2.7)</div><div class="line">$ pip3 --version</div><div class="line">pip 8.1.2 from /usr/<span class="built_in">local</span>/lib/python3.4/dist-packages (python 3.4)</div></pre></td></tr></table></figure>
 <p>这里就让我疑惑了，为什么唯独<code>pip</code>没有生效呢？我把PATH输出来</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">echo</span> <span class="variable">$PATH</span></div><div class="line">/usr/<span class="built_in">local</span>/sbin:/usr/<span class="built_in">local</span>/bin:/usr/sbin:/usr/bin:...</div></pre></td></tr></table></figure>
 <p>确实是local的在前面。而且我看了这三个名字的script，内容都是一样的。不过我还没搞清楚原因，第二天开机，就都变成8.1.2了。原因大概能猜到一二，但除非重头折腾，已经无法验证了。如果有大牛知道详细原因，欢迎留言告知。</p>
 <p>看到这里，相信大家已经懂得，分别用 <code>python</code> V.S. <code>python3</code>，以及 <code>pip</code> 或 <code>pip2</code> V.S. <code>pip3</code>  就可以调用对应的版本了。</p>
-<p>果安装了更多的版本，譬如不止一个Python2，有2.5 和 2.7，那么还可以更具体地区分pip，那就是直接 <code>pip-2.5</code> VS <code>pip2.7</code>。（pip某个版本以前，规则是pip-<ver>，之后变成了pip<ver>。支持2.5的都是老版本，所以带有横杠。详情可以查看 <code>/usr/local/bin</code> 里都有哪些文件。）</ver></ver></p>
+<p>果安装了更多的版本，譬如不止一个Python2，有2.5 和 2.7，那么还可以更具体地区分pip，那就是直接 <code>pip-2.5</code> VS <code>pip2.7</code>。（pip某个版本以前，规则是<code>pip-&lt;ver&gt;</code>，之后变成了<code>pip&lt;ver&gt;</code>。支持2.5的都是老版本，所以带有横杠。详情可以查看 <code>/usr/local/bin</code> 里都有哪些文件。）</p>
 <p>这是在bash执行 <code>python xx.py</code> 的情况，那如果是直接给执行权限当脚本跑呢？ 写shebang！在脚本开头写</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#! /usr/bin/python</span></div></pre></td></tr></table></figure>
 <p>或</p>
@@ -526,12 +966,13 @@
 <p>本质上，<code>py.exe</code> 只是接收了第一个参数，然后查找参数对应的版本的 <code>python.exe</code>，然后把剩下的参数转给它。同样在 <code>C:\Windows\</code>下另外还有一个 <code>pyw.exe</code> 对应 <code>pythonw.exe</code>。</p>
 <p>不过每次都要指定也太烦了，每次运行前都要先想想这是哪个版本的代码，这个其实不是在写的时候已经决定好了吗？跟Linux类似地，还是写shebang。</p>
 <h3 id="Shebang-指定"><a href="#Shebang-指定" class="headerlink" title="Shebang 指定"></a>Shebang 指定</h3><p>个人认为Windows 下面的，严格来说应该不算shebang，只是模仿了这种形式。毕竟在Linux下，shebang所以是写给shell解析的，而这里其实是给 py.exe 解析的。  </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#! python2</span></div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!python2</span></div></pre></td></tr></table></figure>
 <p>或</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#! python3</span></div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!python3</span></div></pre></td></tr></table></figure>
 <p>如果我们写的是跨平台的代码，Windows和Linux都要跑呢？这种伪shebang  在 Linux并不被接受。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bash: ./test_shebang.py: python3: 解释器错误: 没有那个文件或目录</div></pre></td></tr></table></figure>
 <p>很简单，两边都写Linux风的shebang就好了。即使Windows下并不存在 <code>/usr/bin/python3</code> 这么个东西，一样可以运行。（所以才说它是个伪shebang，其实只是给py 解析的参数而已）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/python3</span></div></pre></td></tr></table></figure>
 <h3 id="双击执行"><a href="#双击执行" class="headerlink" title="双击执行"></a>双击执行</h3><p>双击执行当然没办法给 <code>-2</code> 这样的参数，所以要在代码里面写上shebang。</p>
 <p>同时为了让它生效，必须确认 <code>.py</code> 文件关联的是 <code>py.exe</code>，而不是某个版本的 <code>python.exe</code>。<br>对着某个 <code>.py</code> 文件，右键查看属性 -&gt; 打开方式，确认一下。<br>如果最后安装的是Python3.3 以上的版本，貌似会自动给关联 <code>py.exe</code>。不过不是也没关系，自己改过来就好。</p>
 <p>类似的，如果是GUI程序，可以把后缀改为 <code>.pyw</code>，同时关联 <code>pyw.exe</code>。<br>嗯……其实区别只是，<code>pyw.exe</code> 会将调用转给 <code>pythonw.exe</code>，跟 <code>python.exe</code> 相比，运行时不会显示命令行黑窗 （因为有GUI给你看嘛，还看什么小黑窗）。调试的时候，可以临时把文件名改为 <code>.py</code> 看输出。<br>不过，个人更推荐使用 <code>logging</code> 输出详细的调试信息。</p>
@@ -575,9 +1016,9 @@
     
     <summary type="html">
     
-      &lt;p&gt;高中第一次听说Python，第一次写大概在大三到大四之间。毕业后成为了一个Android码农，Python不是主力语言，但零零星星写过一些顺手的小东西，而且主要在公司。&lt;/p&gt;
-&lt;p&gt;家里的电脑本来就用得不多，还经历了多次重装。旧电脑全格了，从Win+Linux双系统变成了Linux专用；新电脑经历了升Win10之后几次系统崩溃C盘重置，后来又从32改64。&lt;/p&gt;
-&lt;p&gt;结果D盘的东西虽然还在，但是各种配置乱得不行。譬如说这会要写Python，各种配置都要重新弄。反正都好几年前装的，干脆重新安装配置一遍。&lt;/p&gt;
+      &lt;p&gt;高中开始听说Python，大概大三到大四之间尝试动手写。毕业后成为了一个Android码农，Python不是主力语言，零零星星写过一些顺手的小东西，而且主要在公司。&lt;/p&gt;
+&lt;p&gt;家里电脑本来就用得不多，还经历了多次重装。旧电脑全格了，从Win+Linux双系统变成了Linux专用；新电脑经历了升Win10之后几次系统崩溃C盘重置，后来又从32改64。&lt;/p&gt;
+&lt;p&gt;D盘的东西虽然还在，但各种配置乱得不行。这会要写Python，各种配置都要重新弄。反正都好几年前装的，干脆重新安装配置一遍。&lt;/p&gt;
 &lt;p&gt;不看不知道，果然很多东西都变了。&lt;/p&gt;
     
     </summary>
@@ -592,22 +1033,23 @@
   </entry>
   
   <entry>
-    <title>博客迁移到了Hexo</title>
+    <title>博客迁移到了Hexo（附折腾记录）</title>
     <link href="http://jaycechant.info/2016/migrate-to-hexo/"/>
     <id>http://jaycechant.info/2016/migrate-to-hexo/</id>
     <published>2016-06-27T07:46:12.000Z</published>
-    <updated>2016-11-08T09:37:36.076Z</updated>
+    <updated>2017-01-02T08:46:23.823Z</updated>
     
-    <content type="html"><![CDATA[<p>四年沉寂，重新出发，将博客从Octopress 迁移到了 Hexo</p>
+    <content type="html"><![CDATA[<p>四年沉寂，重新出发，将博客从Octopress 迁移到了 Hexo。</p>
+<p>记录下迁移的过程，以及Hexo的坑点。</p>
 <a id="more"></a>
 <hr>
-<h1 id="源起"><a href="#源起" class="headerlink" title="源起"></a>源起</h1><p>大四临近毕业的时候，发现了Octopress，并且兴匆匆地建了自己的博客。</p>
-<p>然而没写两篇文章，一入职，就忙起来了，从入职培训，到后来项目赶着上市时不停的加班……</p>
-<p>我本来也是比较懈惰的人，加之公司安保极严，在公司的成果无法带出，加班之余便再无更新，以至荒废。</p>
+<h1 id="源起"><a href="#源起" class="headerlink" title="源起"></a>源起</h1><p>大学临近毕业的时候，发现了Octopress，就兴冲冲用Github pages建了自己的博客。</p>
+<p>还没写两篇文章，一入职，就忙起来了，从入职培训，到后来项目赶着上市时不停的加班……</p>
+<p>我本就是懈惰的人，加之公司安保极严，在公司的成果无法带出，加班之余便再无更新，以至荒废。</p>
 <p>眨眼四年过去，工作内容渐渐从新鲜有趣变成了单调重复，也觉得自己不适合通信硬件行业（软件岗，但是围绕硬件开发OS），心一横，裸辞了。美其名曰，在家充电。</p>
-<p>这四年里，深深体会到，留下文字记录的重要性。软件这行，涉及知识之多，更新之快，以我等凡人，哪怕自己踩过的坑，当时再刻骨铭心，事后回忆根本记不得细节，半天最多拼凑出一点线头，乱扯一通。这便多了许多无用功。</p>
-<p>所以在家面壁的第一件事，就是博客重开。如果说当年年少naive，存有一点虚荣，希望写文能得到关注；那么现在纯粹是为自己做个记录。至于有没有别人看，倒是一点不重要了。</p>
-<p>就像我还在公司时，偶尔折腾一些新鲜且实用的技术做分享，最终发现感兴趣的人寥寥无几 —— 一些人觉得跟他业务无关，一些人觉得这太难懂，一些人觉得这太显浅……</p>
+<p>四年里深深体会到留下文字记录的重要性。软件这行，涉及知识之多，更新之快，以我等凡人，哪怕自己踩过的坑，当时再刻骨铭心，事后回忆根本记不得细节，半天最多拼凑出一点线头，乱扯一通，平白多了许多无用功。</p>
+<p>在家面壁的第一件事，就是博客重开。如果说当年年少naive，存有一点虚荣，希望写文能得到关注；那么现在纯粹是为自己做个记录。至于有没有别人看，倒是一点不重要了。</p>
+<p>像我还在公司时，偶尔折腾一些新鲜且实用的技术做分享，最终发现感兴趣的人寥寥无几 —— 一些人觉得跟他业务无关，一些人觉得这太难懂，一些人觉得这太显浅……</p>
 <p><strong>以后关于技术上的经历，尽量事无巨细在此记录；在老东家闲时研究的一些跟商业秘密无关的东西，我也会尽量回忆出来整理在此。</strong></p>
 <h1 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h1><p>四年里面，笔记本已经换过了。重新翻出Octopress ，实际上已经不能跑了，还得重新配置一遍。想当初有些gem需要Devkit编译，又麻烦又慢，坑不是一般的多。关键当初记录这些坑的博文还没写完……</p>
 <p>这种情况下，发现了Hexo。</p>
@@ -619,17 +1061,18 @@
 <li>Node.js</li>
 <li>Git</li>
 </ul>
-<p>关于Node.js 的安装，我前面一篇关于 <code>nodePPT</code> 的文章有介绍，不再赘述。Git 的话我也想整理一些文字，不过在那之前，网上相关的信息也非常多，应该很好解决。</p>
+<p>关于Node.js 的安装，我前面一篇关于 <code>nodePPT</code> 的<a href="../intro-to-nodeppt/">文章</a>有介绍，不再赘述。Git 的话我也想整理一些文字，不过在那之前，网上相关的信息也非常多，应该很好解决。</p>
 <p>有了这两个东西之后，安装Hexo无非就是一行命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g hexo-cli</div></pre></td></tr></table></figure>
-<p>其实，这些内容，甚至包括Git 和 Node.js 的安装，<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">官方文档</a>都有简要提及，甚至连从Octopress 迁移都有对应说明。所以官方文档有提到的我都不说了。后面主要记录一下遇到 / 我觉得可能有人会遇到 的坑，以及补充官方文档不够详尽 / 显眼之处。</p>
+<p>其实，这些内容，甚至包括Git 和 Node.js 的安装，<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">官方文档</a>都有简要提及，甚至连从Octopress 迁移都有对应说明。所以官方文档有提到的我都不说了。hexo 初始化之后会自动生成一篇以 <strong>hello world</strong> 为题的文章，我把它挪到了<a href="../../pages/hello-world/">这里</a> ，大家可以参考一下。后面主要记录一下遇到 / 我觉得可能有人会遇到 的坑，以及补充官方文档不够详尽 / 显眼之处。</p>
+<p><strong>Updated:</strong> 以下安装插件的代码，都要在执行过<code>hexo init</code> 的博客目录下执行一遍。原因参考下面『在其他电脑配置已有的博客』章节。</p>
 <h2 id="任意目录运行hexo"><a href="#任意目录运行hexo" class="headerlink" title="任意目录运行hexo"></a>任意目录运行hexo</h2><p>概述页面的评论有人问，成功安装之后，报这个错误</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">‘hexo’不是内部或者外部命令，也不是可运行的程序或批处理文件</div></pre></td></tr></table></figure>
-<p>明眼人一看就知道是path环境变量的问题，解决办法就是把node的安装目录加入环境变量。如果这样都还不知道怎么办，详细设置请看 <code>nodePPT</code> 的<a href="https://jaycechant.github.io/2016/intro-to-nodeppt/" target="_blank" rel="external">那篇文章</a>。</p>
+<p>明眼人一看就知道是path环境变量的问题，解决办法就是把node的安装目录加入环境变量。如果这样都还不知道怎么办，详细设置请看 <code>nodePPT</code> 的<a href="../intro-to-nodeppt/">那篇文章</a>。</p>
 <h2 id="语言配置"><a href="#语言配置" class="headerlink" title="语言配置"></a>语言配置</h2><p>文档只告诉你可以配置语言，但是并没有告诉你有什么语言可以选，也没告诉每个语言对应的值</p>
 <p>譬如像我这种长期写Android 代码的，就会习惯性写 <code>zh-rCN</code></p>
 <p>实际上语言文件在 <code>themes\&lt;主题&gt;\language\</code> 下面</p>
-<p>我暂时不折腾，用默认的 landscape 主题，那么对应简体中文的配置就是 <code>zh-CN</code></p>
+<p><s>我暂时不折腾，用默认的 landscape 主题</s>我现在使用基于landscape改动的landscape-plus，那么对应简体中文的配置就是 <code>zh-CN</code></p>
 <h2 id="Octopress-的-Categories-V-S-Hexo-的-Tags"><a href="#Octopress-的-Categories-V-S-Hexo-的-Tags" class="headerlink" title="Octopress 的 Categories V.S. Hexo 的 Tags"></a>Octopress 的 Categories V.S. Hexo 的 Tags</h2><p>在Octopress 如果要增加标签来分类，用的是</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">categories:</span> [tag1, tag2, tag3]</div></pre></td></tr></table></figure>
 <ul>
@@ -681,6 +1124,7 @@
 <li>代码一眼就懂，只要知道位置就能自己动手修改：<code>themes/&lt;theme_name&gt;/layout/_partial/after-footer.ejs</code>，其他主题应该也类似</li>
 <li>shortname 的配置写在主题的 <code>_config.yml</code>， 得写在全局配置，至少我是这样。估计是因为引用时是 <code>config.disqus_shortname</code> 而不是 <code>theme.disqus_shortname</code>。</li>
 </ul>
+<p>Updated: 我提了一个PR给landscape-plus，现在无论写在主题还是全局的配置，都可以加载。</p>
 <h2 id="关于插入HTML代码-与-Hexo-的换行"><a href="#关于插入HTML代码-与-Hexo-的换行" class="headerlink" title="关于插入HTML代码 与 Hexo 的换行"></a>关于插入HTML代码 与 Hexo 的换行</h2><p>习惯使用 Markdown 的朋友知道，Markdown是支持直接写HTML代码的。</p>
 <p>这点带来了很大的方便：Markdown 足够小巧简洁，满足大多数需要；一旦有超出支持范围的需求，大可临时写一下HTML。</p>
 <p>但是，这点在Hexo，好像突然不满足了。我插入的HTML，变成了一堆很奇怪的东西。</p>
@@ -705,15 +1149,29 @@
 <li>不要添加categories或者tags</li>
 </ol>
 <h2 id="使用自己的域名"><a href="#使用自己的域名" class="headerlink" title="使用自己的域名"></a>使用自己的域名</h2><p>首先要买一个域名。</p>
-<p>还没写完…</p>
-<h2 id="atom-xml-和-sitemap"><a href="#atom-xml-和-sitemap" class="headerlink" title="atom.xml 和 sitemap"></a>atom.xml 和 sitemap</h2><p>该章节参考了<a href="http://www.cnblogs.com/zhcncn/p/4097881.html" target="_blank" rel="external">Hexo搭建Github静态博客</a></p>
+<p>这部分占个坑，有空补完…</p>
+<h2 id="atom-和-sitemap"><a href="#atom-和-sitemap" class="headerlink" title="atom 和 sitemap"></a>atom 和 sitemap</h2><p>该章节参考了<a href="http://www.cnblogs.com/zhcncn/p/4097881.html" target="_blank" rel="external">Hexo搭建Github静态博客</a></p>
 <p>分别要安装对应的插件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm install hexo-generator-feed --save</div><div class="line">npm install hexo-generator-sitemap --save</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">npm install hexo-generator-feed --save</div><div class="line">npm install hexo-generator-sitemap --save</div><div class="line">npm install hexo-generator-baidu-sitemap --save</div></pre></td></tr></table></figure>
 <p>稍微解释一下 <code>--save</code> 参数。有这个参数的情况下，对应的module会作为依赖自动写入当前目录的 <code>package.json</code> 。我是在 博客的根目录下执行的，那么会自动添加依赖。详情可以参考<a href="http://www.cnblogs.com/PeunZhang/p/5553574.html" target="_blank" rel="external">npm 常用命令详解</a> 。</p>
 <p>然后在 <code>根目录\_config.yml</code> 添加以下内容来启用插件</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="attr">Plugins:</span></div><div class="line"><span class="bullet">-</span> hexo-generator-feed</div><div class="line"><span class="bullet">-</span> hexo-generator-sitemap</div><div class="line"></div><div class="line"><span class="comment">#sitemap</span></div><div class="line"><span class="attr">sitemap:</span></div><div class="line"><span class="attr">  path:</span> sitemap.xml</div><div class="line"></div><div class="line"><span class="comment">#Feed Atom</span></div><div class="line"><span class="attr">feed:</span></div><div class="line"><span class="attr">  type:</span> atom</div><div class="line"><span class="attr">  path:</span> atom.xml</div><div class="line"><span class="attr">  limit:</span> <span class="number">20</span></div></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="attr">Plugins:</span></div><div class="line"><span class="bullet">-</span> hexo-generator-feed</div><div class="line"><span class="bullet">-</span> hexo-generator-sitemap</div><div class="line"><span class="bullet">-</span> hexo-generator-baidu-sitemap</div><div class="line"></div><div class="line"><span class="comment">#sitemap</span></div><div class="line"><span class="attr">sitemap:</span></div><div class="line"><span class="attr">  path:</span> sitemap.xml</div><div class="line"><span class="attr">baidusitemap:</span></div><div class="line"><span class="attr">  path:</span> baidusitemap.xml</div><div class="line"></div><div class="line"><span class="comment">#Feed Atom</span></div><div class="line"><span class="attr">feed:</span></div><div class="line"><span class="attr">  type:</span> atom</div><div class="line"><span class="attr">  path:</span> atom.xml</div><div class="line"><span class="attr">  limit:</span> <span class="number">20</span></div></pre></td></tr></table></figure>
 <p>如果想在导航上显示，可以在主题的 <code>_config.yml</code> 中添加 （最后两行是新增内容）</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Header</span></div><div class="line"><span class="attr">menu:</span></div><div class="line"><span class="attr">  Home:</span> /</div><div class="line"><span class="attr">  Archives:</span> /archives</div><div class="line"><span class="attr">  Github:</span> https://github.com/xxx</div><div class="line"><span class="attr">  About:</span> /about</div><div class="line"><span class="attr">  Sitemap:</span> /sitemap.xml</div><div class="line"><span class="attr">rss:</span> /atom.xml</div></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Header</span></div><div class="line"><span class="attr">menu:</span></div><div class="line"><span class="attr">  Home:</span> /</div><div class="line"><span class="attr">  Archives:</span> /archives</div><div class="line"><span class="attr">  Github:</span> https://github.com/xxx</div><div class="line"><span class="attr">  About:</span> /about</div><div class="line"><span class="attr">  Sitemap:</span> /sitemap.xml</div><div class="line">  <span class="comment"># Baidusitemap: /baidusitemap.xml #这个主要是针对百度做过优化，更好被百度抓取，但是导航上没有必要显示两个</span></div><div class="line"><span class="attr">rss:</span> /atom.xml</div></pre></td></tr></table></figure>
+<h2 id="在其他电脑配置已有的博客"><a href="#在其他电脑配置已有的博客" class="headerlink" title="在其他电脑配置已有的博客"></a>在其他电脑配置已有的博客</h2><p>2016/12/26 updated:</p>
+<p>到了新岗位之后，发现在公司电脑也有更新博客的需求——在公司踩了的坑，要赶紧记下来，回家再写可能就忘了，而且到家太累有时也不愿意开电脑。</p>
+<p>这个博客的源码放在我个人的笔记本上，生成的静态页面自然是通过git push到了github pages 上（也就是现在看到的页面）；源码我也用git管理着，push到了 bitbucket 的私人库上。在我的想象里，在公司电脑写hexo的步骤是：1.  安装node.js 和 hexo-cli ；2. git clone bitbucket 的源码；3. 跟在个人笔记本上一样，写完 <code>hexo g -d</code>。</p>
+<p>我甚至都没验证一下，直接就操作了，结果一刷新，博客无法访问了！！仔细看public文件夹，发现根本没有处理，而是直接把source文件夹的内容拷贝过来而已。</p>
+<p>这我才开始琢磨，发现博客目录下的 <code>node_modules</code> 目录是存放引用的node包的，而且是在init之后，安装，且只安装在这里，并非global。而自带的<code>.gitignore</code> 里是包括 <code>node_modules</code> 的，换言之源码的提交并没有包含它，git clone下来当然也会缺了对应的包。</p>
+<p>那是不是改掉 <code>.gitignore</code> ，把这个目录页提交掉呢？我认为并不是，因为安装前后的时间差异，我两台电脑的node.js 和 hexo-cli 的版本并不一致，所以依赖的包的版本，乃至依赖的包都可能不一样，直接用同一个 <code>node_modules</code> 不一定能正常运行。所以我最后解决的办法如下：</p>
+<ol>
+<li>首先当然要确认新电脑 node.js / npm / hexo 已经安装配置好，可以任意目录执行。</li>
+<li>新建一个空的博客的根目录，在里面 <code>hexo init</code>，让它安装基本的依赖。</li>
+<li>上面提到需要的插件安装，都在这个根目录下执行一遍（就是那些带 <code>--save</code> 参数的）。</li>
+<li>另起一个目录，把源码clone下来，然后全部覆盖到上面init 好的目录。</li>
+<li>另起一个目录，把github pages 的库clone下来，然后覆盖到<code>.deploy_git</code> 目录。这步是为了让提交历史连续，对于成功发布不是必要的。</li>
+<li>先 <code>hexo g</code> 观察一下 <code>public</code> 目录的输出，没问题再 <code>hexo d</code>。有任何问题，检查上面几步。</li>
+</ol>
 <hr>
 <h2 id="未完待续…"><a href="#未完待续…" class="headerlink" title="未完待续…"></a>未完待续…</h2><p>其他发现的坑，也会陆续更新在这里。</p>
 <hr>
@@ -722,7 +1180,8 @@
     
     <summary type="html">
     
-      &lt;p&gt;四年沉寂，重新出发，将博客从Octopress 迁移到了 Hexo&lt;/p&gt;
+      &lt;p&gt;四年沉寂，重新出发，将博客从Octopress 迁移到了 Hexo。&lt;/p&gt;
+&lt;p&gt;记录下迁移的过程，以及Hexo的坑点。&lt;/p&gt;
     
     </summary>
     
@@ -742,7 +1201,7 @@
     <link href="http://jaycechant.info/2016/intro-to-mathjax/"/>
     <id>http://jaycechant.info/2016/intro-to-mathjax/</id>
     <published>2016-06-21T10:04:01.000Z</published>
-    <updated>2016-07-12T14:30:31.880Z</updated>
+    <updated>2016-09-11T06:32:53.914Z</updated>
     
     <content type="html"><![CDATA[<h1 id="什么是-MathJax"><a href="#什么是-MathJax" class="headerlink" title="什么是 MathJax"></a>什么是 MathJax</h1><p><strong>注：本文一开始是为在nodePPT上使用 Mathjax 所写，并非针对Hexo。虽然大同小异，但是部分配置可能存在差别，请知悉。</strong></p>
 <blockquote>
@@ -932,9 +1391,9 @@
     
       <category term="how-to" scheme="http://jaycechant.info/tags/how-to/"/>
     
-      <category term="Mathjax" scheme="http://jaycechant.info/tags/Mathjax/"/>
-    
       <category term="nodePPT" scheme="http://jaycechant.info/tags/nodePPT/"/>
+    
+      <category term="Mathjax" scheme="http://jaycechant.info/tags/Mathjax/"/>
     
   </entry>
   
@@ -943,7 +1402,7 @@
     <link href="http://jaycechant.info/2016/intro-to-nodeppt/"/>
     <id>http://jaycechant.info/2016/intro-to-nodeppt/</id>
     <published>2016-06-20T06:35:29.000Z</published>
-    <updated>2016-07-12T14:23:20.688Z</updated>
+    <updated>2017-01-02T08:46:23.821Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Markdown是什么"><a href="#Markdown是什么" class="headerlink" title="Markdown是什么"></a>Markdown是什么</h1><p>在讨论 nodePPT 是什么之前，我想先说一下，Markdown是什么。如果你已经了解，可以快速翻过去。</p>
 <blockquote>
@@ -955,7 +1414,7 @@
 <ul>
 <li><a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank" rel="external">维基百科</a> </li>
 <li><a href="http://baike.baidu.com/view/2311114.htm" target="_blank" rel="external">百度百科</a>  偶尔维基会被墙，那可以先看百度百科</li>
-<li><a href="https://jaycechant.github.io/2012/blog-with-markdown/" target="_blank" rel="external">用Markdown写日志</a></li>
+<li><a href="../../2012/blog-with-markdown/">用Markdown写日志</a></li>
 </ul>
 <p>简而言之，Markdown提供了一种 <strong>简便且易于理解的，内容与样式（或者叫格式）分离的编辑方式</strong> 。</p>
 <p>当你编辑内容时，只专注于内容。<br>外观通过样式定义实现。（不用担心，有大量现成的定义得非常漂亮的样式表）<br>而一旦需要改动样式，不过修改一下样式，或者换个样式表，无论文档有多长，都不需要逐一修改。</p>
@@ -1032,10 +1491,9 @@
 <li>文档制作好之后，通过修改样式输出不同风格的文档，而不是重新制作 </li>
 <li>相同内容不同需要的文档（word，pdf，ppt等），都通过一份源文件输出，而不是分别制作</li>
 <li>对纯文本的源文件，进行版本管理，可以diff每一版的修改，回退到任意版本，而不是无法管理的二进制文件</li>
-<li><p>……</p>
-<hr>
-</li>
+<li>……</li>
 </ul>
+<hr>
 <p>更多效果，请参考作者写的例子</p>
 <p><a href="http://qdemo.sinaapp.com/" target="_blank" rel="external">官方demo</a></p>
 <hr>
@@ -1054,6 +1512,8 @@
     
       <category term="how-to" scheme="http://jaycechant.info/tags/how-to/"/>
     
+      <category term="Markdown" scheme="http://jaycechant.info/tags/Markdown/"/>
+    
       <category term="nodePPT" scheme="http://jaycechant.info/tags/nodePPT/"/>
     
       <category term="node.js" scheme="http://jaycechant.info/tags/node-js/"/>
@@ -1065,7 +1525,7 @@
     <link href="http://jaycechant.info/2015/algorithm-practice-set/"/>
     <id>http://jaycechant.info/2015/algorithm-practice-set/</id>
     <published>2015-04-01T08:23:16.000Z</published>
-    <updated>2016-06-29T15:21:52.163Z</updated>
+    <updated>2017-01-02T08:46:23.818Z</updated>
     
     <content type="html"><![CDATA[<p><strong><em>这份题目汇总，是我和几个朋友一起整理所得，放在我的博客只是为了存档纪念曾经一起奋斗的日子，以及分享给有需要的人。感谢老战友。</em></strong></p>
 <p>帖子很长，建议在目录查找需要的主题，然后直接Ctrl+F。</p>
@@ -1269,7 +1729,7 @@
 <li>Garland：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17196" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=17196</a></li>
 <li>Showstopper：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15091" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=15091</a></li>
 </ol>
-<h3 id="2-3-登峰造极"><a href="#2-3-登峰造极" class="headerlink" title="2.3. 登峰造极"></a>2.3. 登峰造极</h3><p>双端队列搜索,智能搜索(剪枝 A<em> IDA</em>)</p>
+<h3 id="2-3-登峰造极"><a href="#2-3-登峰造极" class="headerlink" title="2.3. 登峰造极"></a>2.3. 登峰造极</h3><p>双端队列搜索,智能搜索(剪枝 A* IDA*)</p>
 <h4 id="2-3-1-双端队列"><a href="#2-3-1-双端队列" class="headerlink" title="2.3.1. 双端队列"></a>2.3.1. 双端队列</h4><p>双端队列就是一个两端都是结尾的队列。队列的每一端都可以插入数据项和移除数据项。是一种具有队列和栈的性质的数据结构。</p>
 <ol>
 <li>Sliding Window：<a href="http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16694" target="_blank" rel="external">http://acm.hust.edu.cn/vjudge/problem/viewProblem.action?id=16694</a></li>
@@ -1385,7 +1845,7 @@
     <link href="http://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/"/>
     <id>http://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</id>
     <published>2012-04-11T11:46:00.000Z</published>
-    <updated>2016-07-11T15:27:36.637Z</updated>
+    <updated>2016-09-11T06:32:53.874Z</updated>
     
     <content type="html"><![CDATA[<p>关于 Python 多版本环境的配置，有更新的文章：<a href="/2016/python-multi-env-for-win/">在 Windows 搭建Python多版本环境（2016）</a></p>
 <hr>
@@ -1445,7 +1905,7 @@
     <link href="http://jaycechant.info/2012/hello-octopress/"/>
     <id>http://jaycechant.info/2012/hello-octopress/</id>
     <published>2012-04-11T10:28:00.000Z</published>
-    <updated>2016-06-28T03:44:29.483Z</updated>
+    <updated>2016-09-11T06:32:53.884Z</updated>
     
     <content type="html"><![CDATA[<p>为了给安装遇到问题搜索解决方案的人提供方便，开头先给出我的环境配置：<br><strong>Win7+MsysGit+RubyInstaller+Devkit+GitHub+Python2.6</strong></p>
 <hr>
@@ -1513,15 +1973,17 @@
     <content type="html"><![CDATA[<p>这篇文章原本发表在另外一个我和别人合写的<a href="http://infodebate.blog.163.com/" target="_blank" rel="external">博客</a>，现在新博开张，姑且移过来作为第一篇文章。</p>
 <hr>
 <p>既然开了群博，就要鼓励各位参与者多写日志、写高质量的日志。而其中一点，就是教会大家一些技巧，降低写出高质量日志的难度。这就是本文的目的。<br>不过日志只是其中一个方面，Markdown的本意是用易读易写的纯文本对文档进行简单的排版，推而广之，其实还可以用来写别的东西，譬如邮件，譬如简历或者论文（不过对后两者Markdown显得太弱了，可能用wiki标签甚至是强大的Latex会更好，这就是后话了）。<br>如果你有足够的好奇心和耐性，建议你全部看完；否则，为了不因为你的不耐烦浪费了初衷，请直接跳到HOW TO 部分。</p>
-<p>首先，这篇日志就是用Markdown（配合MEditor，你可以选择其它Markdown转HTML工具,例如MarkdownPad）写的。<br><a id="more"></a></p>
-<h2 id="WHAT’S-Markdown"><a href="#WHAT’S-Markdown" class="headerlink" title="WHAT’S Markdown"></a>WHAT’S Markdown</h2><p>WHAT不是这篇文章的重点，建议你直接去维基百科看Markdown的词条（其实里面也有简单示例）：<br><a href="http://zh.wikipedia.org/wiki/Markdown" target="_blank" rel="external">维基百科上的词条</a><br>稍微得瑟一下的是，这条词条是我创建的。我在写这篇日志查找资料过程中，发现维基没有Markdown的词条，所以把这篇日志写到一半，暂停，把词条写完再回来写日志。<br>词条的内容主要来自英文翻译，部分有所更新和修改。<br>如果你发现问题，欢迎告诉我，或者更直接地，参与词条的编辑。</p>
-<h2 id="WHY-Markdown"><a href="#WHY-Markdown" class="headerlink" title="WHY Markdown"></a>WHY Markdown</h2><h4 id="Markdown的哲学"><a href="#Markdown的哲学" class="headerlink" title="Markdown的哲学"></a>Markdown的哲学</h4><p>以下内容引自官方文档的翻译：</p>
+<p>首先，这篇日志就是用Markdown（配合MEditor，你可以选择其它Markdown转HTML工具，例如MarkdownPad）写的。</p>
+<p><strong>updated:</strong>  现在我会推荐以pandoc为后端的两个编辑器 Typora 和 Smark。它们跨平台，支持格式全面，而且免费。MarkdownPad 支持的格式少得可怜，而且高级功能都要收费。Typora 是首选，目前还是beta版本就已经非常惊艳，如果未来 Typora 正式版收费，那么我会推荐开源的Smark。</p>
+<a id="more"></a>
+<h1 id="WHAT’S-Markdown"><a href="#WHAT’S-Markdown" class="headerlink" title="WHAT’S Markdown"></a>WHAT’S Markdown</h1><p>WHAT不是这篇文章的重点，建议你直接去维基百科看Markdown的词条（其实里面也有简单示例）：<br><a href="http://zh.wikipedia.org/wiki/Markdown" target="_blank" rel="external">维基百科上的词条</a><br>稍微得瑟一下的是，这条词条是我创建的。我在写这篇日志查找资料过程中，发现维基没有Markdown的词条，所以把这篇日志写到一半，暂停，把词条写完再回来写日志。<br>词条的内容主要来自英文翻译，部分有所更新和修改。<br>如果你发现问题，欢迎告诉我，或者更直接地，参与词条的编辑。</p>
+<h1 id="WHY-Markdown"><a href="#WHY-Markdown" class="headerlink" title="WHY Markdown"></a>WHY Markdown</h1><h2 id="Markdown的哲学"><a href="#Markdown的哲学" class="headerlink" title="Markdown的哲学"></a>Markdown的哲学</h2><p>以下内容引自官方文档的翻译：</p>
 <blockquote>
 <p>Markdown 的目標是實現「易讀易寫」。</p>
 <p>不過最需要強調的便是它的可讀性。一份使用 Markdown 格式撰寫的文件應該可以直接以純文字發佈，並且看起來不會像是由許多標籤或是格式指令所構成。Markdown 語法受到一些既有 text-to-HTML 格式的影響，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，然而最大靈感來源其實是純文字的電子郵件格式。</p>
 <p>因此 Markdown 的語法全由標點符號所組成，並經過嚴謹慎選，是為了讓它們看起來就像所要表達的意思。像是在文字兩旁加上星號，看起來就像<em>強調</em>。Markdown 的清單看起來，嗯，就是清單。假如你有使用過電子郵件，區塊引言看起來就真的像是引用一段文字。</p>
 </blockquote>
-<h4 id="我的需要"><a href="#我的需要" class="headerlink" title="我的需要"></a>我的需要</h4><ul>
+<h2 id="我的需要"><a href="#我的需要" class="headerlink" title="我的需要"></a>我的需要</h2><ul>
 <li>考虑一下日志（或者类似的轻量级超文本）的特点我们会发现，主要是纯文本编辑，但需要少量的排版功能。一般而言，我们希望足够简单轻量，最好可以离线编辑，排版具有 <strong>一致性</strong> 和 <strong>稳定性</strong> （也就是不会因为一个小小的误操作把排好的全弄乱）。</li>
 <li>大部分人写日志会使用的，就是博客提供的后台，也有部分会使用类似Word的编辑软件写好再粘贴，但他们本质上都是WYGIWYS（what you get is what you see，所见即所得）编辑器。</li>
 <li>博客后台做的工作，其实是把你编辑（或者粘贴）的内容，转换成HTML代码。譬如说你想对某个字加粗，实际上后台做的事情是往目标前后加上<code>&lt;b&gt;</code>加粗<code>&lt;/b&gt;</code>,然后浏览器解析HTML标签，效果就变成了<strong>加粗</strong>。</li>
@@ -1534,22 +1996,22 @@
 <p>综合以上各点，最稳妥的方法似乎就是，拿个编辑器直接敲HTML代码。</p>
 <p>作为标记语言，HTML还是很好懂的。就是几个标签对（也有少量单个标签，像换行<code>&lt;br/&gt;</code>），每一对标签对中间夹着的部分实现特定排版功能。（参考上面加粗的示例）但是好懂还是不等于方便。作为结构化的语言，HTML太严谨了，为了一个很简单的功能得敲很多标签，嵌套和配对还不能出错。加入大量标签之后，文章也变得不好识别。而事实上，大部分功能我们还用不到。所以在遇到Markdown前，我还是宁愿用所见即所得编辑器。</p>
 <p>Markdown的好处就刚好弥补了这些问题。它易读易写。它的排版符号经过谨慎筛选，即使不解析，也基本保留了文章原样，你能很容易看明白它的作用。它极其简单轻量，只实现最essential的功能，而不是enough。当然大部分情况下，已经足够了。偶尔遇到一些没有的功能，它还允许直接写HTML补充。配合一个支持实时预览的Markdown编辑器，基本接近所见即所得。<br>你想一下，前后加*或者_就是斜体，加两个就是加粗，3个就粗斜体，加个#就是标题，三个“-”单独一行就是分割线，有序列表自动排序号，加[]就是超链接…..刷新一下就可以看到效果（其实连刷新也可以省，带实时预览功能的编辑器可以编辑同时看到效果），而且一致性和稳定性良好。有什么理由不选用？</p>
-<h4 id="所见即所得-V-S-所想即所得"><a href="#所见即所得-V-S-所想即所得" class="headerlink" title="所见即所得 V.S. 所想即所得"></a>所见即所得 V.S. 所想即所得</h4><p>其实更重要的是，相对于“所见即所得”，标记语言的排版被认为是 <strong>WYGIWYT（所想即所得）</strong> 。它的特点是 <strong>内容与格式分离</strong> 。</p>
+<h2 id="所见即所得-V-S-所想即所得"><a href="#所见即所得-V-S-所想即所得" class="headerlink" title="所见即所得 V.S. 所想即所得"></a>所见即所得 V.S. 所想即所得</h2><p>其实更重要的是，相对于“所见即所得”，标记语言的排版被认为是 <strong>WYGIWYT（所想即所得）</strong> 。它的特点是 <strong>内容与格式分离</strong> 。</p>
 <p>在所见即所得模式下编辑，编辑对象本身既包含了内容，也包含了格式。这要求你要么一边写一边设置格式（于是乎你的思维要不断在“写什么内容”和“怎样的显示效果”之间切换）；要么一口气写完内容，然后一点一点回头识别出不同的区块，然后分别设置格式。如果你设置完之后不满意，或者改变用途所以要重设格式，你又要重头来设置一遍。（好吧，我知道Word爱好者会告诉我，其实可以设置和应用样式，然后要改时统一修改样式。这的确稍微轻松了，但是稳定性仍然有待提高。而且有这样一个问题，你能直接看出某段文字应用了哪个样式吗？）我完全没有否定Word的意思，Word有大量功能是轻量级标记语言做不到的。不过话说回来，那部分的功能我很可能会选用LaTeX。</p>
 <p>所想即所得是让编辑者把注意力放在内容上，写到标题，你只需简单标记一下，这是一级标题（# 或者 <code>&lt;h1&gt;&lt;/h1&gt;</code>）。是的，你还是需要分神标记一下，但是你只需想起这个是标题，你并没有从内容的思路跳出，思考标题该是什么样子的。类似的，这是强调，这是链接，这是列表……你都不要考虑显示效果。写完之后（当然实时编辑器写的时候就能看见），经过解析，你就会看到在当前解析器设置下，标题、强调、链接、列表…..等等这些元素是什么样子的。如果你满意，事情就这么结了。如果还想调整，只需对着某一类元素调整，那么整个文档都会一致的调整过来，而这一点可以通过设置解析器，或者增加一个css文件达到目的。整个编辑内容的过程，你只需简单的标记一下，这“是什么”，但是“是什么”对显示成“什么样子”是中立的，你可以等到完全编辑完了内容，再来统一地考虑“什么”是“什么样子”。</p>
-<h2 id="HOW-TO-Markdown"><a href="#HOW-TO-Markdown" class="headerlink" title="HOW TO Markdown"></a>HOW TO Markdown</h2><p>好了，前面费了这么大篇幅告诉大家Markdown的好处，也是时候开始教学了。<br>其实如果你是对代码有一定的敏感度，或者学过一下HTML，你就会发现Markdown太简单，比那些见过的代码都要简单。因为它本来就不算什么代码。你可以直接去看一下语法，然后就可以开始了。<br><a href="http://daringfireball.net/projects/markdown/syntax" target="_blank" rel="external">Markdown语法官方完整版</a><br><a href="http://www.cnblogs.com/yihuiso/archive/2011/04/13/markdown.html" target="_blank" rel="external">Markdown语法中文完整版</a><br><a href="http://www.cnblogs.com/yihuiso/archive/2011/04/13/minimarkdown.html" target="_blank" rel="external">Markdown语法中文精简版</a>  </p>
+<h1 id="HOW-TO-Markdown"><a href="#HOW-TO-Markdown" class="headerlink" title="HOW TO Markdown"></a>HOW TO Markdown</h1><p>好了，前面费了这么大篇幅告诉大家Markdown的好处，也是时候开始教学了。<br>其实如果你是对代码有一定的敏感度，或者学过一下HTML，你就会发现Markdown太简单，比那些见过的代码都要简单。因为它本来就不算什么代码。你可以直接去看一下语法，然后就可以开始了。<br><a href="http://daringfireball.net/projects/markdown/syntax" target="_blank" rel="external">Markdown语法官方完整版</a><br><a href="http://www.cnblogs.com/yihuiso/archive/2011/04/13/markdown.html" target="_blank" rel="external">Markdown语法中文完整版</a><br><a href="http://www.cnblogs.com/yihuiso/archive/2011/04/13/minimarkdown.html" target="_blank" rel="external">Markdown语法中文精简版</a>  </p>
 <p>不过为了更直观一些，我还是想给出常用功能的对照示例。看懂了，就可以实现基本的写日志的排版格式。</p>
-<h4 id="1-段落"><a href="#1-段落" class="headerlink" title="1.段落"></a>1.段落</h4><p>Markdown的段落由一个或多个连续的行构成，段落间靠一个或以上视觉上的空行（也就是不管实际是什么字符只要看上去是空白）划分。一般的段落不应该用空格或制表符缩进（缩进有特殊意义，下面讲到）。这个就不用给示例了，因为见到的，就是写的时候的样子。但是强调段落还是有意义的，因为段落是很多效果的生效单位。</p>
-<h4 id="2-换行和强迫断行"><a href="#2-换行和强迫断行" class="headerlink" title="2.换行和强迫断行"></a>2.换行和强迫断行</h4><p>首先，Markdown对段落内的“换行符”是直接无视的，也就是说虽然你写的时候敲了回车，但是最终的显示结果却是整段连成一行，由浏览器自动换行。<br>这点跟HTML很像。HTML也是无视换行，想强迫断行，就得加入<code>&lt;br/&gt;</code>标签。类似地，Markdown也可以强迫断行，但简单的多，只需要在行末以两个或以上空格结束即可。这个很容易明白，也不演示了。</p>
-<h4 id="3-强调"><a href="#3-强调" class="headerlink" title="3.强调"></a>3.强调</h4><p>这个倒不用解释，直接上演示：<br>代码<br><code>*强调* 或者 _强调_</code><br><code>**加重强调** 或者 __加重强调__</code><br><code>***特别强调*** 或者 ___特别强调___</code><br>对应的效果<br><em>强调</em> (斜体效果)<br><strong>加重强调</strong> (粗体效果)<br><strong><em>特别强调</em></strong> (粗斜体效果)  </p>
-<h4 id="4-标题"><a href="#4-标题" class="headerlink" title="4.标题"></a>4.标题</h4><p>这个也很好理解。HTML有六级标题H1~H6,数字越小越高级，字体越大。<br>跟这个相对应，在标题前面加多少个井号#就是几级标题。需要注意的是，#需要加在行首才起效。<br><code># 一级标题</code>  </p>
+<h2 id="1-段落"><a href="#1-段落" class="headerlink" title="1.段落"></a>1.段落</h2><p>Markdown的段落由一个或多个连续的行构成，段落间靠一个或以上视觉上的空行（也就是不管实际是什么字符只要看上去是空白）划分。一般的段落不应该用空格或制表符缩进（缩进有特殊意义，下面讲到）。这个就不用给示例了，因为见到的，就是写的时候的样子。但是强调段落还是有意义的，因为段落是很多效果的生效单位。</p>
+<h2 id="2-换行和强迫断行"><a href="#2-换行和强迫断行" class="headerlink" title="2.换行和强迫断行"></a>2.换行和强迫断行</h2><p>首先，Markdown对段落内的“换行符”是直接无视的，也就是说虽然你写的时候敲了回车，但是最终的显示结果却是整段连成一行，由浏览器自动换行。<br>这点跟HTML很像。HTML也是无视换行，想强迫断行，就得加入<code>&lt;br/&gt;</code>标签。类似地，Markdown也可以强迫断行，但简单的多，只需要在行末以两个或以上空格结束即可。这个很容易明白，也不演示了。</p>
+<h2 id="3-强调"><a href="#3-强调" class="headerlink" title="3.强调"></a>3.强调</h2><p>这个倒不用解释，直接上演示：<br>代码<br><code>*强调* 或者 _强调_</code><br><code>**加重强调** 或者 __加重强调__</code><br><code>***特别强调*** 或者 ___特别强调___</code><br>对应的效果<br><em>强调</em> (斜体效果)<br><strong>加重强调</strong> (粗体效果)<br><strong><em>特别强调</em></strong> (粗斜体效果)  </p>
+<h2 id="4-标题"><a href="#4-标题" class="headerlink" title="4.标题"></a>4.标题</h2><p>这个也很好理解。HTML有六级标题H1~H6,数字越小越高级，字体越大。<br>跟这个相对应，在标题前面加多少个井号#就是几级标题。需要注意的是，#需要加在行首才起效。<br><code># 一级标题</code>  </p>
 <h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><p><code>#### 四级标题</code>  </p>
 <h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><p>特别地，一级和二级还有一种写法，就是在标题紧接下来的一行，加上任意数量的等号=（一级）或者减号-（二级）。效果上面演示过，就不再演示了。  </p>
 <pre><code>一级标题  
 =======  
 二级标题  
 ----
-</code></pre><h4 id="5-列表"><a href="#5-列表" class="headerlink" title="5.列表"></a>5.列表</h4><p>无序列表用一个星号、加号或者减号做标记，每个项一行，标记在行首，标记和内容之间至少有一个空格，列表本身要作为单独的段落：  </p>
+</code></pre><h2 id="5-列表"><a href="#5-列表" class="headerlink" title="5.列表"></a>5.列表</h2><p>无序列表用一个星号、加号或者减号做标记，每个项一行，标记在行首，标记和内容之间至少有一个空格，列表本身要作为单独的段落：  </p>
 <pre><code>* 无序列表项目1  
 + 项目2  
 - 项目3  
@@ -1572,8 +2034,8 @@
 <li>项目3 </li>
 </ol>
 <p>需要注意的是，只要是数字就可以，显示的数字会在列表里自动排序，跟你输入的数字无关。</p>
-<h4 id="6-引用"><a href="#6-引用" class="headerlink" title="6.引用"></a>6.引用</h4><p>有时我们引用了别人的一些原话，需要特别强调这是引用，除了双引号，还有一个选择就是用引用框把内容包起来。<br>只需要在段落开头加一个右尖括号’&gt;’就可以把这段话变成引用。<br>引用可以嵌套。如果要在一个引用里插入一个引用，可以用两个’&gt;’开头。依此类推，根据嵌套层次加相应数量的符号。  </p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt; 一段引用。第一行。(提醒，这里插入了两个空格强迫断行，下同)</div><div class="line">这是第二行。</div><div class="line"><span class="meta">&gt;&gt;</span> 这是一个嵌套的引用。这是第一行。</div><div class="line">这是第二行</div><div class="line">&gt;</div><div class="line">&gt; 外层引用第三行。前面需要一个视觉上的空行表示内层嵌套结束，空行前面的<span class="string">'&gt;'</span>可有可无。</div></pre></td></tr></table></figure>
+<h2 id="6-引用"><a href="#6-引用" class="headerlink" title="6.引用"></a>6.引用</h2><p>有时我们引用了别人的一些原话，需要特别强调这是引用，除了双引号，还有一个选择就是用引用框把内容包起来。<br>只需要在段落开头加一个右尖括号’&gt;’就可以把这段话变成引用。<br>引用可以嵌套。如果要在一个引用里插入一个引用，可以用两个’&gt;’开头。依此类推，根据嵌套层次加相应数量的符号。  </p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="quote">&gt; 一段引用。第一行。(提醒，这里插入了两个空格强迫断行，下同)</span></div><div class="line"><span class="quote">&gt; 这是第二行。</span></div><div class="line"><span class="quote">&gt; &gt; 这是一个嵌套的引用。这是第一行。</span></div><div class="line"><span class="quote">&gt; &gt; 这是第二行</span></div><div class="line"><span class="quote">&gt;</span></div><div class="line">&gt; 外层引用第三行。前面需要一个视觉上的空行表示内层嵌套结束，空行前面的'&gt;'可有可无。</div><div class="line"><span class="quote">&gt; </span></div></pre></td></tr></table></figure>
 <blockquote>
 <p>一段引用。第一行。<br>这是第二行。</p>
 <blockquote>
@@ -1582,37 +2044,45 @@
 <p>外层引用第三行。前面需要一个视觉上的空行表示内层嵌套结束，空行前面的’&gt;’可有可无。</p>
 </blockquote>
 <p>需要注意引用框在某些页面的风格设置下并不明显（貌似网易和Qzone都是），结果只能看到内容缩进了，这时还是用引号表明引用比较明显。</p>
-<h4 id="7-链接和图片"><a href="#7-链接和图片" class="headerlink" title="7.链接和图片"></a>7.链接和图片</h4><p>因为大家都知道链接和图片长啥样（什么！没见过？请看文末的版权声明，那里既有链接也有图片），所以不演示效果，只给代码。<br>链接有4种写法（支持相对地址）：  </p>
+<h2 id="7-链接和图片"><a href="#7-链接和图片" class="headerlink" title="7.链接和图片"></a>7.链接和图片</h2><p>因为大家都知道链接和图片长啥样（什么！没见过？请看文末的版权声明，那里既有链接也有图片），所以不演示效果，只给代码。<br>链接有4种写法（支持相对地址）：  </p>
 <ol>
-<li>&lt;链接地址&gt; 这种形式只是简单的标出链接地址。  </li>
-<li><code>[文字](链接地址 “标题”)</code> 给文字添加链接，其中标题是可选的。  </li>
-<li>先在需要链接的地方插入[文字][标记] ，然后在后面一个以[标记]:开头的新行给出地址（一般是段落后面或文章末尾，冒号后面至少有一个空格，标记不可以重复）。    </li>
-<li>或者直接以[文字][]这种形式编写，在下面的新行中使用  </li>
+<li>&lt;链接地址&gt; 这种形式只是简单的标出链接地址。</li>
+<li><code>[文字](链接地址 “标题”)</code> 给文字添加链接，其中标题是可选的。</li>
+<li>先在需要链接的地方插入[文字][标记] ，然后在后面一个以[标记]:开头的新行给出地址（一般是段落后面或文章末尾，冒号后面至少有一个空格，标记不可以重复）。</li>
+<li>或者直接以[文字][]这种形式编写，在下面的新行中使用<br><code>[文字]:链接</code> 的形式声明链接。（相当于省略标记，文字同时充当标记）</li>
 </ol>
-<pre><code>[文字]:链接的形式声明链接。（相当于省略标记，文字同时充当标记）  
-</code></pre><p>示例：<code>[Markdown语法完整版][md]</code>然后在后面的某一行添加（后面这行不会显示）：<br><code>[md]: https://github.com/othree/markdown-syntax-zhtw/blob/master/syntax.md</code></p>
+<p>示例：<code>[Markdown语法完整版][md]</code>然后在后面的某一行添加（后面这行不会显示）：<br><code>[md]: https://github.com/othree/markdown-syntax-zhtw/blob/master/syntax.md</code></p>
 <p>图片可以算是一种特殊的链接，可以使用链接的后三种写法，只是要在前面加上!表示这是图片。<br>例如<code>![图片](http://i.creativecommons.org/l/by-nc-nd/2.5/cn/88x31.png &quot;这是创用协议的图片&quot;)</code></p>
-<h4 id="8-水平分割线"><a href="#8-水平分割线" class="headerlink" title="8.水平分割线"></a>8.水平分割线</h4><p>使用三个以上的星号“<em>”、减号“-”或者下划线“_”来表示。星号跟减号之间可以插入任意空格，如果减号没有插入空格，那它必须在单独的一个段落里，否则会将上一行识别为标题。<br>`</em> <em> </em><code>`***</code><br><code>*****</code><br><code>- - -</code><br><code>-----------------</code><br>效果如下：</p>
+<h2 id="8-水平分割线"><a href="#8-水平分割线" class="headerlink" title="8.水平分割线"></a>8.水平分割线</h2><p>使用三个以上的星号“*”、减号“-”或者下划线“_”来表示。星号跟减号之间可以插入任意空格，如果减号没有插入空格，那它必须在单独的一个段落里，否则会将上一行识别为标题。<br><code>* * *</code><br><code>***</code><br><code>*****</code><br><code>- - -</code><br><code>-----------------</code><br>效果如下：</p>
 <hr>
-<h4 id="9-代码等特殊内容"><a href="#9-代码等特殊内容" class="headerlink" title="9.代码等特殊内容"></a>9.代码等特殊内容</h4><p>介绍了这么多，已经认识了相当多的符号用来产生格式。但是，如果要显示这些符号本身呢？我上面的示例又是如何将代码显示出来而不是产生格式呢？  </p>
+<h2 id="9-代码等特殊内容"><a href="#9-代码等特殊内容" class="headerlink" title="9.代码等特殊内容"></a>9.代码等特殊内容</h2><p>介绍了这么多，已经认识了相当多的符号用来产生格式。但是，如果要显示这些符号本身呢？我上面的示例又是如何将代码显示出来而不是产生格式呢？  </p>
 <ol>
 <li>对于单个特殊符号，在前面加反斜杠\就可以按字面含义显示；而如果\和特殊字符凑在一起只是巧合，你其实要显示\而不是取消特殊字符的功能，那就输入<code>\\</code>两个反斜杠，相当于前面的\取消掉后面的\的取消功能。</li>
 <li>在大部分情况下，Markdown会很智能地判断是否将&lt;和&amp;转换成HTML实体引用。一般情况下都会换成实体引用，以保留字面意义；当Markdown认为这是HTML标签和实体引用的一部分时，就会保留其代码含义；而如果是在代码块里的代码，Markdown又会替换，以让代码原样输出而不是产生功能。如果你不能确定而想保留字面含义，可以手动转换成对应的实体引用<code>&amp;lt;</code>和<code>&amp;amp;</code></li>
 <li>如果是一行代码，可以把内容包在一对反引号（Esc下面那个）``中，Markdown会照原样输出。</li>
 <li>如果是一段代码，只要段落的每一行都缩进4个空格或者1个Tab，就可以整段原样输出。这种用法会让保留所有的空白字符——而一般情况下，Markdown会删除所有换行和空格，打乱原有的缩进和排版。  </li>
 </ol>
-<h4 id="10-缩进"><a href="#10-缩进" class="headerlink" title="10.缩进"></a>10.缩进</h4><p>4个空格或者1个Tab的缩进除了形成原样输出的代码块之外，还有别的一些功能，所以拿出来单独总结。 </p>
+<h2 id="10-缩进"><a href="#10-缩进" class="headerlink" title="10.缩进"></a>10.缩进</h2><p>4个空格或者1个Tab的缩进除了形成原样输出的代码块之外，还有别的一些功能，所以拿出来单独总结。 </p>
 <ol>
 <li>形成代码块，这个上面说了。</li>
 <li>形成嵌套。</li>
 <li>嵌套里的代码块。</li>
 </ol>
-<h4 id="11-其它"><a href="#11-其它" class="headerlink" title="11.其它"></a>11.其它</h4><p>对于Markdown没有的功能，其实可以直接写HTML代码实现。注意的是，在区块级的HTML标签对里，Markdown语法不再起效。</p>
-<h1 id="编辑器"><a href="#编辑器" class="headerlink" title="编辑器"></a>编辑器</h1><p>目前我用过3个Markdown编辑器<br>MEditor、MarkdownPad和 <a href="http://notepag.es" target="_blank" rel="external">http://notepag.es</a></p>
+<h2 id="11-其它"><a href="#11-其它" class="headerlink" title="11.其它"></a>11.其它</h2><p>对于Markdown没有的功能，其实可以直接写HTML代码实现。注意的是，在区块级的HTML标签对里，Markdown语法不再起效。</p>
+<h1 id="编辑器"><a href="#编辑器" class="headerlink" title="编辑器"></a>编辑器</h1><p>目前我用过的Markdown编辑器</p>
+<ul>
+<li><a href="http://www.typora.io/" target="_blank" rel="external">Typora</a> ：Windows、Mac、Linux 跨平台</li>
+<li><a href="https://github.com/elerao/Smark" target="_blank" rel="external">Smark</a>： 同样的跨平台，但是界面细节不如Typora。作者原本只是写给自己用，所以只编译了Windows版，其他平台要自己安装Qt然后编译。</li>
+<li><a href="https://github.com/othree/markdown-syntax-zhtw" target="_blank" rel="external">MEditor</a></li>
+<li><a href="http://markdownpad.com/" target="_blank" rel="external">MarkdownPad</a></li>
+<li><a href="http://notepag.es" target="_blank" rel="external">http://notepag.es</a></li>
+</ul>
+<hr>
+<p>本文就是使用 <strong>Markdown标记语言</strong> 编辑的。  想了解更多，可以查看 <a href="https://github.com/othree/markdown-syntax-zhtw/blob/master/syntax.md" target="_blank" rel="external">Markdown完整语法</a> 以及下载上述的Markdown编辑器试用。</p>
+<p>Aaron Swartz</p>
+<p>R.I.P</p>
 <hr>
 <p><img src="http://i.creativecommons.org/l/by-nc-nd/2.5/cn/88x31.png" alt="“知识共享 署名-非商业性使用-禁止演绎 2.5 中国大陆(CC BY-NC-ND 2.5)”许可协议"><br>本作品为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-nd/2.5/cn/" target="_blank" rel="external">“知识共享 署名-非商业性使用-禁止演绎 2.5 中国大陆(CC BY-NC-ND 2.5)”许可协议</a>进行许可。<br>本作品允许复制和传播。如需转载，请留言告知，原文转载并在文章开头明显位置加上署名和原链接，不得用于商业用途，不得修改、转换或者以本作品为基础进行创作，谢谢合作。详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-nd/2.5/cn/" target="_blank" rel="external">协议</a>具体内容。</p>
-<hr>
-<p>另外，本文使用Markdown标记语言以及MEditor编辑。  想了解更多，可以访问<a href="http://du.5d13.cn/a/itdev/doc/2011/0413/9162.html" target="_blank" rel="external">Markdown语法精简版</a>、<a href="https://github.com/othree/markdown-syntax-zhtw/blob/master/syntax.md" target="_blank" rel="external">Markdown语法完整版</a>以及<a href="https://github.com/othree/markdown-syntax-zhtw" target="_blank" rel="external">下载MEditor软件</a>。</p>
 ]]></content>
     
     <summary type="html">
@@ -1620,14 +2090,15 @@
       &lt;p&gt;这篇文章原本发表在另外一个我和别人合写的&lt;a href=&quot;http://infodebate.blog.163.com/&quot;&gt;博客&lt;/a&gt;，现在新博开张，姑且移过来作为第一篇文章。&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;既然开了群博，就要鼓励各位参与者多写日志、写高质量的日志。而其中一点，就是教会大家一些技巧，降低写出高质量日志的难度。这就是本文的目的。&lt;br&gt;不过日志只是其中一个方面，Markdown的本意是用易读易写的纯文本对文档进行简单的排版，推而广之，其实还可以用来写别的东西，譬如邮件，譬如简历或者论文（不过对后两者Markdown显得太弱了，可能用wiki标签甚至是强大的Latex会更好，这就是后话了）。&lt;br&gt;如果你有足够的好奇心和耐性，建议你全部看完；否则，为了不因为你的不耐烦浪费了初衷，请直接跳到HOW TO 部分。&lt;/p&gt;
-&lt;p&gt;首先，这篇日志就是用Markdown（配合MEditor，你可以选择其它Markdown转HTML工具,例如MarkdownPad）写的。&lt;br&gt;
+&lt;p&gt;首先，这篇日志就是用Markdown（配合MEditor，你可以选择其它Markdown转HTML工具，例如MarkdownPad）写的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;updated:&lt;/strong&gt;  现在我会推荐以pandoc为后端的两个编辑器 Typora 和 Smark。它们跨平台，支持格式全面，而且免费。MarkdownPad 支持的格式少得可怜，而且高级功能都要收费。Typora 是首选，目前还是beta版本就已经非常惊艳，如果未来 Typora 正式版收费，那么我会推荐开源的Smark。&lt;/p&gt;
     
     </summary>
     
     
-      <category term="Markdown" scheme="http://jaycechant.info/tags/Markdown/"/>
-    
       <category term="how-to" scheme="http://jaycechant.info/tags/how-to/"/>
+    
+      <category term="Markdown" scheme="http://jaycechant.info/tags/Markdown/"/>
     
       <category term="blog" scheme="http://jaycechant.info/tags/blog/"/>
     
@@ -1638,7 +2109,7 @@
     <link href="http://jaycechant.info/2012/new-blog/"/>
     <id>http://jaycechant.info/2012/new-blog/</id>
     <published>2012-04-08T21:41:00.000Z</published>
-    <updated>2016-06-27T07:58:54.981Z</updated>
+    <updated>2016-09-11T06:32:53.924Z</updated>
     
     <content type="html"><![CDATA[<p><strong>新博启用</strong></p>
 <p>这个博客是用Octopress+GitHub搭建的，主要用来写技术和软件的内容。</p>
@@ -1658,11 +2129,11 @@
   </entry>
   
   <entry>
-    <title>first post</title>
+    <title>新博启用</title>
     <link href="http://jaycechant.info/2012/first-post/"/>
     <id>http://jaycechant.info/2012/first-post/</id>
     <published>2012-04-08T21:40:00.000Z</published>
-    <updated>2016-06-28T03:36:29.738Z</updated>
+    <updated>2017-01-04T14:04:29.519Z</updated>
     
     <content type="html"><![CDATA[<h1 id="新博启用"><a href="#新博启用" class="headerlink" title="新博启用"></a>新博启用</h1><p>暂时还没有东西写，先这样吧。</p>
 ]]></content>
