@@ -339,21 +339,21 @@
     </summary>
     
     
-      <category term="pip" scheme="http://jaycechant.info/tags/pip/"/>
-    
-      <category term="ubuntu" scheme="http://jaycechant.info/tags/ubuntu/"/>
-    
       <category term="Android" scheme="http://jaycechant.info/tags/Android/"/>
     
+      <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
+    
+      <category term="pip" scheme="http://jaycechant.info/tags/pip/"/>
+    
       <category term="mirror" scheme="http://jaycechant.info/tags/mirror/"/>
+    
+      <category term="ubuntu" scheme="http://jaycechant.info/tags/ubuntu/"/>
     
       <category term="aliyun" scheme="http://jaycechant.info/tags/aliyun/"/>
     
       <category term="npm" scheme="http://jaycechant.info/tags/npm/"/>
     
       <category term="maven" scheme="http://jaycechant.info/tags/maven/"/>
-    
-      <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
     
   </entry>
   
@@ -881,9 +881,9 @@
     </summary>
     
     
-      <category term="Syncthing" scheme="http://jaycechant.info/tags/Syncthing/"/>
-    
       <category term="tips" scheme="http://jaycechant.info/tags/tips/"/>
+    
+      <category term="Syncthing" scheme="http://jaycechant.info/tags/Syncthing/"/>
     
       <category term="dropbox" scheme="http://jaycechant.info/tags/dropbox/"/>
     
@@ -1037,12 +1037,11 @@
     <link href="http://jaycechant.info/2016/migrate-to-hexo/"/>
     <id>http://jaycechant.info/2016/migrate-to-hexo/</id>
     <published>2016-06-27T07:46:12.000Z</published>
-    <updated>2017-01-02T08:46:23.823Z</updated>
+    <updated>2017-01-04T15:15:05.003Z</updated>
     
     <content type="html"><![CDATA[<p>四年沉寂，重新出发，将博客从Octopress 迁移到了 Hexo。</p>
 <p>记录下迁移的过程，以及Hexo的坑点。</p>
 <a id="more"></a>
-<hr>
 <h1 id="源起"><a href="#源起" class="headerlink" title="源起"></a>源起</h1><p>大学临近毕业的时候，发现了Octopress，就兴冲冲用Github pages建了自己的博客。</p>
 <p>还没写两篇文章，一入职，就忙起来了，从入职培训，到后来项目赶着上市时不停的加班……</p>
 <p>我本就是懈惰的人，加之公司安保极严，在公司的成果无法带出，加班之余便再无更新，以至荒废。</p>
@@ -1172,6 +1171,13 @@
 <li>另起一个目录，把github pages 的库clone下来，然后覆盖到<code>.deploy_git</code> 目录。这步是为了让提交历史连续，对于成功发布不是必要的。</li>
 <li>先 <code>hexo g</code> 观察一下 <code>public</code> 目录的输出，没问题再 <code>hexo d</code>。有任何问题，检查上面几步。</li>
 </ol>
+<h3 id="移动也会出错"><a href="#移动也会出错" class="headerlink" title="移动也会出错"></a>移动也会出错</h3><p>updated: 2017-1-4</p>
+<p>上面说到，通过远程库的方式，在新电脑clone之后，因为node_modules目录被ignore掉了，所以不能正常运行，要重新init 和 安装插件。</p>
+<p>今天整理本地目录，将博客的目录挪了位置，忽然发现也不能运行了。按说这个目录一起移动，<code>node_modules</code>里的东西都还在，不应该有什么问题。更神奇的时候，因为hexo-cli 是global安装，所以任意目录都能运行<code>hexo</code>，除了博客目录。</p>
+<p>试验之后发现，虽然 init 时安装的依赖，是直接安装到node_modules下（如hexo-generator-archive，就是直接安装到同名目录下）；</p>
+<p>但是加了<code>--save</code>参数手动安装的插件，安装方式却有所不同。那些插件是先安装到了一个带版本号的目录，然后再产生一个插件名（不带版本号）命名的软链。如abab，是先安装到<code>.1.0.3@abab</code>目录，然后再生成一个 abab 到该目录的软链。</p>
+<p>问题就出在这个软链上。看得出来软链的本意是方便指向不同的版本。但因为软链是基于指向目标的绝对地址的，所以一旦挪动了目录，哪怕是一起挪动，相对路径不变，软链也会失效。而运行hexo 时，会根据根目录下的<code>package.json</code>去找依赖，手动安装的插件当然也在依赖之列；接下来会按名字寻找，找不带版本号的目录（其实是软链），因为软链失败，自然依赖检查也会出错。</p>
+<p>由于init时安装的依赖没有问题，所以解决这个问题，只需要删掉那些带版本号的目录和相应的软链，然后重新手动安装插件就好。</p>
 <hr>
 <h2 id="未完待续…"><a href="#未完待续…" class="headerlink" title="未完待续…"></a>未完待续…</h2><p>其他发现的坑，也会陆续更新在这里。</p>
 <hr>
@@ -1391,9 +1397,9 @@
     
       <category term="how-to" scheme="http://jaycechant.info/tags/how-to/"/>
     
-      <category term="Mathjax" scheme="http://jaycechant.info/tags/Mathjax/"/>
-    
       <category term="nodePPT" scheme="http://jaycechant.info/tags/nodePPT/"/>
+    
+      <category term="Mathjax" scheme="http://jaycechant.info/tags/Mathjax/"/>
     
   </entry>
   

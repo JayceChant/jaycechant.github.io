@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jaycechant.info/2016/migrate-to-hexo/</loc>
+    
+    <lastmod>2017-01-04T15:15:05.003Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jaycechant.info/2017/why-you-should-document-with-Markdown/</loc>
     
     <lastmod>2017-01-04T14:47:16.071Z</lastmod>
@@ -61,13 +68,6 @@
     <loc>http://jaycechant.info/2016/python-multi-env-for-win/</loc>
     
     <lastmod>2017-01-02T08:46:23.841Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jaycechant.info/2016/migrate-to-hexo/</loc>
-    
-    <lastmod>2017-01-02T08:46:23.823Z</lastmod>
     
   </url>
   

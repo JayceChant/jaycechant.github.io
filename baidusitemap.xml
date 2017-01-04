@@ -4,6 +4,29 @@
 
     
   <url>
+    <loc>http://jaycechant.info/2016/migrate-to-hexo/</loc>
+    <lastmod>2017-01-04T15:15:05.003Z</lastmod>
+    <data>
+        <display>
+        <title>博客迁移到了Hexo（附折腾记录）</title>
+        <pubTime>2016-06-27T07:46:12.000Z</pubTime>
+        
+        <tag>blog</tag>
+         
+        <tag>node.js</tag>
+         
+        <tag>hexo</tag>
+         
+        <tag>git</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jaycechant.info/2017/why-you-should-document-with-Markdown/</loc>
     <lastmod>2017-01-04T14:47:16.071Z</lastmod>
     <data>
@@ -68,21 +91,21 @@
         <title>镜像集合</title>
         <pubTime>2016-12-31T02:29:12.000Z</pubTime>
         
-        <tag>pip</tag>
-         
-        <tag>ubuntu</tag>
-         
         <tag>Android</tag>
          
+        <tag>Jenkins</tag>
+         
+        <tag>pip</tag>
+         
         <tag>mirror</tag>
+         
+        <tag>ubuntu</tag>
          
         <tag>aliyun</tag>
          
         <tag>npm</tag>
          
         <tag>maven</tag>
-         
-        <tag>Jenkins</tag>
          
          
            
@@ -142,29 +165,6 @@
         <tag>pip</tag>
          
         <tag>virtualenv</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jaycechant.info/2016/migrate-to-hexo/</loc>
-    <lastmod>2017-01-02T08:46:23.823Z</lastmod>
-    <data>
-        <display>
-        <title>博客迁移到了Hexo（附折腾记录）</title>
-        <pubTime>2016-06-27T07:46:12.000Z</pubTime>
-        
-        <tag>blog</tag>
-         
-        <tag>node.js</tag>
-         
-        <tag>hexo</tag>
-         
-        <tag>git</tag>
          
          
            
@@ -291,9 +291,9 @@
         
         <tag>how-to</tag>
          
-        <tag>Mathjax</tag>
-         
         <tag>nodePPT</tag>
+         
+        <tag>Mathjax</tag>
          
          
            
@@ -310,9 +310,9 @@
         <title>用Syncthing备份的一些技巧</title>
         <pubTime>2016-08-28T07:57:03.000Z</pubTime>
         
-        <tag>Syncthing</tag>
-         
         <tag>tips</tag>
+         
+        <tag>Syncthing</tag>
          
         <tag>dropbox</tag>
          
