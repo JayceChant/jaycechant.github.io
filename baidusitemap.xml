@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://jaycechant.info/2017/why-you-should-document-with-Markdown/</loc>
-    <lastmod>2017-09-10T15:57:58.456Z</lastmod>
+    <lastmod>2017-09-11T15:26:15.633Z</lastmod>
     <data>
         <display>
         <title>为什么你应该用 Markdown 写文档？</title>
@@ -18,6 +18,25 @@
         <tag>presentation</tag>
          
         <tag>why</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jaycechant.info/2017/suspected-bug-in-json-lib-2-4-jdk15/</loc>
+    <lastmod>2017-04-10T15:57:44.291Z</lastmod>
+    <data>
+        <display>
+        <title>json-lib-2.4-jdk15 的疑似 bug</title>
+        <pubTime>2017-02-21T09:12:31.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+        <tag>json</tag>
          
          
            
@@ -65,94 +84,6 @@
 
     
   <url>
-    <loc>http://jaycechant.info/2017/suspected-bug-in-json-lib-2-4-jdk15/</loc>
-    <lastmod>2017-04-10T15:57:44.291Z</lastmod>
-    <data>
-        <display>
-        <title>json-lib-2.4-jdk15 的疑似 bug</title>
-        <pubTime>2017-02-21T09:12:31.000Z</pubTime>
-        
-        <tag>Java</tag>
-         
-        <tag>json</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jaycechant.info/2017/my-software-and-service-list/</loc>
-    <lastmod>2017-01-25T04:21:21.999Z</lastmod>
-    <data>
-        <display>
-        <title>我的自用 软件 和 服务 清单</title>
-        <pubTime>2017-01-23T07:30:50.000Z</pubTime>
-        
-        <tag>a list</tag>
-         
-        <tag>keep-updating</tag>
-         
-        <tag>software</tag>
-         
-        <tag>service</tag>
-         
-        <tag>app</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jaycechant.info/2017/Jenkins-Could-not-initialize-JFreeChart-and-tomcat-setenv/</loc>
-    <lastmod>2017-01-25T04:21:21.999Z</lastmod>
-    <data>
-        <display>
-        <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
-        <pubTime>2017-01-20T06:44:31.000Z</pubTime>
-        
-        <tag>Java</tag>
-         
-        <tag>Jenkins</tag>
-         
-        <tag>trouble</tag>
-         
-        <tag>Tomcat</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jaycechant.info/2017/Android-sdk-on-Linux-for-Jenkins-etc/</loc>
-    <lastmod>2017-01-25T04:21:21.999Z</lastmod>
-    <data>
-        <display>
-        <title>Linux 上 为 Jenkins 配置 Android-sdk 及其它</title>
-        <pubTime>2017-01-16T03:24:34.000Z</pubTime>
-        
-        <tag>Jenkins</tag>
-         
-        <tag>Android</tag>
-         
-        <tag>Android-sdk</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://jaycechant.info/2017/special-for-tools/</loc>
     <lastmod>2017-01-25T04:21:21.999Z</lastmod>
     <data>
@@ -165,6 +96,25 @@
         <tag>byobu</tag>
          
         <tag>keep-updating</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jaycechant.info/2017/git-merge-between-different-repo/</loc>
+    <lastmod>2017-01-25T04:21:21.999Z</lastmod>
+    <data>
+        <display>
+        <title>git: 在两个 repo 之间 merge</title>
+        <pubTime>2017-01-21T03:28:29.000Z</pubTime>
+        
+        <tag>git</tag>
+         
+        <tag>skill</tag>
          
          
            
@@ -207,16 +157,20 @@
 
     
   <url>
-    <loc>http://jaycechant.info/2017/git-merge-between-different-repo/</loc>
+    <loc>http://jaycechant.info/2017/Jenkins-Could-not-initialize-JFreeChart-and-tomcat-setenv/</loc>
     <lastmod>2017-01-25T04:21:21.999Z</lastmod>
     <data>
         <display>
-        <title>git: 在两个 repo 之间 merge</title>
-        <pubTime>2017-01-21T03:28:29.000Z</pubTime>
+        <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
+        <pubTime>2017-01-20T06:44:31.000Z</pubTime>
         
-        <tag>git</tag>
+        <tag>Java</tag>
          
-        <tag>skill</tag>
+        <tag>Jenkins</tag>
+         
+        <tag>trouble</tag>
+         
+        <tag>Tomcat</tag>
          
          
            
@@ -226,18 +180,43 @@
 
     
   <url>
-    <loc>http://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
-    <lastmod>2017-01-25T04:21:21.983Z</lastmod>
+    <loc>http://jaycechant.info/2017/my-software-and-service-list/</loc>
+    <lastmod>2017-01-25T04:21:21.999Z</lastmod>
     <data>
         <display>
-        <title>解题报告 —— 从水题开一个头</title>
-        <pubTime>2016-11-08T09:40:20.000Z</pubTime>
+        <title>我的自用 软件 和 服务 清单</title>
+        <pubTime>2017-01-23T07:30:50.000Z</pubTime>
         
-        <tag>algorithm</tag>
+        <tag>a list</tag>
          
-        <tag>practice</tag>
+        <tag>keep-updating</tag>
          
-        <tag>solution-report</tag>
+        <tag>software</tag>
+         
+        <tag>service</tag>
+         
+        <tag>app</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jaycechant.info/2017/Android-sdk-on-Linux-for-Jenkins-etc/</loc>
+    <lastmod>2017-01-25T04:21:21.999Z</lastmod>
+    <data>
+        <display>
+        <title>Linux 上 为 Jenkins 配置 Android-sdk 及其它</title>
+        <pubTime>2017-01-16T03:24:34.000Z</pubTime>
+        
+        <tag>Jenkins</tag>
+         
+        <tag>Android</tag>
+         
+        <tag>Android-sdk</tag>
          
          
            
@@ -282,6 +261,27 @@
         <tag>pip</tag>
          
         <tag>virtualenv</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
+    <lastmod>2017-01-25T04:21:21.983Z</lastmod>
+    <data>
+        <display>
+        <title>解题报告 —— 从水题开一个头</title>
+        <pubTime>2016-11-08T09:40:20.000Z</pubTime>
+        
+        <tag>algorithm</tag>
+         
+        <tag>practice</tag>
+         
+        <tag>solution-report</tag>
          
          
            
@@ -453,9 +453,9 @@
          
         <tag>blog</tag>
          
-        <tag>node.js</tag>
-         
         <tag>hexo</tag>
+         
+        <tag>node.js</tag>
          
         <tag>trouble</tag>
          
@@ -586,9 +586,9 @@
         
         <tag>how-to</tag>
          
-        <tag>nodePPT</tag>
-         
         <tag>Mathjax</tag>
+         
+        <tag>nodePPT</tag>
          
          
            
