@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://jaycechant.info/2017/use-screen-as-byobu-backend/</loc>
+    <lastmod>2017-09-19T14:57:32.218Z</lastmod>
+    <data>
+        <display>
+        <title>改用 screen 作为 byobu 的后端</title>
+        <pubTime>2017-09-19T08:57:40.000Z</pubTime>
+        
+        <tag>screen</tag>
+         
+        <tag>byobu</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jaycechant.info/2017/why-you-should-document-with-Markdown/</loc>
     <lastmod>2017-09-11T15:26:15.633Z</lastmod>
     <data>
@@ -46,25 +65,6 @@
 
     
   <url>
-    <loc>http://jaycechant.info/2017/OpenGrok-Universal-ctags/</loc>
-    <lastmod>2017-04-10T15:57:44.291Z</lastmod>
-    <data>
-        <display>
-        <title>OpenGrok + Universal ctags</title>
-        <pubTime>2017-03-06T02:30:56.000Z</pubTime>
-        
-        <tag>OpenGrok</tag>
-         
-        <tag>ctags</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://jaycechant.info/2017/two-tips-for-jenkins-pgyer/</loc>
     <lastmod>2017-04-10T15:57:44.291Z</lastmod>
     <data>
@@ -75,6 +75,25 @@
         <tag>Jenkins</tag>
          
         <tag>pgyer</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jaycechant.info/2017/OpenGrok-Universal-ctags/</loc>
+    <lastmod>2017-04-10T15:57:44.291Z</lastmod>
+    <data>
+        <display>
+        <title>OpenGrok + Universal ctags</title>
+        <pubTime>2017-03-06T02:30:56.000Z</pubTime>
+        
+        <tag>OpenGrok</tag>
+         
+        <tag>ctags</tag>
          
          
            
@@ -124,6 +143,29 @@
 
     
   <url>
+    <loc>http://jaycechant.info/2017/Jenkins-Could-not-initialize-JFreeChart-and-tomcat-setenv/</loc>
+    <lastmod>2017-01-25T04:21:21.999Z</lastmod>
+    <data>
+        <display>
+        <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
+        <pubTime>2017-01-20T06:44:31.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+        <tag>Jenkins</tag>
+         
+        <tag>trouble</tag>
+         
+        <tag>Tomcat</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jaycechant.info/2016/mirrors-collection/</loc>
     <lastmod>2017-01-25T04:21:21.999Z</lastmod>
     <data>
@@ -157,20 +199,18 @@
 
     
   <url>
-    <loc>http://jaycechant.info/2017/Jenkins-Could-not-initialize-JFreeChart-and-tomcat-setenv/</loc>
+    <loc>http://jaycechant.info/2017/Android-sdk-on-Linux-for-Jenkins-etc/</loc>
     <lastmod>2017-01-25T04:21:21.999Z</lastmod>
     <data>
         <display>
-        <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
-        <pubTime>2017-01-20T06:44:31.000Z</pubTime>
+        <title>Linux 上 为 Jenkins 配置 Android-sdk 及其它</title>
+        <pubTime>2017-01-16T03:24:34.000Z</pubTime>
         
-        <tag>Java</tag>
-         
         <tag>Jenkins</tag>
          
-        <tag>trouble</tag>
+        <tag>Android</tag>
          
-        <tag>Tomcat</tag>
+        <tag>Android-sdk</tag>
          
          
            
@@ -205,18 +245,39 @@
 
     
   <url>
-    <loc>http://jaycechant.info/2017/Android-sdk-on-Linux-for-Jenkins-etc/</loc>
-    <lastmod>2017-01-25T04:21:21.999Z</lastmod>
+    <loc>http://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
+    <lastmod>2017-01-25T04:21:21.983Z</lastmod>
     <data>
         <display>
-        <title>Linux 上 为 Jenkins 配置 Android-sdk 及其它</title>
-        <pubTime>2017-01-16T03:24:34.000Z</pubTime>
+        <title>解题报告 —— 从水题开一个头</title>
+        <pubTime>2016-11-08T09:40:20.000Z</pubTime>
         
-        <tag>Jenkins</tag>
+        <tag>algorithm</tag>
          
-        <tag>Android</tag>
+        <tag>practice</tag>
          
-        <tag>Android-sdk</tag>
+        <tag>solution-report</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
+    <lastmod>2017-01-25T04:21:21.983Z</lastmod>
+    <data>
+        <display>
+        <title>vsftp 503 和 500 错误</title>
+        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
+        
+        <tag>trouble</tag>
+         
+        <tag>Ubuntu</tag>
+         
+        <tag>vsftp</tag>
          
          
            
@@ -261,48 +322,6 @@
         <tag>pip</tag>
          
         <tag>virtualenv</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
-    <lastmod>2017-01-25T04:21:21.983Z</lastmod>
-    <data>
-        <display>
-        <title>解题报告 —— 从水题开一个头</title>
-        <pubTime>2016-11-08T09:40:20.000Z</pubTime>
-        
-        <tag>algorithm</tag>
-         
-        <tag>practice</tag>
-         
-        <tag>solution-report</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
-    <lastmod>2017-01-25T04:21:21.983Z</lastmod>
-    <data>
-        <display>
-        <title>vsftp 503 和 500 错误</title>
-        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
-        
-        <tag>trouble</tag>
-         
-        <tag>Ubuntu</tag>
-         
-        <tag>vsftp</tag>
          
          
            
