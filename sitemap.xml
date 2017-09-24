@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jaycechant.info/2017/my-software-and-service-list/</loc>
+    
+    <lastmod>2017-09-24T16:05:44.805Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jaycechant.info/2017/suspected-bug-in-json-lib-2-4-jdk15/</loc>
+    
+    <lastmod>2017-09-24T10:00:50.145Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jaycechant.info/2017/two-tips-for-jenkins-pgyer/</loc>
+    
+    <lastmod>2017-09-24T09:32:31.724Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://jaycechant.info/2017/OpenGrok-Universal-ctags/</loc>
+    
+    <lastmod>2017-09-24T09:04:30.354Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jaycechant.info/2017/use-screen-as-byobu-backend/</loc>
     
     <lastmod>2017-09-19T14:57:32.218Z</lastmod>
@@ -12,27 +40,6 @@
     <loc>http://jaycechant.info/2017/why-you-should-document-with-Markdown/</loc>
     
     <lastmod>2017-09-11T15:26:15.633Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jaycechant.info/2017/suspected-bug-in-json-lib-2-4-jdk15/</loc>
-    
-    <lastmod>2017-04-10T15:57:44.291Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jaycechant.info/2017/two-tips-for-jenkins-pgyer/</loc>
-    
-    <lastmod>2017-04-10T15:57:44.291Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jaycechant.info/2017/OpenGrok-Universal-ctags/</loc>
-    
-    <lastmod>2017-04-10T15:57:44.291Z</lastmod>
     
   </url>
   
@@ -66,13 +73,6 @@
   
   <url>
     <loc>http://jaycechant.info/2017/Android-sdk-on-Linux-for-Jenkins-etc/</loc>
-    
-    <lastmod>2017-01-25T04:21:21.999Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jaycechant.info/2017/my-software-and-service-list/</loc>
     
     <lastmod>2017-01-25T04:21:21.999Z</lastmod>
     

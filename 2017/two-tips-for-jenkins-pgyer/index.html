@@ -4,34 +4,34 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Jenkins + 蒲公英 自动发布的两个小技巧 | Jayce的技术博客</title>
+  <title>Jenkins + 蒲公英 自动发布两个小技巧 | Jayce的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="通过 Jenkins 可以自动编译打包应用，配合蒲公英自动上传发布，可以做到扫码安装，简化测试步骤。不过这也不是什么新鲜事物了，以下两篇文章基本就讲得很全了。
+  <meta name="description" content="Jenkins 自动编译打包应用，配合蒲公英上传发布，可以做到扫码安装，简化测试步骤。这不是什么新鲜事物，以下两篇文章基本讲得很全：
 
 jenkins配合蒲公英实现APK的自动发布
 使用Jenkins生成 二维码
 
-我只说一下这两篇文章没有提到的小技巧。">
+我只说两个没有提到的小技巧。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Jenkins + 蒲公英 自动发布的两个小技巧">
+<meta property="og:title" content="Jenkins + 蒲公英 自动发布两个小技巧">
 <meta property="og:url" content="http://jaycechant.info/2017/two-tips-for-jenkins-pgyer/index.html">
 <meta property="og:site_name" content="Jayce的技术博客">
-<meta property="og:description" content="通过 Jenkins 可以自动编译打包应用，配合蒲公英自动上传发布，可以做到扫码安装，简化测试步骤。不过这也不是什么新鲜事物了，以下两篇文章基本就讲得很全了。
+<meta property="og:description" content="Jenkins 自动编译打包应用，配合蒲公英上传发布，可以做到扫码安装，简化测试步骤。这不是什么新鲜事物，以下两篇文章基本讲得很全：
 
 jenkins配合蒲公英实现APK的自动发布
 使用Jenkins生成 二维码
 
-我只说一下这两篇文章没有提到的小技巧。">
+我只说两个没有提到的小技巧。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-04-10T15:57:44.291Z">
+<meta property="og:updated_time" content="2017-09-24T09:32:31.724Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jenkins + 蒲公英 自动发布的两个小技巧">
-<meta name="twitter:description" content="通过 Jenkins 可以自动编译打包应用，配合蒲公英自动上传发布，可以做到扫码安装，简化测试步骤。不过这也不是什么新鲜事物了，以下两篇文章基本就讲得很全了。
+<meta name="twitter:title" content="Jenkins + 蒲公英 自动发布两个小技巧">
+<meta name="twitter:description" content="Jenkins 自动编译打包应用，配合蒲公英上传发布，可以做到扫码安装，简化测试步骤。这不是什么新鲜事物，以下两篇文章基本讲得很全：
 
 jenkins配合蒲公英实现APK的自动发布
 使用Jenkins生成 二维码
 
-我只说一下这两篇文章没有提到的小技巧。">
+我只说两个没有提到的小技巧。">
 <meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
   
     <link rel="alternative" href="/atom.xml" title="Jayce的技术博客" type="application/atom+xml">
@@ -106,7 +106,7 @@ jenkins配合蒲公英实现APK的自动发布
         
   
     <h1 class="article-title" itemprop="name">
-      Jenkins + 蒲公英 自动发布的两个小技巧
+      Jenkins + 蒲公英 自动发布两个小技巧
     </h1>
   
 
@@ -114,35 +114,36 @@ jenkins配合蒲公英实现APK的自动发布
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>通过 Jenkins 可以自动编译打包应用，配合蒲公英自动上传发布，可以做到扫码安装，简化测试步骤。不过这也不是什么新鲜事物了，以下两篇文章基本就讲得很全了。</p>
+        <p>Jenkins 自动编译打包应用，配合蒲公英上传发布，可以做到扫码安装，简化测试步骤。这不是什么新鲜事物，以下两篇文章基本讲得很全：</p>
 <ul>
 <li><a href="http://www.jianshu.com/p/441e75f527f2" target="_blank" rel="external">jenkins配合蒲公英实现APK的自动发布</a></li>
 <li><a href="http://blog.csdn.net/u011904605/article/details/54619549" target="_blank" rel="external">使用Jenkins生成 二维码</a></li>
 </ul>
-<p>我只说一下这两篇文章没有提到的小技巧。</p>
+<p>我只说两个没有提到的小技巧。</p>
 <a id="more"></a>
-<h1 id="获取上传文件路径"><a href="#获取上传文件路径" class="headerlink" title="获取上传文件路径"></a>获取上传文件路径</h1><p>网上的文章要么是直接用插件上传，要么学官方示例直接 curl。但是文件名要么直接跳过，要么假定生成物的名字是固定的。</p>
-<p>然而我这边的就不固定，为了区分不同的编译输出，会带有版本号啊日期啊等等的信息在文件名里。</p>
-<p>我的做法是，让 <code>find</code> 来处理，上代码：</p>
+<h1 id="获取上传文件路径"><a href="#获取上传文件路径" class="headerlink" title="获取上传文件路径"></a>获取上传文件路径</h1><p>网上文章要么是直接用插件上传，要么学官方示例直接 curl。文件名要么直接跳过，要么需要 生成物名字 固定不变。</p>
+<p>可我这里就不固定，为区分不同编译输出，会带有版本号日期等信息在文件名里。</p>
+<p>我的做法是让 <code>find</code> 来处理，上代码：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">FILENAME=`find ./app/build/outputs/apk/ -type f -name <span class="string">"*.apk"</span>`</div><div class="line">curl -F <span class="string">"file=@<span class="variable">$&#123;FILENAME&#125;</span>"</span> -F <span class="string">"uKey=yourUserKey"</span> -F <span class="string">"_api_key=yourApiKey"</span> http://www.pgyer.com/apiv1/app/upload</div></pre></td></tr></table></figure>
-<p>这个代码有效的前提是，对应的目录下只能有一个apk，否则 FILENAME 里面就不止一个文件的信息了。不过就算不止一个apk，修改一下 -name 的参数也很容易。</p>
-<h1 id="获取二维码"><a href="#获取二维码" class="headerlink" title="获取二维码"></a>获取二维码</h1><p>基本原理是利用 <a href="http://wiki.jenkins-ci.org/display/JENKINS/Description+Setter+Plugin" target="_blank" rel="external">Jenkins description setter</a> ，而且要在 管理 &gt; Global Security &gt; Markup Formatter 里面打开 HTML。选 Safe HTML 也行，选PegDown 然后不要 Suppress HTML 也行。我习惯Markdown，所以选了后者。</p>
-<p>虽然用了Markdown，但是二维码还是用的 <code>&lt;img&gt;</code> 而不是 <code>![]()</code> ，因为Markdown 在 Job 页面不解析，非得进入具体的build才能看到，要多点一下。</p>
-<p>上传应用之后，在蒲公英的管理页能看到二维码。不过你看它的地址，会发现是一个对应 应用 的固定地址，相当于一个指向 latest 的链接。如果用这个链接，那么所有 build 的二维码都会一样，都指向最新的 build。这当然不是想要的效果。上面给的第二篇文章的解决办法是，每次都把最新的二维码下载下来保存在本地，然后链接指向本地的文件。</p>
-<p>其实不用那么麻烦，让我们看看log的输出：（星号是我消去了敏感信息）</p>
+<p>脚本有效的前提是，对应目录下只能有一个apk，否则 FILENAME 里面就不止一个文件名了。要是不止一个 apk ，就要修改 <code>-name</code> 参数，让正则式只匹配想要的文件。</p>
+<h1 id="获取二维码"><a href="#获取二维码" class="headerlink" title="获取二维码"></a>获取二维码</h1><p>基本原理是利用 <a href="http://wiki.jenkins-ci.org/display/JENKINS/Description+Setter+Plugin" target="_blank" rel="external">Jenkins description setter</a> ，并且在 <code>管理 &gt; Global Security &gt; Markup Formatter</code>  里打开 HTML。选 Safe HTML 也行，选 PegDown 然后不要 Suppress HTML 也行。我习惯Markdown，选了后者。</p>
+<p>虽然启用 Markdown，但二维码还是要用 <code>&lt;img&gt;</code> 而不是 <code>![]()</code> ：因为 Markdown 在 Job 页面不解析，非得进入具体 build 页面才能看到，多点一下，不够方便。</p>
+<p>上传应用后，在蒲公英管理页能看到二维码。可看地址，发现是与 应用 相关的 <strong>固定地址</strong>，相当于指向 latest-build 的链接。用这个链接，所有 build 都是相同二维码，都指向最新 build。</p>
+<p>这当然不是想要的效果。前面列出的第二篇文章解决办法是，每次都把最新的二维码下载下来保存在本地，显示本地图片。</p>
+<p>其实不用那么麻烦，让我们看看log输出：（星号是消去敏感信息）</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;<span class="string">"code"</span>:0,<span class="string">"message"</span>:<span class="string">""</span>,<span class="string">"data"</span>:&#123;<span class="string">"appKey"</span>:<span class="string">"*****"</span>,<span class="string">"userKey"</span>:<span class="string">"*****"</span>,<span class="string">"appType"</span>:<span class="string">"2"</span>,<span class="string">"appIsLastest"</span>:<span class="string">"1"</span>,<span class="string">"appFileSize"</span>:<span class="string">"*****"</span>,<span class="string">"appName"</span>:<span class="string">"*****"</span>,<span class="string">"appVersion"</span>:<span class="string">"1.1.3"</span>,<span class="string">"appVersionNo"</span>:<span class="string">"113"</span>,<span class="string">"appBuildVersion"</span>:<span class="string">"13"</span>,<span class="string">"appIdentifier"</span>:<span class="string">"**.**.**"</span>,<span class="string">"appIcon"</span>:<span class="string">"*****"</span>,<span class="string">"appDescription"</span>:<span class="string">"*****"</span>,<span class="string">"appUpdateDescription"</span>:<span class="string">""</span>,<span class="string">"appScreenshots"</span>:<span class="string">""</span>,<span class="string">"appShortcutUrl"</span>:<span class="string">"****"</span>,<span class="string">"appCreated"</span>:<span class="string">"2017-02-23 13:52:58"</span>,<span class="string">"appUpdated"</span>:<span class="string">"2017-02-23 13:52:58"</span>,<span class="string">"appQRCodeURL"</span>:<span class="string">"http:\/\/static.pgyer.com\/app\/qrcodeHistory\/*****(长度64的16进制hash，相当于256bit)"</span>&#125;&#125;</div></pre></td></tr></table></figure>
-<p>上面的是 curl post之后的输出，其实就是 服务器的 response。</p>
-<p>appShortcutUrl 就是上面说的固定不变的短链接，假定这个值是 abcd，那么对应的链接就是 <code>static.pgyer.com/app/qrcode/abcd</code>。</p>
-<p>不过，你仔细留意的话，其实二维码的真实链接也已经包含了，就是：<code>&quot;appQRCodeURL&quot;:&quot;http:\/\/static.pgyer.com\/app\/qrcodeHistory\/*****(长度64的hash)&quot;</code> 。</p>
-<p>怎么用呢？要知道 Jenkins description setter 本来就支持 正则式的！</p>
+<p>这是 curl post 之后的输出，其实就是 服务器的 response。</p>
+<p>appShortcutUrl 就是上面提到固定不变的短链接，假定这个值是 abcd，那么对应的链接就是 <code>static.pgyer.com/app/qrcode/abcd</code>。</p>
+<p>不过，仔细留意的话，二维码的真实链接也已经在里面，就是：<code>&quot;appQRCodeURL&quot;:&quot;http:\/\/static.pgyer.com\/app\/qrcodeHistory\/*****(长度64的hash)&quot;</code> 。</p>
+<p>怎么用呢？要知道 Jenkins description setter 本来就支持 正则式！</p>
 <blockquote>
 <p>If configured, the regular expression will be applied to each line in the build log. A description will be set based on the first match.</p>
 </blockquote>
-<p>换言之，它可以用正则式在log输出中找匹配，并且将匹配到的 match 用于description。</p>
-<p>直接上代码：</p>
+<p>换言之，它可以用正则式在 log 输出中找匹配，并且将匹配到的 match 用于description。</p>
+<p>直接上配置：</p>
 <p>Regular expression : <code>.*qrcodeHistory\\/(\S{64})</code></p>
 <p>Description : <code>&lt;img src=&quot;http://static.pgyer.com/app/qrcodeHistory/\1&quot;&gt;</code></p>
-<p>其中 <code>\1</code> 表示引用第一个匹配。（注意，匹配是从0开始算的，不过 <code>\0</code> 是整个匹配行）</p>
+<p>其中 <code>\1</code> 表示引用第一个匹配。（注意，匹配从0开始算，不过 <code>\0</code> 是整个匹配行）</p>
 <p>搞定，提交代码之后，点一下build，然后扫码就可以测试了！！</p>
 <hr>
 <p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
@@ -232,7 +233,7 @@ jenkins配合蒲公英实现APK的自动发布
           </li>
         
           <li>
-            <a href="/2017/two-tips-for-jenkins-pgyer/">Jenkins + 蒲公英 自动发布的两个小技巧</a>
+            <a href="/2017/two-tips-for-jenkins-pgyer/">Jenkins + 蒲公英 自动发布两个小技巧</a>
           </li>
         
           <li>
