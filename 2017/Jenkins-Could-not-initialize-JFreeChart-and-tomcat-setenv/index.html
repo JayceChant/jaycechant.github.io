@@ -15,7 +15,7 @@
 <meta property="og:description" content="Jenkins 有一系列插件，可以提供趋势图显示项目的情况，例如 Checkstyle, Dry, FindBugs, PMD, Tasks, 和 Warnings，还有把前面的内容合并显示的 Static Analysis Collector Plug-in。实际上，你只要装最后一个，前面的会作为依赖全部装上。
 作为尝试，先配置了 Maven Warnings Trend，打开一看，图是裂的……">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-01-25T04:21:21.999Z">
+<meta property="og:updated_time" content="2017-10-12T14:39:33.678Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh">
 <meta name="twitter:description" content="Jenkins 有一系列插件，可以提供趋势图显示项目的情况，例如 Checkstyle, Dry, FindBugs, PMD, Tasks, 和 Warnings，还有把前面的内容合并显示的 Static Analysis Collector Plug-in。实际上，你只要装最后一个，前面的会作为依赖全部装上。
@@ -105,9 +105,9 @@
         <p>Jenkins 有一系列插件，可以提供趋势图显示项目的情况，例如 Checkstyle, Dry, FindBugs, PMD, Tasks, 和 Warnings，还有把前面的内容合并显示的 <a href="http://wiki.jenkins-ci.org/x/tgeIAg" target="_blank" rel="external">Static Analysis Collector Plug-in</a>。实际上，你只要装最后一个，前面的会作为依赖全部装上。</p>
 <p>作为尝试，先配置了 <strong>Maven Warnings Trend</strong>，打开一看，图是裂的……</p>
 <a id="more"></a>
-<h1 id="headless-mode"><a href="#headless-mode" class="headerlink" title="headless mode"></a>headless mode</h1><p>结果是有几个Exception，但根源应该是这个：</p>
+<h2 id="headless-mode"><a href="#headless-mode" class="headerlink" title="headless mode"></a>headless mode</h2><p>一看有几个Exception，根源应该是这个：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Could not initialize class org.jfree.chart.JFreeChart</div></pre></td></tr></table></figure>
-<p>放Google，在官方issue里发现了这个：<a href="https://issues.jenkins-ci.org/browse/JENKINS-21839" target="_blank" rel="external">https://issues.jenkins-ci.org/browse/JENKINS-21839</a></p>
+<p>放Google，在官方issue里发现这个：<a href="https://issues.jenkins-ci.org/browse/JENKINS-21839" target="_blank" rel="external">https://issues.jenkins-ci.org/browse/JENKINS-21839</a></p>
 <blockquote>
 <p>It’s not a bug in Jenkins but a miss-configuration. Anyway I couldn’t find it in any knowledge base. Maybe adding this solution in JIRA is enough … but let me suggest you to try to add it somewhere in plugin’s documentation, for example on “Configuration” section found here <a href="https://wiki.jenkins-ci.org/display/JENKINS/Performance+Plugin" target="_blank" rel="external">https://wiki.jenkins-ci.org/display/JENKINS/Performance+Plugin</a></p>
 <p>The solution is just adding</p>
@@ -116,15 +116,16 @@
 <p>CATALINA_OPTS=-Djava.awt.headless=true</p>
 </blockquote>
 <p>关于headless的信息：<a href="https://www.oschina.net/translate/using-headless-mode-in-java-se" target="_blank" rel="external">https://www.oschina.net/translate/using-headless-mode-in-java-se</a></p>
-<p>简单说，JFreeChart 引用了awt包，然后awt 会尝试绑定本地IO设备包括 显示器 和 Keyboard，结果失败就会引起异常。只要启用headless mode就可以了。如果是直接java启动的Jenkins.war，直接在启动时加上参数即可。如果通过tomcat这样的容器启动，就要把参数加到容器去。</p>
-<h1 id="setenv-sh"><a href="#setenv-sh" class="headerlink" title="setenv.sh"></a>setenv.sh</h1><p>一点题外话。上面的issue的讨论里，说是直接往 <code>catalina.sh</code> 里加参数，当初配置tomcat时，也有文章说写到 <code>startup.sh</code> 和 <code>shutdown.sh</code> 里面去。</p>
-<p>实际上这都是不那么好的做法，应该写在 <code>setenv.sh</code> 里面。我们知道 <code>startup.sh</code> 和 <code>shutdown.sh</code>  最后都是调用到 <code>catalina.sh</code> ，而它会自动加载 <code>setenv.sh</code>。</p>
+<p>简单说，JFreeChart 引用了awt 包，然后 awt 会尝试绑定本地 IO 设备——包括 显示器 和 Keyboard，结果失败就会引起异常。只要启用 headless mode 就可以避免。直接 java 命令启动的 Jenkins.war，在启动时加上参数即可。如果通过 tomcat 这样的容器启动，就要把参数加到容器去。</p>
+<h2 id="setenv-sh"><a href="#setenv-sh" class="headerlink" title="setenv.sh"></a>setenv.sh</h2><p>一点题外话。</p>
+<p>上面 issue 的讨论里，是直接往 <code>catalina.sh</code> 里加参数；当初配置 tomcat 时，也有文章说写到 <code>startup.sh</code> 和 <code>shutdown.sh</code> 里面去。</p>
+<p>实际上这都是不那么好的做法，应该写在 <code>setenv.sh</code> 里。看一下就知道 <code>startup.sh</code> 和 <code>shutdown.sh</code>  最后都实际调用到 <code>catalina.sh</code> ，而它会自动加载 <code>setenv.sh</code>。</p>
 <p>跟分别写在  <code>startup.sh</code> 和 <code>shutdown.sh</code>  比，写在一处当然更容易管理；那为什么不直接写在<code>catalina.sh</code> 开头，要多此一举呢？除了单独写在一个文件，更清晰以外，还有方便管理多个实例的好处。</p>
 <p><code>catalina.sh</code> 会先检查 <code>$CATALINA_BASE/bin/setenv.sh</code> ，存在就加载，不存在再去检查 <code>$CATALINA_HOME/bin/setenv.sh</code> 并加载。也就是 <code>CATALINA_BASE</code> 的配置优先于 <code>CATALINA_HOME</code> 的配置。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> [ -r <span class="string">"<span class="variable">$CATALINA_BASE</span>/bin/setenv.sh"</span> ]; <span class="keyword">then</span></div><div class="line">  . <span class="string">"<span class="variable">$CATALINA_BASE</span>/bin/setenv.sh"</span></div><div class="line"><span class="keyword">elif</span> [ -r <span class="string">"<span class="variable">$CATALINA_HOME</span>/bin/setenv.sh"</span> ]; <span class="keyword">then</span></div><div class="line">  . <span class="string">"<span class="variable">$CATALINA_HOME</span>/bin/setenv.sh"</span></div><div class="line"><span class="keyword">fi</span></div></pre></td></tr></table></figure>
-<p><code>CATALINA_HOME</code> 就是tomcat的安装目录了。而 <code>CATALINA_BASE</code> 是工作目录，如果没有配置，默认等于 <code>CATALINA_HOME</code> ：</p>
+<p><code>CATALINA_HOME</code> 就是 tomcat 的安装目录了。而 <code>CATALINA_BASE</code> 是工作目录，默认等于 <code>CATALINA_HOME</code> ：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Only set CATALINA_HOME if not already set</span></div><div class="line">[ -z <span class="string">"<span class="variable">$CATALINA_HOME</span>"</span> ] &amp;&amp; CATALINA_HOME=`<span class="built_in">cd</span> <span class="string">"<span class="variable">$PRGDIR</span>/.."</span> &gt;/dev/null; <span class="built_in">pwd</span>`</div><div class="line"></div><div class="line"><span class="comment"># Copy CATALINA_BASE from CATALINA_HOME if not already set</span></div><div class="line">[ -z <span class="string">"<span class="variable">$CATALINA_BASE</span>"</span> ] &amp;&amp; CATALINA_BASE=<span class="string">"<span class="variable">$CATALINA_HOME</span>"</span></div></pre></td></tr></table></figure>
-<p>但如果需要安装一个 tomcat 跑多个实例，这时<code>CATALINA_BASE</code> 就会指向各个实例自己的目录。这个时候，分别写在工作目录下的 <code>setenv.sh</code> 就可以分别设置不同的配置。</p>
+<p>如果需要安装一个 tomcat 跑多个实例，这时<code>CATALINA_BASE</code> 就会指向各个实例自己的目录。这时分别写在工作目录下的 <code>setenv.sh</code> 就可以分别设置不同的配置。</p>
 <p>就酱。</p>
 <hr>
 <p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
