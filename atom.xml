@@ -473,48 +473,49 @@
     <link href="http://jaycechant.info/2017/special-for-tools/"/>
     <id>http://jaycechant.info/2017/special-for-tools/</id>
     <published>2017-01-16T06:56:57.000Z</published>
-    <updated>2017-01-25T04:21:21.999Z</updated>
+    <updated>2017-10-15T09:28:51.532Z</updated>
     
-    <content type="html"><![CDATA[<p>这个专题收集一些趁手的小工具，并附使用技巧。尽量地小和简单，尽量的用完即走，简单到不足以单独成篇，集中放这里；如果复杂的工具，就单独开一篇不放这里，因此可能比较多是命令行工具也不一定。</p>
+    <content type="html"><![CDATA[<p>本专题收集趁手的小工具，并附使用技巧。尽量小和简单，尽量用完即走，简单到不必单独成篇，集中放这里；复杂的工具，就单独开一篇不放这里。可能比较多是命令行工具也不一定。</p>
 <p>另外开一篇常用软件列表，只列举优缺点对比不展开用法，所以某些工具可能会有重叠，但内容侧重点不同。</p>
 <p>只有标题的，先占坑慢慢填。</p>
 <a id="more"></a>
-<h1 id="跨平台"><a href="#跨平台" class="headerlink" title="跨平台"></a>跨平台</h1><h2 id="Web-API-工具"><a href="#Web-API-工具" class="headerlink" title="Web API 工具"></a>Web API 工具</h2><h3 id="curl"><a href="#curl" class="headerlink" title="curl"></a>curl</h3><h3 id="Postman"><a href="#Postman" class="headerlink" title="Postman"></a>Postman</h3><h2 id="Click-Python-包"><a href="#Click-Python-包" class="headerlink" title="Click (Python 包)"></a>Click (Python 包)</h2><h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><h2 id="Terminal-mutiplexer"><a href="#Terminal-mutiplexer" class="headerlink" title="Terminal mutiplexer"></a>Terminal mutiplexer</h2><p><strong>multiplexer</strong> 电子上是指多路复用器，但这里是指Linux上的终端多会话管理器。</p>
-<h3 id="screen"><a href="#screen" class="headerlink" title="screen"></a>screen</h3><p><a href="http://www.gnu.org/software/screen/" target="_blank" rel="external">Screen</a>是GNU项目中的一个工具，一般的Linux发行版本应该都有自带。其主页上的介绍是：</p>
+<h1 id="跨平台"><a href="#跨平台" class="headerlink" title="跨平台"></a>跨平台</h1><h2 id="Web-API-工具"><a href="#Web-API-工具" class="headerlink" title="Web API 工具"></a>Web API 工具</h2><h3 id="curl"><a href="#curl" class="headerlink" title="curl"></a>curl</h3><h3 id="Postman"><a href="#Postman" class="headerlink" title="Postman"></a>Postman</h3><h2 id="Click-Python-包"><a href="#Click-Python-包" class="headerlink" title="Click (Python 包)"></a>Click (Python 包)</h2><h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><h2 id="Terminal-mutiplexer"><a href="#Terminal-mutiplexer" class="headerlink" title="Terminal mutiplexer"></a>Terminal mutiplexer</h2><p><strong>multiplexer</strong> 电子上是指多路复用器，当前语境则指 Linux 上的终端多会话管理器。</p>
+<h3 id="screen"><a href="#screen" class="headerlink" title="screen"></a>screen</h3><p><a href="http://www.gnu.org/software/screen/" target="_blank" rel="external">Screen</a> 是 GNU 项目中的一部分，一般 Linux 发行版本应该都有自带。其主页上的介绍是：</p>
 <blockquote>
 <p>” Screen is a full-screen window manager that multiplexes a physical terminal between several processes, typically interactive shells.”</p>
 </blockquote>
 <p>可以简单看作一个远程会话 / 窗口管理器。</p>
-<p>不过高级技巧我总是记不住，一般只是用到它的一个主要功能： <strong>断开ssh连接之后，远程端的程序继续运行，需要时再重新连上继续工作。</strong></p>
-<p>更多的技巧，大家自行了解：<a href="http://www.ibm.com/developerworks/cn/linux/l-cn-screen/" target="_blank" rel="external">IBM 开发者网络上的介绍</a> </p>
-<p>如果需要管理多个ssh连接， <strong>Byobu(tmux)</strong> (对Screen的强化，一般需要额外安装，不过我有权限的服务器一般都会装上，哈哈。)会更方便好用，定制化更高。</p>
+<p>高级技巧我总是记不住，一般只用到它的主要特性： <strong>断开 ssh 连接之后，远程端的程序继续运行，需要时再重新连上继续工作。</strong></p>
+<p>更多技巧，大家自行了解：<a href="http://www.ibm.com/developerworks/cn/linux/l-cn-screen/" target="_blank" rel="external">IBM 开发者网络上的介绍</a> </p>
+<p>如果需要多个窗口， <strong>Byobu</strong> 会更方便好用，定制化更高。 (Byobu 是 对 tmux / Screen 的强化，需要额外安装，我有权限的服务器一般都会装上) </p>
 <p>入门使用，以下几个命令已经基本够用了：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ screen</div></pre></td></tr></table></figure>
-<p>直接输入screen，就会启动一个执行shell的会话。你可以执行任意shell程序，就像在ssh窗口中那样。在该窗口中键入exit退出该窗口，如果这是该screen会话的唯一窗口，该screen会话退出，否则screen自动切换到前一个窗口。</p>
+<p>直接输入 <code>screen</code> ，会启动一个执行 shell 的会话。你可以执行任意 shell 程序，就像在 ssh 窗口那样。在窗口中键入 exit 退出该窗口，如果退出会话的唯一窗口，screen 会话也会退出，否则 screen 自动切换到前一个窗口。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">C<span class="_">-a</span>, d (即Ctrl键+a键，之后再按下d键)</div></pre></td></tr></table></figure>
-<p>暂时断开(detach)当前会话，之后再重新连接(attach)。</p>
+<p>暂时断开 (detach) 当前会话，之后再重新连接 (attach) 。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ screen –ls</div></pre></td></tr></table></figure>
 <p>列出当前所有会话</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ screen –r [pid | session name]</div></pre></td></tr></table></figure>
-<p>重新连接会话。如果只有一个会话，参数可以留空。如果有多个会话，可以通过上一个命令查看pid或session name(需要另外命令指定)。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ screen –R</div></pre></td></tr></table></figure>
-<p>跟-r作用一样，但是如果当前没有可用会话，会自动新建一个。</p>
+<p>重新连接会话。如果只有一个会话，参数可以留空。如果有多个会话，可以通过上一个命令查看 pid 或 session  name(需要另外命令指定)。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ screen –R [pid | session name]</div></pre></td></tr></table></figure>
+<p>跟 <code>-r</code> 作用一样，但是如果当前没有可用会话，会自动新建一个。</p>
 <h3 id="Tmux-amp-byobu"><a href="#Tmux-amp-byobu" class="headerlink" title="Tmux &amp; byobu"></a>Tmux &amp; byobu</h3><p><a href="http://tmux.github.io/" target="_blank" rel="external">Tmux</a> 的官方介绍写着</p>
 <blockquote>
 <p><em>tmux</em> is a terminal multiplexer.</p>
 <p><strong>What is a terminal multiplexer?</strong> It lets you switch easily between several programs in one terminal, detach them (they keep running in the background) and reattach them to a different terminal. And do a lot more.</p>
 </blockquote>
 <p>用法可以看这篇介绍：<a href="http://aofengblog.blog.163.com/blog/static/6317021201310207323925/" target="_blank" rel="external">Linux终端多窗口工具tmux</a></p>
-<p>Tmux 比 screen强了不是一丁半点，但是要自己折腾的地方太多了，我连screen的命令还经常忘呢，何况这个。</p>
+<p>看起来 Tmux 比 screen 强不是一丁半点，但要自己折腾的地方太多了，我连screen的命令还经常忘，何况这个。</p>
 <hr>
 <p>所以我最后选择了 <a href="http://www.byobu.co/" target="_blank" rel="external">byobu</a> (日语屏风的罗马音)。</p>
 <blockquote>
 <p>Byobu is a Japanese term for decorative, multi-panel screens that serve as folding room dividers. As an open source software project, Byobu is an elegant enhancement of the otherwise functional, plain, practical <a href="http://www.gnu.org/software/screen/" target="_blank" rel="external">GNU Screen</a>. Byobu includes an enhanced profile, configuration utilities, and system status notifications for the GNU screen window manager as well as the <a href="http://tmux.sourceforge.net/" target="_blank" rel="external">Tmux</a> terminal multiplexer. Byobu is developed and released as free software under the <a href="http://www.gnu.org/licenses/gpl-3.0.txt" target="_blank" rel="external">GPLv3</a>.</p>
 </blockquote>
-<p>介绍里第一句说，byobu是个日语词，是一种multi-panel的screens（英语里有屏风的意思，不过常见屏风一般是单块的，而日式屏风往往是多折的），所以byobu其实不是新东西，它本质上是一个tmux的frontend，是一个tmux 加上一堆设计好的配置和一些小工具（配置工具，系统状态显示器），用来解决tmux比较复杂的问题。执行</p>
+<p>介绍里第一句说，byobu 是个日语词，是一种 multi-panel 的 screens（英语里有屏风的意思，不过常见屏风一般是单块，而日式屏风往往是多折的），所以 byobu 其实不是新东西，它本质上是一个 tmux 的 frontend ，是一个 tmux 加上一堆设计好的配置和一些小工具（配置工具，系统状态显示器），好让 tmux 不那么复杂难用。</p>
+<p>执行</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ byobu --help</div><div class="line">usage: tmux [-28lquvV] [-c shell-command] [<span class="_">-f</span> file] [-L socket-name]</div><div class="line">            [-S socket-path] [<span class="built_in">command</span> [flags]]</div></pre></td></tr></table></figure>
 <p>就暴露真身了。</p>
-<p>虽然是这样说，byobu除了能执行tmux本身的功能之外，还是给懒人提供了方便的，最简单的就是直接<code>$ byobu</code> ，然后通过F2~F9就可以执行绝大多数功能：</p>
+<p>虽是这样说，byobu 除了能执行 tmux 本身的功能之外，还是给懒人提供了方便的，最简单的就是直接<code>$ byobu</code> ，然后通过F2~F9就可以执行绝大多数功能：</p>
 <table>
 <thead>
 <tr>
@@ -601,15 +602,15 @@
 </tr>
 </tbody>
 </table>
-<p>这些功能中，最常用的就是F2 新建，F3 / F4 前后切换，还有 F6 detach了。如果像我习惯了screen，也可以用 Ctrl + a, d 来detach。</p>
-<p>最后提一下，tmux 和 byobu 在 Linux界两大包管理器 yum 和 apt-get 的源里都有，直接安装就好了。</p>
+<p>这些功能中，最常用的就是F2 新建，F3 / F4 前后切换，还有 F6 detach了。如果像我习惯了screen，也可以用 <code>Ctrl + a, d</code> 来 detach。</p>
+<p>最后提一下，tmux 和 byobu 在 Linux 界两大包管理器 yum 和 apt-get 的源里都有，直接安装即可。</p>
 <h2 id="links"><a href="#links" class="headerlink" title="links"></a>links</h2><h1 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h1><hr>
 <p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;这个专题收集一些趁手的小工具，并附使用技巧。尽量地小和简单，尽量的用完即走，简单到不足以单独成篇，集中放这里；如果复杂的工具，就单独开一篇不放这里，因此可能比较多是命令行工具也不一定。&lt;/p&gt;
+      &lt;p&gt;本专题收集趁手的小工具，并附使用技巧。尽量小和简单，尽量用完即走，简单到不必单独成篇，集中放这里；复杂的工具，就单独开一篇不放这里。可能比较多是命令行工具也不一定。&lt;/p&gt;
 &lt;p&gt;另外开一篇常用软件列表，只列举优缺点对比不展开用法，所以某些工具可能会有重叠，但内容侧重点不同。&lt;/p&gt;
 &lt;p&gt;只有标题的，先占坑慢慢填。&lt;/p&gt;
     

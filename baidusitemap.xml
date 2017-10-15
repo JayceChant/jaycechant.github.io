@@ -4,6 +4,27 @@
 
     
   <url>
+    <loc>http://jaycechant.info/2017/special-for-tools/</loc>
+    <lastmod>2017-10-15T09:28:51.532Z</lastmod>
+    <data>
+        <display>
+        <title>小工具专题（持续更新）</title>
+        <pubTime>2017-01-16T06:56:57.000Z</pubTime>
+        
+        <tag>screen</tag>
+         
+        <tag>byobu</tag>
+         
+        <tag>keep-updating</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jaycechant.info/2017/use-screen-as-byobu-backend/</loc>
     <lastmod>2017-10-12T14:41:16.667Z</lastmod>
     <data>
@@ -170,6 +191,27 @@
 
     
   <url>
+    <loc>http://jaycechant.info/2017/Android-sdk-on-Linux-for-Jenkins-etc/</loc>
+    <lastmod>2017-01-25T04:21:21.999Z</lastmod>
+    <data>
+        <display>
+        <title>Linux 上 为 Jenkins 配置 Android-sdk 及其它</title>
+        <pubTime>2017-01-16T03:24:34.000Z</pubTime>
+        
+        <tag>Jenkins</tag>
+         
+        <tag>Android</tag>
+         
+        <tag>Android-sdk</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jaycechant.info/2016/mirrors-collection/</loc>
     <lastmod>2017-01-25T04:21:21.999Z</lastmod>
     <data>
@@ -194,48 +236,6 @@
         <tag>maven</tag>
          
         <tag>a list</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jaycechant.info/2017/Android-sdk-on-Linux-for-Jenkins-etc/</loc>
-    <lastmod>2017-01-25T04:21:21.999Z</lastmod>
-    <data>
-        <display>
-        <title>Linux 上 为 Jenkins 配置 Android-sdk 及其它</title>
-        <pubTime>2017-01-16T03:24:34.000Z</pubTime>
-        
-        <tag>Jenkins</tag>
-         
-        <tag>Android</tag>
-         
-        <tag>Android-sdk</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jaycechant.info/2017/special-for-tools/</loc>
-    <lastmod>2017-01-25T04:21:21.999Z</lastmod>
-    <data>
-        <display>
-        <title>小工具专题（持续更新）</title>
-        <pubTime>2017-01-16T06:56:57.000Z</pubTime>
-        
-        <tag>screen</tag>
-         
-        <tag>byobu</tag>
-         
-        <tag>keep-updating</tag>
          
          
            
