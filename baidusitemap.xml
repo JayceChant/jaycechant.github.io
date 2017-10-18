@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>http://jaycechant.info/2017/why-you-should-learn-python/</loc>
+    <lastmod>2017-10-18T16:24:37.565Z</lastmod>
+    <data>
+        <display>
+        <title>为什么你应该学 Python</title>
+        <pubTime>2017-10-18T15:37:29.000Z</pubTime>
+        
+        <tag>Python</tag>
+         
+        <tag>why</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jaycechant.info/2016/backup-tips-about-syncthing/</loc>
     <lastmod>2017-10-16T15:30:01.700Z</lastmod>
     <data>
@@ -11,9 +30,9 @@
         <title>用 Syncthing 备份的技巧</title>
         <pubTime>2016-08-28T07:57:03.000Z</pubTime>
         
-        <tag>Syncthing</tag>
-         
         <tag>skill</tag>
+         
+        <tag>Syncthing</tag>
          
         <tag>dropbox</tag>
          
@@ -227,9 +246,9 @@
          
         <tag>pip</tag>
          
-        <tag>Ubuntu</tag>
-         
         <tag>mirror</tag>
+         
+        <tag>Ubuntu</tag>
          
         <tag>aliyun</tag>
          
@@ -268,16 +287,18 @@
 
     
   <url>
-    <loc>http://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
+    <loc>http://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
     <lastmod>2017-01-25T04:21:21.983Z</lastmod>
     <data>
         <display>
-        <title>Windows 下 Python 2x 和 3x 版本共存</title>
-        <pubTime>2012-04-11T11:46:00.000Z</pubTime>
+        <title>解题报告 —— 从水题开一个头</title>
+        <pubTime>2016-11-08T09:40:20.000Z</pubTime>
         
-        <tag>Python</tag>
+        <tag>algorithm</tag>
          
-        <tag>unfinished</tag>
+        <tag>practice</tag>
+         
+        <tag>solution-report</tag>
          
          
            
@@ -317,9 +338,9 @@
         
         <tag>Python</tag>
          
-        <tag>unfinished</tag>
-         
         <tag>trouble</tag>
+         
+        <tag>unfinished</tag>
          
         <tag>pip</tag>
          
@@ -333,18 +354,16 @@
 
     
   <url>
-    <loc>http://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
+    <loc>http://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
     <lastmod>2017-01-25T04:21:21.983Z</lastmod>
     <data>
         <display>
-        <title>解题报告 —— 从水题开一个头</title>
-        <pubTime>2016-11-08T09:40:20.000Z</pubTime>
+        <title>Windows 下 Python 2x 和 3x 版本共存</title>
+        <pubTime>2012-04-11T11:46:00.000Z</pubTime>
         
-        <tag>algorithm</tag>
+        <tag>Python</tag>
          
-        <tag>practice</tag>
-         
-        <tag>solution-report</tag>
+        <tag>unfinished</tag>
          
          
            
@@ -472,9 +491,9 @@
          
         <tag>blog</tag>
          
-        <tag>hexo</tag>
-         
         <tag>node.js</tag>
+         
+        <tag>hexo</tag>
          
         <tag>trouble</tag>
          
@@ -552,9 +571,9 @@
         <title>刷OJ的技巧</title>
         <pubTime>2016-12-09T01:35:03.000Z</pubTime>
         
-        <tag>skill</tag>
-         
         <tag>OJ</tag>
+         
+        <tag>skill</tag>
          
          
            
@@ -605,9 +624,9 @@
         
         <tag>how-to</tag>
          
-        <tag>Mathjax</tag>
-         
         <tag>nodePPT</tag>
+         
+        <tag>Mathjax</tag>
          
          
            

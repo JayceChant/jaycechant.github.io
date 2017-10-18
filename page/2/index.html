@@ -73,6 +73,56 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-Jenkins-javamail-config-JCE-etc" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/Jenkins-javamail-config-JCE-etc/" class="article-date">
+  <time datetime="2017-01-11T07:02:31.000Z" itemprop="datePublished">2017-01-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/Jenkins-javamail-config-JCE-etc/">Jenkins JavaMail 配置：JCE 及其他</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Jenkins 上线一段时间，逐渐完善中。原想 nightly build 缓一缓开启，前两天发现trunk有编译不过的代码导致build fail，心想着要是不早点发现，代码排查也麻烦，如果新版本上线当天发现就更折腾，于是就开了nightly build。</p>
+<p>既然开了nightly build，跟手动启动的build你会去关注结果不一样，自动启动的build不一定会记得，如果没有留意到build fail就没有意义了。所以顺便就配置结果邮件了。以下是踩坑记录。JCE部分建议大家留意一下，不知道的话，做security相关开发一不小心就在这上面浪费时间。</p>
+        
+          <p class="article-more-link">
+            <a href="/2017/Jenkins-javamail-config-JCE-etc/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://jaycechant.info/2017/Jenkins-javamail-config-JCE-etc/" data-id="cj8x90cki001mp4lnn8wn00ng" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="http://jaycechant.info/2017/Jenkins-javamail-config-JCE-etc/#disqus_thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JCE/">JCE</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaMail/">JavaMail</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jenkins/">Jenkins</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/smtp/">smtp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/trouble/">trouble</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-supervisor-traps" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/supervisor-traps/" class="article-date">
@@ -109,7 +159,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://jaycechant.info/2017/supervisor-traps/" data-id="cj7gbozbi001ltglnewwygl2h" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://jaycechant.info/2017/supervisor-traps/" data-id="cj8x90ckx001vp4ln6i4v4t65" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -165,7 +215,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://jaycechant.info/2017/why-you-should-document-with-Markdown/" data-id="cj7gbozbi001gtglns9wc8yph" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://jaycechant.info/2017/why-you-should-document-with-Markdown/" data-id="cj8x90cki001jp4lna6gpfhgo" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -216,7 +266,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://jaycechant.info/2016/mirrors-collection/" data-id="cj7gbozc1001ttgln9a6b4k0c" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://jaycechant.info/2016/mirrors-collection/" data-id="cj8x90ck2001ep4ln5fxhlaxf" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -265,7 +315,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://jaycechant.info/2016/vsftp-error-503-and-500/" data-id="cj7gbozby001otglntjmb6ved" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://jaycechant.info/2016/vsftp-error-503-and-500/" data-id="cj8x90cki001hp4ln2b8x55ys" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -314,7 +364,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://jaycechant.info/2016/trap-while-upgrading-pip/" data-id="cj7gbozbi001ftglntnzmqsz0" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://jaycechant.info/2016/trap-while-upgrading-pip/" data-id="cj8x90ck2001cp4ln8fec32c4" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -363,7 +413,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://jaycechant.info/2016/some-good-features-on-CentOS/" data-id="cj7gbozb3001ctglnvrthvooe" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://jaycechant.info/2016/some-good-features-on-CentOS/" data-id="cj8x90ck2001bp4ln4z76xhsz" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -416,7 +466,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://jaycechant.info/2016/skills-on-OJ/" data-id="cj7gbozbi001jtgln9n7dckcg" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://jaycechant.info/2016/skills-on-OJ/" data-id="cj8x90cjm0019p4ln3ab8sptr" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -465,7 +515,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://jaycechant.info/2016/solution-report-start-from-an-easy-problem/" data-id="cj7gbozb3001dtgln7g4f9ipc" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://jaycechant.info/2016/solution-report-start-from-an-easy-problem/" data-id="cj8x90cki001fp4lnbatakn2r" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -514,7 +564,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://jaycechant.info/2016/python-function-and-class-alias/" data-id="cj7gbozb30017tglnmsyo6jpz" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://jaycechant.info/2016/python-function-and-class-alias/" data-id="cj8x90cjm0014p4ln6y1hljlt" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -531,62 +581,9 @@
 
 
   
-    <article id="post-backup-tips-about-syncthing" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/backup-tips-about-syncthing/" class="article-date">
-  <time datetime="2016-08-28T07:57:03.000Z" itemprop="datePublished">2016-08-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/backup-tips-about-syncthing/">用 Syncthing 备份的技巧</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>出于对国内网盘服务的 不信任（安全技术、职业操守 以及 看不见的手），以前一直用 Dropbox。</p>
-<p>Dropbox 被墙，就科学地继续用。后来墙加高，忙起来没空研究新科学，就慢慢不怎么登陆 Dropbox。转用国内的服务——只放无关痛痒资料——重要信息只好手机里加密随身带。（过程中发现国内网盘第 4 个坑点：风来都凑热闹，风走都嚷嚷着停止服务……）</p>
-<p>几个月前忽然想起 Dropbox，登录时发现太久不用帐号被停了，连恢复期也过了。还好文件在本地都有。</p>
-<p>手机空间毕竟有限，又对国内服务不信任，开始关注 BTSync 。结果发现是商业软件：虽然基础服务免费，但过几年不赚钱你撂挑子怎么办？（这种事情没少发生，每次重新习惯新工具都很麻烦）</p>
-<p>最后选择了开源的 <strong>Syncthing</strong> （且跨平台，连 Android 都有 client）。开源项目只要有足够的关注，就不容易死，即使原作者放弃也很快有人接手。</p>
-        
-          <p class="article-more-link">
-            <a href="/2016/backup-tips-about-syncthing/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://jaycechant.info/2016/backup-tips-about-syncthing/" data-id="cj7gbozb3001btgln1rvqml8x" class="article-share-link" data-share="baidu">分享到</a>
-      
-
-      
-        <a href="http://jaycechant.info/2016/backup-tips-about-syncthing/#disqus_thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Syncthing/">Syncthing</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dropbox/">dropbox</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/netdisk/">netdisk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/skill/">skill</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 </section>
@@ -599,7 +596,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 12px;">Android</a> <a href="/tags/Android-sdk/" style="font-size: 10px;">Android-sdk</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/JCE/" style="font-size: 10px;">JCE</a> <a href="/tags/Java/" style="font-size: 12px;">Java</a> <a href="/tags/JavaMail/" style="font-size: 10px;">JavaMail</a> <a href="/tags/Jenkins/" style="font-size: 18px;">Jenkins</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 14px;">Markdown</a> <a href="/tags/Mathjax/" style="font-size: 10px;">Mathjax</a> <a href="/tags/OJ/" style="font-size: 10px;">OJ</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/OpenGrok/" style="font-size: 10px;">OpenGrok</a> <a href="/tags/Python/" style="font-size: 16px;">Python</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Syncthing/" style="font-size: 10px;">Syncthing</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/Ubuntu/" style="font-size: 12px;">Ubuntu</a> <a href="/tags/a-list/" style="font-size: 12px;">a list</a> <a href="/tags/algorithm/" style="font-size: 12px;">algorithm</a> <a href="/tags/aliyun/" style="font-size: 10px;">aliyun</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/blog/" style="font-size: 12px;">blog</a> <a href="/tags/byobu/" style="font-size: 12px;">byobu</a> <a href="/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/tags/document/" style="font-size: 10px;">document</a> <a href="/tags/dropbox/" style="font-size: 10px;">dropbox</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/how-to/" style="font-size: 16px;">how-to</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/keep-updating/" style="font-size: 12px;">keep-updating</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mirror/" style="font-size: 10px;">mirror</a> <a href="/tags/netdisk/" style="font-size: 10px;">netdisk</a> <a href="/tags/node-js/" style="font-size: 12px;">node.js</a> <a href="/tags/nodePPT/" style="font-size: 12px;">nodePPT</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/pgyer/" style="font-size: 10px;">pgyer</a> <a href="/tags/pip/" style="font-size: 14px;">pip</a> <a href="/tags/practice/" style="font-size: 12px;">practice</a> <a href="/tags/presentation/" style="font-size: 10px;">presentation</a> <a href="/tags/screen/" style="font-size: 12px;">screen</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/skill/" style="font-size: 14px;">skill</a> <a href="/tags/smtp/" style="font-size: 10px;">smtp</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/solution-report/" style="font-size: 10px;">solution-report</a> <a href="/tags/supervisor/" style="font-size: 10px;">supervisor</a> <a href="/tags/trouble/" style="font-size: 20px;">trouble</a> <a href="/tags/unfinished/" style="font-size: 14px;">unfinished</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftp/" style="font-size: 10px;">vsftp</a> <a href="/tags/why/" style="font-size: 10px;">why</a>
+      <a href="/tags/Android/" style="font-size: 12px;">Android</a> <a href="/tags/Android-sdk/" style="font-size: 10px;">Android-sdk</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/JCE/" style="font-size: 10px;">JCE</a> <a href="/tags/Java/" style="font-size: 12px;">Java</a> <a href="/tags/JavaMail/" style="font-size: 10px;">JavaMail</a> <a href="/tags/Jenkins/" style="font-size: 18px;">Jenkins</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 14px;">Markdown</a> <a href="/tags/Mathjax/" style="font-size: 10px;">Mathjax</a> <a href="/tags/OJ/" style="font-size: 10px;">OJ</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/OpenGrok/" style="font-size: 10px;">OpenGrok</a> <a href="/tags/Python/" style="font-size: 18px;">Python</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Syncthing/" style="font-size: 10px;">Syncthing</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/Ubuntu/" style="font-size: 12px;">Ubuntu</a> <a href="/tags/a-list/" style="font-size: 12px;">a list</a> <a href="/tags/algorithm/" style="font-size: 12px;">algorithm</a> <a href="/tags/aliyun/" style="font-size: 10px;">aliyun</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/blog/" style="font-size: 12px;">blog</a> <a href="/tags/byobu/" style="font-size: 12px;">byobu</a> <a href="/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/tags/document/" style="font-size: 10px;">document</a> <a href="/tags/dropbox/" style="font-size: 10px;">dropbox</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/how-to/" style="font-size: 16px;">how-to</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/keep-updating/" style="font-size: 12px;">keep-updating</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mirror/" style="font-size: 10px;">mirror</a> <a href="/tags/netdisk/" style="font-size: 10px;">netdisk</a> <a href="/tags/node-js/" style="font-size: 12px;">node.js</a> <a href="/tags/nodePPT/" style="font-size: 12px;">nodePPT</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/pgyer/" style="font-size: 10px;">pgyer</a> <a href="/tags/pip/" style="font-size: 14px;">pip</a> <a href="/tags/practice/" style="font-size: 12px;">practice</a> <a href="/tags/presentation/" style="font-size: 10px;">presentation</a> <a href="/tags/screen/" style="font-size: 12px;">screen</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/skill/" style="font-size: 14px;">skill</a> <a href="/tags/smtp/" style="font-size: 10px;">smtp</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/solution-report/" style="font-size: 10px;">solution-report</a> <a href="/tags/supervisor/" style="font-size: 10px;">supervisor</a> <a href="/tags/trouble/" style="font-size: 20px;">trouble</a> <a href="/tags/unfinished/" style="font-size: 14px;">unfinished</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftp/" style="font-size: 10px;">vsftp</a> <a href="/tags/why/" style="font-size: 12px;">why</a>
     </div>
   </div>
 
@@ -608,7 +605,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -618,6 +615,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/why-you-should-learn-python/">为什么你应该学 Python</a>
+          </li>
         
           <li>
             <a href="/2017/use-screen-as-byobu-backend/">改用 screen 作为 byobu 的后端</a>
@@ -633,10 +634,6 @@
         
           <li>
             <a href="/2017/suspected-bug-in-json-lib-2-4-jdk15/">json-lib-2.4-jdk15 的疑似 bug</a>
-          </li>
-        
-          <li>
-            <a href="/2017/my-software-and-service-list/">我的自用 软件 和 服务 清单</a>
           </li>
         
       </ul>
