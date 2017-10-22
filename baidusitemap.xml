@@ -4,8 +4,29 @@
 
     
   <url>
+    <loc>http://jaycechant.info/2016/intro-to-mathjax/</loc>
+    <lastmod>2017-10-22T13:34:59.960Z</lastmod>
+    <data>
+        <display>
+        <title>MathJax 简介 与 实例</title>
+        <pubTime>2016-06-21T10:04:01.000Z</pubTime>
+        
+        <tag>how-to</tag>
+         
+        <tag>nodePPT</tag>
+         
+        <tag>Mathjax</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jaycechant.info/2017/why-you-should-learn-python/</loc>
-    <lastmod>2017-10-18T16:27:51.770Z</lastmod>
+    <lastmod>2017-10-18T16:45:35.565Z</lastmod>
     <data>
         <display>
         <title>为什么你应该学 Python</title>
@@ -30,9 +51,9 @@
         <title>用 Syncthing 备份的技巧</title>
         <pubTime>2016-08-28T07:57:03.000Z</pubTime>
         
-        <tag>skill</tag>
-         
         <tag>Syncthing</tag>
+         
+        <tag>skill</tag>
          
         <tag>dropbox</tag>
          
@@ -240,15 +261,15 @@
         <title>镜像集合</title>
         <pubTime>2016-12-31T02:29:12.000Z</pubTime>
         
-        <tag>Jenkins</tag>
-         
         <tag>Android</tag>
+         
+        <tag>Jenkins</tag>
          
         <tag>pip</tag>
          
-        <tag>mirror</tag>
-         
         <tag>Ubuntu</tag>
+         
+        <tag>mirror</tag>
          
         <tag>aliyun</tag>
          
@@ -273,9 +294,9 @@
         <title>Linux 上 为 Jenkins 配置 Android-sdk 及其它</title>
         <pubTime>2017-01-16T03:24:34.000Z</pubTime>
         
-        <tag>Jenkins</tag>
-         
         <tag>Android</tag>
+         
+        <tag>Jenkins</tag>
          
         <tag>Android-sdk</tag>
          
@@ -338,9 +359,9 @@
         
         <tag>Python</tag>
          
-        <tag>trouble</tag>
-         
         <tag>unfinished</tag>
+         
+        <tag>trouble</tag>
          
         <tag>pip</tag>
          
@@ -382,11 +403,11 @@
         
         <tag>how-to</tag>
          
-        <tag>unfinished</tag>
-         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
+         
+        <tag>unfinished</tag>
          
          
            
@@ -571,9 +592,9 @@
         <title>刷OJ的技巧</title>
         <pubTime>2016-12-09T01:35:03.000Z</pubTime>
         
-        <tag>OJ</tag>
-         
         <tag>skill</tag>
+         
+        <tag>OJ</tag>
          
          
            
@@ -607,27 +628,6 @@
         <title>新博客建设中</title>
         <pubTime>2012-04-08T21:41:00.000Z</pubTime>
         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jaycechant.info/2016/intro-to-mathjax/</loc>
-    <lastmod>2016-09-11T06:32:53.914Z</lastmod>
-    <data>
-        <display>
-        <title>Introduction to MathJax & some samples</title>
-        <pubTime>2016-06-21T10:04:01.000Z</pubTime>
-        
-        <tag>how-to</tag>
-         
-        <tag>nodePPT</tag>
-         
-        <tag>Mathjax</tag>
-         
          
            
         </display>

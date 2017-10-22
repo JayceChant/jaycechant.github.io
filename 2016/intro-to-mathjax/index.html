@@ -4,25 +4,28 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Introduction to MathJax &amp; some samples | Jayce的技术博客</title>
+  <title>MathJax 简介 与 实例 | Jayce的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="什么是 MathJax注：本文一开始是为在nodePPT上使用 Mathjax 所写，并非针对Hexo。虽然大同小异，但是部分配置可能存在差别，请知悉。
-
-MathJax is a cross-browser JavaScript library that displays mathematical notation in web browsers, using MathML, TeX and A">
+  <meta name="description" content="* 注：本文由一场 Presentation 的 nodePPT 整理而来。
+1 什么是 MathJax
+MathJax is a cross-browser JavaScript library that displays mathematical notation in web browsers, using MathML, TeX and AsciiMath markup.
+MathJax">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Introduction to MathJax & some samples">
+<meta property="og:title" content="MathJax 简介 与 实例">
 <meta property="og:url" content="http://jaycechant.info/2016/intro-to-mathjax/index.html">
 <meta property="og:site_name" content="Jayce的技术博客">
-<meta property="og:description" content="什么是 MathJax注：本文一开始是为在nodePPT上使用 Mathjax 所写，并非针对Hexo。虽然大同小异，但是部分配置可能存在差别，请知悉。
-
-MathJax is a cross-browser JavaScript library that displays mathematical notation in web browsers, using MathML, TeX and A">
+<meta property="og:description" content="* 注：本文由一场 Presentation 的 nodePPT 整理而来。
+1 什么是 MathJax
+MathJax is a cross-browser JavaScript library that displays mathematical notation in web browsers, using MathML, TeX and AsciiMath markup.
+MathJax">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2016-09-11T06:32:53.914Z">
+<meta property="og:updated_time" content="2017-10-22T13:34:59.960Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Introduction to MathJax & some samples">
-<meta name="twitter:description" content="什么是 MathJax注：本文一开始是为在nodePPT上使用 Mathjax 所写，并非针对Hexo。虽然大同小异，但是部分配置可能存在差别，请知悉。
-
-MathJax is a cross-browser JavaScript library that displays mathematical notation in web browsers, using MathML, TeX and A">
+<meta name="twitter:title" content="MathJax 简介 与 实例">
+<meta name="twitter:description" content="* 注：本文由一场 Presentation 的 nodePPT 整理而来。
+1 什么是 MathJax
+MathJax is a cross-browser JavaScript library that displays mathematical notation in web browsers, using MathML, TeX and AsciiMath markup.
+MathJax">
 <meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
   
     <link rel="alternative" href="/atom.xml" title="Jayce的技术博客" type="application/atom+xml">
@@ -97,7 +100,7 @@ MathJax is a cross-browser JavaScript library that displays mathematical notatio
         
   
     <h1 class="article-title" itemprop="name">
-      Introduction to MathJax &amp; some samples
+      MathJax 简介 与 实例
     </h1>
   
 
@@ -105,32 +108,29 @@ MathJax is a cross-browser JavaScript library that displays mathematical notatio
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="什么是-MathJax"><a href="#什么是-MathJax" class="headerlink" title="什么是 MathJax"></a>什么是 MathJax</h1><p><strong>注：本文一开始是为在nodePPT上使用 Mathjax 所写，并非针对Hexo。虽然大同小异，但是部分配置可能存在差别，请知悉。</strong></p>
-<blockquote>
+        <p>* 注：本文由一场 Presentation 的 nodePPT 整理而来。</p>
+<h2 id="1-什么是-MathJax"><a href="#1-什么是-MathJax" class="headerlink" title="1 什么是 MathJax"></a>1 什么是 MathJax</h2><blockquote>
 <p>MathJax is a cross-browser JavaScript library that displays mathematical notation in web browsers, using MathML, TeX and AsciiMath markup.</p>
 <p>MathJax 是一个跨浏览器的 JavaScript 库，可以在网页上显示数学式，使用 MathML, TeX 和 AsciiMath 标记语言编写。</p>
 </blockquote>
-<p>这解答了你的问题了吗？ 很可能没有。</p>
-<p>你可能会接着问，什么是 MathML, TeX 和 AsciiMath？ 什么是标记语言？</p>
-<p>嗯……</p>
+<p>这并没有很好地回答问题。你会接着问，什么是 MathML, TeX 和 AsciiMath ？ 什么是 标记语言？</p>
 <a id="more"></a>
-<h2 id="Timeline"><a href="#Timeline" class="headerlink" title="Timeline"></a>Timeline</h2><ul>
-<li>1969年，大神 高德纳(D. E. Knuth) 的巨著 《计算机程序设计艺术(The Art of Computer Programming)》 第一卷出版 </li>
-<li>1976年，他收到了书的第二版，排版质量非常糟糕，他于是开始寻找高质量的数字排版系统</li>
-<li>1977年，在遍寻无果之后，他开始自己动手写。 计划1978年完成，结果一直写到1989年，最后就成为了TeX。 由于对 数学式 排版的良好支持，在学术写作中大受欢迎，并影响了日后的排版系统。</li>
-<li>1985年，计算机科学家 兰伯特(L. Lamport) 基于TeX 开发出宏包 LaTeX，包含大多数需要用的宏，方便一般人使用<strong><em>（注：由于LaTeX的流行，有时网上描述的时候会将TeX 和 LaTeX 混淆）</em></strong></li>
-<li>1999年，W3C(万维网联盟)提出 基于XML标准来描述数学符号和公式的标准 MathML，目前最新的版本是2010年发布的3.0</li>
-<li>2009年，美国数学学会(American Mathematical Society) 为首的多个组织发起 MathJax，兼容 TeX, AsciiMath, MathML</li>
+<h3 id="数学式工具小史"><a href="#数学式工具小史" class="headerlink" title="数学式工具小史"></a>数学式工具小史</h3><ul>
+<li>1969，高德纳 (D. E. Knuth)  的巨著 《计算机程序设计艺术 (The Art of Computer Programming)》 第一卷出版 </li>
+<li>1976，他收到 TACP 第二版，排版质量非常糟糕，他开始寻找高质量的数字排版系统</li>
+<li>1977，遍寻无果后，他开始自己动手写。 计划 1978 年完成，结果一直写到 1989 年，这就是 <strong>TeX</strong> 。 由于对 数学式 排版的良好支持，在学术写作中大受欢迎，并影响了日后的排版系统</li>
+<li>1985，计算机科学家 兰伯特 (L. Lamport) 基于 TeX  开发出宏包 <strong>LaTeX</strong> ，包含大多数需要的宏，方便一般人使用（注：由于 LaTeX 的流行，网上说 TeX 的时候，有时其实是在说 LaTeX ）</li>
+<li>1999，W3C (万维网联盟) 提出 基于 XML 标准来描述 数学符号 和 公式的标准 <strong>MathML</strong> ，最新的版本是 2010年 发布的 3.0</li>
+<li>2009，美国数学学会 (American Mathematical Society) 为首的多个组织发起 <strong>MathJax</strong>，兼容 TeX, AsciiMath, MathML</li>
 </ul>
-<p><strong>不好意思，我没有找到AsciiMath的出处和年份。 简单来说，AsciiMath要达到的效果是，只用Ascii字符就能写出数学公式。</strong></p>
-<h2 id="举个栗子"><a href="#举个栗子" class="headerlink" title="举个栗子"></a>举个栗子</h2><p>这几种有啥差别？</p>
-<p>我们来举个栗子来看一下</p>
-<p>譬如说要显示这么一个公式</p>
+<p>（ * 没找到 <strong>AsciiMath</strong> 的出处和年份。 最早可能出自 07 年的一篇论文，目的是为了简化 MathML 书写。简单说，AsciiMath 的设计目标是，只用 Ascii 字符就能写出数学公式。）</p>
+<p>换言之，前面出现了几个优秀的 编写 / 排版 数学式 的 语言 / 工具 （LaTeX, MathML, AsciiMath）， AMS 发起 MathJax 将它们集成到一起，用不同的语言写，最终都能转换成 MathML 在浏览器显示。</p>
+<h2 id="2-做个对比"><a href="#2-做个对比" class="headerlink" title="2 做个对比"></a>2 做个对比</h2><p>这些名字长得很像，几乎都带一个 Math，通过对比来区分一下：</p>
+<p>例如显示公式</p>
 <p>$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</p>
-<p>我们来看看有啥不同</p>
-<h3 id="MathML"><a href="#MathML" class="headerlink" title="MathML"></a>MathML</h3><p>我们先来看看MathML。</p>
-<p>MathML是XML的一个拓展，特点是，冗余但精确。</p>
-<p>它可以同时表示视觉义 和 逻辑义，这对读屏软件是友好的。</p>
+<h3 id="MathML"><a href="#MathML" class="headerlink" title="MathML"></a>MathML</h3><p>先看 MathML。</p>
+<p>MathML 是 XML 的拓展，特点是：<strong>冗余</strong> 而 <strong>精确</strong> 。</p>
+<p>它可以同时表示 <strong>视觉义</strong> 和 <strong>逻辑义</strong>，对读屏软件友好。</p>
 <p>首先是显示效果：</p>
 
 <math mode="display" xmlns="http://www.w3.org/1998/Math/MathML">
@@ -165,98 +165,113 @@ MathJax is a cross-browser JavaScript library that displays mathematical notatio
 </math>
 
 <p>然后源码长这样：</p>
-<p>我们可以留意到，一些视觉上被省略、不显示（Invisible）的符号，在MathML中也有对应的转义实体对应。这些符号的存在，首先是保证了公式没有歧义；其次，读屏软件可以把这些符号读出来，方便残障人士理解。</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">math</span> <span class="attr">mode</span>=<span class="string">"display"</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/1998/Math/MathML"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">mrow</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>x<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>=<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mfrac</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">mrow</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mo</span> <span class="attr">form</span>=<span class="string">"prefix"</span>&gt;</span>&amp;#x2212;<span class="comment">&lt;!-- − --&gt;</span><span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mi</span>&gt;</span>b<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mo</span>&gt;</span>&amp;#x00B1;<span class="comment">&lt;!-- &amp;PlusMinus; --&gt;</span><span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">msqrt</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">msup</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">mi</span>&gt;</span>b<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">mn</span>&gt;</span>2<span class="tag">&lt;/<span class="name">mn</span>&gt;</span></div><div class="line">          <span class="tag">&lt;/<span class="name">msup</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">mo</span>&gt;</span>&amp;#x2212;<span class="comment">&lt;!-- − --&gt;</span><span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">mn</span>&gt;</span>4<span class="tag">&lt;/<span class="name">mn</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">mo</span>&gt;</span>&amp;#x2062;<span class="comment">&lt;!-- &amp;InvisibleTimes; --&gt;</span><span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">mi</span>&gt;</span>a<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">mo</span>&gt;</span>&amp;#x2062;<span class="comment">&lt;!-- &amp;InvisibleTimes; --&gt;</span><span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">mi</span>&gt;</span>c<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">msqrt</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">mrow</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">mrow</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mn</span>&gt;</span>2<span class="tag">&lt;/<span class="name">mn</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mo</span>&gt;</span>&amp;#x2062;<span class="comment">&lt;!-- &amp;InvisibleTimes; --&gt;</span><span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mi</span>&gt;</span>a<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">mrow</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">mfrac</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">mrow</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">math</span>&gt;</span></div></pre></td></tr></table></figure>
-<h3 id="LaTeX-TeX"><a href="#LaTeX-TeX" class="headerlink" title="LaTeX(TeX)"></a>LaTeX(TeX)</h3><p>然后是LaTeX：</p>
-<p>显示效果（根本没啥区别，因为最终都转换成MathML）：</p>
+<p>可以留意到，一些视觉上被省略不显示的符号 （典型的例子是 代数间省略的 乘号 InvisibleTimes），在 MathML 中也有对应的转义实体。这些符号的存在，首先保证公式 <strong>没有歧义</strong> ；其次，<strong>读屏软件</strong> 可以识别这些符号并读出来，方便残障人士理解。</p>
+<p>不过精确的代价，是相当地冗余。因为它本来就是设计给浏览器解析的。</p>
+<h3 id="LaTeX"><a href="#LaTeX" class="headerlink" title="LaTeX"></a>LaTeX</h3><p>显示效果：</p>
 <p>$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</p>
+<p>显示效果并不会有区别。浏览器不认识 LaTeX ， LaTeX 写的公式到达浏览器，要经一层 js 库 <strong>转换成 MathML</strong> ，MathML 才是 W3C 制定的浏览器标准。</p>
 <p>LaTeX 源码：</p>
 <figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="formula">$$x = <span class="tag">\<span class="name">frac</span><span class="string">&#123;-b \pm \sqrt&#123;b^2 - 4ac&#125;</span></span>&#125;&#123;2a&#125;$$</span></div></pre></td></tr></table></figure>
-<p>而通过F12(浏览器的调试模式)看到的代码是这样的：</p>
-<p>可以看到经过转换之后，效果一样，而且代码也差不多，但是不可见符号并不能自动理解并且添加。</p>
+<p>源码比 MathML 精简很多。</p>
+<p>打开浏览器的调试模式，可以看到浏览器解析的代码（js 转换后，浏览器解析前）：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">math</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/1998/Math/MathML"</span> <span class="attr">display</span>=<span class="string">"block"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>x<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>=<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mfrac</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mrow</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">mo</span>&gt;</span>−<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">mi</span>&gt;</span>b<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">mo</span>&gt;</span>±<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">msqrt</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">msup</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>b<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">                    <span class="tag">&lt;<span class="name">mn</span>&gt;</span>2<span class="tag">&lt;/<span class="name">mn</span>&gt;</span></div><div class="line">                <span class="tag">&lt;/<span class="name">msup</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">mo</span>&gt;</span>−<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">mn</span>&gt;</span>4<span class="tag">&lt;/<span class="name">mn</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">mi</span>&gt;</span>a<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">mi</span>&gt;</span>c<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">msqrt</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">mrow</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mrow</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">mn</span>&gt;</span>2<span class="tag">&lt;/<span class="name">mn</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">mi</span>&gt;</span>a<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">mrow</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">mfrac</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">math</span>&gt;</span></div></pre></td></tr></table></figure>
-<h3 id="AsciiMath"><a href="#AsciiMath" class="headerlink" title="AsciiMath"></a>AsciiMath</h3><p>显示效果有点不大对劲：</p>
+<p>LaTeX 经转换后，显示效果一致； 转换得到的 MathML 代码差别也不大，但 <strong>不可见符号并不能自动理解并且添加</strong> 。</p>
+<h3 id="AsciiMath"><a href="#AsciiMath" class="headerlink" title="AsciiMath"></a>AsciiMath</h3><p>显示效果不对：</p>
 <p>$$x = (-b +- sqrt(b^2 – 4ac)) / (2a)$$</p>
 <p>源码：</p>
 <figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="formula">$$x = (-b +- sqrt(b^2 – 4ac)) / (2a)$$</span></div></pre></td></tr></table></figure>
 <p>生成的MathML：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">math</span> <span class="attr">xmlns</span>=<span class="string">"http://www.w3.org/1998/Math/MathML"</span> <span class="attr">display</span>=<span class="string">"block"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>x<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>=<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>(<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>−<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>b<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>+<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>−<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>s<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>q<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>r<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>t<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>(<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">msup</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mi</span>&gt;</span>b<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mn</span>&gt;</span>2<span class="tag">&lt;/<span class="name">mn</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">msup</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span>&gt;</span>–<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mn</span>&gt;</span>4<span class="tag">&lt;/<span class="name">mn</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>a<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>c<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>)<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>)<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mrow</span> <span class="attr">class</span>=<span class="string">"MJX-TeXAtom-ORD"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mo</span>&gt;</span>/<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">mrow</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>(<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mn</span>&gt;</span>2<span class="tag">&lt;/<span class="name">mn</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mi</span>&gt;</span>a<span class="tag">&lt;/<span class="name">mi</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mo</span> <span class="attr">stretchy</span>=<span class="string">"false"</span>&gt;</span>)<span class="tag">&lt;/<span class="name">mo</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">math</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>我是在nodePPT里面尝试使用，所以再次按F12进入调试模式，看看 MathJax的加载配置：</p>
+<p>写下这些文字时，我是在 nodePPT 里面加载 MathJax。再次进入调试模式，看看加载配置：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;!-- MathJax --&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><span class="javascript"></span></span></div><div class="line">  MathJax.Hub.Config(&#123;</div><div class="line">  <span class="attr">config</span>: [<span class="string">"TeX-AMS-MML_HTMLorMML.js"</span>],</div><div class="line">  <span class="attr">tex2jax</span>: &#123;<span class="attr">inlineMath</span>: [[<span class="string">'\\('</span>,<span class="string">'\\)'</span>]]&#125;&#125;);</div><div class="line">  <span class="comment">//['$','$'], 避免货币价格冲突</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"/js/mathjax/MathJax.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
-<p>大家可能看不习惯，我给翻译一下：</p>
-<p>这里配置并加载 MathJax.js，对应配置文件（”TeX-AMS-MML_HTMLorMML.js”）的意思是，加载 TeX + AMS拓展 + MathML，并且最终显示使用HTML+MathML</p>
-<p>嗯，没有AsciiMath</p>
+<p>我给不熟悉的读者翻译一下这块代码：</p>
+<p>配置并加载 MathJax.js，加载的配置文件（”TeX-AMS-MML_HTMLorMML.js”）意思是，加载 TeX + AMS拓展 + MathML，并使用HTML+MathML 显示。</p>
+<p>没有加载 AsciiMath。</p>
 <hr>
-<p>最终，我们把配置改成这样</p>
+<p>我尝试把配置改成这样</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;!-- MathJax --&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><span class="javascript"></span></span></div><div class="line">  MathJax.Hub.Config(&#123;</div><div class="line">  <span class="attr">config</span>: [<span class="string">"TeX-MML-AM_HTMLorMML.js"</span>],</div><div class="line">  <span class="attr">tex2jax</span>: &#123;<span class="attr">inlineMath</span>: [[<span class="string">'\\('</span>,<span class="string">'\\)'</span>]]&#125;&#125;);</div><div class="line">  <span class="comment">//['$','$'], 避免货币价格冲突</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>翻译：加载 TeX + MathML + AsciiMath</p>
-<p>出于我也不知道的原因，并没有配置文件同时兼容 AMS拓展 和 AsciiMath</p>
-<p>与此同时，我查看了配置文件之后，发现</p>
+<p>* 翻译：加载 TeX + MathML + AsciiMath</p>
+<p>出于未知原因，没有配置文件同时兼容 AMS 拓展 和 AsciiMath （一般这意味着他们之间有冲突，例如同一个符号做了不同用途）</p>
+<p>与此同时，查看配置文件后，发现</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">MathJax.Extension.asciimath2jax=&#123;</div><div class="line">    <span class="attr">version</span>:<span class="string">"2.6.0"</span>,</div><div class="line">    <span class="attr">config</span>:&#123;</div><div class="line">        <span class="attr">delimiters</span>:[[<span class="string">"`"</span>,<span class="string">"`"</span>]],</div><div class="line">......</div></pre></td></tr></table></figure>
+<p>* 翻译：AsciiMath 用 反引号 作为起止符</p>
 <p>把源码改成</p>
 <figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">\<span class="name">`</span></span>x = (-b +- sqrt(b^2 – 4ac)) / (2a)<span class="tag">\<span class="name">`</span></span></div></pre></td></tr></table></figure>
-<p>效果就出来了</p>
-<p>你问为什么多了一个反斜杠？ 因为反引号 ``` 在Markdown 是用来括起代码块的（没错这个反引号的代码块本身就是用反引号括起来的，啊，好拗口），所以要多加个反斜杠在前面，引用它本身而不转义。嗯，好麻烦，又多了一个不用 AsciiMath 的理由。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<p>效果就出来了。（注：为兼容大多数公式，本文加载默认配置，所以 AsciiMath 无法正常显示。其实正常显示也会转换成 MathML ，效果是没有差别的。）</p>
+<p>为什么源码多了一个反斜杠？ </p>
+<p>反引号 ``` 在 Markdown 代码块的起止符（没错这个反引号的代码块本身就是用反引号括起来的。好拗口。），所以需要增加反斜杠引用它本身，避免被识别为代码块（需要识别为数学块）。看来 AsciiMath 不仅跟别的工具冲突，跟 Markdown 也有冲突。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
 <li><p>LaTeX </p>
-<p>  能直接打的符号就打出来</p>
-<p>  不能直接打的符号或者效果，通过 <code>\关键字</code> 转意， <code>{}</code> 表示起止范围</p>
-<p>  譬如: 分数，就是 <code>\frac 分子 分母</code> ，如果 分子 和 分母 只有一个符号，那就直接写，否则就要用花括号括起来</p>
+<ul>
+<li>科学写作主流</li>
+<li>键盘有的符号直接输入</li>
+<li>没有的符号 或者 效果，通过 <code>\关键字</code> 转义， <code>{}</code> 表示起止范围</li>
+</ul>
+<p>如： 分数，就是 <code>\frac 分子 分母</code> ，如果 分子 和 分母 只有一个符号，那就直接写，否则就要用花括号括起来</p>
 </li>
 <li><p>MathML</p>
-<p>  非常的精确，同时也非常的啰嗦</p>
-<p>  实际上，我们用MathJax写的无论什么样的代码，最终都是变成Math显示</p>
-<p>  如果你直接写MathML，那么脚本就不必帮你转换，而只需要渲染（然而脚本不会因此感谢你）</p>
+<ul>
+<li>W3C 标准，精确，同时啰嗦</li>
+<li>在 MathJax 环境下无论用什么写公式，最终转换成 MathML 显示</li>
+<li>直接写 MathML，MathJax 会跳过转换，直接渲染</li>
+</ul>
 </li>
 <li><p>AsciiMath</p>
-<p>  nodePPT 的配置没有支持 AsciiMath。 为什么呢？</p>
-<p>  不用转意符，使AsciiMath非常自然，即使没有转义看起来也不费解； 但也因为这样，可能给转义带来了麻烦</p>
+<ul>
+<li>nodePPT 的默认配置没有加载</li>
+<li>纯 Ascii 字符，不用转义符，阅读起来非常自然，理解不费劲； 但无法区分特殊字符和普通字符，会带来一些麻烦（例如：sqrt 究竟是 平方根，还是 4 个代数相乘呢？）</li>
+<li>跟其他工具有冲突</li>
+</ul>
 </li>
 </ul>
-<p>LaTeX 之所以使用转义符，并不是故弄玄虚，而是使特殊符号跟普通字符区分开了。</p>
-<h2 id="初步结论"><a href="#初步结论" class="headerlink" title="初步结论"></a>初步结论</h2><p>大多数情况下用 LaTeX</p>
-<p>极少数情况，需要用MathML</p>
-<p>接下来提供一系列的实例，给大家展示一些常见的符号和公式用LaTeX 的写法</p>
-<h2 id="加载和配置"><a href="#加载和配置" class="headerlink" title="加载和配置"></a>加载和配置</h2><p>如果是在自己写的HTML里加载MathJax，官方推荐的做法是在 <code>&lt;head&gt;</code> 标签加入</p>
+<h4 id="初步结论"><a href="#初步结论" class="headerlink" title="初步结论"></a>初步结论</h4><ul>
+<li>大多数情况下用 LaTeX</li>
+<li>极少数情况，需要用 MathML</li>
+<li>多种工具混合的环境，AsciiMath 比较容易出冲突，不推荐</li>
+</ul>
+<h2 id="3-怎么开始"><a href="#3-怎么开始" class="headerlink" title="3 怎么开始"></a>3 怎么开始</h2><h3 id="加载和配置"><a href="#加载和配置" class="headerlink" title="加载和配置"></a>加载和配置</h3><p>HTML 里加载 MathJax，官方推荐做法是在 <code>&lt;head&gt;</code> 标签加入</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span> <span class="keyword">async</span></div><div class="line">  src=<span class="string">"https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"</span>&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
-<p>不过如果使用 nodePPT， 它的模板已经帮你加载了</p>
+<p>如果使用 nodePPT， 模板已经加载好</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;!-- MathJax --&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><span class="javascript"></span></span></div><div class="line">  MathJax.Hub.Config(&#123;</div><div class="line">  <span class="attr">config</span>: [<span class="string">"TeX-AMS-MML_HTMLorMML.js"</span>],</div><div class="line">  <span class="attr">tex2jax</span>: &#123;<span class="attr">inlineMath</span>: [[<span class="string">'\\('</span>,<span class="string">'\\)'</span>]]&#125;&#125;);</div><div class="line">  <span class="comment">//['$','$'], 避免货币价格冲突</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"/js/mathjax/MathJax.js"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
-<h2 id="数学环境"><a href="#数学环境" class="headerlink" title="数学环境"></a>数学环境</h2><p>使用MathJax 的时候，需要一些标志，告诉MathJax 这段文本是公式代码，另外也要告诉它这是什么代码，在标志中间的部分，就叫做数学环境</p>
-<p>包括段模式(displayed) 和 行内(inline) 两种</p>
-<p>查看配置或者文档，我们会发现，LaTeX 的默认分隔符是</p>
+<h3 id="数学环境"><a href="#数学环境" class="headerlink" title="数学环境"></a>数学环境</h3><p>使用 MathJax 时，需要特定标志，将 公式代码 的范围标识出来。在标志中间的部分，就叫做 <strong>数学环境</strong> 。包括 <strong>段模式 (displayed)</strong> 和 <strong>行内 (inline)</strong> 两种。</p>
+<p>查看配置或文档，可以发现 LaTeX 默认分隔符是：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">......</div><div class="line">    config:&#123;</div><div class="line">        <span class="attr">inlineMath</span>:[[<span class="string">"\\("</span>,<span class="string">"\\)"</span>]],</div><div class="line">        <span class="attr">displayMath</span>:[[<span class="string">"$$"</span>,<span class="string">"$$"</span>],[<span class="string">"\\["</span>,<span class="string">"\\]"</span>]],</div><div class="line">        ......</div></pre></td></tr></table></figure>
-<p>不过，这个配置其实可以在加载的时候修改，nodePPT修改了行内的分隔符，不过因为跟官方一样，所以等于没改</p>
-<p>可能早些版本的分隔符不是这样，会跟nodePPT或者Markdown的某些符号冲突，所以改了，结果最后MathJax官方也改了</p>
+<p>配置可以在加载时重新定义，覆盖默认值。nodePPT 的加载就定义了行内分隔符，不过跟官方定义一样，等于没改。</p>
+<p>我猜测，可能早期版本 MathJax 会跟 nodePPT 或 Markdown 的语法冲突，所以改了配置；然后 MathJax 官方也把配置改了，刚好一样。</p>
 <p>还是那个经典例子</p>
 <p>段模式：</p>
 <p>$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="formula">$$x = <span class="tag">\<span class="name">frac</span><span class="string">&#123;-b \pm \sqrt&#123;b^2 - 4ac&#125;</span></span>&#125;&#123;2a&#125;$$</span></div></pre></td></tr></table></figure>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">段模式：</div><div class="line"></div><div class="line"><span class="formula">$$x = <span class="tag">\<span class="name">frac</span><span class="string">&#123;-b \pm \sqrt&#123;b^2 - 4ac&#125;</span></span>&#125;&#123;2a&#125;$$</span></div></pre></td></tr></table></figure>
+<p>段模式需要独立一段。</p>
 <p>我是行内模式： \(x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}\)</p>
 <figure class="highlight tex"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">我是行内模式： <span class="tag">\<span class="name">\</span></span>(x = <span class="tag">\<span class="name">frac</span><span class="string">&#123;-b \pm \sqrt&#123;b^2 - 4ac&#125;</span></span>&#125;&#123;2a&#125;<span class="tag">\<span class="name">\</span></span>)</div></pre></td></tr></table></figure>
-<h1 id="下面列举一下常见的数学符号和式子"><a href="#下面列举一下常见的数学符号和式子" class="headerlink" title="下面列举一下常见的数学符号和式子"></a>下面列举一下常见的数学符号和式子</h1><p>(<strong><em>均为LaTeX，为简便期间，源码省略分隔符</em></strong>)</p>
-<p>重复一遍基本原则：</p>
+<p>行内模式则可以跟其他文字混排。</p>
+<h2 id="4-实例"><a href="#4-实例" class="headerlink" title="4 实例"></a>4 实例</h2><p>接下来提供一系列实例，展示 常见符号 和 公式 用 LaTeX 的写法。</p>
+<p>(注：语法均为LaTeX。为简便源码省略环境分隔符。个别字符在 Markdown 环境会被识别为特殊字符，如果跟 Markdown 混排这些字符要加反斜杠 <code>\</code>，如一对下划线 <code>_</code> 中间的内容会被识别为强调，所以要用<code>\_</code> 代替。)</p>
+<p>重申一遍基本原则：</p>
 <ul>
-<li>能打直接打，不能打反斜杠 <code>\</code> + 对应代码</li>
-<li>效果只对单个块起效，如果不止一个字符，要用 <code>{}</code> 包成一个块</li>
+<li>键盘有的直接输入，不能直接输入的反斜杠 <code>\</code> + 对应代码</li>
+<li>一个字符一个块，效果只对紧接的块起效；多个字符要用 <code>{}</code> 包成一个块</li>
 </ul>
-<h2 id="下标："><a href="#下标：" class="headerlink" title="下标："></a>下标：</h2><p><code>x_1</code> : \(x_1\)</p>
+<h3 id="下标"><a href="#下标" class="headerlink" title="下标"></a>下标</h3><p><code>x_1</code> : \(x_1\)</p>
 <p><code>x_{12}</code> : \(x_{12}\)</p>
 <p>特别的是，<code>_强调_</code> 在 Markdown 里表示 <em>强调</em> ，如果有连续使用下标，下划线可能会被 Markdown 先识别处理</p>
 <p><code>A_{M-1} &lt; A_{M+1}</code> : \(A<em>{M-1} &lt; A</em>{M+1}\)</p>
 <p>可以通过添加反斜杠处理</p>
-<p><code>A\_{M-1} &lt; A_{M+1}</code> : \(A_{M-1} &lt; A_{M+1}\)</p>
-<h2 id="上标："><a href="#上标：" class="headerlink" title="上标："></a>上标：</h2><p><code>x^2</code> : \(x^2\)</p>
+<p><code>A\_{M-1} &lt; A\_{M+1}</code> : \(A_{M-1} &lt; A_{M+1}\)</p>
+<h3 id="上标"><a href="#上标" class="headerlink" title="上标"></a>上标</h3><p><code>x^2</code> : \(x^2\)</p>
 <p><code>x^{2a}</code> : \(x^{2a}\)</p>
-<h2 id="括号-分数："><a href="#括号-分数：" class="headerlink" title="括号 分数："></a>括号 分数：</h2><p>() [] 用原来的就好（花括号<code>{}</code>因为用来分块，所以显示原始花括号要加反斜杠<code>\{\}</code>）</p>
+<h3 id="括号-、-分数"><a href="#括号-、-分数" class="headerlink" title="括号 、 分数"></a>括号 、 分数</h3><p>() [] 用原来的就好（花括号<code>{}</code>因为用来分块，所以显示原始花括号要加反斜杠<code>\{\}</code>）</p>
 <p>也可以用转义，区别就是，如果中间的式子特别大，原始符号不会跟着缩放，但是转义的就会</p>
 <p><code>(\frac{n^2}{6} )</code> : \(( \frac{n^2}{6} )\)</p>
 <p><code>\left( \frac{n^2}{6} \right)</code> : \(\left( \frac{n^2}{6} \right)\)</p>
-<h2 id="根式-求和-求积-积分"><a href="#根式-求和-求积-积分" class="headerlink" title="根式 求和 求积 积分"></a>根式 求和 求积 积分</h2><p><code>\sqrt x</code> : \(\sqrt x\)</p>
+<h3 id="根式-、-求和-、-求积-、-积分"><a href="#根式-、-求和-、-求积-、-积分" class="headerlink" title="根式 、 求和 、 求积 、 积分"></a>根式 、 求和 、 求积 、 积分</h3><p><code>\sqrt x</code> : \(\sqrt x\)</p>
 <p><code>\sqrt[3]{x^2+1}</code> : \(\sqrt[3]{x^2+1}\)</p>
 <p><code>\sum_1^n {x^2-1}</code> : \(\sum_1^n {x^2-1}\)</p>
 <p><code>\prod_1^n {x^2-1}</code> : \(\prod_1^n {x^2-1}\)</p>
 <p><code>\int_1^{\frac{\pi}{2}}{sin(x)}</code> : \(\int_1^{\frac{\pi}{2}}{sin(x)}\)</p>
-<h2 id="其他特殊符号"><a href="#其他特殊符号" class="headerlink" title="其他特殊符号"></a>其他特殊符号</h2><p><code>\pm \times \div</code> : \(\pm \times \div\) </p>
+<h3 id="其他特殊符号"><a href="#其他特殊符号" class="headerlink" title="其他特殊符号"></a>其他特殊符号</h3><p><code>\pm \times \div</code> : \(\pm \times \div\) </p>
 <p><code>\lt \gt \le \ge \neq \not\lt</code> : \(\lt \gt \le \ge \neq \not\lt\) </p>
 <p><code>\alpha \beta \gamma</code> : \(\alpha \beta \gamma\)</p>
 <p><code>\infty</code> : \(\infty\)</p>
@@ -280,7 +295,7 @@ MathJax is a cross-browser JavaScript library that displays mathematical notatio
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://jaycechant.info/2016/intro-to-mathjax/" data-id="cj8x90cir000xp4lnhad7bt1o" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="http://jaycechant.info/2016/intro-to-mathjax/" data-id="cj92shmmz0015lolnj7wrtoms" class="article-share-link" data-share="baidu">分享到</a>
       
 
       

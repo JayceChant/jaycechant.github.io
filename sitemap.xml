@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jaycechant.info/2016/intro-to-mathjax/</loc>
+    
+    <lastmod>2017-10-22T13:34:59.960Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jaycechant.info/2017/why-you-should-learn-python/</loc>
     
-    <lastmod>2017-10-18T16:27:51.770Z</lastmod>
+    <lastmod>2017-10-18T16:45:35.565Z</lastmod>
     
   </url>
   
@@ -215,13 +222,6 @@
     <loc>http://jaycechant.info/2012/new-blog/</loc>
     
     <lastmod>2016-09-11T06:32:53.924Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jaycechant.info/2016/intro-to-mathjax/</loc>
-    
-    <lastmod>2016-09-11T06:32:53.914Z</lastmod>
     
   </url>
   
