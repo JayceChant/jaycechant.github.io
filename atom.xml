@@ -840,9 +840,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://jaycechant.info/tags/Android/"/>
-    
       <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
+    
+      <category term="Android" scheme="http://jaycechant.info/tags/Android/"/>
     
       <category term="Android-sdk" scheme="http://jaycechant.info/tags/Android-sdk/"/>
     
@@ -976,7 +976,7 @@
     <link href="http://jaycechant.info/2017/why-you-should-document-with-Markdown/"/>
     <id>http://jaycechant.info/2017/why-you-should-document-with-Markdown/</id>
     <published>2017-01-04T04:13:27.000Z</published>
-    <updated>2017-09-11T15:26:15.633Z</updated>
+    <updated>2017-10-29T17:24:22.028Z</updated>
     
     <content type="html"><![CDATA[<p>不记得第几次安利 Markdown 了。</p>
 <p>曾发过一篇<a href="../../2012/blog-with-markdown/">《用Markdown写日志》</a>。</p>
@@ -987,20 +987,41 @@
 <li>四年过去，环境和工具有了变化，像 Typora 、nodePPT 和 Marp 的出现，让 Markdown 有了更多可能，更加易用。 <strong>Typora 让写字有了仪式感和幸福感。</strong> </li>
 </ol>
 <a id="more"></a>
-<h2 id="一、为什么写文档"><a href="#一、为什么写文档" class="headerlink" title="一、为什么写文档"></a>一、为什么写文档</h2><h3 id="1-1-从一个问题开始"><a href="#1-1-从一个问题开始" class="headerlink" title="1.1 从一个问题开始"></a>1.1 从一个问题开始</h3><blockquote>
-<p><strong>成熟企业</strong> 跟 <strong>初创企业</strong> ，差距在哪？</p>
-</blockquote>
-<p>设备？钱？人？…</p>
-<p>或者说一个领域 <strong>专家</strong> 跟 <strong>新手</strong> ，差距在哪？</p>
-<p>经验？人脉？</p>
+<h2 id="壹、-为什么写文档"><a href="#壹、-为什么写文档" class="headerlink" title="壹、 为什么写文档"></a>壹、 为什么写文档</h2><h3 id="1-1-从问题开始"><a href="#1-1-从问题开始" class="headerlink" title="1.1 从问题开始"></a>1.1 从问题开始</h3><p><strong>成熟企业</strong> 跟 <strong>初创企业</strong> ，关键差距是什么？</p>
+<ul>
+<li>设施设备？</li>
+<li>钱？</li>
+<li>人？</li>
+<li>…</li>
+</ul>
+<hr>
+<p>一个领域 <strong>专家</strong> 跟 <strong>新手</strong> 的差距呢？</p>
+<ul>
+<li>知识储备？</li>
+</ul>
+<ul>
+<li>经验？</li>
+<li>人脉？</li>
+<li>…</li>
+</ul>
+<hr>
+<p><strong>钱不是</strong> 。</p>
+<p>虽然经验告诉我们一般老江湖家底厚，但这没有必然性。初创企业可以通过融资获得资金，而且保不准创始人是思聪们；成熟企业也有面临资金压力时。</p>
+<p>基于类似原因，人脉不是，可以从公开途径获取的知识也不是，剩下的有些像是，又好像不是…</p>
 <p><br></p>
-<p>『经验』难以量化，让我们换一个词：</p>
+<p>其实，老手 和 新丁 的必然差距，就是 <strong>老手圈内混久了</strong> ， 积累下来 <strong>那些东西</strong> 。毕竟 新丁 之所以新，就是 <strong>待在圈内（行业 / 领域）时间太短</strong> ，哪怕是二代，有资源可以摆平其余各种要素，但没经历过就是没经历过。</p>
+<p>可我们如何去量化描述 『那些东西』？让我们换一组词去描述：他们之间的差距，在于 <strong>『知识资产』</strong> 的差距，特别是 <strong>『过程资产』</strong> 。</p>
 <blockquote>
 <p>知识资产（Knowledge assets）</p>
 <p>是指企业拥有或控制的、不具有独立实物形态、对生产和服务长期发挥作用并能带来经济效益的知识。</p>
 </blockquote>
-<p>知识资产 又叫 智力资产。这是 MBA智库 的狭义定义，其实个人、社会，都拥有知识资产。</p>
-<h3 id="1-2-知识资产"><a href="#1-2-知识资产" class="headerlink" title="1.2 知识资产"></a>1.2 知识资产</h3><ul>
+<p>知识资产 又叫 智力资产。只找到 MBA 智库 的狭义定义，其实个人、集体，都拥有知识资产。</p>
+<blockquote>
+<p>过程资产（Process assets）</p>
+<p>是指一个学习型组织在项目操作过程中所积累的无形资产。</p>
+</blockquote>
+<p>同样来自 MBA 智库 针对企业管理的狭义定义，这个时候叫做组织过程资产。但个人也有自己的过程资产。</p>
+<h3 id="1-2-知识资产-与-过程资产"><a href="#1-2-知识资产-与-过程资产" class="headerlink" title="1.2 知识资产 与 过程资产"></a>1.2 知识资产 与 过程资产</h3><h4 id="知识资产"><a href="#知识资产" class="headerlink" title="知识资产"></a>知识资产</h4><ul>
 <li>人力资产（HR）</li>
 <li>市场资产</li>
 <li>知识产权资产（IP）</li>
@@ -1011,10 +1032,27 @@
 </ul>
 </li>
 </ul>
-<p>人力资产就是人才，市场资产主要以品牌美誉度 和 企业关系 的方式存在。剩下的知识资产 都以某种形式的资料——主要是文件、文档的方式——存在、传播 和 传承。</p>
-<p>PMP（Project Management Professional）讲 『组织过程资产』，就是 项目组织在实践中形成自己独特的过程资产，构成组织核心竞争力。</p>
-<p><strong>好好写文档，其实是在积累『知识资产』。</strong></p>
-<h2 id="二、跟文档打交道"><a href="#二、跟文档打交道" class="headerlink" title="二、跟文档打交道"></a>二、跟文档打交道</h2><h3 id="2-1-『资产』管理"><a href="#2-1-『资产』管理" class="headerlink" title="2.1 『资产』管理"></a>2.1 『资产』管理</h3><p>既然是资产，就要把它管理起来。</p>
+<p>人力资产是人才，市场资产主要以 品牌美誉度 和 企业关系 方式存在。其余知识资产 多数以某种形式的资料——主要是文件、文档的方式——存在、传播 和 传承。</p>
+<p><br></p>
+<h4 id="过程资产"><a href="#过程资产" class="headerlink" title="过程资产"></a>过程资产</h4><ul>
+<li>规章制度、指导方针、规范标准、操作程序、工作流程、行为准则和工具方法等</li>
+<li>经验和教训，包括成文档案，也包括不成文的思想</li>
+<li>实践中形成的所有文档，包括知识资料库、文档模板、标准化表格、风险清单等</li>
+<li>实践中留下的历史信息</li>
+<li>…</li>
+</ul>
+<p>过程资产 首先 也是知识资产。</p>
+<p>不过如果说 知识资产 还包含着 可以 <strong>拿来</strong> 的普适部分，那么 过程资产 就更强调实践中的积累。这种积累跟 个人、企业 自身有着高度相关性，一方面不会轻易公开，另一方面，即使公开，也要经过一定程度整理重组，才能为他人所用。</p>
+<p>换言之，无法轻易拿来，只能自身积累。</p>
+<p><br></p>
+<p>譬如说认真学习 某知名企业 公开的工作流程，甚至有机会去参观，成果写入本企业的规章制度，可以认为获得了知识资产。但只有经过自身实践，根据实际调整，变成自己的过程资产，才可以说真正发挥作用。</p>
+<p>在这之前，很可能水土不服，画虎不成反类犬。</p>
+<p><br></p>
+<h3 id="1-3-为什么写文档"><a href="#1-3-为什么写文档" class="headerlink" title="1.3 为什么写文档"></a>1.3 为什么写文档</h3><p>说了这么多，跟文档有关系吗？</p>
+<p>有。知识资产 主要以 资料 形式存在，资料 需要文档作为载体。</p>
+<p>特别是 过程资产，不能从外部获取，如果不想依赖人的记忆力，就必须规范地文档化。</p>
+<p>换言之，<strong>好好写文档，就是在积累『资产』，积累竞争力。</strong></p>
+<h2 id="贰、跟文档打交道"><a href="#贰、跟文档打交道" class="headerlink" title="贰、跟文档打交道"></a>贰、跟文档打交道</h2><h3 id="2-1-『资产』管理"><a href="#2-1-『资产』管理" class="headerlink" title="2.1 『资产』管理"></a>2.1 『资产』管理</h3><p>既然是资产，就要把它管理起来。</p>
 <blockquote>
 <p>知识管理 =&gt; 信息管理 =&gt; 文档管理</p>
 </blockquote>
@@ -1028,20 +1066,25 @@
 </ul>
 <p>等等。涉及的工具超出了文档的范围，有机会再具体讨论。</p>
 <p>这次集中说加粗部分。</p>
-<h3 id="2-2-一些烦恼"><a href="#2-2-一些烦恼" class="headerlink" title="2.2 一些烦恼"></a>2.2 一些烦恼</h3><h4 id="记录：不完整、不准确"><a href="#记录：不完整、不准确" class="headerlink" title="记录：不完整、不准确"></a>记录：不完整、不准确</h4><p>事件、经过、数据、观点……都必须通过某种记录，变成素材。可以说，记录是获取文档素材的主要途径——如果再考虑到引用而来的素材，其实也来自别人的记录，那么就是唯一的途径。然而除了闭路电视全天候自动化的记录，多数的记录都面临不完整、不准确的问题。</p>
+<h3 id="2-2-一些烦恼"><a href="#2-2-一些烦恼" class="headerlink" title="2.2 一些烦恼"></a>2.2 一些烦恼</h3><h4 id="记录："><a href="#记录：" class="headerlink" title="记录："></a>记录：</h4><p>不完整、不准确</p>
+<p>事件、经过、数据、观点……都必须通过某种记录，变成素材。可以说，记录是获取文档素材的主要途径——如果再考虑到引用而来的素材，其实也来自别人的记录，那么就是唯一的途径。然而除了闭路电视全天候自动化的记录，多数的记录都面临不完整、不准确的问题。</p>
 <p><strong>事后的追述，既费力，也不准确。而费力不讨好又会进一步降低记录的意愿。</strong> 随时随地记录，有利于保持内容的 完整 和 有效，也减少事后整理的负担。</p>
 <p>这需要工具足够便利，跨平台（包括移动端），快速加载打开，没有使用负担。</p>
 <p>事实上，很多人嫌记录麻烦，写文档变成了很痛苦的例行公事。只有在面临考核时，事后回忆 甚至编造一些记录应付了事。我自己就试过月度总结不写，到检查时一口气补几个月；有见过有人没有写 commit message，事后补上。</p>
-<h4 id="编辑：缺乏好用的工具；思路总被打断"><a href="#编辑：缺乏好用的工具；思路总被打断" class="headerlink" title="编辑：缺乏好用的工具；思路总被打断"></a>编辑：缺乏好用的工具；思路总被打断</h4><p>好的编辑器很重要。除了编辑效率的差别，还有很重要的一点，就是内容和格式同时编辑，会引起思路的打断。</p>
-<h4 id="发布：不同场景、不同用途需要不同的格式，明明差不多的内容，却整天要返工"><a href="#发布：不同场景、不同用途需要不同的格式，明明差不多的内容，却整天要返工" class="headerlink" title="发布：不同场景、不同用途需要不同的格式，明明差不多的内容，却整天要返工"></a>发布：不同场景、不同用途需要不同的格式，明明差不多的内容，却整天要返工</h4><h4 id="演示：做-PPT-KeyNote-吃力不讨好"><a href="#演示：做-PPT-KeyNote-吃力不讨好" class="headerlink" title="演示：做 PPT / KeyNote 吃力不讨好"></a>演示：做 PPT / KeyNote 吃力不讨好</h4><h4 id="版本跟踪"><a href="#版本跟踪" class="headerlink" title="版本跟踪"></a>版本跟踪</h4><ul>
+<h4 id="编辑："><a href="#编辑：" class="headerlink" title="编辑："></a>编辑：</h4><p>缺乏好用的工具；思路总被打断</p>
+<p>好的编辑器很重要。除了编辑效率的差别，还有很重要的一点，就是内容和格式同时编辑，会引起思路的打断。</p>
+<h4 id="发布："><a href="#发布：" class="headerlink" title="发布："></a>发布：</h4><p>不同场景、不同用途需要不同的格式，明明差不多的内容，却整天要返工。</p>
+<h4 id="演示："><a href="#演示：" class="headerlink" title="演示："></a>演示：</h4><p>做 PPT / KeyNote 吃力不讨好。</p>
+<h4 id="版本跟踪"><a href="#版本跟踪" class="headerlink" title="版本跟踪"></a>版本跟踪</h4><ul>
 <li>非程序员：『版本跟踪』是什么？</li>
 <li>程序员：文档还要做版本跟踪？/ 我们已经做了。</li>
 </ul>
 <p>演示上面，一个是已有的文档不能简单地转换成演示文稿；另一个是，容易在一些花俏的细节上（例如动画）花过多精力，但最终的效果也不好</p>
 <p>版本管理 程序员一般是知道的。目前我们多数用SVN，后面有机会跟大家分享一下Git的使用。我们现在的产品文档是已经用SVN管理起来，但严格来说，没有得到很好的管理，因为你没办法像代码一样diff两个版本。因为多数文档是二进制文件，你必须两个版本都获取下来，分别打开用肉眼判断，这是很低效而且容易犯错的。</p>
-<h3 id="2-3-贵在坚持"><a href="#2-3-贵在坚持" class="headerlink" title="2.3 贵在坚持"></a>2.3 贵在坚持</h3><p>说完高大上的概念，说说个人体会。</p>
-<p>我高中写代码，曾经问过为什么要写注释和文档的蠢话。那是因为小时候写的东西都太简单了。<br>而工作这几年，我发现无论当时多么刻骨铭心的坑，通过多个宵，你最终都会忘记，只有写下来的才是你的、你的团队的。<br>我觉得最可惜的事情，就是因为三星的安保政策加上我的懒，有很多东西我没有记下来。所以一定要有方便的工具，让你保持随时记录的习惯。</p>
-<h2 id="三、为什么是Markdown"><a href="#三、为什么是Markdown" class="headerlink" title="三、为什么是Markdown"></a>三、为什么是Markdown</h2><h3 id="2-1-纯文本的威力"><a href="#2-1-纯文本的威力" class="headerlink" title="2.1 纯文本的威力"></a>2.1 纯文本的威力</h3><blockquote>
+<h3 id="2-3-贵在坚持"><a href="#2-3-贵在坚持" class="headerlink" title="2.3 贵在坚持"></a>2.3 贵在坚持</h3><p>高中时写代码，曾经问过为什么要写注释和文档这样的蠢话。因为当时写的东西都太简单了。</p>
+<p>工作几年，发现无论当时多么刻骨铭心的坑，通过多少个宵，最终都会忘记。只有成文的资料真正属于 自己 和 团队。</p>
+<p>工作前几年最可惜的事，就是因为公司繁琐的安保政策加上自己懒，太多经验没有总结记录。一定要有适合自己的工具，保持随时记录的习惯。</p>
+<h2 id="叁、为什么是Markdown"><a href="#叁、为什么是Markdown" class="headerlink" title="叁、为什么是Markdown"></a>叁、为什么是Markdown</h2><h3 id="3-1-纯文本的威力"><a href="#3-1-纯文本的威力" class="headerlink" title="3.1 纯文本的威力"></a>3.1 纯文本的威力</h3><blockquote>
 <p>Markdown 是一种纯文本标记语言</p>
 </blockquote>
 <p><em>*注：本章节的标题及部分内容引用自 《The Pragmatic Programmer》——Andrew Hunt &amp; David Thomas</em></p>
@@ -1109,7 +1152,7 @@
 </ol>
 <p>当一个标准可以串联起一系列工具，那么它就成为了一个支点，允许你用比较小的力气，借用现有的成果，完成复杂的工作。</p>
 <p><strong>纯文本就是不同时代、不同技术的最大公约数；就是标准。</strong></p>
-<h3 id="2-2-内容-与-样式-的分离"><a href="#2-2-内容-与-样式-的分离" class="headerlink" title="2.2 内容 与 样式 的分离"></a>2.2 内容 与 样式 的分离</h3><h4 id="两顶帽子"><a href="#两顶帽子" class="headerlink" title="两顶帽子"></a>两顶帽子</h4><blockquote>
+<h3 id="3-2-内容-与-样式-的分离"><a href="#3-2-内容-与-样式-的分离" class="headerlink" title="3.2 内容 与 样式 的分离"></a>3.2 内容 与 样式 的分离</h3><h4 id="两顶帽子"><a href="#两顶帽子" class="headerlink" title="两顶帽子"></a>两顶帽子</h4><blockquote>
 <p>有两顶帽子，每次只戴其中一顶：</p>
 <p>在修改内容时，不要理会显示的样式；</p>
 <p>当修改样式时，不要改动内容。</p>
@@ -1130,8 +1173,10 @@
 <li><a href="https://github.com/ksky521/nodePPT" target="_blank" rel="external">nodeppt</a> ： HTML5 演示文稿 （特效比Marp炫）</li>
 <li><a href="https://hexo.io/" target="_blank" rel="external">hexo</a> ： 静态博客</li>
 <li><a href="https://github.com/GitbookIO/gitbook" target="_blank" rel="external">gitbook</a> ：生成电子书和文档的命令行工具，同时官方提供一个<a href="https://www.gitbook.com/editor" target="_blank" rel="external">编辑器</a></li>
+<li>Markdown here ：一个原地将 Markdown 转换成 HTML的 浏览器插件</li>
 </ul>
 <p>pandoc是一个命令行工具，你当然可以敲命令使用；不过方便起见，我会推荐使用一个前端工具，首推Typora。</p>
+<p>而当你需要在只支持 HTML 的在线编辑器使用 Markdown 时（譬如公众号后台），Markdown here 是很好的选择。</p>
 <h4 id="代码高亮-和-数学环境"><a href="#代码高亮-和-数学环境" class="headerlink" title="代码高亮 和 数学环境"></a>代码高亮 和 数学环境</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"Hello world!"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><br></p>
 <p>$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</p>
@@ -1142,7 +1187,7 @@
 <p>而这里，只要用Mathjax写公式就可以了。</p>
 <p>Mathjax语法相当地直观，这里不详细展开，有需要的话，可以看我之前写的一篇文章：</p>
 <p><a href="http://jaycechant.info/2016/intro-to-mathjax/">Introduction to MathJax &amp; some samples</a></p>
-<h3 id="2-3-为什么是Markdown？"><a href="#2-3-为什么是Markdown？" class="headerlink" title="2.3 为什么是Markdown？"></a>2.3 为什么是Markdown？</h3><p>再问一次这个问题。</p>
+<h3 id="3-3-为什么是Markdown"><a href="#3-3-为什么是Markdown" class="headerlink" title="3.3 为什么是Markdown"></a>3.3 为什么是Markdown</h3><p>再问一次这个问题。</p>
 <blockquote>
 <p>纯文本是好的，内容与样式分离是好的。但那么多纯文本的标记语言可以做到，为什么是 Markdown？</p>
 </blockquote>
@@ -1209,7 +1254,7 @@
 <li><a href="http://jaycechant.info/2012/blog-with-markdown/">用Markdown写日志</a> </li>
 <li><a href="http://daringfireball.net/projects/markdown/syntax" target="_blank" rel="external">Markdown语法官方版</a></li>
 </ul>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p><s>这个演示文稿（Presentation）完全由 Markdown 写成，使用<a href="https://yhatt.github.io/marp/" target="_blank" rel="external">Marp</a>输出。</s></p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p><del>这个演示文稿（Presentation）完全由 Markdown 写成，使用<a href="https://yhatt.github.io/marp/" target="_blank" rel="external">Marp</a>输出。</del> </p>
 <p>同时稍作调整后，还会发表博客、以及其他格式的文档。</p>
 <p>如果你细心对比 博客文章 和 演示文稿，你会发现 演示文稿 上少了很多内容，这些内容是讲稿。讲稿以注释形式直接写在演示文稿里，讲的时候是对着注释讲的。</p>
 <p>作为文章发表时，不过把 注释符 和 分页符 删掉而已，就是一个查找替换。希望未来有工具自动识别输出场景，把这一步也省略；如果迟迟不出现，我尽量抽空自己实现。</p>
@@ -1311,15 +1356,15 @@
     </summary>
     
     
-      <category term="Android" scheme="http://jaycechant.info/tags/Android/"/>
-    
       <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
+    
+      <category term="Android" scheme="http://jaycechant.info/tags/Android/"/>
     
       <category term="pip" scheme="http://jaycechant.info/tags/pip/"/>
     
-      <category term="Ubuntu" scheme="http://jaycechant.info/tags/Ubuntu/"/>
-    
       <category term="mirror" scheme="http://jaycechant.info/tags/mirror/"/>
+    
+      <category term="Ubuntu" scheme="http://jaycechant.info/tags/Ubuntu/"/>
     
       <category term="aliyun" scheme="http://jaycechant.info/tags/aliyun/"/>
     
@@ -1631,9 +1676,9 @@
     </summary>
     
     
-      <category term="skill" scheme="http://jaycechant.info/tags/skill/"/>
-    
       <category term="OJ" scheme="http://jaycechant.info/tags/OJ/"/>
+    
+      <category term="skill" scheme="http://jaycechant.info/tags/skill/"/>
     
   </entry>
   

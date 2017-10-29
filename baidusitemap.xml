@@ -4,6 +4,29 @@
 
     
   <url>
+    <loc>http://jaycechant.info/2017/why-you-should-document-with-Markdown/</loc>
+    <lastmod>2017-10-29T17:24:22.028Z</lastmod>
+    <data>
+        <display>
+        <title>为什么你应该用 Markdown 写文档？</title>
+        <pubTime>2017-01-04T04:13:27.000Z</pubTime>
+        
+        <tag>Markdown</tag>
+         
+        <tag>document</tag>
+         
+        <tag>presentation</tag>
+         
+        <tag>why</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jaycechant.info/2016/intro-to-mathjax/</loc>
     <lastmod>2017-10-22T13:34:59.960Z</lastmod>
     <data>
@@ -51,9 +74,9 @@
         <title>用 Syncthing 备份的技巧</title>
         <pubTime>2016-08-28T07:57:03.000Z</pubTime>
         
-        <tag>Syncthing</tag>
-         
         <tag>skill</tag>
+         
+        <tag>Syncthing</tag>
          
         <tag>dropbox</tag>
          
@@ -231,29 +254,6 @@
 
     
   <url>
-    <loc>http://jaycechant.info/2017/why-you-should-document-with-Markdown/</loc>
-    <lastmod>2017-09-11T15:26:15.633Z</lastmod>
-    <data>
-        <display>
-        <title>为什么你应该用 Markdown 写文档？</title>
-        <pubTime>2017-01-04T04:13:27.000Z</pubTime>
-        
-        <tag>Markdown</tag>
-         
-        <tag>document</tag>
-         
-        <tag>presentation</tag>
-         
-        <tag>why</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://jaycechant.info/2016/mirrors-collection/</loc>
     <lastmod>2017-01-25T04:21:21.999Z</lastmod>
     <data>
@@ -261,15 +261,15 @@
         <title>镜像集合</title>
         <pubTime>2016-12-31T02:29:12.000Z</pubTime>
         
-        <tag>Android</tag>
-         
         <tag>Jenkins</tag>
+         
+        <tag>Android</tag>
          
         <tag>pip</tag>
          
-        <tag>Ubuntu</tag>
-         
         <tag>mirror</tag>
+         
+        <tag>Ubuntu</tag>
          
         <tag>aliyun</tag>
          
@@ -294,9 +294,9 @@
         <title>Linux 上 为 Jenkins 配置 Android-sdk 及其它</title>
         <pubTime>2017-01-16T03:24:34.000Z</pubTime>
         
-        <tag>Android</tag>
-         
         <tag>Jenkins</tag>
+         
+        <tag>Android</tag>
          
         <tag>Android-sdk</tag>
          
@@ -403,11 +403,11 @@
         
         <tag>how-to</tag>
          
+        <tag>unfinished</tag>
+         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
-         
-        <tag>unfinished</tag>
          
          
            
@@ -592,9 +592,9 @@
         <title>刷OJ的技巧</title>
         <pubTime>2016-12-09T01:35:03.000Z</pubTime>
         
-        <tag>skill</tag>
-         
         <tag>OJ</tag>
+         
+        <tag>skill</tag>
          
          
            
