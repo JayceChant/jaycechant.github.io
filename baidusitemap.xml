@@ -4,8 +4,33 @@
 
     
   <url>
+    <loc>http://jaycechant.info/2017/my-software-and-service-list/</loc>
+    <lastmod>2018-03-29T14:40:01.913Z</lastmod>
+    <data>
+        <display>
+        <title>我的自用 软件 和 服务 清单</title>
+        <pubTime>2017-01-23T07:30:50.000Z</pubTime>
+        
+        <tag>a list</tag>
+         
+        <tag>keep-updating</tag>
+         
+        <tag>software</tag>
+         
+        <tag>service</tag>
+         
+        <tag>app</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jaycechant.info/2017/why-you-should-document-with-Markdown/</loc>
-    <lastmod>2017-10-29T17:24:22.028Z</lastmod>
+    <lastmod>2017-11-06T15:53:40.515Z</lastmod>
     <data>
         <display>
         <title>为什么你应该用 Markdown 写文档？</title>
@@ -163,31 +188,6 @@
         <tag>git</tag>
          
         <tag>skill</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jaycechant.info/2017/my-software-and-service-list/</loc>
-    <lastmod>2017-09-24T16:05:44.805Z</lastmod>
-    <data>
-        <display>
-        <title>我的自用 软件 和 服务 清单</title>
-        <pubTime>2017-01-23T07:30:50.000Z</pubTime>
-        
-        <tag>a list</tag>
-         
-        <tag>keep-updating</tag>
-         
-        <tag>software</tag>
-         
-        <tag>service</tag>
-         
-        <tag>app</tag>
          
          
            

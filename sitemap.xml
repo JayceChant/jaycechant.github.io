@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jaycechant.info/2017/my-software-and-service-list/</loc>
+    
+    <lastmod>2018-03-29T14:40:01.913Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jaycechant.info/2017/why-you-should-document-with-Markdown/</loc>
     
-    <lastmod>2017-10-29T17:24:22.028Z</lastmod>
+    <lastmod>2017-11-06T15:53:40.515Z</lastmod>
     
   </url>
   
@@ -54,13 +61,6 @@
     <loc>http://jaycechant.info/2017/git-merge-between-different-repo/</loc>
     
     <lastmod>2017-10-12T14:20:54.010Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://jaycechant.info/2017/my-software-and-service-list/</loc>
-    
-    <lastmod>2017-09-24T16:05:44.805Z</lastmod>
     
   </url>
   
