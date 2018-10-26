@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://jaycechant.info/2018/glide-from-start-up-to-give-up/</loc>
-    <lastmod>2018-10-26T05:04:13.041Z</lastmod>
+    <lastmod>2018-10-26T06:04:39.482Z</lastmod>
     <data>
         <display>
         <title>golang 依赖管理：glide 从入门到放弃</title>
@@ -181,11 +181,11 @@
         <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
         <pubTime>2017-01-20T06:44:31.000Z</pubTime>
         
-        <tag>trouble</tag>
+        <tag>Java</tag>
          
         <tag>Jenkins</tag>
          
-        <tag>Java</tag>
+        <tag>trouble</tag>
          
         <tag>Tomcat</tag>
          
@@ -273,6 +273,39 @@
 
     
   <url>
+    <loc>http://jaycechant.info/2016/mirrors-collection/</loc>
+    <lastmod>2017-01-25T04:21:21.999Z</lastmod>
+    <data>
+        <display>
+        <title>镜像集合</title>
+        <pubTime>2016-12-31T02:29:12.000Z</pubTime>
+        
+        <tag>Android</tag>
+         
+        <tag>Jenkins</tag>
+         
+        <tag>pip</tag>
+         
+        <tag>Ubuntu</tag>
+         
+        <tag>mirror</tag>
+         
+        <tag>aliyun</tag>
+         
+        <tag>npm</tag>
+         
+        <tag>maven</tag>
+         
+        <tag>a list</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jaycechant.info/2017/Android-sdk-on-Linux-for-Jenkins-etc/</loc>
     <lastmod>2017-01-25T04:21:21.999Z</lastmod>
     <data>
@@ -294,30 +327,37 @@
 
     
   <url>
-    <loc>http://jaycechant.info/2016/mirrors-collection/</loc>
-    <lastmod>2017-01-25T04:21:21.999Z</lastmod>
+    <loc>http://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
+    <lastmod>2017-01-25T04:21:21.983Z</lastmod>
     <data>
         <display>
-        <title>镜像集合</title>
-        <pubTime>2016-12-31T02:29:12.000Z</pubTime>
+        <title>Windows 下 Python 2x 和 3x 版本共存</title>
+        <pubTime>2012-04-11T11:46:00.000Z</pubTime>
         
-        <tag>pip</tag>
+        <tag>Python</tag>
          
-        <tag>mirror</tag>
+        <tag>unfinished</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
+    <lastmod>2017-01-25T04:21:21.983Z</lastmod>
+    <data>
+        <display>
+        <title>vsftp 503 和 500 错误</title>
+        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
+        
+        <tag>trouble</tag>
          
         <tag>Ubuntu</tag>
          
-        <tag>aliyun</tag>
-         
-        <tag>npm</tag>
-         
-        <tag>maven</tag>
-         
-        <tag>Android</tag>
-         
-        <tag>Jenkins</tag>
-         
-        <tag>a list</tag>
+        <tag>vsftp</tag>
          
          
            
@@ -355,55 +395,15 @@
         <title>在 Windows 搭建Python多版本环境</title>
         <pubTime>2016-07-12T07:21:27.000Z</pubTime>
         
+        <tag>Python</tag>
+         
         <tag>unfinished</tag>
          
         <tag>trouble</tag>
-         
-        <tag>Python</tag>
          
         <tag>pip</tag>
          
         <tag>virtualenv</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
-    <lastmod>2017-01-25T04:21:21.983Z</lastmod>
-    <data>
-        <display>
-        <title>vsftp 503 和 500 错误</title>
-        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
-        
-        <tag>trouble</tag>
-         
-        <tag>Ubuntu</tag>
-         
-        <tag>vsftp</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
-    <lastmod>2017-01-25T04:21:21.983Z</lastmod>
-    <data>
-        <display>
-        <title>Windows 下 Python 2x 和 3x 版本共存</title>
-        <pubTime>2012-04-11T11:46:00.000Z</pubTime>
-        
-        <tag>unfinished</tag>
-         
-        <tag>Python</tag>
          
          
            
@@ -422,11 +422,11 @@
         
         <tag>how-to</tag>
          
+        <tag>unfinished</tag>
+         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
-         
-        <tag>unfinished</tag>
          
          
            
@@ -443,9 +443,9 @@
         <title>Jenkins JavaMail 配置：JCE 及其他</title>
         <pubTime>2017-01-11T07:02:31.000Z</pubTime>
         
-        <tag>trouble</tag>
-         
         <tag>Jenkins</tag>
+         
+        <tag>trouble</tag>
          
         <tag>JavaMail</tag>
          
@@ -489,9 +489,9 @@
         <title>升级 pip 时的一个坑</title>
         <pubTime>2016-12-29T02:50:03.000Z</pubTime>
         
-        <tag>trouble</tag>
-         
         <tag>Python</tag>
+         
+        <tag>trouble</tag>
          
         <tag>pip</tag>
          
@@ -527,13 +527,13 @@
         <title>博客迁移到了Hexo（附折腾记录）</title>
         <pubTime>2016-06-27T07:46:12.000Z</pubTime>
         
+        <tag>git</tag>
+         
         <tag>blog</tag>
          
         <tag>node.js</tag>
          
         <tag>hexo</tag>
-         
-        <tag>git</tag>
          
         <tag>trouble</tag>
          
