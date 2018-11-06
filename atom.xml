@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jaycechant.info/"/>
-  <updated>2018-10-26T06:04:39.482Z</updated>
+  <updated>2018-11-06T17:39:01.299Z</updated>
   <id>http://jaycechant.info/</id>
   
   <author>
@@ -16,11 +16,116 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>配置 Golang 开发环境</title>
+    <link href="http://jaycechant.info/2018/setup-golang-env/"/>
+    <id>http://jaycechant.info/2018/setup-golang-env/</id>
+    <published>2018-11-06T16:53:09.000Z</published>
+    <updated>2018-11-06T17:39:01.299Z</updated>
+    
+    <content type="html"><![CDATA[<p>为想尝试 Go 的朋友开个头，介绍环境的配置。语言的优缺点不在此展开。</p>
+<p>因身边多数使用 Win64 环境，以下无特殊说明均以 Win64 为例，日后有需要再补充其他平台部分。</p>
+<a id="more"></a>
+<h2 id="1-Go"><a href="#1-Go" class="headerlink" title="1. Go"></a>1. Go</h2><ul>
+<li>下载：<a href="https://golang.org/dl/" target="_blank" rel="external">https://golang.org/dl/</a> （out of wall）</li>
+<li>版本：1.9+，一般下载最新版本即可</li>
+</ul>
+<h3 id="1-1-安装"><a href="#1-1-安装" class="headerlink" title="1.1 安装"></a>1.1 安装</h3><p>访问官网下载页面，获取对应版本。不过如果你不懂得翻-墙，会发现访问不了官网，因为它在 Google 的服务器上。这点请自行解决。不过经过 PuTTY 和 iOS SDK 第三方下载被植入木马的事件，劝各位还是努力到官网下载。</p>
+<p>Win64 的安装文件一般为 <code>go1.xx.y.windows-amd64.msi</code> ，下载好后安装，路径默认或自定义，没有强制要求，不要出现中文和空格，尽量短一些即可。个人路径供参考： <code>D:\Dev\Go</code> 。</p>
+<h3 id="1-2-环境变量"><a href="#1-2-环境变量" class="headerlink" title="1.2 环境变量"></a>1.2 环境变量</h3><p>安装后设置环境变量，指定 官方工具包（及内置库） 和 工作目录。</p>
+<p>以下设置均在：<code>我的电脑（Win10 此电脑） &gt; 右键菜单 &gt; 属性 &gt; 高级系统设置 &gt; 环境变量</code> ， 如果变量存在就确认内容，不存在就新建。</p>
+<h4 id="1-2-1-GOROOT"><a href="#1-2-1-GOROOT" class="headerlink" title="1.2.1 GOROOT"></a>1.2.1 GOROOT</h4><p>指定 Go 的安装目录，并以此确定工具包和内置库的位置。确保 <code>GOROOT</code> 指向 Go 的安装目录 （例： <code>D:\Dev\Go</code>）。</p>
+<h4 id="1-2-2-GOPATH"><a href="#1-2-2-GOPATH" class="headerlink" title="1.2.2 GOPATH"></a>1.2.2 GOPATH</h4><p>指定 Go 的 workspace（工作目录）。<code>GOPATH</code> 允许指定多个 workspace，中间以 <code>;</code> 隔开（跟 <code>PATH</code> 类似，其他平台下的分隔符是 <code>:</code>）。可以在任意一个 workspace 下开发，但是 <code>go get</code> 和 <code>go install</code> 的包只会放在第一个目录。当引用包的时候，会先查找 <code>%GOROOT%\pkg</code> 的语言内置包，再顺序查找每个 workspace 的 <code>src</code> 目录，找到就结束。</p>
+<p>一般情况下，推荐设置两个 workspace ： 第一个存放下载的第三方依赖包，第二个存放本地开发的代码，分开避免混淆。例：<code>C:\Users\Jayce\go;E:\workspace\go</code> 。</p>
+<h4 id="1-2-3-PATH"><a href="#1-2-3-PATH" class="headerlink" title="1.2.3 PATH"></a>1.2.3 PATH</h4><p><code>PATH</code> 是系统自带的执行路径，所以我们不能覆盖它，只能在后面追加。需要将<strong>GOROOT 的 bin 目录</strong> 和 <strong>第一个 workspace 的 bin 目录加入 PATH</strong> ，以调用 官方工具包 和 安装的第三方工具。其中如果你检查 GOROOT 的时候发现 GOROOT 已经配置好了，有可能 <code>%GOROOT%\bin</code> 也已经添加了，你可以复制到记事本里检查一下。</p>
+<p>假定两个都没有添加，那么以上述 <code>GOPATH</code> 的配置为例，则是 <code>原来的PATH内容;%GOROOT%\bin;C:\Users\Jayce\go\bin</code></p>
+<p><strong>注：Win10 对 PATH 的管理进行了优化，不再是一长串用 <code>;</code> 分隔的路径，而是一个路径的列表，追加时只需新建子项即可。</strong></p>
+<h3 id="1-3-验证"><a href="#1-3-验证" class="headerlink" title="1.3 验证"></a>1.3 验证</h3><p>打开 cmd，然后按如下操作</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 查看安装版本</span></div><div class="line">go version</div><div class="line"><span class="comment"># 正常应该显示你安装的版本</span></div><div class="line"><span class="comment"># 找不到指令请检查安装  GOROOT 的安装目录是否正确 / PATH 里是否包含了 %GOROOT%\bin</span></div><div class="line">go version go1.<span class="number">10.1</span> windows/amd64</div></pre></td></tr></table></figure>
+<h2 id="2-gcc-和-make"><a href="#2-gcc-和-make" class="headerlink" title="2. gcc 和 make"></a>2. gcc 和 make</h2><p>有时部分依赖包以 C 开发，需要用到 gcc 编译；另外，为简化编译流程，项目规模增大后会逐渐交由 make 管理编译。两个工具在 Linux 下一般自带，或通过系统的包管理很轻易地安装，Windows 下则要安装 MinGW-w64 。注意必须是 <strong>MinGW-w64</strong> 。MinGW 不兼容 64 位系统，同时长期不更新；而 w64 可以同时兼容 32 和 64 位。</p>
+<ul>
+<li>下载：<a href="https://sourceforge.net/projects/mingw-w64/" target="_blank" rel="external">https://sourceforge.net/projects/mingw-w64/</a></li>
+</ul>
+<h3 id="2-1-安装"><a href="#2-1-安装" class="headerlink" title="2.1 安装"></a>2.1 安装</h3><p>下载得到的是安装器，在选择版本后，会自动下载对应版本并安装。建议不要改动任何选项，只需要确保 Architecture 对应你的计算机即可（Win64 选 x86_64）。</p>
+<p>安装路径依然没有强制要求，无中文和空格，尽量短即可。参考：<code>D:\Dev\mingw-w64</code> 。</p>
+<h3 id="2-2-创建-make-的软链接"><a href="#2-2-创建-make-的软链接" class="headerlink" title="2.2 创建 make 的软链接"></a>2.2 创建 make 的软链接</h3><p>安装完后进入 安装目录的 bin 目录，可以看到大量的工具，其中有 <code>gcc.exe</code>  和 <code>mingw32-make.exe</code> ，没有 <code>make.exe</code> 。其实 <code>mingw32-make.exe</code> 就是，但是用这个名字调用太长，也不利于其他工具用默认的名字调用，所以我们要创建一个名字叫 <code>make.exe</code> 的软链。</p>
+<p>首先用管理员权限打开 cmd （右键菜单 &gt; 用管理员权限打开），然后按如下操作：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 请修改路径对应你的安装目录</span></div><div class="line">C:\Windows\system32&gt;cd /d D:\Dev\mingw-w64\bin</div><div class="line"></div><div class="line">D:\Dev\mingw-w64\bin&gt;mklink make.exe mingw32-make.exe</div><div class="line">为 make.exe &lt;&lt;===&gt;&gt; mingw32-make.exe 创建的符号链接</div></pre></td></tr></table></figure>
+<p><strong>建议创建软链之后就关掉管理员权限的 cmd，避免因权限过高造成不可恢复的误操作。后续操作在普通权限下执行即可。</strong></p>
+<p>完成后你会看到 bin 目录下多了一个 <code>make.exe</code> 文件，然后执行 <code>dir make.exe</code> ，会看到</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">D:\Dev\mingw-w64\bin&gt;dir make.exe</div><div class="line"><span class="number">2018</span>/<span class="number">10</span>/<span class="number">04</span>  <span class="number">18</span>:<span class="number">17</span>    &lt;SYMLINK&gt;      make.exe [mingw32-make.exe]</div></pre></td></tr></table></figure>
+<h3 id="2-3-PATH-环境变量"><a href="#2-3-PATH-环境变量" class="headerlink" title="2.3 PATH 环境变量"></a>2.3 PATH 环境变量</h3><p>跟 Go 安装类似的， bin 目录也要追加到 PATH 目录的最后，详细可以参考 1.2.3 Go 的 PATH 环境变量部分。</p>
+<h3 id="2-4-验证"><a href="#2-4-验证" class="headerlink" title="2.4 验证"></a>2.4 验证</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">gcc -v</div><div class="line"><span class="comment"># 正常会输出 gcc 的配置以及版本，很长，这里就不贴了</span></div><div class="line">make -v</div><div class="line"><span class="comment"># 同理</span></div></pre></td></tr></table></figure>
+<h2 id="3-项目包管理及编译"><a href="#3-项目包管理及编译" class="headerlink" title="3. 项目包管理及编译"></a>3. 项目包管理及编译</h2><h3 id="3-0-预备知识：Go-的目录结构与包管理"><a href="#3-0-预备知识：Go-的目录结构与包管理" class="headerlink" title="3.0 预备知识：Go 的目录结构与包管理"></a>3.0 预备知识：Go 的目录结构与包管理</h3><p>每个 workspace 下都有三个指定用途的目录，用到的时候如果不存在，会自动创建：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">├── bin <span class="comment"># 存放 install 之后的可执行文件</span></div><div class="line">├── pkg <span class="comment"># 存放编译之后链接之前的中间文件</span></div><div class="line">└── src <span class="comment"># 存放 包 的源文件</span></div></pre></td></tr></table></figure>
+<p>其中 <code>go get</code> 获得的 src 和 <code>go install</code> 获得的 bin ，会放在第一个 workspace 中，所以建议至少添加两个 workspace，并在第二个进行本地开发，避免混淆。</p>
+<p>Go 语言引用包时，需要在代码开头 import 对应包的路径（非包名，虽然路径的最后一层目录往往跟包名一样，但也可以不一样）：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"../local/relative/path"</span> <span class="comment">// 相对路径。不纳入 workspace 的小项目允许。正规项目需要纳入，会报错！！</span></div><div class="line">    <span class="string">"github.com/urface/cli"</span> <span class="comment">// 全局路径。</span></div><div class="line">)</div></pre></td></tr></table></figure>
+<p>全局路径的 import </p>
+<ol>
+<li>先在 <code>%GOROOT%\pkg</code> 查找内置的包（已编译，所以引用 pkg）</li>
+<li>再在每个 workspace 的 src 目录查找</li>
+<li>在 1.6 版本后新增了项目根目录下的 vendor 目录，可以通过依赖管理工具拷贝特定版本的依赖，方便锁定依赖的版本，并随项目源码一起提交。</li>
+</ol>
+<p>使用了 local import 的包，不能被别的包 import，所以在正式项目中基本是禁止使用的。那么需要被引用的包只能存放在 src 或者 vendor 中。</p>
+<p>跟 Java 相比最大的差别就是， <strong>项目的根目录不在 import 的搜索范围内</strong> 。Java 项目内的包，包名（跟路径对应）不包括项目名，从根目录下开始算；Go 没有项目本地包的概念，都是全局 import，包路径从 src 下开始算，所以项目<strong>根目录名</strong>也是包路径的一部分。由此得出结论：</p>
+<ul>
+<li>Go 项目必须在 workspace 的 src 目录下开发</li>
+<li>根目录 <strong>名字确定后就不能随意更改</strong> ，否则项目内的互相 import 都得改</li>
+</ul>
+<h3 id="3-1-包管理"><a href="#3-1-包管理" class="headerlink" title="3.1 包管理"></a>3.1 包管理</h3><p>有了上述知识准备，接下来的内容就容易理解了。</p>
+<ul>
+<li>git clone 必须在 （第二个） workspace 的 src 目录进行 （后续要新建项目同理）。</li>
+<li>项目名（例：myproj） 需要跟 import 路径 （<code>import myproj/xxx/yyy</code>） 保持一致，新建项目时就要考虑，clone 之后不能修改目录名。</li>
+<li>推荐使用官方的依赖管理工具 dep，所有第三方依赖都会拷贝到 vendor 跟源码一起管理，clone 后不需 <code>go get</code> 对应的依赖。</li>
+</ul>
+<h3 id="3-2-编译"><a href="#3-2-编译" class="headerlink" title="3.2 编译"></a>3.2 编译</h3><p>在确保做好包管理的基础上，编译就很简单了，在根目录打开 cmd：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">go build</div></pre></td></tr></table></figure>
+<p>即可。</p>
+<p><strong>TODO：</strong> </p>
+<p>后续项目复杂度增加后，编译会交给 make 管理，这部分内容待补充，或另起一文。</p>
+<h2 id="4-IDE"><a href="#4-IDE" class="headerlink" title="4. IDE"></a>4. IDE</h2><ul>
+<li><p><a href="https://github.com/visualfc/liteide" target="_blank" rel="external">LiteIDE</a>：LiteIDE is a simple, open source, cross-platform Go IDE</p>
+<p>国人开发的开源跨平台 IDE，简单，免费，够用。</p>
+</li>
+<li><p><a href="https://www.jetbrains.com/go/" target="_blank" rel="external">GoLand</a>：A Clever IDE to Go by JetBrains</p>
+<p>IDE 名门 JetBrains 出品，口碑很好，就是要付费。</p>
+</li>
+<li><p><a href="https://code.visualstudio.com/" target="_blank" rel="external">Visual Studio Code</a>：Code Editing. Redefined</p>
+<p>传统软件巨头微软拥抱开源之后的 开源 IDE ，热度很高；并非专门为 Go 设计，但提供相关插件。</p>
+</li>
+</ul>
+<p>视乎你更习惯哪个 IDE，看你自己喜欢。</p>
+<h2 id="5-其他工具"><a href="#5-其他工具" class="headerlink" title="5. 其他工具"></a>5. 其他工具</h2><ul>
+<li>bindata：将资源文件编译成 go 源码，参与编译。（类似 Android 下的 R.java）</li>
+<li>dep：Go 官方依赖管理工具，将指定版本的第三方依赖拷贝到 vendor 目录，跟源码一起管理。</li>
+</ul>
+<p><strong>TODO：</strong> 这两个是非常方便的工具，但没有也可以做开发，并非必须，待补充。</p>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;为想尝试 Go 的朋友开个头，介绍环境的配置。语言的优缺点不在此展开。&lt;/p&gt;
+&lt;p&gt;因身边多数使用 Win64 环境，以下无特殊说明均以 Win64 为例，日后有需要再补充其他平台部分。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="unfinished" scheme="http://jaycechant.info/tags/unfinished/"/>
+    
+      <category term="golang" scheme="http://jaycechant.info/tags/golang/"/>
+    
+      <category term="dep" scheme="http://jaycechant.info/tags/dep/"/>
+    
+  </entry>
+  
+  <entry>
     <title>golang 依赖管理：glide 从入门到放弃</title>
     <link href="http://jaycechant.info/2018/glide-from-start-up-to-give-up/"/>
     <id>http://jaycechant.info/2018/glide-from-start-up-to-give-up/</id>
     <published>2018-10-24T10:01:17.000Z</published>
-    <updated>2018-10-26T06:04:39.482Z</updated>
+    <updated>2018-10-26T06:04:39.483Z</updated>
     
     <content type="html"><![CDATA[<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>先丢结论，两个推荐选项：</p>
 <ul>
@@ -287,7 +392,7 @@
     <link href="http://jaycechant.info/2017/use-screen-as-byobu-backend/"/>
     <id>http://jaycechant.info/2017/use-screen-as-byobu-backend/</id>
     <published>2017-09-19T08:57:40.000Z</published>
-    <updated>2017-10-12T14:41:16.667Z</updated>
+    <updated>2017-10-12T14:41:16.668Z</updated>
     
     <content type="html"><![CDATA[<p>如题，一分钟Mark文。</p>
 <a id="more"></a>
@@ -483,7 +588,7 @@
     <link href="http://jaycechant.info/2017/suspected-bug-in-json-lib-2-4-jdk15/"/>
     <id>http://jaycechant.info/2017/suspected-bug-in-json-lib-2-4-jdk15/</id>
     <published>2017-02-21T09:12:31.000Z</published>
-    <updated>2017-09-24T10:00:50.145Z</updated>
+    <updated>2017-09-24T10:00:50.146Z</updated>
     
     <content type="html"><![CDATA[<p>使用 json-lib 时发现了比较诡异的现象，分析半天没有找到原因。最后因时间关系，直接替换成 org.json 解决了。疑似json-lib 有 bug，Mark 一个，以后再看。</p>
 <a id="more"></a>
@@ -526,7 +631,7 @@
     <link href="http://jaycechant.info/2017/my-software-and-service-list/"/>
     <id>http://jaycechant.info/2017/my-software-and-service-list/</id>
     <published>2017-01-23T07:30:50.000Z</published>
-    <updated>2018-03-29T14:40:01.913Z</updated>
+    <updated>2018-03-29T14:40:01.914Z</updated>
     
     <content type="html"><![CDATA[<p>这是一个 <strong>持续更新</strong> 的清单，记录我在 各个平台（目前主要是 Windows 、 Linux  和 Android） 的首选 软件 / App / 服务。供我换机或重装系统时 <strong>回顾</strong>，也供大家参考；也欢迎大家在留言推荐更好的选择。</p>
 <a id="more"></a>
@@ -675,9 +780,9 @@
     </summary>
     
     
-      <category term="git" scheme="http://jaycechant.info/tags/git/"/>
-    
       <category term="skill" scheme="http://jaycechant.info/tags/skill/"/>
+    
+      <category term="git" scheme="http://jaycechant.info/tags/git/"/>
     
   </entry>
   
@@ -686,7 +791,7 @@
     <link href="http://jaycechant.info/2017/Jenkins-Could-not-initialize-JFreeChart-and-tomcat-setenv/"/>
     <id>http://jaycechant.info/2017/Jenkins-Could-not-initialize-JFreeChart-and-tomcat-setenv/</id>
     <published>2017-01-20T06:44:31.000Z</published>
-    <updated>2017-10-12T14:39:33.678Z</updated>
+    <updated>2017-10-12T14:39:33.679Z</updated>
     
     <content type="html"><![CDATA[<p>Jenkins 有一系列插件，可以提供趋势图显示项目的情况，例如 Checkstyle, Dry, FindBugs, PMD, Tasks, 和 Warnings，还有把前面的内容合并显示的 <a href="http://wiki.jenkins-ci.org/x/tgeIAg" target="_blank" rel="external">Static Analysis Collector Plug-in</a>。实际上，你只要装最后一个，前面的会作为依赖全部装上。</p>
 <p>作为尝试，先配置了 <strong>Maven Warnings Trend</strong>，打开一看，图是裂的……</p>
@@ -725,11 +830,11 @@
     </summary>
     
     
-      <category term="Java" scheme="http://jaycechant.info/tags/Java/"/>
+      <category term="trouble" scheme="http://jaycechant.info/tags/trouble/"/>
     
       <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
     
-      <category term="trouble" scheme="http://jaycechant.info/tags/trouble/"/>
+      <category term="Java" scheme="http://jaycechant.info/tags/Java/"/>
     
       <category term="Tomcat" scheme="http://jaycechant.info/tags/Tomcat/"/>
     
@@ -740,7 +845,7 @@
     <link href="http://jaycechant.info/2017/special-for-tools/"/>
     <id>http://jaycechant.info/2017/special-for-tools/</id>
     <published>2017-01-16T06:56:57.000Z</published>
-    <updated>2017-10-15T09:28:51.532Z</updated>
+    <updated>2017-10-15T09:28:51.533Z</updated>
     
     <content type="html"><![CDATA[<p>本专题收集趁手的小工具，并附使用技巧。尽量小和简单，尽量用完即走，简单到不必单独成篇，集中放这里；复杂的工具，就单独开一篇不放这里。可能比较多是命令行工具也不一定。</p>
 <p>另外开一篇常用软件列表，只列举优缺点对比不展开用法，所以某些工具可能会有重叠，但内容侧重点不同。</p>
@@ -958,7 +1063,7 @@
     <link href="http://jaycechant.info/2017/Jenkins-javamail-config-JCE-etc/"/>
     <id>http://jaycechant.info/2017/Jenkins-javamail-config-JCE-etc/</id>
     <published>2017-01-11T07:02:31.000Z</published>
-    <updated>2017-01-11T15:19:23.186Z</updated>
+    <updated>2017-01-11T15:19:23.187Z</updated>
     
     <content type="html"><![CDATA[<p>Jenkins 上线一段时间，逐渐完善中。原想 nightly build 缓一缓开启，前两天发现trunk有编译不过的代码导致build fail，心想着要是不早点发现，代码排查也麻烦，如果新版本上线当天发现就更折腾，于是就开了nightly build。</p>
 <p>既然开了nightly build，跟手动启动的build你会去关注结果不一样，自动启动的build不一定会记得，如果没有留意到build fail就没有意义了。所以顺便就配置结果邮件了。以下是踩坑记录。JCE部分建议大家留意一下，不知道的话，做security相关开发一不小心就在这上面浪费时间。</p>
@@ -1009,9 +1114,9 @@
     </summary>
     
     
-      <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
-    
       <category term="trouble" scheme="http://jaycechant.info/tags/trouble/"/>
+    
+      <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
     
       <category term="JavaMail" scheme="http://jaycechant.info/tags/JavaMail/"/>
     
@@ -1026,7 +1131,7 @@
     <link href="http://jaycechant.info/2017/supervisor-traps/"/>
     <id>http://jaycechant.info/2017/supervisor-traps/</id>
     <published>2017-01-09T07:02:15.000Z</published>
-    <updated>2017-01-09T15:39:21.891Z</updated>
+    <updated>2017-01-09T15:39:21.892Z</updated>
     
     <content type="html"><![CDATA[<p>在对比过几个Git web端管理器之后，在内网部署了gogs。初次运行不讲究，直接</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ su git</div><div class="line">$ ./gogs web</div></pre></td></tr></table></figure>
@@ -1081,7 +1186,7 @@
     <link href="http://jaycechant.info/2017/why-you-should-document-with-Markdown/"/>
     <id>http://jaycechant.info/2017/why-you-should-document-with-Markdown/</id>
     <published>2017-01-04T04:13:27.000Z</published>
-    <updated>2017-11-06T15:53:40.515Z</updated>
+    <updated>2017-11-06T15:53:40.516Z</updated>
     
     <content type="html"><![CDATA[<p>不记得第几次安利 Markdown 了。</p>
 <p>曾发过一篇<a href="../../2012/blog-with-markdown/">《用Markdown写日志》</a>。</p>
@@ -1385,11 +1490,11 @@
     
       <category term="Markdown" scheme="http://jaycechant.info/tags/Markdown/"/>
     
+      <category term="why" scheme="http://jaycechant.info/tags/why/"/>
+    
       <category term="document" scheme="http://jaycechant.info/tags/document/"/>
     
       <category term="presentation" scheme="http://jaycechant.info/tags/presentation/"/>
-    
-      <category term="why" scheme="http://jaycechant.info/tags/why/"/>
     
   </entry>
   
@@ -1463,21 +1568,21 @@
     </summary>
     
     
-      <category term="Android" scheme="http://jaycechant.info/tags/Android/"/>
-    
-      <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
-    
       <category term="pip" scheme="http://jaycechant.info/tags/pip/"/>
     
-      <category term="Ubuntu" scheme="http://jaycechant.info/tags/Ubuntu/"/>
-    
       <category term="mirror" scheme="http://jaycechant.info/tags/mirror/"/>
+    
+      <category term="Ubuntu" scheme="http://jaycechant.info/tags/Ubuntu/"/>
     
       <category term="aliyun" scheme="http://jaycechant.info/tags/aliyun/"/>
     
       <category term="npm" scheme="http://jaycechant.info/tags/npm/"/>
     
       <category term="maven" scheme="http://jaycechant.info/tags/maven/"/>
+    
+      <category term="Android" scheme="http://jaycechant.info/tags/Android/"/>
+    
+      <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
     
       <category term="a list" scheme="http://jaycechant.info/tags/a-list/"/>
     
@@ -1488,7 +1593,7 @@
     <link href="http://jaycechant.info/2016/vsftp-error-503-and-500/"/>
     <id>http://jaycechant.info/2016/vsftp-error-503-and-500/</id>
     <published>2016-12-29T02:53:19.000Z</published>
-    <updated>2017-01-25T04:21:21.983Z</updated>
+    <updated>2017-01-25T04:21:21.984Z</updated>
     
     <content type="html"><![CDATA[<p>想在远程服务器上装一些东西，在yum或者apt源里的自然很容易，但那以外的，shell + wget 总是有许多不便（有些下载需要登录，有些需要梯子……服务器上又希望尽量少不必要的东西），何况偶尔需要和本地交换一些东西，FTP是必要的。之前在 CentOS 7 上相当顺利，这次在Ubuntu 14.04上却不太顺利。</p>
 <a id="more"></a>
@@ -1531,12 +1636,12 @@
     <link href="http://jaycechant.info/2016/trap-while-upgrading-pip/"/>
     <id>http://jaycechant.info/2016/trap-while-upgrading-pip/</id>
     <published>2016-12-29T02:50:03.000Z</published>
-    <updated>2017-01-09T15:37:05.188Z</updated>
+    <updated>2017-01-09T15:37:05.189Z</updated>
     
     <content type="html"><![CDATA[<p>升级 pip 过程中踩了个坑。其实之前也升级过不过很巧合绕过去了。这次踩到做个记录。</p>
 <a id="more"></a>
 <p>事情是这样的，我需要写一个爬虫，所以就安装了bs4（喔，漂亮的肥皂）。然后安装后pip提示我新版本出来了。作为一个『不更新不舒服斯基』，我顺手就 <code>pip install --upgrade pip</code> 了。其实它提示的命令是 <code>python -m pip install --upgrade pip</code> 的，但在Scripts加入了系统路径的情况下（比较新的版本，安装的时候自动就帮你添加了）， 直接pip 不是一样吗。然后就出现了下面这样的情况。</p>
-<figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="function">C:\<span class="title">Users</span>\<span class="title">JayceChant</span>&gt;<span class="title">pip</span> <span class="title">install</span> <span class="title">beautifulsoup4</span></span></div><div class="line"><span class="title">Collecting</span> <span class="title">beautifulsoup4</span></div><div class="line">  <span class="title">Downloading</span> <span class="title">beautifulsoup4</span>-4.5.1-<span class="title">py3</span>-<span class="title">none</span>-<span class="title">any.whl</span> (83<span class="title">kB</span>)</div><div class="line">    100% |████████████████████████████████| 92<span class="title">kB</span> 93<span class="title">kB</span>/<span class="title">s</span></div><div class="line"><span class="title">Installing</span> <span class="title">collected</span> <span class="title">packages</span>: <span class="title">beautifulsoup4</span></div><div class="line"><span class="title">Successfully</span> <span class="title">installed</span> <span class="title">beautifulsoup4</span>-4.5.1</div><div class="line"><span class="title">You</span> <span class="title">are</span> <span class="title">using</span> <span class="title">pip</span> <span class="title">version</span> 8.1.1, <span class="title">however</span> <span class="title">version</span> 9.0.1 <span class="title">is</span> <span class="title">available</span>.</div><div class="line"><span class="title">You</span> <span class="title">should</span> <span class="title">consider</span> <span class="title">upgrading</span> <span class="title">via</span> <span class="title">the</span> '<span class="title">python</span> -<span class="title">m</span> <span class="title">pip</span> <span class="title">install</span> --<span class="title">upgrade</span> <span class="title">pip</span>' <span class="title">command</span>.</div><div class="line"></div><div class="line"><span class="title">C</span>:\<span class="title">Users</span>\<span class="title">JayceChant</span>&gt;<span class="title">pip</span> <span class="title">install</span> --<span class="title">upgrade</span> <span class="title">pip</span></div><div class="line"><span class="title">Collecting</span> <span class="title">pip</span></div><div class="line">  <span class="title">Downloading</span> <span class="title">pip</span>-9.0.1-<span class="title">py2.py3</span>-<span class="title">none</span>-<span class="title">any.whl</span> (1.3<span class="title">MB</span>)</div><div class="line">    100% |████████████████████████████████| 1.3<span class="title">MB</span> 6.4<span class="title">kB</span>/<span class="title">s</span></div><div class="line"><span class="title">Installing</span> <span class="title">collected</span> <span class="title">packages</span>: <span class="title">pip</span></div><div class="line">  <span class="title">Found</span> <span class="title">existing</span> <span class="title">installation</span>: <span class="title">pip</span> 8.1.1</div><div class="line">    <span class="title">Uninstalling</span> <span class="title">pip</span>-8.1.1:</div><div class="line"><span class="title">Exception</span>:</div><div class="line"><span class="title">Traceback</span> (<span class="title">most</span> <span class="title">recent</span> <span class="title">call</span> <span class="title">last</span>):</div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">shutil.py</span>", <span class="title">line</span> 538, <span class="title">in</span> <span class="title">move</span></div><div class="line">    <span class="title">os.rename</span>(<span class="title">src</span>, <span class="title">real_dst</span>)</div><div class="line"><span class="title">OSError</span>: [<span class="title">WinError</span> 17] 系统无法将文件移到不同的磁盘驱动器。: '<span class="title">d</span>:\\<span class="title">dev</span>\\<span class="title">python35</span>\\<span class="title">scripts</span>\\<span class="title">pip.exe</span>' -&gt; '<span class="title">C</span>:\\<span class="title">Users</span>\\<span class="title">JAYCEC</span>~1\\<span class="title">AppData</span>\\<span class="title">Local</span>\\<span class="title">Temp</span>\\<span class="title">pip</span>-<span class="title">wgmxmz1x</span>-<span class="title">u</span></div><div class="line"><span class="title">ninstall</span>\\<span class="title">dev</span>\\<span class="title">python35</span>\\<span class="title">scripts</span>\\<span class="title">pip.exe</span>'</div><div class="line"></div><div class="line"><span class="title">During</span> <span class="title">handling</span> <span class="title">of</span> <span class="title">the</span> <span class="title">above</span> <span class="title">exception</span>, <span class="title">another</span> <span class="title">exception</span> <span class="title">occurred</span>:</div><div class="line"></div><div class="line"><span class="title">Traceback</span> (<span class="title">most</span> <span class="title">recent</span> <span class="title">call</span> <span class="title">last</span>):</div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">basecommand.py</span>", <span class="title">line</span> 209, <span class="title">in</span> <span class="title">main</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">commands</span>\<span class="title">install.py</span>", <span class="title">line</span> 317, <span class="title">in</span> <span class="title">run</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">req</span>\<span class="title">req_set.py</span>", <span class="title">line</span> 726, <span class="title">in</span> <span class="title">install</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">req</span>\<span class="title">req_install.py</span>", <span class="title">line</span> 746, <span class="title">in</span> <span class="title">uninstall</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">req</span>\<span class="title">req_uninstall.py</span>", <span class="title">line</span> 115, <span class="title">in</span> <span class="title">remove</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">utils</span>\<span class="title">__init__.py</span>", <span class="title">line</span> 267, <span class="title">in</span> <span class="title">renames</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">shutil.py</span>", <span class="title">line</span> 553, <span class="title">in</span> <span class="title">move</span></div><div class="line">    <span class="title">os.unlink</span>(<span class="title">src</span>)</div><div class="line"><span class="title">PermissionError</span>: [<span class="title">WinError</span> 5] 拒绝访问。: '<span class="title">d</span>:\\<span class="title">dev</span>\\<span class="title">python35</span>\\<span class="title">scripts</span>\\<span class="title">pip.exe</span>'</div><div class="line"></div><div class="line"><span class="title">C</span>:\<span class="title">Users</span>\<span class="title">JayceChant</span>&gt;<span class="title">pip</span> <span class="title">install</span> --<span class="title">upgrade</span> <span class="title">pip</span></div><div class="line"><span class="title">Traceback</span> (<span class="title">most</span> <span class="title">recent</span> <span class="title">call</span> <span class="title">last</span>):</div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">runpy.py</span>", <span class="title">line</span> 184, <span class="title">in</span> <span class="title">_run_module_as_main</span></div><div class="line">    "<span class="title">__main__</span>", <span class="title">mod_spec</span>)</div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">runpy.py</span>", <span class="title">line</span> 85, <span class="title">in</span> <span class="title">_run_code</span></div><div class="line">    <span class="title">exec</span>(<span class="title">code</span>, <span class="title">run_globals</span>)</div><div class="line">  <span class="title">File</span> "<span class="title">D</span>:\<span class="title">Dev</span>\<span class="title">Python35</span>\<span class="title">Scripts</span>\<span class="title">pip.exe</span>\<span class="title">__main__.py</span>", <span class="title">line</span> 5, <span class="title">in</span> &lt;<span class="title">module</span>&gt;</div><div class="line"><span class="title">ImportError</span>: <span class="title">No</span> <span class="title">module</span> <span class="title">named</span> '<span class="title">pip</span>'</div></pre></td></tr></table></figure>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="function">C:\<span class="title">Users</span>\<span class="title">JayceChant</span>&gt;<span class="title">pip</span> <span class="title">install</span> <span class="title">beautifulsoup4</span></span></div><div class="line"><span class="title">Collecting</span> <span class="title">beautifulsoup4</span></div><div class="line">  <span class="title">Downloading</span> <span class="title">beautifulsoup4</span>-4.5.1-<span class="title">py3</span>-<span class="title">none</span>-<span class="title">any.whl</span> (83<span class="title">kB</span>)</div><div class="line">    100% |████████████████████████████████| 92<span class="title">kB</span> 93<span class="title">kB</span>/<span class="title">s</span></div><div class="line"><span class="title">Installing</span> <span class="title">collected</span> <span class="title">packages</span>: <span class="title">beautifulsoup4</span></div><div class="line"><span class="title">Successfully</span> <span class="title">installed</span> <span class="title">beautifulsoup4</span>-4.5.1</div><div class="line"><span class="title">You</span> <span class="title">are</span> <span class="title">using</span> <span class="title">pip</span> <span class="title">version</span> 8.1.1, <span class="title">however</span> <span class="title">version</span> 9.0.1 <span class="title">is</span> <span class="title">available</span>.</div><div class="line"><span class="title">You</span> <span class="title">should</span> <span class="title">consider</span> <span class="title">upgrading</span> <span class="title">via</span> <span class="title">the</span> '<span class="title">python</span> -<span class="title">m</span> <span class="title">pip</span> <span class="title">install</span> --<span class="title">upgrade</span> <span class="title">pip</span>' <span class="title">command</span>.</div><div class="line"></div><div class="line"><span class="title">C</span>:\<span class="title">Users</span>\<span class="title">JayceChant</span>&gt;<span class="title">pip</span> <span class="title">install</span> --<span class="title">upgrade</span> <span class="title">pip</span></div><div class="line"><span class="title">Collecting</span> <span class="title">pip</span></div><div class="line">  <span class="title">Downloading</span> <span class="title">pip</span>-9.0.1-<span class="title">py2.py3</span>-<span class="title">none</span>-<span class="title">any.whl</span> (1.3<span class="title">MB</span>)</div><div class="line">    100% |████████████████████████████████| 1.3<span class="title">MB</span> 6.4<span class="title">kB</span>/<span class="title">s</span></div><div class="line"><span class="title">Installing</span> <span class="title">collected</span> <span class="title">packages</span>: <span class="title">pip</span></div><div class="line">  <span class="title">Found</span> <span class="title">existing</span> <span class="title">installation</span>: <span class="title">pip</span> 8.1.1</div><div class="line">    <span class="title">Uninstalling</span> <span class="title">pip</span>-8.1.1:</div><div class="line"><span class="title">Exception</span>:</div><div class="line"><span class="title">Traceback</span> (<span class="title">most</span> <span class="title">recent</span> <span class="title">call</span> <span class="title">last</span>):</div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">shutil.py</span>", <span class="title">line</span> 538, <span class="title">in</span> <span class="title">move</span></div><div class="line">    <span class="title">os.rename</span>(<span class="title">src</span>, <span class="title">real_dst</span>)</div><div class="line"><span class="title">OSError</span>: [<span class="title">WinError</span> 17] 系统无法将文件移到不同的磁盘驱动器。: '<span class="title">d</span>:\\<span class="title">dev</span>\\<span class="title">python35</span>\\<span class="title">scripts</span>\\<span class="title">pip.exe</span>' -&gt; '<span class="title">C</span>:\\<span class="title">Users</span>\\<span class="title">JAYCEC</span>~1\\<span class="title">AppData</span>\\<span class="title">Local</span>\\<span class="title">Temp</span>\\<span class="title">pip</span>-<span class="title">wgmxmz1x</span>-<span class="title">u</span></div><div class="line"><span class="title">ninstall</span>\\<span class="title">dev</span>\\<span class="title">python35</span>\\<span class="title">scripts</span>\\<span class="title">pip.exe</span>'</div><div class="line"></div><div class="line"><span class="title">During</span> <span class="title">handling</span> <span class="title">of</span> <span class="title">the</span> <span class="title">above</span> <span class="title">exception</span>, <span class="title">another</span> <span class="title">exception</span> <span class="title">occurred</span>:</div><div class="line"></div><div class="line"><span class="title">Traceback</span> (<span class="title">most</span> <span class="title">recent</span> <span class="title">call</span> <span class="title">last</span>):</div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">basecommand.py</span>", <span class="title">line</span> 209, <span class="title">in</span> <span class="title">main</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">commands</span>\<span class="title">install.py</span>", <span class="title">line</span> 317, <span class="title">in</span> <span class="title">run</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">req</span>\<span class="title">req_set.py</span>", <span class="title">line</span> 726, <span class="title">in</span> <span class="title">install</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">req</span>\<span class="title">req_install.py</span>", <span class="title">line</span> 746, <span class="title">in</span> <span class="title">uninstall</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">req</span>\<span class="title">req_uninstall.py</span>", <span class="title">line</span> 115, <span class="title">in</span> <span class="title">remove</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">site</span>-<span class="title">packages</span>\<span class="title">pip</span>\<span class="title">utils</span>\__init__.py", <span class="title">line</span> 267, <span class="title">in</span> <span class="title">renames</span></div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">shutil.py</span>", <span class="title">line</span> 553, <span class="title">in</span> <span class="title">move</span></div><div class="line">    <span class="title">os.unlink</span>(<span class="title">src</span>)</div><div class="line"><span class="title">PermissionError</span>: [<span class="title">WinError</span> 5] 拒绝访问。: '<span class="title">d</span>:\\<span class="title">dev</span>\\<span class="title">python35</span>\\<span class="title">scripts</span>\\<span class="title">pip.exe</span>'</div><div class="line"></div><div class="line"><span class="title">C</span>:\<span class="title">Users</span>\<span class="title">JayceChant</span>&gt;<span class="title">pip</span> <span class="title">install</span> --<span class="title">upgrade</span> <span class="title">pip</span></div><div class="line"><span class="title">Traceback</span> (<span class="title">most</span> <span class="title">recent</span> <span class="title">call</span> <span class="title">last</span>):</div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">runpy.py</span>", <span class="title">line</span> 184, <span class="title">in</span> _run_module_as_main</div><div class="line">    "__main__", <span class="title">mod_spec</span>)</div><div class="line">  <span class="title">File</span> "<span class="title">d</span>:\<span class="title">dev</span>\<span class="title">python35</span>\<span class="title">lib</span>\<span class="title">runpy.py</span>", <span class="title">line</span> 85, <span class="title">in</span> _run_code</div><div class="line">    <span class="title">exec</span>(<span class="title">code</span>, <span class="title">run_globals</span>)</div><div class="line">  <span class="title">File</span> "<span class="title">D</span>:\<span class="title">Dev</span>\<span class="title">Python35</span>\<span class="title">Scripts</span>\<span class="title">pip.exe</span>\__main__.py", <span class="title">line</span> 5, <span class="title">in</span> &lt;<span class="title">module</span>&gt;</div><div class="line"><span class="title">ImportError</span>: <span class="title">No</span> <span class="title">module</span> <span class="title">named</span> '<span class="title">pip</span>'</div></pre></td></tr></table></figure>
 <p>翻译一下：</p>
 <ol>
 <li>因为 pip.exe 正在运行，所以无法将新的pip.exe覆盖上去</li>
@@ -1567,9 +1672,9 @@
     
       <category term="Python" scheme="http://jaycechant.info/tags/Python/"/>
     
-      <category term="trouble" scheme="http://jaycechant.info/tags/trouble/"/>
-    
       <category term="pip" scheme="http://jaycechant.info/tags/pip/"/>
+    
+      <category term="trouble" scheme="http://jaycechant.info/tags/trouble/"/>
     
   </entry>
   
@@ -1578,7 +1683,7 @@
     <link href="http://jaycechant.info/2016/some-good-features-on-CentOS/"/>
     <id>http://jaycechant.info/2016/some-good-features-on-CentOS/</id>
     <published>2016-12-23T06:12:46.000Z</published>
-    <updated>2017-01-09T15:36:40.774Z</updated>
+    <updated>2017-01-09T15:36:40.775Z</updated>
     
     <content type="html"><![CDATA[<p><em>本文纯属凑数，一为保持发博文习惯，二为重新配置了hexo之后发文测试</em></p>
 <a id="more"></a>
@@ -1786,125 +1891,6 @@
       <category term="skill" scheme="http://jaycechant.info/tags/skill/"/>
     
       <category term="OJ" scheme="http://jaycechant.info/tags/OJ/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>解题报告 —— 从水题开一个头</title>
-    <link href="http://jaycechant.info/2016/solution-report-start-from-an-easy-problem/"/>
-    <id>http://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</id>
-    <published>2016-11-08T09:40:20.000Z</published>
-    <updated>2017-01-25T04:21:21.983Z</updated>
-    
-    <content type="html"><![CDATA[<p>昨天有人跟我讨论一道水题，勾起了解题的念头。题目不难，但也有值得讨论之处。姑且以它的解题报告，开个写解题报告的头。</p>
-<a id="more"></a>
-<h1 id="源起"><a href="#源起" class="headerlink" title="源起"></a>源起</h1><p>在前公司四年，有两年半担任兼职讲师。一开始给非软件专业（一般是通信专业）的同事介绍Java，后来变成了主要讲解算法和数据结构题，以应对本社的软件能力等级考试。我和其他几个被选拔出来的讲师，工作时间里有一部分变成了光明正大地刷算法题。很多同事把做题视作洪水猛兽，我们却AC之后继续研究优化，相当享受。当然还得做课件和上课又是一回事。</p>
-<p>因为安保，所有资料都在公司内网。现在离开老东家，想把无关保密部分整理出来作为自己的积累，突然发现凭回忆非常零碎。老实说，多数题在ACM玩家来看，就算不是水题，也就中等难度；但钻研其中，算法的取舍，各种因素的权衡，也是一种修炼。自己资质一般，如果不这些所得用文字留下来，一不小心就会原地踏步。水题也好，重新开个头吧。</p>
-<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>题目来自口头转述，只有大意和约束：</p>
-<ul>
-<li><p>有一个 N * N 的矩阵图，上面有 M 个顺序编号的点（1 ~ M）和 一些无法通过的区域（9），余下区域为0。</p>
-</li>
-<li><p>求从 1 到 M 顺序经过全部点的 <strong>最短路径有多少条</strong> 。</p>
-</li>
-<li><p>从描述的例子看，还没轮到的点允许通过，只是后面轮到时还是得走一次。  </p>
-<p>譬如说从 1 走到 5，先走 1 -&gt; 2 这段，到达 2 之前， 3、4、5 都相当于普通的点，也就是0，可以经过。而就算你经过了这三个点，譬如说 4 在 1-&gt; 2 的最短路径上，走到 3 时还是得往 4 走。</p>
-</li>
-<li><p>因为是水题，数据量极小， 3 ≤ N ≤ 7，3 ≤ M ≤ 5。也就是穷举型的思路都可以做。如果进一步想验证效率，可以人为调大数据量看看。（我以前跟毅跞经常这么干）</p>
-</li>
-</ul>
-<h3 id="输入输出示例"><a href="#输入输出示例" class="headerlink" title="输入输出示例"></a>输入输出示例</h3><ul>
-<li>输入</li>
-</ul>
-<pre><code>5 4
-1 0 0 0 0
-0 0 0 0 0
-0 2 0 4 0
-0 0 0 9 0
-0 0 0 3 0
-</code></pre><ul>
-<li>输出</li>
-</ul>
-<pre><code>18
-</code></pre><h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><h2 id="数学推导"><a href="#数学推导" class="headerlink" title="数学推导"></a>数学推导</h2><p>有些问题经数学推导之后，是可以有直接的公式解，而不需要一步步模拟的（典型的如 <strong>约瑟夫环</strong>）。退一步，如果问题本身无法直接推导，但是某种简化情况可以推导，也能为找思路提供方向。</p>
-<h3 id="乘法原理"><a href="#乘法原理" class="headerlink" title="乘法原理"></a>乘法原理</h3><p>首先，题目里的点必须按顺序通过，那么根据 <strong>乘法原理</strong> ，最终答案等于 次序上相邻的点的最短路径数的乘积。假定 \( C_{a, b} \) 是 a 点 到 b 点之间的最短路径数，那么写成数学式就是：</p>
-<p>$$ \prod \ <em>{i=1} ^{M - 1} {C \</em>{i, i + 1}} $$</p>
-<p>这就把问题简化成了两点之间的最短路径数了。不过似乎原题为了减低难度，在题目里就有提醒这点。</p>
-<h3 id="排列组合"><a href="#排列组合" class="headerlink" title="排列组合"></a>排列组合</h3><p>假定我们不考虑禁行区（9）的存在，那么两点之间的最短路径，距离显然为他们之间的 <strong>曼哈顿距离</strong> 。</p>
-<p>假设 <strong>横向的步数为W，纵向的步数为H</strong> ，同时横向移动一步标记为0，纵向标记为1，那么长度为 曼哈顿距离 的路径数，就相当于W个0和H个1的全排列：\( A(W+H) = (W+H)! \) 。但因为0 和 1都有大量重复，这并不是一个真正的全排列，所以还要把 0 和 1内部的组合数排除掉，最终得到： \( \frac{(W+H)!}{W! H!} \) 。</p>
-<p>在 W+H不是特别大（换言之 (W+H)! 没有超出表示范围，以这题为例，W+H不超过7，那么最大的数不过5040）的情况下，这样就可以提前缓存好 N!，那么在W 和 H 确定之后只要做两次除法就得到答案了。</p>
-<p>当然，这只是顺便延伸一下，实际上这道题因为 9 的存在，不能这么算。</p>
-<h1 id="代码参考"><a href="#代码参考" class="headerlink" title="代码参考"></a>代码参考</h1><h2 id="Brute-force-dfs"><a href="#Brute-force-dfs" class="headerlink" title="Brute-force (dfs)"></a>Brute-force (dfs)</h2><blockquote>
-<p>注1：这里开始会贴代码。一般我用 C/C++ 完成算法题，可以比较好地选择底层的数据结构实现。不过这里为了节省空间，用了Python来展示代码，而且只贴关键函数，输入输出部分就略过了。Python的代码非常接近 伪代码，相信没有写过Python的朋友也能很好理解。</p>
-<p>注2：为了简便，这里的队列我直接用了list。但实际上list 的 pop(0) 会修改后面全部元素的位置，复杂度是O(n)。Python里更好的选择是deque，C/C++可以使用STL或者自己实现一个循环队列。</p>
-</blockquote>
-<p>如果没能直接找到数学关系直接计算，也没能一眼看出合适的算法，那么暴力不失为一个好的开始。具体到这里，暴力的做法一般就是用DFS穷举所有可能的路径，找出中间最短那几条。</p>
-<p>当然，直接暴力，内存和时间复杂度都会很夸张（这里如果不限制长度，先穷举所有路径，再计算其中最短的数量，操作是很庞大的），所以哪怕是第一份代码，我也加入了一些直接能想到的剪枝：一旦发现了dis大小的路径，那么所有大于dis的路径都不必再尝试了。</p>
-<p>示例代码一：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(sp, ep, dis)</span>:</span></div><div class="line">    <span class="keyword">global</span> MinDis, CntWay, Vis</div><div class="line">    dis += <span class="number">1</span></div><div class="line">    <span class="keyword">if</span> dis &gt; MinDis:</div><div class="line">        <span class="comment"># prunning</span></div><div class="line">        <span class="keyword">return</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span> sp[<span class="number">0</span>] == ep[<span class="number">0</span>] <span class="keyword">and</span> sp[<span class="number">1</span>] == ep[<span class="number">1</span>]:</div><div class="line">        <span class="keyword">if</span> dis == MinDis:</div><div class="line">            CntWay += <span class="number">1</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="comment"># dis &lt; MinDis</span></div><div class="line">            MinDis = dis</div><div class="line">            CntWay = <span class="number">1</span></div><div class="line">        </div><div class="line">        <span class="keyword">return</span></div><div class="line">        </div><div class="line">    <span class="comment"># up</span></div><div class="line">    row, col = sp</div><div class="line">    row -= <span class="number">1</span></div><div class="line">    <span class="keyword">if</span> row &gt;= <span class="number">0</span> <span class="keyword">and</span> <span class="keyword">not</span> Vis[row][col] <span class="keyword">and</span> Map[row][col] != <span class="number">9</span>:</div><div class="line">        Vis[row][col] = <span class="keyword">True</span></div><div class="line">        dfs((row, col), ep, dis)</div><div class="line">        Vis[row][col] = <span class="keyword">False</span></div><div class="line">        </div><div class="line">    <span class="comment"># down</span></div><div class="line">    row += <span class="number">2</span></div><div class="line">    <span class="keyword">if</span> row &lt; N <span class="keyword">and</span> <span class="keyword">not</span> Vis[row][col] <span class="keyword">and</span> Map[row][col] != <span class="number">9</span>:</div><div class="line">        Vis[row][col] = <span class="keyword">True</span></div><div class="line">        dfs((row, col), ep, dis)</div><div class="line">        Vis[row][col] = <span class="keyword">False</span></div><div class="line">        </div><div class="line">    <span class="comment"># left</span></div><div class="line">    row -= <span class="number">1</span></div><div class="line">    col -= <span class="number">1</span></div><div class="line">    <span class="keyword">if</span> col &gt;= <span class="number">0</span> <span class="keyword">and</span> <span class="keyword">not</span> Vis[row][col] <span class="keyword">and</span> Map[row][col] != <span class="number">9</span>:</div><div class="line">        Vis[row][col] = <span class="keyword">True</span></div><div class="line">        dfs((row, col), ep, dis)</div><div class="line">        Vis[row][col] = <span class="keyword">False</span></div><div class="line">        </div><div class="line">    <span class="comment"># right</span></div><div class="line">    col += <span class="number">2</span></div><div class="line">    <span class="keyword">if</span> col &lt; N <span class="keyword">and</span> <span class="keyword">not</span> Vis[row][col] <span class="keyword">and</span> Map[row][col] != <span class="number">9</span>:</div><div class="line">        Vis[row][col] = <span class="keyword">True</span></div><div class="line">        dfs((row, col), ep, dis)</div><div class="line">        Vis[row][col] = <span class="keyword">False</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">findWay</span><span class="params">(sp, ep)</span>:</span></div><div class="line">    <span class="keyword">global</span> MinDis, Vis</div><div class="line">    MinDis = MAX</div><div class="line">    Vis[sp[<span class="number">0</span>]][sp[<span class="number">1</span>]] = <span class="keyword">True</span></div><div class="line">    dfs(sp, ep, <span class="number">0</span>)</div><div class="line">    Vis[sp[<span class="number">0</span>]][sp[<span class="number">1</span>]] = <span class="keyword">False</span></div><div class="line">    <span class="keyword">return</span> CntWay</div></pre></td></tr></table></figure>
-<p>以上的代码是基于来问我的人的代码，把里面的错误改掉之后得到的。主函数调用findWay() 即可。关键部分在于到达目标时的判断：如果当前这条路的距离跟最短距离相等，那么计数器加一；否则就是发现了更短的路（不存在更长的情况，因为剪枝处理掉了），更新最短距离，并把计数器置一（注意不是置零）。</p>
-<p>如果调整一下代码，还能把公共部分的检查提取出来。示例代码二：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(sp, ep, dis)</span>:</span></div><div class="line">    <span class="keyword">global</span> MinDis, CntWay, Vis</div><div class="line">    row, col = sp</div><div class="line">    <span class="comment"># log(sp, dis, MinDis, Vis[row][col])</span></div><div class="line">    dis += <span class="number">1</span></div><div class="line">    <span class="comment"># legal check and prunning</span></div><div class="line">    <span class="keyword">if</span> dis &gt; MinDis <span class="keyword">or</span> Vis[row][col] <span class="keyword">or</span> Map[row][col] == <span class="number">9</span>:</div><div class="line">        <span class="keyword">return</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span> row == ep[<span class="number">0</span>] <span class="keyword">and</span> col == ep[<span class="number">1</span>]:</div><div class="line">        <span class="keyword">if</span> dis == MinDis:</div><div class="line">            CntWay += <span class="number">1</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="comment"># dis &lt; MinDis</span></div><div class="line">            MinDis = dis</div><div class="line">            CntWay = <span class="number">1</span></div><div class="line">        </div><div class="line">        <span class="keyword">return</span></div><div class="line">        </div><div class="line">    Vis[row][col] = <span class="keyword">True</span></div><div class="line">    <span class="comment"># up</span></div><div class="line">    row -= <span class="number">1</span></div><div class="line">    <span class="keyword">if</span> row &gt;= <span class="number">0</span>:</div><div class="line">        dfs((row, col), ep, dis)</div><div class="line">        </div><div class="line">    <span class="comment"># down</span></div><div class="line">    row += <span class="number">2</span></div><div class="line">    <span class="keyword">if</span> row &lt; N:</div><div class="line">        dfs((row, col), ep, dis)</div><div class="line">        </div><div class="line">    <span class="comment"># left</span></div><div class="line">    row -= <span class="number">1</span></div><div class="line">    col -= <span class="number">1</span></div><div class="line">    <span class="keyword">if</span> col &gt;= <span class="number">0</span>:</div><div class="line">        dfs((row, col), ep, dis)</div><div class="line">        </div><div class="line">    <span class="comment"># right</span></div><div class="line">    col += <span class="number">2</span></div><div class="line">    <span class="keyword">if</span> col &lt; N:</div><div class="line">        dfs((row, col), ep, dis)</div><div class="line">        </div><div class="line">    Vis[sp[<span class="number">0</span>]][sp[<span class="number">1</span>]] = <span class="keyword">False</span></div></pre></td></tr></table></figure>
-<h2 id="BFS"><a href="#BFS" class="headerlink" title="BFS"></a>BFS</h2><p>DFS冗余运算比较多，就会很自然地想，BFS能不能有所改善呢？</p>
-<p>能不能改善先不管，我们先用BFS做出来。示例代码三：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">bfs</span><span class="params">(sp, ep)</span>:</span></div><div class="line">    cnt_way = <span class="number">0</span></div><div class="line">    <span class="comment"># None as step flag</span></div><div class="line">    queue = [sp, <span class="keyword">None</span>]</div><div class="line">    arrive = <span class="keyword">False</span></div><div class="line"></div><div class="line">    <span class="keyword">while</span> len(queue) &gt; <span class="number">1</span>:</div><div class="line">        point = queue.pop(<span class="number">0</span>)</div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> point:</div><div class="line">            <span class="keyword">if</span> arrive:</div><div class="line">                <span class="keyword">return</span> cnt_way</div><div class="line">            queue.append(<span class="keyword">None</span>)</div><div class="line">            <span class="keyword">continue</span></div><div class="line"></div><div class="line">        row, col = point</div><div class="line">        <span class="comment"># legal check</span></div><div class="line">        <span class="keyword">if</span> Map[row][col] == <span class="number">9</span>:</div><div class="line">            <span class="keyword">continue</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> row == ep[<span class="number">0</span>] <span class="keyword">and</span> col == ep[<span class="number">1</span>]:</div><div class="line">            cnt_way += <span class="number">1</span></div><div class="line">            arrive = <span class="keyword">True</span></div><div class="line">            <span class="keyword">continue</span></div><div class="line"></div><div class="line">        <span class="comment"># up</span></div><div class="line">        row -= <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> row &gt;= <span class="number">0</span>:</div><div class="line">            queue.append((row, col))</div><div class="line"></div><div class="line">        <span class="comment"># down</span></div><div class="line">        row += <span class="number">2</span></div><div class="line">        <span class="keyword">if</span> row &lt; N:</div><div class="line">            queue.append((row, col))</div><div class="line"></div><div class="line">        <span class="comment"># left</span></div><div class="line">        row -= <span class="number">1</span></div><div class="line">        col -= <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> col &gt;= <span class="number">0</span>:</div><div class="line">            queue.append((row, col))</div><div class="line"></div><div class="line">        <span class="comment"># right</span></div><div class="line">        col += <span class="number">2</span></div><div class="line">        <span class="keyword">if</span> col &lt; N:</div><div class="line">            queue.append((row, col))</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span></div></pre></td></tr></table></figure>
-<p>基本原理跟之前的暴力法差不多，都是穷举所有可能的路径并且计数。</p>
-<p>改善的地方在于，DFS是一条路走到底再去试别的路，你没办法预知先试的路是长还是短；<strong>BFS可以看作多条路同时往外挪步，后面的路肯定是比当前路要长（或者相当，起码不可能更短）</strong> ，一旦到达目标，后面更长的路可以不用直接尝试了。这里我用了一个None作为层次标记，一旦到达，只把同距离的计数完就退出。</p>
-<p>但这也有代价：因为同时挪步，为了不互相影响，BFS不能像DFS标记走过的点，所以队列里其实有大量 <strong>来回步</strong> ！如果地图比较大（这样DFS有些路就要走很远才到头），而实际点与点之间比较近（BFS很快就能结束），那么这份代码是比DFS效率高一些的； 但如果反过来（譬如有些相邻点分布在对角线上两头），大量来回步造成的浪费更多，那么这种做法实际得不偿失。</p>
-<h3 id="BFS-DP"><a href="#BFS-DP" class="headerlink" title="BFS + DP"></a>BFS + DP</h3><p>能不能像DFS那样也记录已走过的点，然后不重复走？</p>
-<p><strong><em>TODO: 此处最好有图，mark一个，有空补</em></strong></p>
-<p>不行。因为可能有多条最短路径会通过同一个点，如果一个点只能走一次，会漏算大量的路径。DFS之所以可以这么做，是因为回溯时会恢复状态，记录只是为了不走回头路，别的路径还是能通过这个点。</p>
-<p>那如果我们做更详细的标记呢？譬如引入：OPEN（没走过），CLOSE（已离开） 以及 ONGOING（进行中） 三个状态。对应队列的状态，分别就是 <strong>从未进队</strong> ， <strong>已入队并出队</strong> 和 <strong>正在队列中</strong> 三种状态。</p>
-<p>我们知道，BFS的特性会让 <strong>从起点起同样距离的点</strong> 一起访问完，然后才会继续尝试 + 1 距离的点，一层层往外走。那么假定从X点往外一步访问到一个Y点，并且Y的状态为：（下面的dis(X)指起点到X点的最短距离）</p>
-<ol>
-<li>OPEN，Y点从未被访问，直接进队并且改为ONGOING</li>
-<li>CLOSE，Y点被其它点访问过，并且 <strong>Y已经在X之前</strong> 出队了，dis(Y) ≤ dis(X)， 经X再到Y这种走法，至少比之前到Y的走法要额外多一步（假定dis(Y) = dis(X)的话，至少还要加上一步；如果是 &lt; ，那就不止了），<strong>这种走法无论如何不能再产生最短路径了</strong> （划重点，请仔细体会这句话），所以Y不用再进队了</li>
-<li>ONGOING，Y点被其它点访问过，并且还没出队，而X现在作为起点，说明刚刚出队，dis(Y) ≥ dis(X)，那么经X到Y这种走法，起码还是有可能存在一条最短路径的，Y点再次入队</li>
-</ol>
-<p>这种做法把CLOSE状态下的冗余给去掉了。因为一个点的前置节点一个是已经CLOSE掉的，所以回头路也不会存在了。</p>
-<p>不过这种改进仍然是有限的，从目前的推导看，ONGOING里还是可能存在 dis(Y) = dis(X) 的情况的浪费，而且其实同一个点多次进队也是没有必要的。这种改进改动的代码不多，我就不再贴示例了。</p>
-<h4 id="DP"><a href="#DP" class="headerlink" title="DP"></a>DP</h4><p><strong><em>如果不是为了引导问我的人一步一步考虑到这里，这种水题真想一开始直接写DP</em></strong></p>
-<p>讨论DP之前，还要引入这道题具有的一个性质：以任意点为起点，相邻的点的dis值都不会相等。</p>
-<p>首先我们来看一下没有障碍物的情况，下图以0处为起点，标出起点到各点的最短距离：</p>
-<pre><code>3 2 1 2 3
-2 1 0 1 2
-3 2 1 2 3
-4 3 2 3 4
-5 4 3 4 5
-</code></pre><p>很容易得出，无论以哪里为起点，相邻的点的dis值一定是相差1。</p>
-<p>而如果我们往上放一个障碍物呢，这时 障碍物在不在从起点到终点 <strong>唯一的最短路径上</strong> 有两种情况（注意，是唯一）：</p>
-<ul>
-<li>不在（可能根本不在任何一条最短路径上毫无影响，也可能影响其中一条，剩下的还能走），那么依然存在这个dis值的最短路径，不改变该终点的dis值。</li>
-<li>在，那么又有两种情况：<ul>
-<li>绕路：由于绕路而造成的dis值增大，必然是偶数的。由于只能上下左右移动，不能对角移动，绕路产生的额外移动，都是关于障碍物对称的。</li>
-<li>从旁边没有被障碍物影响的点走一步过来。由于唯一的最短路径已经被障碍物影响，剩下没被影响的点，都是dis+1，再往回走一步，就变成了dis+2。</li>
-</ul>
-</li>
-</ul>
-<p>无论是哪种情况，变动的值都是偶数。而且这个性质在连续增加障碍物的过程中依然有效。所以相邻的点dis值不可能相等，依然保持相差1。（只是说变动都是偶数而已，相差不应该是2k+1吗，为什么一定是1？这里可以思考一下why）</p>
-<p>接下来说DP：</p>
-<p>动态规划的做法是，定义子问题，并且找到子问题之间的状态转移方程。如果中间有子问题的解是能被多次引用，那么对子问题解的缓存就能改善运算效率。这里不打算详细说DP，直接给转移方程：（提醒一下，题目是要求最短路径的数量）</p>
-<p>假设 cw(x, y) （Count Way 缩写）是 起点 到 (x, y) 这个点的最短路径的数量，那么</p>
-<p>$$ cw(x, y) = \sum{ cw(x-1, y), cw(x+1, y), cw(x, y-1), cw(x, y+1)} $$</p>
-<p>计算过程中，我们需要一个表，用来记录cw值（dis值由BFS特性保证）。需要额外开辟一个表吗？其实不需要，我们把上面的状态再扩展一下，变成cw值就好：cw &gt; 0 时，对应ONGOING；那么为了避免冲突，我把OPEN定义为0，CLOSE定义为-1。</p>
-<p>OPEN 和 CLOSE 状态的处理都不用变，而ONGOING的处理变成对cw值大小的判断：</p>
-<!-- TODO: 是否可以处理dis相等的点相邻的情况 ！？-->
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">bfs</span><span class="params">(sp, ep)</span>:</span></div><div class="line">    cnt_way = [([OPEN] * N) <span class="keyword">for</span> i <span class="keyword">in</span> range(N)]</div><div class="line">    cnt_way[sp[<span class="number">0</span>]][sp[<span class="number">1</span>]] = <span class="number">1</span></div><div class="line">    queue = [sp]</div><div class="line"></div><div class="line">    <span class="keyword">while</span> len(queue) &gt; <span class="number">0</span>:</div><div class="line">        row, col = queue.pop(<span class="number">0</span>)</div><div class="line"></div><div class="line">        <span class="comment"># legal check</span></div><div class="line">        <span class="keyword">if</span> Map[row][col] == <span class="number">9</span>:</div><div class="line">            <span class="keyword">continue</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> row == ep[<span class="number">0</span>] <span class="keyword">and</span> col == ep[<span class="number">1</span>]:</div><div class="line">            <span class="keyword">return</span> cnt_way[ep[<span class="number">0</span>]][ep[<span class="number">1</span>]]</div><div class="line"></div><div class="line">        <span class="comment"># up</span></div><div class="line">        r = row - <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> r &gt;= <span class="number">0</span> <span class="keyword">and</span> cnt_way[r][col] != CLOSED:</div><div class="line">            <span class="keyword">if</span> cnt_way[r][col] == OPEN:</div><div class="line">                queue.append((r, col))</div><div class="line">            cnt_way[r][col] += cnt_way[row][col]</div><div class="line"></div><div class="line">        <span class="comment"># down</span></div><div class="line">        r = row + <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> r &lt; N <span class="keyword">and</span> cnt_way[r][col] != CLOSED:</div><div class="line">            <span class="keyword">if</span> cnt_way[r][col] == OPEN:</div><div class="line">                queue.append((r, col))</div><div class="line">            cnt_way[r][col] += cnt_way[row][col]</div><div class="line"></div><div class="line">        <span class="comment"># left</span></div><div class="line">        c = col - <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> c &gt;= <span class="number">0</span> <span class="keyword">and</span> cnt_way[row][c] != CLOSED:</div><div class="line">            <span class="keyword">if</span> cnt_way[row][c] == OPEN:</div><div class="line">                queue.append((row, c))</div><div class="line">            cnt_way[row][c] += cnt_way[row][col]</div><div class="line"></div><div class="line">        <span class="comment"># right</span></div><div class="line">        c = col + <span class="number">1</span></div><div class="line">        <span class="keyword">if</span> c &lt; N <span class="keyword">and</span> cnt_way[row][c] != CLOSED:</div><div class="line">            <span class="keyword">if</span> cnt_way[row][c] == OPEN:</div><div class="line">                queue.append((row, c))</div><div class="line">            cnt_way[row][c] += cnt_way[row][col]</div><div class="line"></div><div class="line">        cnt_way[row][col] = CLOSED</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span></div></pre></td></tr></table></figure>
-<hr>
-<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;昨天有人跟我讨论一道水题，勾起了解题的念头。题目不难，但也有值得讨论之处。姑且以它的解题报告，开个写解题报告的头。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="algorithm" scheme="http://jaycechant.info/tags/algorithm/"/>
-    
-      <category term="practice" scheme="http://jaycechant.info/tags/practice/"/>
-    
-      <category term="solution-report" scheme="http://jaycechant.info/tags/solution-report/"/>
     
   </entry>
   
