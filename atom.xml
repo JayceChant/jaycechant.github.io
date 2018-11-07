@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jaycechant.info/"/>
-  <updated>2018-11-06T17:39:01.299Z</updated>
+  <updated>2018-11-07T10:54:59.049Z</updated>
   <id>http://jaycechant.info/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://jaycechant.info/2018/setup-golang-env/"/>
     <id>http://jaycechant.info/2018/setup-golang-env/</id>
     <published>2018-11-06T16:53:09.000Z</published>
-    <updated>2018-11-06T17:39:01.299Z</updated>
+    <updated>2018-11-07T10:54:59.049Z</updated>
     
     <content type="html"><![CDATA[<p>为想尝试 Go 的朋友开个头，介绍环境的配置。语言的优缺点不在此展开。</p>
 <p>因身边多数使用 Win64 环境，以下无特殊说明均以 Win64 为例，日后有需要再补充其他平台部分。</p>
@@ -54,7 +54,9 @@
 <p>完成后你会看到 bin 目录下多了一个 <code>make.exe</code> 文件，然后执行 <code>dir make.exe</code> ，会看到</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">D:\Dev\mingw-w64\bin&gt;dir make.exe</div><div class="line"><span class="number">2018</span>/<span class="number">10</span>/<span class="number">04</span>  <span class="number">18</span>:<span class="number">17</span>    &lt;SYMLINK&gt;      make.exe [mingw32-make.exe]</div></pre></td></tr></table></figure>
 <h3 id="2-3-PATH-环境变量"><a href="#2-3-PATH-环境变量" class="headerlink" title="2.3 PATH 环境变量"></a>2.3 PATH 环境变量</h3><p>跟 Go 安装类似的， bin 目录也要追加到 PATH 目录的最后，详细可以参考 1.2.3 Go 的 PATH 环境变量部分。</p>
-<h3 id="2-4-验证"><a href="#2-4-验证" class="headerlink" title="2.4 验证"></a>2.4 验证</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">gcc -v</div><div class="line"><span class="comment"># 正常会输出 gcc 的配置以及版本，很长，这里就不贴了</span></div><div class="line">make -v</div><div class="line"><span class="comment"># 同理</span></div></pre></td></tr></table></figure>
+<p><strong>特别强调：mingw-w64 下面还有一套 mingw32，添加到 PATH 的是根目录的 bin，不是 mingw32 下面的！！</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mingw-w64</div><div class="line">├── bin <span class="comment"># 64位系统认准这个！！</span></div><div class="line">├── mingw32</div><div class="line">│   ├── bin <span class="comment"># 不是这个</span></div><div class="line">......</div></pre></td></tr></table></figure>
+<h3 id="2-4-验证"><a href="#2-4-验证" class="headerlink" title="2.4 验证"></a>2.4 验证</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">gcc --version</div><div class="line"><span class="comment"># 正常会输出 gcc 的版本，64位：x86_64, 32位：i686; 注意区分</span></div><div class="line">make -v</div><div class="line"><span class="comment"># 能调用就行，不需要留意位数</span></div></pre></td></tr></table></figure>
 <h2 id="3-项目包管理及编译"><a href="#3-项目包管理及编译" class="headerlink" title="3. 项目包管理及编译"></a>3. 项目包管理及编译</h2><h3 id="3-0-预备知识：Go-的目录结构与包管理"><a href="#3-0-预备知识：Go-的目录结构与包管理" class="headerlink" title="3.0 预备知识：Go 的目录结构与包管理"></a>3.0 预备知识：Go 的目录结构与包管理</h3><p>每个 workspace 下都有三个指定用途的目录，用到的时候如果不存在，会自动创建：</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">├── bin <span class="comment"># 存放 install 之后的可执行文件</span></div><div class="line">├── pkg <span class="comment"># 存放编译之后链接之前的中间文件</span></div><div class="line">└── src <span class="comment"># 存放 包 的源文件</span></div></pre></td></tr></table></figure>
 <p>其中 <code>go get</code> 获得的 src 和 <code>go install</code> 获得的 bin ，会放在第一个 workspace 中，所以建议至少添加两个 workspace，并在第二个进行本地开发，避免混淆。</p>
@@ -780,9 +782,9 @@
     </summary>
     
     
-      <category term="skill" scheme="http://jaycechant.info/tags/skill/"/>
-    
       <category term="git" scheme="http://jaycechant.info/tags/git/"/>
+    
+      <category term="skill" scheme="http://jaycechant.info/tags/skill/"/>
     
   </entry>
   
@@ -830,11 +832,11 @@
     </summary>
     
     
-      <category term="trouble" scheme="http://jaycechant.info/tags/trouble/"/>
-    
       <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
     
       <category term="Java" scheme="http://jaycechant.info/tags/Java/"/>
+    
+      <category term="trouble" scheme="http://jaycechant.info/tags/trouble/"/>
     
       <category term="Tomcat" scheme="http://jaycechant.info/tags/Tomcat/"/>
     
@@ -1050,9 +1052,9 @@
     </summary>
     
     
-      <category term="Android" scheme="http://jaycechant.info/tags/Android/"/>
-    
       <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
+    
+      <category term="Android" scheme="http://jaycechant.info/tags/Android/"/>
     
       <category term="Android-sdk" scheme="http://jaycechant.info/tags/Android-sdk/"/>
     
@@ -1114,9 +1116,9 @@
     </summary>
     
     
-      <category term="trouble" scheme="http://jaycechant.info/tags/trouble/"/>
-    
       <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
+    
+      <category term="trouble" scheme="http://jaycechant.info/tags/trouble/"/>
     
       <category term="JavaMail" scheme="http://jaycechant.info/tags/JavaMail/"/>
     
@@ -1568,21 +1570,21 @@
     </summary>
     
     
+      <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
+    
+      <category term="Android" scheme="http://jaycechant.info/tags/Android/"/>
+    
       <category term="pip" scheme="http://jaycechant.info/tags/pip/"/>
     
-      <category term="mirror" scheme="http://jaycechant.info/tags/mirror/"/>
-    
       <category term="Ubuntu" scheme="http://jaycechant.info/tags/Ubuntu/"/>
+    
+      <category term="mirror" scheme="http://jaycechant.info/tags/mirror/"/>
     
       <category term="aliyun" scheme="http://jaycechant.info/tags/aliyun/"/>
     
       <category term="npm" scheme="http://jaycechant.info/tags/npm/"/>
     
       <category term="maven" scheme="http://jaycechant.info/tags/maven/"/>
-    
-      <category term="Android" scheme="http://jaycechant.info/tags/Android/"/>
-    
-      <category term="Jenkins" scheme="http://jaycechant.info/tags/Jenkins/"/>
     
       <category term="a list" scheme="http://jaycechant.info/tags/a-list/"/>
     
