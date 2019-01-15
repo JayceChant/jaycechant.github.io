@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jaycechant.info/2019/why-not-install-conda-with-pip/</loc>
+    
+    <lastmod>2019-01-15T15:16:04.684Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jaycechant.info/2018/setup-golang-env/</loc>
     
     <lastmod>2018-11-07T10:54:59.049Z</lastmod>
@@ -100,14 +107,14 @@
   </url>
   
   <url>
-    <loc>http://jaycechant.info/2016/mirrors-collection/</loc>
+    <loc>http://jaycechant.info/2017/Android-sdk-on-Linux-for-Jenkins-etc/</loc>
     
     <lastmod>2017-01-25T04:21:21.999Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://jaycechant.info/2017/Android-sdk-on-Linux-for-Jenkins-etc/</loc>
+    <loc>http://jaycechant.info/2016/mirrors-collection/</loc>
     
     <lastmod>2017-01-25T04:21:21.999Z</lastmod>
     
@@ -121,7 +128,7 @@
   </url>
   
   <url>
-    <loc>http://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
+    <loc>http://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     
@@ -135,7 +142,7 @@
   </url>
   
   <url>
-    <loc>http://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
+    <loc>http://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     
