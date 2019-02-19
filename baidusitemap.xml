@@ -4,6 +4,46 @@
 
     
   <url>
+    <loc>http://jaycechant.info/2016/intro-to-nodeppt/</loc>
+    <lastmod>2019-02-19T16:58:53.463Z</lastmod>
+    <data>
+        <display>
+        <title>nodePPT 简介及快速上手</title>
+        <pubTime>2016-06-20T06:35:29.000Z</pubTime>
+        
+        <tag>Markdown</tag>
+         
+        <tag>how-to</tag>
+         
+        <tag>nodePPT</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jaycechant.info/2016/nodejs-install-and-config/</loc>
+    <lastmod>2019-02-19T16:57:35.905Z</lastmod>
+    <data>
+        <display>
+        <title>nodejs 安装与配置</title>
+        <pubTime>2016-06-20T03:34:28.000Z</pubTime>
+        
+        <tag>how-to</tag>
+         
+        <tag>node.js</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jaycechant.info/2019/why-not-install-conda-with-pip/</loc>
     <lastmod>2019-01-23T06:47:37.346Z</lastmod>
     <data>
@@ -120,9 +160,9 @@
         
         <tag>how-to</tag>
          
-        <tag>Mathjax</tag>
-         
         <tag>nodePPT</tag>
+         
+        <tag>Mathjax</tag>
          
          
            
@@ -221,9 +261,9 @@
         <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
         <pubTime>2017-01-20T06:44:31.000Z</pubTime>
         
-        <tag>Jenkins</tag>
-         
         <tag>Java</tag>
+         
+        <tag>Jenkins</tag>
          
         <tag>trouble</tag>
          
@@ -345,11 +385,11 @@
          
         <tag>Android</tag>
          
+        <tag>Ubuntu</tag>
+         
         <tag>pip</tag>
          
         <tag>mirror</tag>
-         
-        <tag>Ubuntu</tag>
          
         <tag>aliyun</tag>
          
@@ -358,71 +398,6 @@
         <tag>maven</tag>
          
         <tag>a list</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>vsftp 503 和 500 错误</title>
-        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
-        
-        <tag>trouble</tag>
-         
-        <tag>Ubuntu</tag>
-         
-        <tag>vsftp</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>Windows 下 Python 2x 和 3x 版本共存</title>
-        <pubTime>2012-04-11T11:46:00.000Z</pubTime>
-        
-        <tag>Python</tag>
-         
-        <tag>unfinished</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://jaycechant.info/2016/python-multi-env-for-win/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>在 Windows 搭建Python多版本环境</title>
-        <pubTime>2016-07-12T07:21:27.000Z</pubTime>
-        
-        <tag>Python</tag>
-         
-        <tag>unfinished</tag>
-         
-        <tag>pip</tag>
-         
-        <tag>trouble</tag>
-         
-        <tag>virtualenv</tag>
          
          
            
@@ -453,6 +428,71 @@
 
     
   <url>
+    <loc>http://jaycechant.info/2016/python-multi-env-for-win/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>在 Windows 搭建Python多版本环境</title>
+        <pubTime>2016-07-12T07:21:27.000Z</pubTime>
+        
+        <tag>Python</tag>
+         
+        <tag>unfinished</tag>
+         
+        <tag>trouble</tag>
+         
+        <tag>pip</tag>
+         
+        <tag>virtualenv</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>Windows 下 Python 2x 和 3x 版本共存</title>
+        <pubTime>2012-04-11T11:46:00.000Z</pubTime>
+        
+        <tag>Python</tag>
+         
+        <tag>unfinished</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>vsftp 503 和 500 错误</title>
+        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
+        
+        <tag>Ubuntu</tag>
+         
+        <tag>vsftp</tag>
+         
+        <tag>trouble</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://jaycechant.info/2012/hello-octopress/</loc>
     <lastmod>2017-01-25T04:21:21.968Z</lastmod>
     <data>
@@ -462,11 +502,11 @@
         
         <tag>how-to</tag>
          
+        <tag>unfinished</tag>
+         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
-         
-        <tag>unfinished</tag>
          
          
            
@@ -531,9 +571,9 @@
         
         <tag>Python</tag>
          
-        <tag>pip</tag>
-         
         <tag>trouble</tag>
+         
+        <tag>pip</tag>
          
          
            
@@ -569,9 +609,9 @@
         
         <tag>git</tag>
          
-        <tag>trouble</tag>
-         
         <tag>node.js</tag>
+         
+        <tag>trouble</tag>
          
         <tag>blog</tag>
          
@@ -600,29 +640,6 @@
     </url>
 
     
-    
-  <url>
-    <loc>http://jaycechant.info/2016/intro-to-nodeppt/</loc>
-    <lastmod>2017-01-02T08:46:23.822Z</lastmod>
-    <data>
-        <display>
-        <title>nodePPT 简介及快速上手</title>
-        <pubTime>2016-06-20T06:35:29.000Z</pubTime>
-        
-        <tag>how-to</tag>
-         
-        <tag>Markdown</tag>
-         
-        <tag>nodePPT</tag>
-         
-        <tag>node.js</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
     
   <url>
     <loc>http://jaycechant.info/2015/algorithm-practice-set/</loc>
@@ -703,9 +720,9 @@
         <title>用Markdown写日志</title>
         <pubTime>2012-04-10T08:39:00.000Z</pubTime>
         
-        <tag>how-to</tag>
-         
         <tag>Markdown</tag>
+         
+        <tag>how-to</tag>
          
         <tag>blog</tag>
          
