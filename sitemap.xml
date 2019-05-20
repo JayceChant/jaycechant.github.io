@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2019/golang-json-overlaying/</loc>
+    
+    <lastmod>2019-05-20T15:51:50.616Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2019/golang-unsafe-cast-between-string-and-bytes/</loc>
     
-    <lastmod>2019-04-30T12:53:26.667Z</lastmod>
+    <lastmod>2019-05-01T08:28:00.203Z</lastmod>
     
   </url>
   
@@ -135,14 +142,14 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/2016/mirrors-collection/</loc>
+    <loc>https://jaycechant.info/2017/Android-sdk-on-Linux-for-Jenkins-etc/</loc>
     
     <lastmod>2017-01-25T04:21:21.999Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://jaycechant.info/2017/Android-sdk-on-Linux-for-Jenkins-etc/</loc>
+    <loc>https://jaycechant.info/2016/mirrors-collection/</loc>
     
     <lastmod>2017-01-25T04:21:21.999Z</lastmod>
     
@@ -163,14 +170,14 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
+    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
+    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     

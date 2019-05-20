@@ -6,17 +6,26 @@
   
   <title>golang-string 和 bytes 之间的 unsafe 转换 | 存档Save&amp;Load</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近写一个 golang 的工具包时，涉及到反复在 string 和 []byte 之间来回转换。这给了我一个机会了解转换时底层发生的事情。">
+  <meta name="description" content="最近写一个 golang 的工具包时，涉及到反复在 string 和 []byte 之间来回转换。这给了我一个机会了解转换时底层发生的事情。
+结论先行
+string 和 []byte 互转都涉及底层数据复制；可以通过 unsafe 强制转换绕过复制提高性能。
+string 类型的底层数组可能放在常量区（字面量初始化）也可能动态分配；无论哪一种，当以 string 类型出现时底层数据都是不可修改的（">
 <meta property="og:type" content="article">
 <meta property="og:title" content="golang-string 和 bytes 之间的 unsafe 转换">
 <meta property="og:url" content="https://jaycechant.info/2019/golang-unsafe-cast-between-string-and-bytes/index.html">
 <meta property="og:site_name" content="存档Save&Load">
-<meta property="og:description" content="最近写一个 golang 的工具包时，涉及到反复在 string 和 []byte 之间来回转换。这给了我一个机会了解转换时底层发生的事情。">
+<meta property="og:description" content="最近写一个 golang 的工具包时，涉及到反复在 string 和 []byte 之间来回转换。这给了我一个机会了解转换时底层发生的事情。
+结论先行
+string 和 []byte 互转都涉及底层数据复制；可以通过 unsafe 强制转换绕过复制提高性能。
+string 类型的底层数组可能放在常量区（字面量初始化）也可能动态分配；无论哪一种，当以 string 类型出现时底层数据都是不可修改的（">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2019-04-30T12:53:26.667Z">
+<meta property="og:updated_time" content="2019-05-01T08:28:00.203Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="golang-string 和 bytes 之间的 unsafe 转换">
-<meta name="twitter:description" content="最近写一个 golang 的工具包时，涉及到反复在 string 和 []byte 之间来回转换。这给了我一个机会了解转换时底层发生的事情。">
+<meta name="twitter:description" content="最近写一个 golang 的工具包时，涉及到反复在 string 和 []byte 之间来回转换。这给了我一个机会了解转换时底层发生的事情。
+结论先行
+string 和 []byte 互转都涉及底层数据复制；可以通过 unsafe 强制转换绕过复制提高性能。
+string 类型的底层数组可能放在常量区（字面量初始化）也可能动态分配；无论哪一种，当以 string 类型出现时底层数据都是不可修改的（">
 <meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
   
     <link rel="alternative" href="/atom.xml" title="存档Save&amp;Load" type="application/atom+xml">
@@ -100,6 +109,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>最近写一个 golang 的工具包时，涉及到反复在 string 和 []byte 之间来回转换。这给了我一个机会了解转换时底层发生的事情。</p>
+<h3 id="结论先行"><a href="#结论先行" class="headerlink" title="结论先行"></a>结论先行</h3><ul>
+<li>string 和 []byte 互转都涉及底层数据复制；可以通过 unsafe 强制转换绕过复制提高性能。</li>
+<li>string 类型的底层数组可能放在常量区（字面量初始化）也可能动态分配；无论哪一种，当以 string 类型出现时底层数据都是不可修改的（避免影响其他引用），string 的修改实际上是指向重新生成的底层数组。</li>
+<li>当以 []byte 类型出现时，可以修改具体某一个 byte 的值；不过如果是从指向常量区的 string 通过 unsafe 转换而来，尝试修改时会产生不可恢复的 runtime error。</li>
+<li>这也是为什么这个包叫 unsafe：绕过类型检查强行转换，绕过了底层数据复制，提高性能同时也失去了检查和复制的保护，需要调用方自行确认不会出错。</li>
+<li><code>+</code> 连接会复制内存，<code>strings.Split()</code> 直接在原串做切片…具体不同实现要以源码为准。</li>
+<li>即使 string 是动态分配的内容，也不建议修改对应的 []byte，可能会引起引用同一块内容的其他 string 的异常—— 除非你能确保没有别的地方引用它。</li>
+<li>实际调用中碰到了 对 A 串做 unsafe 转换，结果完全无关的 B 串出现切片时数组越界；A 串改为普通转换就好了。暂时没能找到原因，保险起见放弃使用 unsafe，改为用 <code>json.RawMessage</code> 多封装一层。本次研究权当学习了。</li>
+</ul>
 <a id="more"></a>
 <h3 id="情景"><a href="#情景" class="headerlink" title="情景"></a>情景</h3><p>具体来说，是一个缓存相关的封装包：把对象 <code>json.Marshal()</code> 之后得到的 []byte 放到缓存；或者反过来，取出 []byte 交给 <code>json.Unmarshal()</code> 。无论正反方向的调用，输入输出都是 []byte，本没有 string 的事。</p>
 <p>偏偏这中间为了实现某些功能，需要往 marshal 之后的 json 字符串上追加（存的时候）或提取（读的时候）某些信息。追加还好办，可以把追加的内容一起变成 []byte 之后 <code>append()</code> ；但提取需要基于字符串的语义，不得不先转成 string，解析完再转回来。</p>
@@ -124,6 +142,11 @@
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	. <span class="string">"myunsafe"</span></div><div class="line">	<span class="string">"fmt"</span></div><div class="line">	<span class="string">"strings"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	sb := strings.Builder&#123;&#125;</div><div class="line">    sb.WriteString(<span class="string">"a"</span>)</div><div class="line">	s := sb.String()</div><div class="line">	b := StringToBytes(s)</div><div class="line">	fmt.Println(b, <span class="keyword">string</span>(b))</div><div class="line">	b[<span class="number">0</span>] = <span class="number">0x42</span> <span class="comment">// ascii for B</span></div><div class="line">	fmt.Println(b, <span class="keyword">string</span>(b))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这回就不报错了</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[97] a</div><div class="line">[66] B</div></pre></td></tr></table></figure>
+<h3 id="其他情况"><a href="#其他情况" class="headerlink" title="其他情况"></a>其他情况</h3><h4 id="concat-运算符"><a href="#concat-运算符" class="headerlink" title="concat 运算符 +"></a>concat 运算符 +</h4><p>如果一个字符串是通过连接符 <code>+</code> 得到的呢？</p>
+<p>它的实现在 <code>src/runtime/string.go</code> 里，可以看到做了内存复制。所以无论连接前的字符串是动态分配的还是字符串常量，连接之后得到的结果都是动态分配的。</p>
+<h4 id="strings-Split"><a href="#strings-Split" class="headerlink" title="strings.Split()"></a>strings.Split()</h4><p>类似的，如果字符串是分解得到的子串呢？</p>
+<p>同样可以看源码，Split 实际上并没有生成字符串，而是在原串的基础上做了切片。所以修改是否会报错，视乎原串是常量还是动态分配的内存。</p>
+<p>其他情况就不一一尝试了。总的来说，各种情况都有，需要看源码核实。不过确认是动态分配的串也只是避免 runtime error 造成程序中断而已；但即使不报错，也应该避免修改 unsafe 转换得到的 []byte，这会导致其他指向同一地址的 string 有意外的结果—— <strong>除非你确定这是对底层 array 唯一的引用</strong> 。</p>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
 <li><p><a href="https://sheepbao.github.io/post/golang_byte_slice_and_string/" target="_blank" rel="external">golang string和[]byte的对比</a></p>
 </li>
@@ -139,7 +162,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2019/golang-unsafe-cast-between-string-and-bytes/" data-id="cjv3smo85001nwwxlrzshhxez" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2019/golang-unsafe-cast-between-string-and-bytes/" data-id="cjvwjtwh400486sxl2epqfb7l" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -154,6 +177,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2019/golang-json-overlaying/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          golang 预置 json 包的值覆盖测试
+        
+      </div>
+    </a>
   
   
     <a href="/2019/why-not-install-conda-with-pip/" id="article-nav-older" class="article-nav-link-wrap">
@@ -182,7 +214,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Anaconda/" style="font-size: 10px;">Anaconda</a> <a href="/tags/Android/" style="font-size: 12px;">Android</a> <a href="/tags/Android-sdk/" style="font-size: 10px;">Android-sdk</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/JCE/" style="font-size: 10px;">JCE</a> <a href="/tags/Java/" style="font-size: 12px;">Java</a> <a href="/tags/JavaMail/" style="font-size: 10px;">JavaMail</a> <a href="/tags/Jenkins/" style="font-size: 18px;">Jenkins</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 14px;">Markdown</a> <a href="/tags/Mathjax/" style="font-size: 10px;">Mathjax</a> <a href="/tags/OJ/" style="font-size: 10px;">OJ</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/OpenGrok/" style="font-size: 10px;">OpenGrok</a> <a href="/tags/Python/" style="font-size: 18px;">Python</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Syncthing/" style="font-size: 10px;">Syncthing</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/Ubuntu/" style="font-size: 12px;">Ubuntu</a> <a href="/tags/a-list/" style="font-size: 12px;">a list</a> <a href="/tags/algorithm/" style="font-size: 12px;">algorithm</a> <a href="/tags/aliyun/" style="font-size: 10px;">aliyun</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/blog/" style="font-size: 12px;">blog</a> <a href="/tags/byobu/" style="font-size: 12px;">byobu</a> <a href="/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/tags/dep/" style="font-size: 10px;">dep</a> <a href="/tags/document/" style="font-size: 10px;">document</a> <a href="/tags/dropbox/" style="font-size: 10px;">dropbox</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/glide/" style="font-size: 10px;">glide</a> <a href="/tags/golang/" style="font-size: 14px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/how-to/" style="font-size: 18px;">how-to</a> <a href="/tags/json/" style="font-size: 10px;">json</a> <a href="/tags/keep-updating/" style="font-size: 12px;">keep-updating</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mirror/" style="font-size: 10px;">mirror</a> <a href="/tags/netdisk/" style="font-size: 10px;">netdisk</a> <a href="/tags/node-js/" style="font-size: 12px;">node.js</a> <a href="/tags/nodePPT/" style="font-size: 12px;">nodePPT</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/pgyer/" style="font-size: 10px;">pgyer</a> <a href="/tags/pip/" style="font-size: 16px;">pip</a> <a href="/tags/practice/" style="font-size: 12px;">practice</a> <a href="/tags/presentation/" style="font-size: 10px;">presentation</a> <a href="/tags/screen/" style="font-size: 12px;">screen</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/skill/" style="font-size: 14px;">skill</a> <a href="/tags/smtp/" style="font-size: 10px;">smtp</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/solution-report/" style="font-size: 10px;">solution-report</a> <a href="/tags/supervisor/" style="font-size: 10px;">supervisor</a> <a href="/tags/trouble/" style="font-size: 20px;">trouble</a> <a href="/tags/unfinished/" style="font-size: 16px;">unfinished</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftp/" style="font-size: 10px;">vsftp</a> <a href="/tags/why/" style="font-size: 12px;">why</a>
+      <a href="/tags/Anaconda/" style="font-size: 10px;">Anaconda</a> <a href="/tags/Android/" style="font-size: 12px;">Android</a> <a href="/tags/Android-sdk/" style="font-size: 10px;">Android-sdk</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/JCE/" style="font-size: 10px;">JCE</a> <a href="/tags/Java/" style="font-size: 12px;">Java</a> <a href="/tags/JavaMail/" style="font-size: 10px;">JavaMail</a> <a href="/tags/Jenkins/" style="font-size: 18px;">Jenkins</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 14px;">Markdown</a> <a href="/tags/Mathjax/" style="font-size: 10px;">Mathjax</a> <a href="/tags/OJ/" style="font-size: 10px;">OJ</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/OpenGrok/" style="font-size: 10px;">OpenGrok</a> <a href="/tags/Python/" style="font-size: 18px;">Python</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Syncthing/" style="font-size: 10px;">Syncthing</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/Ubuntu/" style="font-size: 12px;">Ubuntu</a> <a href="/tags/a-list/" style="font-size: 12px;">a list</a> <a href="/tags/algorithm/" style="font-size: 12px;">algorithm</a> <a href="/tags/aliyun/" style="font-size: 10px;">aliyun</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/blog/" style="font-size: 12px;">blog</a> <a href="/tags/byobu/" style="font-size: 12px;">byobu</a> <a href="/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/tags/dep/" style="font-size: 10px;">dep</a> <a href="/tags/document/" style="font-size: 10px;">document</a> <a href="/tags/dropbox/" style="font-size: 10px;">dropbox</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/glide/" style="font-size: 10px;">glide</a> <a href="/tags/golang/" style="font-size: 16px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/how-to/" style="font-size: 18px;">how-to</a> <a href="/tags/json/" style="font-size: 12px;">json</a> <a href="/tags/keep-updating/" style="font-size: 12px;">keep-updating</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mirror/" style="font-size: 10px;">mirror</a> <a href="/tags/netdisk/" style="font-size: 10px;">netdisk</a> <a href="/tags/node-js/" style="font-size: 12px;">node.js</a> <a href="/tags/nodePPT/" style="font-size: 12px;">nodePPT</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/pgyer/" style="font-size: 10px;">pgyer</a> <a href="/tags/pip/" style="font-size: 16px;">pip</a> <a href="/tags/practice/" style="font-size: 12px;">practice</a> <a href="/tags/presentation/" style="font-size: 10px;">presentation</a> <a href="/tags/screen/" style="font-size: 12px;">screen</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/skill/" style="font-size: 14px;">skill</a> <a href="/tags/smtp/" style="font-size: 10px;">smtp</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/solution-report/" style="font-size: 10px;">solution-report</a> <a href="/tags/supervisor/" style="font-size: 10px;">supervisor</a> <a href="/tags/trouble/" style="font-size: 20px;">trouble</a> <a href="/tags/unfinished/" style="font-size: 16px;">unfinished</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftp/" style="font-size: 10px;">vsftp</a> <a href="/tags/why/" style="font-size: 12px;">why</a>
     </div>
   </div>
 
@@ -191,7 +223,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -201,6 +233,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/golang-json-overlaying/">golang 预置 json 包的值覆盖测试</a>
+          </li>
         
           <li>
             <a href="/2019/golang-unsafe-cast-between-string-and-bytes/">golang-string 和 bytes 之间的 unsafe 转换</a>
@@ -216,10 +252,6 @@
         
           <li>
             <a href="/2018/glide-from-start-up-to-give-up/">golang 依赖管理：glide 从入门到放弃</a>
-          </li>
-        
-          <li>
-            <a href="/2017/why-you-should-learn-python/">为什么你应该学 Python</a>
           </li>
         
       </ul>
