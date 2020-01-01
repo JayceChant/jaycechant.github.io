@@ -4,6 +4,23 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/save-load-a-solution-for-ordinary-people/</loc>
+    <lastmod>2020-01-01T16:56:01.514Z</lastmod>
+    <data>
+        <display>
+        <title>S/L 大法 —— 平凡人的做事方法</title>
+        <pubTime>2020-01-01T16:41:47.000Z</pubTime>
+        
+        <tag>blog</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2019/golang-json-overlaying/</loc>
     <lastmod>2019-05-20T16:02:48.506Z</lastmod>
     <data>
@@ -107,9 +124,9 @@
         <title>配置 Golang 开发环境</title>
         <pubTime>2018-11-06T16:53:09.000Z</pubTime>
         
-        <tag>unfinished</tag>
-         
         <tag>golang</tag>
+         
+        <tag>unfinished</tag>
          
         <tag>dep</tag>
          
@@ -390,6 +407,27 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2017/Android-sdk-on-Linux-for-Jenkins-etc/</loc>
+    <lastmod>2017-01-25T04:21:21.999Z</lastmod>
+    <data>
+        <display>
+        <title>Linux 上 为 Jenkins 配置 Android-sdk 及其它</title>
+        <pubTime>2017-01-16T03:24:34.000Z</pubTime>
+        
+        <tag>Android</tag>
+         
+        <tag>Jenkins</tag>
+         
+        <tag>Android-sdk</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2016/mirrors-collection/</loc>
     <lastmod>2017-01-25T04:21:21.999Z</lastmod>
     <data>
@@ -414,71 +452,6 @@
         <tag>maven</tag>
          
         <tag>a list</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2017/Android-sdk-on-Linux-for-Jenkins-etc/</loc>
-    <lastmod>2017-01-25T04:21:21.999Z</lastmod>
-    <data>
-        <display>
-        <title>Linux 上 为 Jenkins 配置 Android-sdk 及其它</title>
-        <pubTime>2017-01-16T03:24:34.000Z</pubTime>
-        
-        <tag>Android</tag>
-         
-        <tag>Jenkins</tag>
-         
-        <tag>Android-sdk</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>Windows 下 Python 2x 和 3x 版本共存</title>
-        <pubTime>2012-04-11T11:46:00.000Z</pubTime>
-        
-        <tag>Python</tag>
-         
-        <tag>unfinished</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>在 Windows 搭建Python多版本环境</title>
-        <pubTime>2016-07-12T07:21:27.000Z</pubTime>
-        
-        <tag>Python</tag>
-         
-        <tag>unfinished</tag>
-         
-        <tag>pip</tag>
-         
-        <tag>trouble</tag>
-         
-        <tag>virtualenv</tag>
          
          
            
@@ -530,6 +503,50 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>在 Windows 搭建Python多版本环境</title>
+        <pubTime>2016-07-12T07:21:27.000Z</pubTime>
+        
+        <tag>Python</tag>
+         
+        <tag>unfinished</tag>
+         
+        <tag>pip</tag>
+         
+        <tag>trouble</tag>
+         
+        <tag>virtualenv</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>Windows 下 Python 2x 和 3x 版本共存</title>
+        <pubTime>2012-04-11T11:46:00.000Z</pubTime>
+        
+        <tag>Python</tag>
+         
+        <tag>unfinished</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2012/hello-octopress/</loc>
     <lastmod>2017-01-25T04:21:21.968Z</lastmod>
     <data>
@@ -539,11 +556,11 @@
         
         <tag>how-to</tag>
          
+        <tag>unfinished</tag>
+         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
-         
-        <tag>unfinished</tag>
          
          
            
