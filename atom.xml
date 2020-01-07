@@ -115,6 +115,90 @@
   </entry>
   
   <entry>
+    <title>golang 1.13 - 依赖管理从 dep 到 mod 踩坑</title>
+    <link href="https://jaycechant.info/2019/golang-1-13-from-dep-to-mod/"/>
+    <id>https://jaycechant.info/2019/golang-1-13-from-dep-to-mod/</id>
+    <published>2019-10-16T16:37:07.000Z</published>
+    <updated>2020-01-07T16:47:44.091Z</updated>
+    
+    <content type="html"><![CDATA[<p>接触 golang 很晚，实际用来开发大概在 1.9 左右，所以我的主要印象是在 1.9 、 1.10 上的，依赖管理经过一些尝试之后，选择了 『官方』（后来实际被抛弃了）的 dep（<a href="https://jaycechant.info/2018/glide-from-start-up-to-give-up/">《golang 依赖管理：glide 从入门到放弃》</a>）。<br><!-- https://mp.weixin.qq.com/s/dWDfu_9sV5WSkF9h27E4uA --></p>
+<p>后来 1.11、1.12 推出了 module （亦即 go mod 命令），考虑到尚不稳定又有切换成本，就继续留守在 vendor 目录上。</p>
+<p>2019 年 9月终于 1.13 出来了，做了几个比较大的改动，同时 module 也终于转正，所以我终于下定决心迁移到 1.13，并改用 mod 做依赖管理。</p>
+<a id="more"></a>
+<h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>迁移过程主要参考了<a href="https://mp.weixin.qq.com/s/AsdCDodxZFxs2SkhSwOvpg" target="_blank" rel="external">《干货满满的 Go Modules 和 goproxy.cn》</a>（实操主要是 <strong>#快速迁移项目至 Go Modules</strong> 部分），讲得非常清楚，也推荐大家参考，一些细节就不再赘述，只强调我踩坑的地方。</p>
+<p>简单来说是这么个过程：</p>
+<ul>
+<li><p>卸载原有的 go，并下载安装 1.13 版本。  </p>
+<p>  官网 golang.org 因为是谷歌的服务器，也在屏蔽之列，部分同学可能连访问这个都有困难，其实国内有官方的镜像站 golang.google.cn 。</p>
+</li>
+<li><p>用 <code>go env -w</code> 重新设置你的环境变量 。  </p>
+<p>  注意 go env 的内容保存在 <code>$HOME/.config/go/env</code> ，不会覆盖原来的系统环境变量。在读取环境变量时， go env 的值优先。为了避免后续增加判断环境变量的负担，建议 go env 里有的、只有 go 会读取的环境变量，在系统环境变量里删除。  </p>
+<p>  因为国情特殊，一定要设置 GOPROXY。</p>
+</li>
+<li><p>针对依赖工具和项目情况迁移（以下主要讲这部分的坑）。因为我之前用的是 dep，下面全部是关于从 dep 的迁移。</p>
+</li>
+</ul>
+<p>特别提一下一个细节，在安装好的 1.13 下获取 <code>mod</code> 子命令的帮助，下面有一段提醒：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;go <span class="built_in">help</span> mod</div><div class="line">Go mod provides access to operations on modules.</div><div class="line"></div><div class="line">Note that support <span class="keyword">for</span> modules is built into all the go commands,</div><div class="line">not just <span class="string">'go mod'</span>. For example, day-to-day adding, removing, upgrading,</div><div class="line">and downgrading of dependencies should be <span class="keyword">done</span> using <span class="string">'go get'</span>.</div><div class="line">See <span class="string">'go help modules'</span> <span class="keyword">for</span> an overview of module functionality.</div></pre></td></tr></table></figure>
+<p>大意渣翻：</p>
+<blockquote>
+<p>注意对 modules 的支持已经内建在所有 go 子命令内，而不仅仅是 ‘go mod’ 。</p>
+<p>举例说，每天添加、移除、升级、降级依赖，都应该使用 ‘go get’ 完成。</p>
+</blockquote>
+<p>也就是说所有跟依赖管理相关的命令，譬如 <code>go get</code> ，都是用新逻辑在处理。</p>
+<h2 id="踩坑"><a href="#踩坑" class="headerlink" title="踩坑"></a>踩坑</h2><h3 id="坑01：GOPROXY-特定情况不起效"><a href="#坑01：GOPROXY-特定情况不起效" class="headerlink" title="坑01：GOPROXY 特定情况不起效"></a>坑01：GOPROXY 特定情况不起效</h3><p>本来直接在项目根目录敲 <code>go mod init &lt;mod_path&gt;</code> ，是可以自动从 <code>Gopkg.toml</code> 和 <code>Gopkg.lock</code> 导入依赖信息，自动完成迁移的。但是在国内直接这样做是会出错的，部分包获取超时（留意 <code>golang.org/x/</code> 开头的包）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&gt;go mod init myapp</div><div class="line">go: creating new go.mod: module myapp</div><div class="line">go: copying requirements from Gopkg.lock</div><div class="line">go: converting Gopkg.lock: <span class="built_in">stat</span> github.com/360EntSecGroup-Skylar/excelize@v2.0.0: github.com/360EntSecGroup-Skylar/excelize@v2.0.0: invalid version: module contains a go.mod file, so major version must be compatible: should be v0 or v1, not v2</div><div class="line">go: converting Gopkg.lock: <span class="built_in">stat</span> golang.org/x/text@v0.3.0: unrecognized import path <span class="string">"golang.org/x/text"</span> (https fetch: Get https://golang.org/x/text?go-get=1: dial tcp 216.239.37.1:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time,</div><div class="line">or established connection failed because connected host has failed to respond.)</div><div class="line">go: converting Gopkg.lock: <span class="built_in">stat</span> gopkg.in/russross/blackfriday.v2@d3b5b032dc8e8927d31a5071b56e14c89f045135: gopkg.in/russross/blackfriday.v2@v2.0.1: invalid version: go.mod has non-....v2 module path <span class="string">"github.com/russross/blackfriday/v2"</span> at revision v2.0.1</div><div class="line">go: converting Gopkg.lock: <span class="built_in">stat</span> golang.org/x/net@9b4f9f5ad5197c79fd623a3638e70d8b26cef344: unrecognized import path <span class="string">"golang.org/x/net"</span> (https fetch: Get https://golang.org/x/net?go-get=1: dial tcp 216.239.37.1:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.)</div><div class="line">go: converting Gopkg.lock: <span class="built_in">stat</span> golang.org/x/image@61b8692d9a5c9886248d7f96e0ba50ad77baab4c: unrecog</div><div class="line">nized import path <span class="string">"golang.org/x/image"</span> (https fetch: Get https://golang.org/x/image?go-get=1: dial tcp 216.239.37.1:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.)</div></pre></td></tr></table></figure>
+<p>这其实是一个 bug，init 导入依赖部分没有引用 GOPROXY。已经有人向官方提交了 issue，只是修复不知道要等到哪个版本合入。当前可以创建一个空白的 <code>go.mod</code> 然后执行 <code>go mod tidy</code> 来绕过。</p>
+<p>go.mod 只需要包含 module path 和 go 版本即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">module myapp</div><div class="line"></div><div class="line">go 1.13</div></pre></td></tr></table></figure>
+<h3 id="坑02：import-和-module-path-不一致"><a href="#坑02：import-和-module-path-不一致" class="headerlink" title="坑02：import 和 module path 不一致"></a>坑02：import 和 module path 不一致</h3><p>增加了 go.mod 之后，执行 <code>go mod tidy</code> ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;go mod tidy</div><div class="line">go: finding github.com/mojocn/base64Captcha latest</div><div class="line">......</div><div class="line">go: myapp/model/data imports</div><div class="line">        github.com/go-xorm/core: github.com/go-xorm/core@v0.6.3: parsing go.mod:</div><div class="line">        module declares its path as: xorm.io/core</div><div class="line">                but was required as: github.com/go-xorm/core</div></pre></td></tr></table></figure>
+<p>这个好解决，把项目里对这个 module 的引用，都指向它声明的路径即可。</p>
+<p>下面梳理一下出错的原因：</p>
+<p><code>xorm.io/core</code> 这个 module，同时在 github.com 和 xorm.io 都有提供访问。</p>
+<p>在使用 dep 的时候，从哪个路径 import，都是可行的。当我从 <code>github.com/go-xorm/core</code> import 时，dep 就从 github 下载，并保存到 <code>vendor/github.com/go-xorm/core</code> 下。到编译的时候，到 vendor 下对应的路径去找。也就是无论选哪个，<strong>下载、保存、import 的路径，三者是对应的就行</strong>。</p>
+<p>但是 mod 会读取 module 的 go.mod，它自称是 <code>xorm.io/core</code> ，那么从 github import 就是非法的。也就是现在要 <strong>加上跟 module 自身 go.mod 声明的路径一致</strong>。（当然，现在保存不在 vendor 目录了，而是在 <code>$HOME/go/pkg/mod/</code> 底下，从原来每个项目存一份，变成每个 module 的每个版本，全局只存一份。）</p>
+<p>退一步讲，如果将来 xorm.io 因为某些原因不再提供访问，而 github 那份还在，可以在 go.mod 通过 replace 关键字将下载地址指向 github，但其余的路径，依然要跟声明的路径保持一致（主要是 import 路径，下载保存是自动的，并不需要人工干预）。</p>
+<h3 id="坑03：最新版本-module-不兼容"><a href="#坑03：最新版本-module-不兼容" class="headerlink" title="坑03：最新版本 module 不兼容"></a>坑03：最新版本 module 不兼容</h3><p>好了，依赖的分析和获取终于不报错了，<code>go.mod</code> 和 <code>go.sum</code> 也成功生成了。接下来让我们编译一下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;make build</div><div class="line">go build -ldflags <span class="string">'-s -w'</span></div><div class="line">go: finding gopkg.in/yaml.v2 v2.2.2</div><div class="line">// 省略若干行...</div><div class="line"><span class="comment"># myapp/model/data</span></div><div class="line">model\data\csv.go:59:6: xng.QuoteStr undefined (<span class="built_in">type</span> *xorm.Engine has no field or method QuoteStr)</div><div class="line">model\data\csv.go:61:6: xng.QuoteStr undefined (<span class="built_in">type</span> *xorm.Engine has no field or method QuoteStr)</div><div class="line">make: *** [Makefile:28: build] Error 2</div></pre></td></tr></table></figure>
+<p><code>Engine.QuoteStr()</code> 是一个返回当前数据库引擎使用的引号的方法，我当时特意使用这个方法，用来同时兼容不同的数据库，避免额外的判断。所以我确定这个方法是存在的。</p>
+<p>这很容易想到是版本兼容性的问题。查看 <code>go.mod</code> 里的是 v0.7.9，再翻看 <code>Gopkg.toml</code> 之前用的是 v.0.7.1 。坑爹的是，新版本居然删掉了这个方法。</p>
+<p>这里稍微提一下 <strong>版本号的问题</strong> 。go mod 强制使用 SemVer（如果不知道什么是 SemVer，看这篇 <a href="https://semver.org/lang/zh-CN/" target="_blank" rel="external">语义化版本 2.0</a>），默认大版本没有改动的话，一定是兼容修改。所以会自动获取当前大版本下最新的版本，并不会参考 <code>Gopkg.toml</code> 的版本。不过话说回来， 即使按照 SemVer 的语义，也没办法埋怨 xorm 的团队，1.0 之前的版本默认为不稳定版本，没有义务保持兼容。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;go mod edit -require=github.com/go-xorm/xorm@v0.7.1</div></pre></td></tr></table></figure>
+<p>这样就可以指定依赖的版本。如果你觉得敲命令太麻烦，直接手动改 go.mod 也可以。一般不推荐直接改，因为你的修改会在下次更新时被覆盖，唯独版本信息是会保留的。</p>
+<p>改完再 tidy 一次。</p>
+<h3 id="坑04：module-path-不统一"><a href="#坑04：module-path-不统一" class="headerlink" title="坑04：module path 不统一"></a>坑04：module path 不统一</h3><p>再编译一次：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;make build</div><div class="line">go build -ldflags <span class="string">'-s -w'</span></div><div class="line">go: finding github.com/go-xorm/xorm v0.7.1</div><div class="line">// 省略若干行...</div><div class="line"><span class="comment"># myapp/model/data</span></div><div class="line">model\data\engine.go:117:17: cannot use level (<span class="built_in">type</span> <span class="string">"xorm.io/core"</span>.LogLevel) as <span class="built_in">type</span> <span class="string">"github.com/go-</span></div><div class="line">xorm/core".LogLevel <span class="keyword">in</span> argument to xng.SetLogLevel</div><div class="line">make: *** [Makefile:28: build] Error 2</div></pre></td></tr></table></figure>
+<p>还是 xorm 的错误。还记得我们在 坑02 中的修改吗，在 go mod 底下，要统一按照声明路径去 import。</p>
+<p>因为 坑03 ，xorm 改回了跟我代码兼容的 v0.7.1 ，那与之关联的 core 呢？跟上面类似地，看前后的配置，之前用的 v0.6.0 ，现在的是 v0.7.2 。<strong>关键的一点是</strong>，在 2019 年 6 月，在这两个版本之间的 v0.6.3，module path 从 <code>github.com/go-xorm/core</code> 改成了 <code>xorm.io/core</code> ， xorm 对它的引用在那个时间也做了相应的修改。</p>
+<p>为了跟 v0.7.1 的 xorm 兼容，必须使用 &lt; v0.6.3 的 core —— 实际上直接使用 v0.6.0 是最保险的。因为回退到了修改 module path 之前的版本，所以 坑02 的修改白改了，回退掉。</p>
+<p>当然记录 坑02 仍然有意义，它提醒我 <strong>有时声明的 module path 未必和仓库地址一致</strong> 。</p>
+<p>跟上面类似，core 包改回对应的 v0.6.0 ，重新 tidy。</p>
+<h3 id="坑05：主版本号变更"><a href="#坑05：主版本号变更" class="headerlink" title="坑05：主版本号变更"></a>坑05：主版本号变更</h3><p>再一次编译：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;make build</div><div class="line">go build -ldflags <span class="string">'-s -w'</span></div><div class="line"><span class="comment"># myapp/api</span></div><div class="line">api\survey.go:189:9: assignment mismatch: 2 variables but ex.GetCellValue returns 1 values</div><div class="line">// 省略若干相似的错误...</div><div class="line">api\survey.go:216:9: too many errors</div><div class="line">make: *** [Makefile:28: build] Error 2</div></pre></td></tr></table></figure>
+<p>依然是版本的兼容问题。</p>
+<p>不过这次的错误跟前面的比，是反过来的：我的代码引用的是最新的 v2 代码，这在原来 dep 下是不需要区分包名的。但在 mod 里，大于 1 的大版本是需要体现在路径里的。</p>
+<p>在 module 眼里，<strong>主版本号不同，相当于两个不同的 module</strong>。 这是因为根据 SemVer 的约定，大版本号的改变，意味着引入了 breaking changes。那么如果很不巧地，代码 直接 / 间接 依赖同一个包的不同大版本时，mod 是可以同时导入的，就不会存在依赖上的冲突。</p>
+<p>把 import 里 <code>github.com/360EntSecGroup-Skylar/excelize</code> 改为 <code>github.com/360EntSecGroup-Skylar/excelize/v2</code> ，重新 tidy，这次编译就不再报错了，编译的结果也是可以正常运行的。到此，我踩的坑已经全部记录完毕。</p>
+<p>临了 Mark 一篇文章 <a href="https://www.cnblogs.com/apocelipes/p/10295096.html" target="_blank" rel="external">《再探go modules：使用与细节》</a>。这篇文章对于 go mod 的一些细节做了分析，虽然发表于 1.12 发布前，但是现在来看仍然有效。</p>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;接触 golang 很晚，实际用来开发大概在 1.9 左右，所以我的主要印象是在 1.9 、 1.10 上的，依赖管理经过一些尝试之后，选择了 『官方』（后来实际被抛弃了）的 dep（&lt;a href=&quot;https://jaycechant.info/2018/glide-from-start-up-to-give-up/&quot;&gt;《golang 依赖管理：glide 从入门到放弃》&lt;/a&gt;）。&lt;br&gt;&lt;!-- https://mp.weixin.qq.com/s/dWDfu_9sV5WSkF9h27E4uA --&gt;&lt;/p&gt;
+&lt;p&gt;后来 1.11、1.12 推出了 module （亦即 go mod 命令），考虑到尚不稳定又有切换成本，就继续留守在 vendor 目录上。&lt;/p&gt;
+&lt;p&gt;2019 年 9月终于 1.13 出来了，做了几个比较大的改动，同时 module 也终于转正，所以我终于下定决心迁移到 1.13，并改用 mod 做依赖管理。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
+    
+  </entry>
+  
+  <entry>
     <title>golang 预置 json 包的值覆盖测试</title>
     <link href="https://jaycechant.info/2019/golang-json-overlaying/"/>
     <id>https://jaycechant.info/2019/golang-json-overlaying/</id>
@@ -427,13 +511,13 @@
   </entry>
   
   <entry>
-    <title>golang 依赖管理：glide 从入门到放弃</title>
+    <title>golang 依赖管理：glide 从入门到放弃（转投 dep）</title>
     <link href="https://jaycechant.info/2018/glide-from-start-up-to-give-up/"/>
     <id>https://jaycechant.info/2018/glide-from-start-up-to-give-up/</id>
     <published>2018-10-24T10:01:17.000Z</published>
-    <updated>2018-10-26T06:04:39.483Z</updated>
+    <updated>2020-01-07T09:06:14.110Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>先丢结论，两个推荐选项：</p>
+    <content type="html"><![CDATA[<h2 id="0x0-结论"><a href="#0x0-结论" class="headerlink" title="0x0 结论"></a>0x0 结论</h2><p>先丢结论，两个推荐选项：</p>
 <ul>
 <li>forked glide + 配置 mirror ：<a href="https://github.com/xkeyideal/glide" target="_blank" rel="external">https://github.com/xkeyideal/glide</a> ，具体修复哪些 bug ，以及它特有的 mirror 配置，请看 <a href="https://github.com/xkeyideal/glide/blob/master/README_CN.md" target="_blank" rel="external">https://github.com/xkeyideal/glide/blob/master/README_CN.md</a></li>
 <li>dep + proxy ：<a href="https://github.com/golang/dep" target="_blank" rel="external">https://github.com/golang/dep</a> ，proxy 不过是设置 <code>http_proxy</code> 和 <code>https_proxy</code> 两个环境变量。</li>
@@ -444,7 +528,7 @@
 <p>折腾过程请看下文：</p>
 <hr>
 <p>go 最近几年热了起来，我一个长期靠 Java 吃饭的人，也从 Python 吹，变成了 go 吹。</p>
-<h2 id="依赖管起来-glide-init"><a href="#依赖管起来-glide-init" class="headerlink" title="依赖管起来 glide init"></a>依赖管起来 glide init</h2><p>一开始就知道 go 官方的依赖管理不给力。如果第三方依赖有 breaking changes，或者干脆删库走人，好好一个项目，换个没有依赖包缓存的机器，就编译不能了。1.5 开始引入了 vendor 目录，但毕竟没有默认启用，工具支持也不够（当时 dep 不知道是没发布，还是还在 alpha）。</p>
+<h2 id="0x1-依赖管起来-glide-init"><a href="#0x1-依赖管起来-glide-init" class="headerlink" title="0x1 依赖管起来 glide init"></a>0x1 依赖管起来 glide init</h2><p>一开始就知道 go 官方的依赖管理不给力。如果第三方依赖有 breaking changes，或者干脆删库走人，好好一个项目，换个没有依赖包缓存的机器，就编译不能了。1.5 开始引入了 vendor 目录，但毕竟没有默认启用，工具支持也不够（当时 dep 不知道是没发布，还是还在 alpha）。</p>
 <p>当时看了网上的讨论，好像一致推崇 glide 。安装，玩一下就算了。当时写小工具，依赖很少，没把 glide 用起来。（多数是用 go 重写 Python 工具。把工具共享出去时别人没装 Python，懒得折腾打包。）</p>
 <h3 id="breaking-changes"><a href="#breaking-changes" class="headerlink" title="breaking changes"></a>breaking changes</h3><p>直到写稍大一点的项目，依赖多起来。但还是拖着，心想具体用哪个包可能还会变，不会刚写两天就来一个 breaking change。</p>
 <p>写到稍有模样，碰到个 bug，最后发现是依赖包引起的，去主页一看，作者已经 fix 了，是个 breaking change，发了个大版本。我升级了，还好 breaking 的地方对我没有影响。但这样一来，就下决心把依赖管理起来。</p>
@@ -454,7 +538,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">curl golang.org</div><div class="line">curl: (7) Failed to connect to golang.org port 80: Timed out</div><div class="line"></div><div class="line">curl https://golang.org</div><div class="line">curl: (7) Failed to connect to golang.org port 443: Timed out</div><div class="line"></div><div class="line">curl -x socks5://127.0.0.1:1080 https://golang.org/x/crypto/acme/autocert</div><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;meta http-equiv=<span class="string">"Content-Type"</span> content=<span class="string">"text/html; charset=utf-8"</span>/&gt;</div><div class="line">&lt;meta name=<span class="string">"go-import"</span> content=<span class="string">"golang.org/x/crypto git https://go.googlesource.com/crypto"</span>&gt;</div><div class="line">&lt;meta name=<span class="string">"go-source"</span> content=<span class="string">"golang.org/x/crypto https://github.com/golang/crypto/ https://github.com/golang/crypto/tree/master&#123;/dir&#125; https://github.com/golang/crypto/blob/master&#123;/dir&#125;/&#123;file&#125;#L&#123;line&#125;"</span>&gt;</div><div class="line">&lt;meta http-equiv=<span class="string">"refresh"</span> content=<span class="string">"0; url=https://godoc.org/golang.org/x/crypto/acme/autocert"</span>&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">Nothing to see here; &lt;a href=<span class="string">"https://godoc.org/golang.org/x/crypto/acme/autocert"</span>&gt;move along&lt;/a&gt;.</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
 <p>确实被墙了。那平时上为什么毫无障碍的？这时才想起翻 pac 配置，发现 golang.org 赫然在列，说明被屏蔽不是一天两天，早早被加入了 gfwlist。（后来得知网站托管在 google 服务器上）</p>
 <p>而且结合 <code>golang.org/x/crypto</code> 的重定向 和 meta 信息，可以看出来 golang.org 只是提供重定向信息，<code>go get</code> 和 <code>glide</code> 应该是解析这些信息之后，再去 googlesource 或者 github 取代码。而目前第一步就 Time out 了，所以即使给 git 加 proxy 也没用。</p>
-<h2 id="配置镜像-glide-mirror"><a href="#配置镜像-glide-mirror" class="headerlink" title="配置镜像 glide mirror"></a>配置镜像 glide mirror</h2><h3 id="mirror-的-N-种配置方法"><a href="#mirror-的-N-种配置方法" class="headerlink" title="mirror 的 N 种配置方法"></a>mirror 的 N 种配置方法</h3><p>那配置镜像吧。咦，不对，别人的例子都是 import 依赖包的根目录，例如 <code>golang.org/x/crypto</code> ，可以直接映射 <code>github.com/golang/crypto</code> ，但是子包 <code>golang.org/x/crypto/acme/autocert</code> 怎么办？</p>
+<h2 id="0x2-配置镜像-glide-mirror"><a href="#0x2-配置镜像-glide-mirror" class="headerlink" title="0x2 配置镜像 glide mirror"></a>0x2 配置镜像 glide mirror</h2><h3 id="mirror-的-N-种配置方法"><a href="#mirror-的-N-种配置方法" class="headerlink" title="mirror 的 N 种配置方法"></a>mirror 的 N 种配置方法</h3><p>那配置镜像吧。咦，不对，别人的例子都是 import 依赖包的根目录，例如 <code>golang.org/x/crypto</code> ，可以直接映射 <code>github.com/golang/crypto</code> ，但是子包 <code>golang.org/x/crypto/acme/autocert</code> 怎么办？</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">glide mirror <span class="built_in">set</span> golang.org/x/crypto github.com/golang/crypto</div></pre></td></tr></table></figure>
 <p>照样 <code>Cannot detect VCS</code> 。 这个命令实际上写入了 <code>~/.glide/mirrors.yaml</code></p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">repos:</span> <span class="comment"># 以这个包为例子，省略同理的其他包，下同</span></div><div class="line"><span class="attr">- original:</span> golang.org/x/crypto</div><div class="line"><span class="attr">  repo:</span> github.com/golang/crypto</div></pre></td></tr></table></figure>
@@ -467,7 +551,7 @@
 <p>好了，终于不报该死的 <code>Cannot detect VCS</code> 了。</p>
 <h3 id="看不见的折腾"><a href="#看不见的折腾" class="headerlink" title="看不见的折腾"></a>看不见的折腾</h3><p>这数次不断尝试和失败的过程非常痛苦。因为没有一次跑到最后，没有生成 gllide.lock 文件，所以每次执行 <code>glide install</code> ，实际触发的都是 <code>glide update</code> ；而 github 虽然可以访问，速度并不快，在知道关键的 4 个包是否成功 fetch 前，先要忍受一堆包的 fetch updates，偶尔还会因为超时出现 <code>exit status 128</code>。</p>
 <p>而除了上面列出的，还尝试过加 <code>--vcs git</code> ，加 <code>--base</code> ，给 git 加 proxy …… 尝试次数比看到的要多，只是最后证明无关就没有列出；每次失败之后都要思考背后的原因，看哪里还能调整一下。在这上面耗了大半天。</p>
-<h2 id="还有-ERROR？-另一个-glide"><a href="#还有-ERROR？-另一个-glide" class="headerlink" title="还有 ERROR？ 另一个 glide"></a>还有 ERROR？ 另一个 glide</h2><h3 id="endless-errors"><a href="#endless-errors" class="headerlink" title="endless errors"></a>endless errors</h3><p>你以为这就完了？并没有！</p>
+<h2 id="0x3-还有-ERROR？-另一个-glide"><a href="#0x3-还有-ERROR？-另一个-glide" class="headerlink" title="0x3 还有 ERROR？ 另一个 glide"></a>0x3 还有 ERROR？ 另一个 glide</h2><h3 id="endless-errors"><a href="#endless-errors" class="headerlink" title="endless errors"></a>endless errors</h3><p>你以为这就完了？并没有！</p>
 <p>在终于消灭了所有 <code>Cannot detect VCS</code> 之后</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[ERROR] Unable to <span class="built_in">export</span> dependencies to vendor directory: Error moving files: <span class="built_in">exit</span> status 1. output</div><div class="line">: ***********</div><div class="line">************** // 乱码会打乱这篇文章的编码，所以用 * 代替</div></pre></td></tr></table></figure>
 <p>还有 ERROR，而且还乱码，什么鬼啊！？？ 然后我就找到了这个：</p>
@@ -480,9 +564,9 @@
 <p>已经忘了是第几次执行</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># glide init 只需执行一次，只要 glide.yaml 存在就不必再次执行</span></div><div class="line">glide install</div></pre></td></tr></table></figure>
 <p>终于执行到了最后。</p>
-<h2 id="转投-dep"><a href="#转投-dep" class="headerlink" title="转投 dep"></a>转投 dep</h2><p>完事了吗？还没有。</p>
+<h2 id="0x4-转投-dep"><a href="#0x4-转投-dep" class="headerlink" title="0x4 转投 dep"></a>0x4 转投 dep</h2><p>完事了吗？还没有。</p>
 <p>从上面的尝试可以看出，glide 虽在一众依赖管理工具中收获了人气， 但存在不少 bug；而 364 个 open issue / 34 个 oepn pr ，多数有一年没有处理，最早的居然是 15 年的 （截止 2018/10/24），可以看出来作者 <strong>不再活跃</strong> ，对一个开源项目来说， <strong>比有 bug 更糟糕</strong> 。</p>
-<p>像 Windows 下的权限问题，上面 #889 一年多钱提了 PR 没人管，9月又有人提了重复的PR <a href="https://github.com/Masterminds/glide/pull/1020" target="_blank" rel="external">#1020: Update winbug.go</a> ，作者依旧没有处理。</p>
+<p>像 Windows 下的权限问题，上面 #889 一年多前提了 PR 没人管，9月又有人提了重复的PR <a href="https://github.com/Masterminds/glide/pull/1020" target="_blank" rel="external">#1020: Update winbug.go</a> ，作者依旧没有处理。</p>
 <p>fork 项目虽解决了几个明显问题，毕竟不是活跃的原项目，更多是先修复继续用的权益之计，以后也很难代替原作者继续推进开发。</p>
 <h3 id="重新评估"><a href="#重新评估" class="headerlink" title="重新评估"></a>重新评估</h3><p>我要考虑对于 go 依赖管理工具的认知是不是已经过时了。重新查这方面的对比，尽量留意时间近的帖子，翻到这么两篇：</p>
 <ul>
@@ -506,7 +590,7 @@
 <p>可是点进去看我就懂了，dep 把引用不到的子包删掉了。换言之，glide 的最小粒度是 项目，哪怕只引用了大项目里的一个子包，也会把整个项目 export 到 vendor； 而 dep 应该是基于 subpackage 或者 文件的，先分析依赖图，没有引用到的文件都不要。<code>Gopkg.toml</code> 里的这段可以作为佐证：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[prune]</div><div class="line">  go-tests = true</div><div class="line">  unused-packages = true</div></pre></td></tr></table></figure>
 <p>用过之后，感觉 dep 相当简洁，<code>-gopath</code> 选项 和 prune 特性则是意外之喜。</p>
-<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><ul>
+<h2 id="0x5-写在最后"><a href="#0x5-写在最后" class="headerlink" title="0x5 写在最后"></a>0x5 写在最后</h2><ul>
 <li>在程序员的节日折腾这些，感受 GFW 带来的不便，相当不友好，感叹国内开发的不易，总有额外成本</li>
 <li>今天这『群雄并起，太子一统』的故事套路，怎么感觉跟当年 pip 那么像</li>
 </ul>
@@ -516,7 +600,7 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;结论&quot;&gt;&lt;a href=&quot;#结论&quot; class=&quot;headerlink&quot; title=&quot;结论&quot;&gt;&lt;/a&gt;结论&lt;/h2&gt;&lt;p&gt;先丢结论，两个推荐选项：&lt;/p&gt;
+      &lt;h2 id=&quot;0x0-结论&quot;&gt;&lt;a href=&quot;#0x0-结论&quot; class=&quot;headerlink&quot; title=&quot;0x0 结论&quot;&gt;&lt;/a&gt;0x0 结论&lt;/h2&gt;&lt;p&gt;先丢结论，两个推荐选项：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;forked glide + 配置 mirror ：&lt;a href=&quot;https://github.com/xkeyideal/glide&quot;&gt;https://github.com/xkeyideal/glide&lt;/a&gt; ，具体修复哪些 bug ，以及它特有的 mirror 配置，请看 &lt;a href=&quot;https://github.com/xkeyideal/glide/blob/master/README_CN.md&quot;&gt;https://github.com/xkeyideal/glide/blob/master/README_CN.md&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;dep + proxy ：&lt;a href=&quot;https://github.com/golang/dep&quot;&gt;https://github.com/golang/dep&lt;/a&gt; ，proxy 不过是设置 &lt;code&gt;http_proxy&lt;/code&gt; 和 &lt;code&gt;https_proxy&lt;/code&gt; 两个环境变量。&lt;/li&gt;
@@ -528,6 +612,8 @@
       <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
     
       <category term="glide" scheme="https://jaycechant.info/tags/glide/"/>
+    
+      <category term="dep" scheme="https://jaycechant.info/tags/dep/"/>
     
   </entry>
   
@@ -1801,96 +1887,6 @@
       <category term="document" scheme="https://jaycechant.info/tags/document/"/>
     
       <category term="presentation" scheme="https://jaycechant.info/tags/presentation/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>镜像集合</title>
-    <link href="https://jaycechant.info/2016/mirrors-collection/"/>
-    <id>https://jaycechant.info/2016/mirrors-collection/</id>
-    <published>2016-12-31T02:29:12.000Z</published>
-    <updated>2017-01-25T04:21:21.999Z</updated>
-    
-    <content type="html"><![CDATA[<p>在中国做开发者，殊为不易。技术创新多发源欧美，尤其开源的工具；国内巨头现在渐渐有些贡献，不过很多东西还是要取自国外。</p>
-<p>好不容易跨过语言关，结果发现还有一道高墙。要么是各种原因被GFW连坐（例如各种Google的服务），要么纯粹因为太远不稳定。以前还能说先用工具慢慢下载到本地安装；现在网络越来越快，所以都流行在线安装，光连得上还不行，太慢也会timeout。国外开发者秒下无感的事情，我们这里可以折腾几天。</p>
-<p>解决办法就是镜像了。所以现在配置开发环境，第一步是安装工具，第二步马上就是配置镜像，然后才能好好地下载依赖。所以自己整理一个常用的镜像集合，方便每次配置环境时翻查。</p>
-<a id="more"></a>
-<p><em>只列我在用或者用过的，没有也不必要把全部列上，旧的不行换新的再更新</em></p>
-<h1 id="Ubuntu-软件源"><a href="#Ubuntu-软件源" class="headerlink" title="Ubuntu 软件源"></a>Ubuntu 软件源</h1><p>目前使用163的源：<a href="http://mirrors.163.com/.help/ubuntu.html" target="_blank" rel="external">http://mirrors.163.com/.help/ubuntu.html</a></p>
-<p>里面已经有比较详细的说明，挑选对应的发行版本下载就好。以14.04 (trusty) 为例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">~$ <span class="built_in">cd</span> /etc/apt/</div><div class="line">/etc/apt$ wget http://mirrors.163.com/.help/sources.list.trusty</div><div class="line">/etc/apt$ mv sources.list sources.list.bak</div><div class="line">/etc/apt$ mv sources.list.trusty sources.list</div><div class="line">/ect/apt$ apt-get update</div></pre></td></tr></table></figure>
-<p>使用阿里云服务器的，可以考虑用阿里云的镜像：<a href="http://mirrors.aliyun.com/help/ubuntu" target="_blank" rel="external">http://mirrors.aliyun.com/help/ubuntu</a></p>
-<p>将镜像的地址从 <a href="http://mirrors.aliyun.com" target="_blank" rel="external">http://mirrors.aliyun.com</a> 改为 <a href="http://mirrors.aliyuncs.com" target="_blank" rel="external">http://mirrors.aliyuncs.com</a> 可以走内网流量。</p>
-<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><p>推荐淘宝NPM镜像：<a href="https://npm.taobao.org/" target="_blank" rel="external">https://npm.taobao.org/</a></p>
-<p>因为除了镜像，他们还提供了定制的cnpm代替npm：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g cnpm --registry=https://registry.npm.taobao.org</div></pre></td></tr></table></figure>
-<p>除了敲命令时前面多个c，用法上跟npm没有任何差别。详情可以看官方的说明。</p>
-<h1 id="Maven-repository"><a href="#Maven-repository" class="headerlink" title="Maven repository"></a>Maven repository</h1><p>Maven仓库推荐阿里云的中央库：<a href="http://maven.aliyun.com/nexus/" target="_blank" rel="external">http://maven.aliyun.com/nexus/</a></p>
-<p>一般的做法是修改Maven的settings.xml：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">mirrors</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>aliyun<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>aliyun maven<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span>        </div><div class="line">  <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">mirrors</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>settings.xml 有两个，分别在：</p>
-<ul>
-<li>$M2_HOME/conf/settings.xml ：全局设置，在maven的安装目录。Windows为 %M2_HOME%，一般要手动设置。</li>
-<li>~/.m2/settings.xml ：用户设置，需要自己添加。Linux就是用户目录，Windows一般在 <code>C:\Users\YourName</code>。</li>
-</ul>
-<p>两个文件如果同时存在，会融合成一个文件；同时存在的设置项，以用户设置为准。</p>
-<hr>
-<h2 id="在pom设置repository"><a href="#在pom设置repository" class="headerlink" title="在pom设置repository"></a>在pom设置repository</h2><p>但我基本不单独执行<code>mvn</code>，都是在Eclipse里引用，不知道为什么明明在Eclipse设置了settings.xml的位置，但还是不起作用（依然访问官方库）；另外，多人协作的项目，每个人都设置一次镜像也是一个麻烦。</p>
-<p>这时最好的办法，就是在项目的pom.xml 设置一下repository：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">repositories</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">repository</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">id</span>&gt;</span>aliyun-repos<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>Aliyun Repository<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">repository</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">pluginRepositories</span>&gt;</span> </div><div class="line">	<span class="tag">&lt;<span class="name">pluginRepository</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">id</span>&gt;</span>aliyun-repos<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>Aliyun Repository<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">pluginRepository</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">pluginRepositories</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>优先级上，项目的设置会覆盖用户的设置。pom是项目文件的一部分，会一起被提交和拉取，项目导入的时候直接就是到镜像去取依赖了。</p>
-<h1 id="pip"><a href="#pip" class="headerlink" title="pip"></a>pip</h1><p>网上都在推荐豆瓣的源：<a href="http://www.jianshu.com/p/785bb1f4700d" target="_blank" rel="external">http://www.jianshu.com/p/785bb1f4700d</a></p>
-<p>临时使用</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install ModuleName -i https://pypi.douban.com/simple</div></pre></td></tr></table></figure>
-<ul>
-<li>使用https安全是没有问题的。但如果碰上https连不上，就要加<code>--trusted-host</code>。</li>
-<li>虽然修改了软件源，但<code>pip search</code>命令还是不能用，因为搜索软件使用的协议与安装软件不同。<code>pip search</code>基于xmlrpclib实现，<code>pip install</code>基于urllib2实现。同样地，对<code>pip search</code>设置代理，也是不起作用的。</li>
-</ul>
-<p>想长久生效，就要修改配置文件：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="section">[global]</span></div><div class="line"><span class="attr">index-url</span> = https://pypi.douban.com/simple</div></pre></td></tr></table></figure>
-<p>配置文件的位置，Linux应该是在用户目录下的 <code>~/.pip/pip.conf</code>，如果不存在可以自己创建，pip会默认从这个文件读取配置。Windows的配置可以参考 <a href="http://blog.csdn.net/styshoo/article/details/52865373" target="_blank" rel="external">http://blog.csdn.net/styshoo/article/details/52865373</a> ，跟Linux类似，不过有好几个地方，可以echo系统参数，看哪个存在。</p>
-<h1 id="Android-SDK"><a href="#Android-SDK" class="headerlink" title="Android SDK"></a>Android SDK</h1><p><a href="http://www.androiddevtools.cn/" target="_blank" rel="external">AndroidDevTools</a> 上提供的镜像，我都试过，除了Bugly其他都不稳定或者根本连不上（所在地是广州）。因为Bugly要登录，本不想那么麻烦也没有办法了。不过只要用QQ号登录就好，这个估计谁都有。</p>
-<p>详细的用法在上面有介绍：<a href="https://dsx.bugly.qq.com/repository/1" target="_blank" rel="external">https://dsx.bugly.qq.com/repository/1</a></p>
-<p>简单说就是把</p>
-<pre><code>域名 : id.repository.bugly.qq.com
-端口 : 80
-</code></pre><p>填到SDK Manager 的proxy设置里。登录之后每个人有自己的id。</p>
-<h1 id="Jenkins-plugins"><a href="#Jenkins-plugins" class="headerlink" title="Jenkins plugins"></a>Jenkins plugins</h1><p><a href="http://mirrors.jenkins-ci.org/status.html" target="_blank" rel="external">镜像列表</a></p>
-<p>我人肉ping测试了一下速度，感觉 <a href="http://mirror.esuni.jp" target="_blank" rel="external">http://mirror.esuni.jp</a> 速度还可以，所以就用了这个。</p>
-<p>把</p>
-<p><a href="http://mirror.esuni.jp/jenkins/updates/update-center.json" target="_blank" rel="external">http://mirror.esuni.jp/jenkins/updates/update-center.json</a></p>
-<p>填到 Jenkins &gt; 插件管理 &gt; 高级 &gt; 升级站点 即可。</p>
-<p>偶尔还是有安装失败，这时只好手动下载插件之后上传了。</p>
-<hr>
-<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在中国做开发者，殊为不易。技术创新多发源欧美，尤其开源的工具；国内巨头现在渐渐有些贡献，不过很多东西还是要取自国外。&lt;/p&gt;
-&lt;p&gt;好不容易跨过语言关，结果发现还有一道高墙。要么是各种原因被GFW连坐（例如各种Google的服务），要么纯粹因为太远不稳定。以前还能说先用工具慢慢下载到本地安装；现在网络越来越快，所以都流行在线安装，光连得上还不行，太慢也会timeout。国外开发者秒下无感的事情，我们这里可以折腾几天。&lt;/p&gt;
-&lt;p&gt;解决办法就是镜像了。所以现在配置开发环境，第一步是安装工具，第二步马上就是配置镜像，然后才能好好地下载依赖。所以自己整理一个常用的镜像集合，方便每次配置环境时翻查。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Jenkins" scheme="https://jaycechant.info/tags/Jenkins/"/>
-    
-      <category term="Android" scheme="https://jaycechant.info/tags/Android/"/>
-    
-      <category term="pip" scheme="https://jaycechant.info/tags/pip/"/>
-    
-      <category term="Ubuntu" scheme="https://jaycechant.info/tags/Ubuntu/"/>
-    
-      <category term="mirror" scheme="https://jaycechant.info/tags/mirror/"/>
-    
-      <category term="aliyun" scheme="https://jaycechant.info/tags/aliyun/"/>
-    
-      <category term="npm" scheme="https://jaycechant.info/tags/npm/"/>
-    
-      <category term="maven" scheme="https://jaycechant.info/tags/maven/"/>
-    
-      <category term="a list" scheme="https://jaycechant.info/tags/a-list/"/>
     
   </entry>
   

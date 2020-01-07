@@ -4,6 +4,44 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2019/golang-1-13-from-dep-to-mod/</loc>
+    <lastmod>2020-01-07T16:47:44.091Z</lastmod>
+    <data>
+        <display>
+        <title>golang 1.13 - 依赖管理从 dep 到 mod 踩坑</title>
+        <pubTime>2019-10-16T16:37:07.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2018/glide-from-start-up-to-give-up/</loc>
+    <lastmod>2020-01-07T09:06:14.110Z</lastmod>
+    <data>
+        <display>
+        <title>golang 依赖管理：glide 从入门到放弃（转投 dep）</title>
+        <pubTime>2018-10-24T10:01:17.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
+        <tag>glide</tag>
+         
+        <tag>dep</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/save-load-a-solution-for-ordinary-people/</loc>
     <lastmod>2020-01-02T15:38:01.467Z</lastmod>
     <data>
@@ -129,25 +167,6 @@
         <tag>unfinished</tag>
          
         <tag>dep</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2018/glide-from-start-up-to-give-up/</loc>
-    <lastmod>2018-10-26T06:04:39.483Z</lastmod>
-    <data>
-        <display>
-        <title>golang 依赖管理：glide 从入门到放弃</title>
-        <pubTime>2018-10-24T10:01:17.000Z</pubTime>
-        
-        <tag>golang</tag>
-         
-        <tag>glide</tag>
          
          
            
@@ -461,27 +480,6 @@
 
     
   <url>
-    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>vsftp 503 和 500 错误</title>
-        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
-        
-        <tag>trouble</tag>
-         
-        <tag>Ubuntu</tag>
-         
-        <tag>vsftp</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     <data>
@@ -507,18 +505,18 @@
 
     
   <url>
-    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
+    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     <data>
         <display>
-        <title>解题报告 —— 从水题开一个头</title>
-        <pubTime>2016-11-08T09:40:20.000Z</pubTime>
+        <title>vsftp 503 和 500 错误</title>
+        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
         
-        <tag>algorithm</tag>
+        <tag>trouble</tag>
          
-        <tag>practice</tag>
+        <tag>Ubuntu</tag>
          
-        <tag>solution-report</tag>
+        <tag>vsftp</tag>
          
          
            
@@ -538,6 +536,27 @@
         <tag>Python</tag>
          
         <tag>unfinished</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>解题报告 —— 从水题开一个头</title>
+        <pubTime>2016-11-08T09:40:20.000Z</pubTime>
+        
+        <tag>algorithm</tag>
+         
+        <tag>practice</tag>
+         
+        <tag>solution-report</tag>
          
          
            

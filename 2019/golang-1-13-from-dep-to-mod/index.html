@@ -1,0 +1,407 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>golang 1.13 - 依赖管理从 dep 到 mod 踩坑 | 存档Save&amp;Load</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="接触 golang 很晚，实际用来开发大概在 1.9 左右，所以我的主要印象是在 1.9 、 1.10 上的，依赖管理经过一些尝试之后，选择了 『官方』（后来实际被抛弃了）的 dep（《golang 依赖管理：glide 从入门到放弃》）。
+后来 1.11、1.12 推出了 module （亦即 go mod 命令），考虑到尚不稳定又有切换成本，就继续留守在 vendor 目录上。
+2019 年">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang 1.13 - 依赖管理从 dep 到 mod 踩坑">
+<meta property="og:url" content="https://jaycechant.info/2019/golang-1-13-from-dep-to-mod/index.html">
+<meta property="og:site_name" content="存档Save&Load">
+<meta property="og:description" content="接触 golang 很晚，实际用来开发大概在 1.9 左右，所以我的主要印象是在 1.9 、 1.10 上的，依赖管理经过一些尝试之后，选择了 『官方』（后来实际被抛弃了）的 dep（《golang 依赖管理：glide 从入门到放弃》）。
+后来 1.11、1.12 推出了 module （亦即 go mod 命令），考虑到尚不稳定又有切换成本，就继续留守在 vendor 目录上。
+2019 年">
+<meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta property="og:updated_time" content="2020-01-07T16:47:44.091Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="golang 1.13 - 依赖管理从 dep 到 mod 踩坑">
+<meta name="twitter:description" content="接触 golang 很晚，实际用来开发大概在 1.9 左右，所以我的主要印象是在 1.9 、 1.10 上的，依赖管理经过一些尝试之后，选择了 『官方』（后来实际被抛弃了）的 dep（《golang 依赖管理：glide 从入门到放弃》）。
+后来 1.11、1.12 推出了 module （亦即 go mod 命令），考虑到尚不稳定又有切换成本，就继续留守在 vendor 目录上。
+2019 年">
+<meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+  
+    <link rel="alternative" href="/atom.xml" title="存档Save&amp;Load" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+</head>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">存档Save&amp;Load</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">存档意味着放下包袱，搞砸了不过回来读档</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="https://github.com/JayceChant">Github</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/sitemap.xml">Sitemap</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="jaycechant.info">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-golang-1-13-from-dep-to-mod" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/golang-1-13-from-dep-to-mod/" class="article-date">
+  <time datetime="2019-10-16T16:37:07.000Z" itemprop="datePublished">2019-10-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      golang 1.13 - 依赖管理从 dep 到 mod 踩坑
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>接触 golang 很晚，实际用来开发大概在 1.9 左右，所以我的主要印象是在 1.9 、 1.10 上的，依赖管理经过一些尝试之后，选择了 『官方』（后来实际被抛弃了）的 dep（<a href="https://jaycechant.info/2018/glide-from-start-up-to-give-up/">《golang 依赖管理：glide 从入门到放弃》</a>）。<br><!-- https://mp.weixin.qq.com/s/dWDfu_9sV5WSkF9h27E4uA --></p>
+<p>后来 1.11、1.12 推出了 module （亦即 go mod 命令），考虑到尚不稳定又有切换成本，就继续留守在 vendor 目录上。</p>
+<p>2019 年 9月终于 1.13 出来了，做了几个比较大的改动，同时 module 也终于转正，所以我终于下定决心迁移到 1.13，并改用 mod 做依赖管理。</p>
+<a id="more"></a>
+<h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>迁移过程主要参考了<a href="https://mp.weixin.qq.com/s/AsdCDodxZFxs2SkhSwOvpg" target="_blank" rel="external">《干货满满的 Go Modules 和 goproxy.cn》</a>（实操主要是 <strong>#快速迁移项目至 Go Modules</strong> 部分），讲得非常清楚，也推荐大家参考，一些细节就不再赘述，只强调我踩坑的地方。</p>
+<p>简单来说是这么个过程：</p>
+<ul>
+<li><p>卸载原有的 go，并下载安装 1.13 版本。  </p>
+<p>  官网 golang.org 因为是谷歌的服务器，也在屏蔽之列，部分同学可能连访问这个都有困难，其实国内有官方的镜像站 golang.google.cn 。</p>
+</li>
+<li><p>用 <code>go env -w</code> 重新设置你的环境变量 。  </p>
+<p>  注意 go env 的内容保存在 <code>$HOME/.config/go/env</code> ，不会覆盖原来的系统环境变量。在读取环境变量时， go env 的值优先。为了避免后续增加判断环境变量的负担，建议 go env 里有的、只有 go 会读取的环境变量，在系统环境变量里删除。  </p>
+<p>  因为国情特殊，一定要设置 GOPROXY。</p>
+</li>
+<li><p>针对依赖工具和项目情况迁移（以下主要讲这部分的坑）。因为我之前用的是 dep，下面全部是关于从 dep 的迁移。</p>
+</li>
+</ul>
+<p>特别提一下一个细节，在安装好的 1.13 下获取 <code>mod</code> 子命令的帮助，下面有一段提醒：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;go <span class="built_in">help</span> mod</div><div class="line">Go mod provides access to operations on modules.</div><div class="line"></div><div class="line">Note that support <span class="keyword">for</span> modules is built into all the go commands,</div><div class="line">not just <span class="string">'go mod'</span>. For example, day-to-day adding, removing, upgrading,</div><div class="line">and downgrading of dependencies should be <span class="keyword">done</span> using <span class="string">'go get'</span>.</div><div class="line">See <span class="string">'go help modules'</span> <span class="keyword">for</span> an overview of module functionality.</div></pre></td></tr></table></figure>
+<p>大意渣翻：</p>
+<blockquote>
+<p>注意对 modules 的支持已经内建在所有 go 子命令内，而不仅仅是 ‘go mod’ 。</p>
+<p>举例说，每天添加、移除、升级、降级依赖，都应该使用 ‘go get’ 完成。</p>
+</blockquote>
+<p>也就是说所有跟依赖管理相关的命令，譬如 <code>go get</code> ，都是用新逻辑在处理。</p>
+<h2 id="踩坑"><a href="#踩坑" class="headerlink" title="踩坑"></a>踩坑</h2><h3 id="坑01：GOPROXY-特定情况不起效"><a href="#坑01：GOPROXY-特定情况不起效" class="headerlink" title="坑01：GOPROXY 特定情况不起效"></a>坑01：GOPROXY 特定情况不起效</h3><p>本来直接在项目根目录敲 <code>go mod init &lt;mod_path&gt;</code> ，是可以自动从 <code>Gopkg.toml</code> 和 <code>Gopkg.lock</code> 导入依赖信息，自动完成迁移的。但是在国内直接这样做是会出错的，部分包获取超时（留意 <code>golang.org/x/</code> 开头的包）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&gt;go mod init myapp</div><div class="line">go: creating new go.mod: module myapp</div><div class="line">go: copying requirements from Gopkg.lock</div><div class="line">go: converting Gopkg.lock: <span class="built_in">stat</span> github.com/360EntSecGroup-Skylar/excelize@v2.0.0: github.com/360EntSecGroup-Skylar/excelize@v2.0.0: invalid version: module contains a go.mod file, so major version must be compatible: should be v0 or v1, not v2</div><div class="line">go: converting Gopkg.lock: <span class="built_in">stat</span> golang.org/x/text@v0.3.0: unrecognized import path <span class="string">"golang.org/x/text"</span> (https fetch: Get https://golang.org/x/text?go-get=1: dial tcp 216.239.37.1:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time,</div><div class="line">or established connection failed because connected host has failed to respond.)</div><div class="line">go: converting Gopkg.lock: <span class="built_in">stat</span> gopkg.in/russross/blackfriday.v2@d3b5b032dc8e8927d31a5071b56e14c89f045135: gopkg.in/russross/blackfriday.v2@v2.0.1: invalid version: go.mod has non-....v2 module path <span class="string">"github.com/russross/blackfriday/v2"</span> at revision v2.0.1</div><div class="line">go: converting Gopkg.lock: <span class="built_in">stat</span> golang.org/x/net@9b4f9f5ad5197c79fd623a3638e70d8b26cef344: unrecognized import path <span class="string">"golang.org/x/net"</span> (https fetch: Get https://golang.org/x/net?go-get=1: dial tcp 216.239.37.1:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.)</div><div class="line">go: converting Gopkg.lock: <span class="built_in">stat</span> golang.org/x/image@61b8692d9a5c9886248d7f96e0ba50ad77baab4c: unrecog</div><div class="line">nized import path <span class="string">"golang.org/x/image"</span> (https fetch: Get https://golang.org/x/image?go-get=1: dial tcp 216.239.37.1:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.)</div></pre></td></tr></table></figure>
+<p>这其实是一个 bug，init 导入依赖部分没有引用 GOPROXY。已经有人向官方提交了 issue，只是修复不知道要等到哪个版本合入。当前可以创建一个空白的 <code>go.mod</code> 然后执行 <code>go mod tidy</code> 来绕过。</p>
+<p>go.mod 只需要包含 module path 和 go 版本即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">module myapp</div><div class="line"></div><div class="line">go 1.13</div></pre></td></tr></table></figure>
+<h3 id="坑02：import-和-module-path-不一致"><a href="#坑02：import-和-module-path-不一致" class="headerlink" title="坑02：import 和 module path 不一致"></a>坑02：import 和 module path 不一致</h3><p>增加了 go.mod 之后，执行 <code>go mod tidy</code> ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;go mod tidy</div><div class="line">go: finding github.com/mojocn/base64Captcha latest</div><div class="line">......</div><div class="line">go: myapp/model/data imports</div><div class="line">        github.com/go-xorm/core: github.com/go-xorm/core@v0.6.3: parsing go.mod:</div><div class="line">        module declares its path as: xorm.io/core</div><div class="line">                but was required as: github.com/go-xorm/core</div></pre></td></tr></table></figure>
+<p>这个好解决，把项目里对这个 module 的引用，都指向它声明的路径即可。</p>
+<p>下面梳理一下出错的原因：</p>
+<p><code>xorm.io/core</code> 这个 module，同时在 github.com 和 xorm.io 都有提供访问。</p>
+<p>在使用 dep 的时候，从哪个路径 import，都是可行的。当我从 <code>github.com/go-xorm/core</code> import 时，dep 就从 github 下载，并保存到 <code>vendor/github.com/go-xorm/core</code> 下。到编译的时候，到 vendor 下对应的路径去找。也就是无论选哪个，<strong>下载、保存、import 的路径，三者是对应的就行</strong>。</p>
+<p>但是 mod 会读取 module 的 go.mod，它自称是 <code>xorm.io/core</code> ，那么从 github import 就是非法的。也就是现在要 <strong>加上跟 module 自身 go.mod 声明的路径一致</strong>。（当然，现在保存不在 vendor 目录了，而是在 <code>$HOME/go/pkg/mod/</code> 底下，从原来每个项目存一份，变成每个 module 的每个版本，全局只存一份。）</p>
+<p>退一步讲，如果将来 xorm.io 因为某些原因不再提供访问，而 github 那份还在，可以在 go.mod 通过 replace 关键字将下载地址指向 github，但其余的路径，依然要跟声明的路径保持一致（主要是 import 路径，下载保存是自动的，并不需要人工干预）。</p>
+<h3 id="坑03：最新版本-module-不兼容"><a href="#坑03：最新版本-module-不兼容" class="headerlink" title="坑03：最新版本 module 不兼容"></a>坑03：最新版本 module 不兼容</h3><p>好了，依赖的分析和获取终于不报错了，<code>go.mod</code> 和 <code>go.sum</code> 也成功生成了。接下来让我们编译一下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;make build</div><div class="line">go build -ldflags <span class="string">'-s -w'</span></div><div class="line">go: finding gopkg.in/yaml.v2 v2.2.2</div><div class="line">// 省略若干行...</div><div class="line"><span class="comment"># myapp/model/data</span></div><div class="line">model\data\csv.go:59:6: xng.QuoteStr undefined (<span class="built_in">type</span> *xorm.Engine has no field or method QuoteStr)</div><div class="line">model\data\csv.go:61:6: xng.QuoteStr undefined (<span class="built_in">type</span> *xorm.Engine has no field or method QuoteStr)</div><div class="line">make: *** [Makefile:28: build] Error 2</div></pre></td></tr></table></figure>
+<p><code>Engine.QuoteStr()</code> 是一个返回当前数据库引擎使用的引号的方法，我当时特意使用这个方法，用来同时兼容不同的数据库，避免额外的判断。所以我确定这个方法是存在的。</p>
+<p>这很容易想到是版本兼容性的问题。查看 <code>go.mod</code> 里的是 v0.7.9，再翻看 <code>Gopkg.toml</code> 之前用的是 v.0.7.1 。坑爹的是，新版本居然删掉了这个方法。</p>
+<p>这里稍微提一下 <strong>版本号的问题</strong> 。go mod 强制使用 SemVer（如果不知道什么是 SemVer，看这篇 <a href="https://semver.org/lang/zh-CN/" target="_blank" rel="external">语义化版本 2.0</a>），默认大版本没有改动的话，一定是兼容修改。所以会自动获取当前大版本下最新的版本，并不会参考 <code>Gopkg.toml</code> 的版本。不过话说回来， 即使按照 SemVer 的语义，也没办法埋怨 xorm 的团队，1.0 之前的版本默认为不稳定版本，没有义务保持兼容。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;go mod edit -require=github.com/go-xorm/xorm@v0.7.1</div></pre></td></tr></table></figure>
+<p>这样就可以指定依赖的版本。如果你觉得敲命令太麻烦，直接手动改 go.mod 也可以。一般不推荐直接改，因为你的修改会在下次更新时被覆盖，唯独版本信息是会保留的。</p>
+<p>改完再 tidy 一次。</p>
+<h3 id="坑04：module-path-不统一"><a href="#坑04：module-path-不统一" class="headerlink" title="坑04：module path 不统一"></a>坑04：module path 不统一</h3><p>再编译一次：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;make build</div><div class="line">go build -ldflags <span class="string">'-s -w'</span></div><div class="line">go: finding github.com/go-xorm/xorm v0.7.1</div><div class="line">// 省略若干行...</div><div class="line"><span class="comment"># myapp/model/data</span></div><div class="line">model\data\engine.go:117:17: cannot use level (<span class="built_in">type</span> <span class="string">"xorm.io/core"</span>.LogLevel) as <span class="built_in">type</span> <span class="string">"github.com/go-</span></div><div class="line">xorm/core".LogLevel <span class="keyword">in</span> argument to xng.SetLogLevel</div><div class="line">make: *** [Makefile:28: build] Error 2</div></pre></td></tr></table></figure>
+<p>还是 xorm 的错误。还记得我们在 坑02 中的修改吗，在 go mod 底下，要统一按照声明路径去 import。</p>
+<p>因为 坑03 ，xorm 改回了跟我代码兼容的 v0.7.1 ，那与之关联的 core 呢？跟上面类似地，看前后的配置，之前用的 v0.6.0 ，现在的是 v0.7.2 。<strong>关键的一点是</strong>，在 2019 年 6 月，在这两个版本之间的 v0.6.3，module path 从 <code>github.com/go-xorm/core</code> 改成了 <code>xorm.io/core</code> ， xorm 对它的引用在那个时间也做了相应的修改。</p>
+<p>为了跟 v0.7.1 的 xorm 兼容，必须使用 &lt; v0.6.3 的 core —— 实际上直接使用 v0.6.0 是最保险的。因为回退到了修改 module path 之前的版本，所以 坑02 的修改白改了，回退掉。</p>
+<p>当然记录 坑02 仍然有意义，它提醒我 <strong>有时声明的 module path 未必和仓库地址一致</strong> 。</p>
+<p>跟上面类似，core 包改回对应的 v0.6.0 ，重新 tidy。</p>
+<h3 id="坑05：主版本号变更"><a href="#坑05：主版本号变更" class="headerlink" title="坑05：主版本号变更"></a>坑05：主版本号变更</h3><p>再一次编译：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;make build</div><div class="line">go build -ldflags <span class="string">'-s -w'</span></div><div class="line"><span class="comment"># myapp/api</span></div><div class="line">api\survey.go:189:9: assignment mismatch: 2 variables but ex.GetCellValue returns 1 values</div><div class="line">// 省略若干相似的错误...</div><div class="line">api\survey.go:216:9: too many errors</div><div class="line">make: *** [Makefile:28: build] Error 2</div></pre></td></tr></table></figure>
+<p>依然是版本的兼容问题。</p>
+<p>不过这次的错误跟前面的比，是反过来的：我的代码引用的是最新的 v2 代码，这在原来 dep 下是不需要区分包名的。但在 mod 里，大于 1 的大版本是需要体现在路径里的。</p>
+<p>在 module 眼里，<strong>主版本号不同，相当于两个不同的 module</strong>。 这是因为根据 SemVer 的约定，大版本号的改变，意味着引入了 breaking changes。那么如果很不巧地，代码 直接 / 间接 依赖同一个包的不同大版本时，mod 是可以同时导入的，就不会存在依赖上的冲突。</p>
+<p>把 import 里 <code>github.com/360EntSecGroup-Skylar/excelize</code> 改为 <code>github.com/360EntSecGroup-Skylar/excelize/v2</code> ，重新 tidy，这次编译就不再报错了，编译的结果也是可以正常运行的。到此，我踩的坑已经全部记录完毕。</p>
+<p>临了 Mark 一篇文章 <a href="https://www.cnblogs.com/apocelipes/p/10295096.html" target="_blank" rel="external">《再探go modules：使用与细节》</a>。这篇文章对于 go mod 的一些细节做了分析，虽然发表于 1.12 发布前，但是现在来看仍然有效。</p>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://jaycechant.info/2019/golang-1-13-from-dep-to-mod/" data-id="ck543yi3w0000u0xllp5y1uxe" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="https://jaycechant.info/2019/golang-1-13-from-dep-to-mod/#disqus_thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/golang/">golang</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/save-load-a-solution-for-ordinary-people/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          S/L 大法 —— 平凡人的做事方法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/golang-json-overlaying/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">golang 预置 json 包的值覆盖测试</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Anaconda/" style="font-size: 10px;">Anaconda</a> <a href="/tags/Android/" style="font-size: 12px;">Android</a> <a href="/tags/Android-sdk/" style="font-size: 10px;">Android-sdk</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/JCE/" style="font-size: 10px;">JCE</a> <a href="/tags/Java/" style="font-size: 12px;">Java</a> <a href="/tags/JavaMail/" style="font-size: 10px;">JavaMail</a> <a href="/tags/Jenkins/" style="font-size: 18px;">Jenkins</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 14px;">Markdown</a> <a href="/tags/Mathjax/" style="font-size: 10px;">Mathjax</a> <a href="/tags/OJ/" style="font-size: 10px;">OJ</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/OpenGrok/" style="font-size: 10px;">OpenGrok</a> <a href="/tags/Python/" style="font-size: 18px;">Python</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Syncthing/" style="font-size: 10px;">Syncthing</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/Ubuntu/" style="font-size: 12px;">Ubuntu</a> <a href="/tags/a-list/" style="font-size: 12px;">a list</a> <a href="/tags/algorithm/" style="font-size: 12px;">algorithm</a> <a href="/tags/aliyun/" style="font-size: 10px;">aliyun</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/blog/" style="font-size: 14px;">blog</a> <a href="/tags/byobu/" style="font-size: 12px;">byobu</a> <a href="/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/tags/dep/" style="font-size: 12px;">dep</a> <a href="/tags/document/" style="font-size: 10px;">document</a> <a href="/tags/dropbox/" style="font-size: 10px;">dropbox</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/glide/" style="font-size: 10px;">glide</a> <a href="/tags/golang/" style="font-size: 18px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/how-to/" style="font-size: 18px;">how-to</a> <a href="/tags/json/" style="font-size: 12px;">json</a> <a href="/tags/keep-updating/" style="font-size: 12px;">keep-updating</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mirror/" style="font-size: 10px;">mirror</a> <a href="/tags/netdisk/" style="font-size: 10px;">netdisk</a> <a href="/tags/node-js/" style="font-size: 12px;">node.js</a> <a href="/tags/nodePPT/" style="font-size: 12px;">nodePPT</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/pgyer/" style="font-size: 10px;">pgyer</a> <a href="/tags/pip/" style="font-size: 16px;">pip</a> <a href="/tags/practice/" style="font-size: 12px;">practice</a> <a href="/tags/presentation/" style="font-size: 10px;">presentation</a> <a href="/tags/screen/" style="font-size: 12px;">screen</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/skill/" style="font-size: 14px;">skill</a> <a href="/tags/smtp/" style="font-size: 10px;">smtp</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/solution-report/" style="font-size: 10px;">solution-report</a> <a href="/tags/supervisor/" style="font-size: 10px;">supervisor</a> <a href="/tags/trouble/" style="font-size: 20px;">trouble</a> <a href="/tags/unfinished/" style="font-size: 16px;">unfinished</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftp/" style="font-size: 10px;">vsftp</a> <a href="/tags/why/" style="font-size: 12px;">why</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/save-load-a-solution-for-ordinary-people/">S/L 大法 —— 平凡人的做事方法</a>
+          </li>
+        
+          <li>
+            <a href="/2019/golang-1-13-from-dep-to-mod/">golang 1.13 - 依赖管理从 dep 到 mod 踩坑</a>
+          </li>
+        
+          <li>
+            <a href="/2019/golang-json-overlaying/">golang 预置 json 包的值覆盖测试</a>
+          </li>
+        
+          <li>
+            <a href="/2019/golang-unsafe-cast-between-string-and-bytes/">golang-string 和 bytes 之间的 unsafe 转换</a>
+          </li>
+        
+          <li>
+            <a href="/2019/why-not-install-conda-with-pip/">为什么不要用 pip 安装 conda</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://hexo.io/zh-cn/" target="_blank">Hexo主页</a>
+          </li>
+        
+          <li>
+            <a href="https://hexo.io/zh-cn/docs/" target="_blank">Hexo文档</a>
+          </li>
+        
+          <li>
+            <a href="https://github.com/xiangming/landscape-plus" target="_blank">landscape-plus项目主页</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jayce Sigit Chant<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="https://github.com/JayceChant" class="mobile-nav-link">Github</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/sitemap.xml" class="mobile-nav-link">Sitemap</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+<script>
+  var disqus_shortname = 'jaycetb';
+  
+  var disqus_url = 'https://jaycechant.info/2019/golang-1-13-from-dep-to-mod/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+                processEscapes: true
+                    
+}
+  
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                  
+}
+    
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                            all[i].SourceElement().parentNode.className += ' has-jax';
+                                    
+            }
+                
+        });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
