@@ -4,6 +4,25 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2018/setup-golang-env/</loc>
+    <lastmod>2020-01-12T13:06:31.432Z</lastmod>
+    <data>
+        <display>
+        <title>配置 Golang 开发环境</title>
+        <pubTime>2018-11-06T16:53:09.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
+        <tag>dep</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2019/golang-1-13-from-dep-to-mod/</loc>
     <lastmod>2020-01-07T16:47:44.091Z</lastmod>
     <data>
@@ -155,27 +174,6 @@
 
     
   <url>
-    <loc>https://jaycechant.info/2018/setup-golang-env/</loc>
-    <lastmod>2018-11-07T10:54:59.049Z</lastmod>
-    <data>
-        <display>
-        <title>配置 Golang 开发环境</title>
-        <pubTime>2018-11-06T16:53:09.000Z</pubTime>
-        
-        <tag>golang</tag>
-         
-        <tag>unfinished</tag>
-         
-        <tag>dep</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://jaycechant.info/2017/my-software-and-service-list/</loc>
     <lastmod>2018-03-29T14:40:01.914Z</lastmod>
     <data>
@@ -271,9 +269,9 @@
         <title>用 Syncthing 备份的技巧</title>
         <pubTime>2016-08-28T07:57:03.000Z</pubTime>
         
-        <tag>Syncthing</tag>
-         
         <tag>skill</tag>
+         
+        <tag>Syncthing</tag>
          
         <tag>dropbox</tag>
          
@@ -433,11 +431,9 @@
         <title>镜像集合</title>
         <pubTime>2016-12-31T02:29:12.000Z</pubTime>
         
-        <tag>Jenkins</tag>
-         
         <tag>Android</tag>
          
-        <tag>pip</tag>
+        <tag>Jenkins</tag>
          
         <tag>Ubuntu</tag>
          
@@ -448,6 +444,8 @@
         <tag>npm</tag>
          
         <tag>maven</tag>
+         
+        <tag>pip</tag>
          
         <tag>a list</tag>
          
@@ -466,11 +464,51 @@
         <title>Linux 上 为 Jenkins 配置 Android-sdk 及其它</title>
         <pubTime>2017-01-16T03:24:34.000Z</pubTime>
         
-        <tag>Jenkins</tag>
-         
         <tag>Android</tag>
          
+        <tag>Jenkins</tag>
+         
         <tag>Android-sdk</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>vsftp 503 和 500 错误</title>
+        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
+        
+        <tag>Ubuntu</tag>
+         
+        <tag>vsftp</tag>
+         
+        <tag>trouble</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>Windows 下 Python 2x 和 3x 版本共存</title>
+        <pubTime>2012-04-11T11:46:00.000Z</pubTime>
+        
+        <tag>Python</tag>
+         
+        <tag>unfinished</tag>
          
          
            
@@ -491,51 +529,11 @@
          
         <tag>unfinished</tag>
          
+        <tag>trouble</tag>
+         
         <tag>pip</tag>
          
-        <tag>trouble</tag>
-         
         <tag>virtualenv</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>vsftp 503 和 500 错误</title>
-        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
-        
-        <tag>trouble</tag>
-         
-        <tag>Ubuntu</tag>
-         
-        <tag>vsftp</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>Windows 下 Python 2x 和 3x 版本共存</title>
-        <pubTime>2012-04-11T11:46:00.000Z</pubTime>
-        
-        <tag>Python</tag>
-         
-        <tag>unfinished</tag>
          
          
            
@@ -575,11 +573,11 @@
         
         <tag>how-to</tag>
          
+        <tag>unfinished</tag>
+         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
-         
-        <tag>unfinished</tag>
          
          
            
@@ -644,9 +642,9 @@
         
         <tag>Python</tag>
          
-        <tag>pip</tag>
-         
         <tag>trouble</tag>
+         
+        <tag>pip</tag>
          
          
            

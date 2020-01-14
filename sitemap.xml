@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2018/setup-golang-env/</loc>
+    
+    <lastmod>2020-01-12T13:06:31.432Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2019/golang-1-13-from-dep-to-mod/</loc>
     
     <lastmod>2020-01-07T16:47:44.091Z</lastmod>
@@ -61,13 +68,6 @@
     <loc>https://jaycechant.info/2019/why-not-install-conda-with-pip/</loc>
     
     <lastmod>2019-01-23T06:47:37.346Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jaycechant.info/2018/setup-golang-env/</loc>
-    
-    <lastmod>2018-11-07T10:54:59.049Z</lastmod>
     
   </url>
   
@@ -170,13 +170,6 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
-    
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
@@ -185,6 +178,13 @@
   
   <url>
     <loc>https://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
+    
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     
