@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaycechant.info/"/>
-  <updated>2020-01-02T15:38:01.467Z</updated>
+  <updated>2020-01-20T16:32:55.081Z</updated>
   <id>https://jaycechant.info/</id>
   
   <author>
@@ -14,6 +14,232 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>配置 1.13+ 的 golang 环境</title>
+    <link href="https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/"/>
+    <id>https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/</id>
+    <published>2020-01-20T08:46:44.000Z</published>
+    <updated>2020-01-20T16:32:55.081Z</updated>
+    
+    <content type="html"><![CDATA[<p>以前写过《<a href="https://jaycechant.info/2018/setup-golang-env/">配置 Golang 开发环境</a>》（go &lt; 1.13, win64）。然后 1.13 是一个重大变更，大到需要原有的依赖管理要做迁移的程度（《<a href="https://jaycechant.info/2019/golang-1-13-from-dep-to-mod/">golang 1.13 - 依赖管理从 dep 到 mod 踩坑</a>》）。</p>
+<p>1.13 让原来的配置方式有了变化，撇开语言特性不谈，仅说和配置相关的，最大的变化，是 go module 的转正，和 GOPATH 和 vendor 的边缘化（1.13 仍然给你选择的余地，但是推荐选择 module，停用 GOPATH 和 vendor）。</p>
+<p>那么如果你从 1.13 之后才刚刚开始接触 go， 那么前面两篇文章对你来说并不友好。</p>
+<p>所以我找到了理由又水一篇。</p>
+<a id="more"></a>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>之前的文章讲的 Win64 环境的配置，正好新版本重写，这次写 Linux 环境下。</p>
+<h3 id="0x00-下载解压"><a href="#0x00-下载解压" class="headerlink" title="0x00 下载解压"></a>0x00 下载解压</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 为免你无脑复制黏贴，强迫你走一趟流程，也确保你下载最新版本，这不是有效的下载链接，请自行到官网找最新版本，替换掉版本号 x.y.z</span></div><div class="line">~ wget https://dl.google.com/go/gox.y.z.linux-amd64.tar.gz</div></pre></td></tr></table></figure>
+<p>找下载链接请到官网 golang.org/dl ，如果国内不能访问，请到官方镜像站 golang.google.cn/dl 。</p>
+<p>然后解压</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 记得改文件名里的 x.y.z</span></div><div class="line">~ tar -zxvf gox.y.z.linux-amd64.tar.gz</div><div class="line">mv -t /opt/ go</div></pre></td></tr></table></figure>
+<p>个人习惯放到 /opt/ 下。</p>
+<h3 id="0x01-系统环境变量"><a href="#0x01-系统环境变量" class="headerlink" title="0x01 系统环境变量"></a>0x01 系统环境变量</h3><p>然后将可执行文件加入系统路径。</p>
+<p>在 <code>/etc/profile</code> 末尾加上，保存之后记得 source 一下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># manually added</span></div><div class="line">GOROOT=/opt/go</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$GOROOT</span>/bin:<span class="variable">$HOME</span>/go/bin</div></pre></td></tr></table></figure>
+<p>我是想全局生效所以丢这里，如果你只是想当前账户生效，可以加在 <code>~/.bashrc</code>。</p>
+<p>惯例地检查一下是否配置正确</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">~ go version</div><div class="line">go version go1.13.6 linux/amd64</div></pre></td></tr></table></figure>
+<p>如果不能正确执行 <code>go version</code> ，把当前版本输出，请回头检查哪里出错。</p>
+<p>跟老版本不同的是，只要把 go 本身的可执行路径 和 go bin 的安装路径加入 PATH 就可以了，剩下的 go env 自行管理了。</p>
+<h3 id="0x02-go-env"><a href="#0x02-go-env" class="headerlink" title="0x02 go env"></a>0x02 go env</h3><p>执行 <code>go env</code>，就会看到 go 内置的环境变量，以及部分默认值</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">go env</div><div class="line">GO111MODULE=<span class="string">""</span></div><div class="line">GOARCH=<span class="string">"amd64"</span></div><div class="line">GOBIN=<span class="string">""</span></div><div class="line">GOCACHE=<span class="string">"/home/jaycechant/.cache/go-build"</span></div><div class="line">GOENV=<span class="string">"/home/jaycechant/.config/go/env"</span></div><div class="line">GOEXE=<span class="string">""</span></div><div class="line">GOFLAGS=<span class="string">""</span></div><div class="line">GOHOSTARCH=<span class="string">"amd64"</span></div><div class="line">GOHOSTOS=<span class="string">"linux"</span></div><div class="line">GONOPROXY=<span class="string">""</span></div><div class="line">GONOSUMDB=<span class="string">""</span></div><div class="line">GOOS=<span class="string">"linux"</span></div><div class="line">GOPATH=<span class="string">"/home/jaycechant/go"</span></div><div class="line">GOPRIVATE=<span class="string">""</span></div><div class="line">GOPROXY=<span class="string">"https://proxy.golang.org,direct"</span></div><div class="line">GOROOT=<span class="string">"/opt/go"</span></div><div class="line">GOSUMDB=<span class="string">"sum.golang.org"</span></div><div class="line">GOTMPDIR=<span class="string">""</span></div><div class="line">GOTOOLDIR=<span class="string">"/opt/go/pkg/tool/linux_amd64"</span></div><div class="line">GCCGO=<span class="string">"gccgo"</span></div><div class="line">AR=<span class="string">"ar"</span></div><div class="line">CC=<span class="string">"gcc"</span></div><div class="line">CXX=<span class="string">"g++"</span></div><div class="line">CGO_ENABLED=<span class="string">"1"</span></div><div class="line">GOMOD=<span class="string">""</span></div><div class="line">CGO_CFLAGS=<span class="string">"-g -O2"</span></div><div class="line">CGO_CPPFLAGS=<span class="string">""</span></div><div class="line">CGO_CXXFLAGS=<span class="string">"-g -O2"</span></div><div class="line">CGO_FFLAGS=<span class="string">"-g -O2"</span></div><div class="line">CGO_LDFLAGS=<span class="string">"-g -O2"</span></div><div class="line">PKG_CONFIG=<span class="string">"pkg-config"</span></div><div class="line">GOGCCFLAGS=<span class="string">"-fPIC -m64 -pthread -fmessage-length=0 -fdebug-prefix-map=/tmp/go-build089244508=/tmp/go-build -gno-record-gcc-switches"</span></div></pre></td></tr></table></figure>
+<h4 id="必改"><a href="#必改" class="headerlink" title="必改"></a>必改</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">~ go env -w GO111MODULE=on</div><div class="line">~ go env -w GOPROXY=https://goproxy.cn,direct</div></pre></td></tr></table></figure>
+<p><strong>GO111MODULE</strong> : </p>
+<ul>
+<li>auto : 自 1.11 实验性加入之后就是默认值。auto 意味着由工具链自动判断是否启用 go modules。在 1.13 以前的启用条件是『项目根目录有 go.mod 且项目不在 GOPATH 内』，1.13+ 去掉了 『不在 GOPATH 内的限制』，也就是只要有 go.mod 就会启用。</li>
+<li>on : 如果你觉得上面这段话太长懒得看，或者害怕以后启用条件还会变，那么 1.13 已经准备好全面启用 go modules，直接设为 on 就好了。设为 on 之后无条件启用 go modules。</li>
+<li>off :  关闭 go modules，回到 GOPATH 时代。</li>
+</ul>
+<p><strong>GOPROXY</strong> :</p>
+<p>国内环境必备，原因你懂的。甚至可以说这是新版本为中国开发者做出的最大改进之一也不为过。在 dep 的时代是靠自建的代理熬过来的，那么不会代理的朋友就很麻烦了。改用镜像就友好太多了。</p>
+<p>目前国内最早最好的镜像是 七牛云提供的 <code>https://goproxy.cn</code> 。如果公司内部还有搭建私有镜像，可以用 <code>,</code> 隔开，go 会依次尝试。最后记得加上 <code>direct</code> ，让镜像上找不到的依赖回源查找。（包括但不限于 镜像还没同步，私有仓库 等情况）</p>
+<h4 id="推荐改"><a href="#推荐改" class="headerlink" title="推荐改"></a>推荐改</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">~ go env -w GOBIN=<span class="variable">$HOME</span>/go/bin</div></pre></td></tr></table></figure>
+<p><strong>GOBIN</strong> 如果没有设置，默认值为 <code>$GOPATH/bin</code> ，是通过 <code>go get</code> 或 <code>go install</code> 安装的可执行文件的存放目录。不设并不影响使用，但考虑到 GOPATH 正在被边缘化，未来不知道哪个版本就取消了，所以建议还是单独设置一下比较好。我为了保持使用习惯，设置了跟默认相同的目录（因为 GOPATH 默认值是 <code>$HOME/go</code>），区别只是这个值不依赖 GOPATH 的值。</p>
+<p>值得 <strong>提醒</strong> 的是，这个目录也需要加入系统 PATH ，并且我已经在 系统环境变量 里加入（最后一个），如果你根据自己的习惯修改了 GOBIN 的位置，那么 0x01 里的配置也得相应修改。</p>
+<p>更多的变量，推荐参考 《<a href="https://mp.weixin.qq.com/s/AsdCDodxZFxs2SkhSwOvpg" target="_blank" rel="external">干货满满的 Go Modules 和 goproxy.cn</a>》。</p>
+<h3 id="0x03-cgo-和-build-tool"><a href="#0x03-cgo-和-build-tool" class="headerlink" title="0x03 cgo 和 build tool"></a>0x03 cgo 和 build tool</h3><p>go 语言的 cgo 特性允许 C 语言 和 go 语言互调，达到 <strong>复用已有的 C/C++ 庞大代码资源</strong> 的目的；又或者用 C 编写程序的一部分以达到某些 底层语言才能达到的目标。而要使用 cgo 特性，就需要有 C/C++ 的构建工具链 <strong>gcc</strong> 。</p>
+<p>另一方面，随着项目规模变大，你会逐渐需要一个 <strong>构建工具</strong> （build tools）帮你管理构建细节，就像 ant / maven / gradle 之于 Java。由于 go 本身的构建比较简单（或者说 go 的构建规则比较清晰，自带的 build 命令够用），又有了现成的依赖管理（之前的 vgo / glide / dep，现在官方的 go modules），官方并没有一个专用的构建工具。这部分，因为依赖管理已有，管理额外的构建细节， <strong>Makefile (make) 足矣</strong> 。</p>
+<p>gcc 和 make 在多数 Linux 发行版是自带的，你可以通过  <code>gcc -v</code> 和 <code>make -v</code> 来确认安装的版本。即使没有，视乎不同的包管理器，也就是一两句命令的事。Windows 下稍微麻烦一些，但仍然有解决方案，我在《<a href="https://jaycechant.info/2018/setup-golang-env/">配置 Golang 开发环境</a>》#2. gcc 和 make 部分有提及，go 的重大升级不影响这部分内容依然有效。</p>
+<h3 id="0x04-安装-VCS"><a href="#0x04-安装-VCS" class="headerlink" title="0x04 安装 VCS"></a>0x04 安装 VCS</h3><p>在使用 go get 命令之前，需要安装依赖托管服务对应的 VCS （Version Control System）。go get 会根据依赖所托管的网站反馈的信息，调用对应的工具 （git / hg / svn）拉取依赖。</p>
+<p>就我的个人实践而言，绝大多数的第三方依赖都是基于 git 发布的（或者说直接就是放在 github 上），所以 <strong>直接安装 git 就好</strong> ，后面遇到基于其他工具的依赖，再安装不迟。</p>
+<p>由于 git 本身就是一个大话题，基本的安装使用教程不难搜到，有时间时会另起文章讨论，这里只是提醒安装，不再展开。</p>
+<h3 id="0x05-开始一个项目"><a href="#0x05-开始一个项目" class="headerlink" title="0x05 开始一个项目"></a>0x05 开始一个项目</h3><p>终于把环境都配置好了，然后就可以开始第一个 go 的项目了。由于 go modules 不再依赖 GOPATH，所以项目可以放在任何地方——这个 『任何』，是指可以不是 GOPATH ，但是要是习惯了，继续放在 <code>$GOPATH/src</code> 也没问题。</p>
+<p>好了，不管放在哪，现在新建一个项目的根目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">~ mkdir testproj</div><div class="line">~ <span class="built_in">cd</span> testproj</div></pre></td></tr></table></figure>
+<p>然后执行 <code>go mod init &lt;module_path&gt;</code> ，生成 go.mod ，这个项目就算初始化完了，接下来就该敲代码了。随着开发的进行，还会自动生成 go.sum 文件，记录依赖的校验信息。注意 go.sum <strong>不是 lock 文件</strong> ，重现构建的信息已经包含在 go.mod 里，go.sum <strong>属于 checksum 文件</strong> ，用来 <strong>确保下载的依赖没有被篡改</strong> 。 go.mod 和 go.sum 需要一起提交<strong>参与版本控制</strong> 。关于 <code>go mod</code> 的详细用法，可以直接 <code>go help mod</code> 获取帮助信息，不展开。</p>
+<p>关于 module path 的内容，以及 module 与 package 之间的关系，原本是在这篇文章里接着继续写；结果发现这部分内容让字数足足翻了一番。为了避免让本文又臭又长，就另起了一篇文章，请看《<a href="https://jaycechant.info/2020/golang-1-13-module-VS-package/">golang 1.13 - module VS package</a>》。</p>
+<p>go 语言开发不是（篇幅上也不可能是）本文的话题，另起系列展开。</p>
+<h2 id="题外话"><a href="#题外话" class="headerlink" title="题外话"></a>题外话</h2><p>在写这篇文章时，留意到 gradle 的一个插件 <strong>gogradle</strong>，可以为 gradle 添加对 go 的支持。由于我没有使用过这个插件，所以不好评价；不过基于以下理由，我认为除非有什么困难只有它能解决，不然 make 足以完成绝大多数的任务，不推荐尝试：</p>
+<ul>
+<li>go 除了某些特性（如 cgo）编译时依赖某些二进制工具（如 gcc，二进制是区别于基于虚拟机的工具），基本是一个完全自给自足的语言，环境配置简单且基本一劳永逸，编译结果可以单执行文件零依赖部署，在某些情况下简直是杀手级的特性。（想想 C/C++ 以外多少语言能做到）而 gradle 是基于 groovy （一种 JVM 上的脚本语言），等于 <strong>给 go 的开发环境引入了 JVM 依赖</strong> 。即使我作为一个长期写 Java 的人，环境里一定有 JVM，仍然觉得这种依赖是别扭的。</li>
+<li>gogradle 官方文档自荐的理由，是 make 学习曲线陡峭，和 make 基于 bash 的跨平台性不好。make 和 gradle 的学习曲线见仁见智，但是由于 go 自带的 build 已经完成了构建的大多数工作（包括依赖推导和文件新旧比较），也不需要处理依赖管理，make 的 <strong>工作任务非常轻</strong> ， 不会涉及太复杂的规则编写。至于跨平台，引入 MinGW-w64 已经可以解决大多数的问题。</li>
+<li>go 1.13 自带 go modules 作为依赖管理，大方向是 <strong>淡化 GOPATH 和 vendor</strong>；而 gogradle 受 glide 启发，自带依赖管理，自称相当于 glide + make，依然使用 GOPATH 和 vendor，这 <strong>跟官方的发展方向冲突</strong> 。这可能是最关键的一点，如果你习惯了 gradle 的工作方式，有一天这种工作方式可能跟官方的最新版本不兼容。</li>
+</ul>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;以前写过《&lt;a href=&quot;https://jaycechant.info/2018/setup-golang-env/&quot;&gt;配置 Golang 开发环境&lt;/a&gt;》（go &amp;lt; 1.13, win64）。然后 1.13 是一个重大变更，大到需要原有的依赖管理要做迁移的程度（《&lt;a href=&quot;https://jaycechant.info/2019/golang-1-13-from-dep-to-mod/&quot;&gt;golang 1.13 - 依赖管理从 dep 到 mod 踩坑&lt;/a&gt;》）。&lt;/p&gt;
+&lt;p&gt;1.13 让原来的配置方式有了变化，撇开语言特性不谈，仅说和配置相关的，最大的变化，是 go module 的转正，和 GOPATH 和 vendor 的边缘化（1.13 仍然给你选择的余地，但是推荐选择 module，停用 GOPATH 和 vendor）。&lt;/p&gt;
+&lt;p&gt;那么如果你从 1.13 之后才刚刚开始接触 go， 那么前面两篇文章对你来说并不友好。&lt;/p&gt;
+&lt;p&gt;所以我找到了理由又水一篇。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>golang 1.13 - module VS package</title>
+    <link href="https://jaycechant.info/2020/golang-1-13-module-VS-package/"/>
+    <id>https://jaycechant.info/2020/golang-1-13-module-VS-package/</id>
+    <published>2020-01-20T08:45:37.000Z</published>
+    <updated>2020-01-20T16:41:11.429Z</updated>
+    
+    <content type="html"><![CDATA[<p>在写 《<a href="https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/">配置 1.13+ 的 golang 环境</a>》时，花了大量篇幅解释 module 的概念，还有 module 与 package 之间的联系。眼看字数翻了一番，干脆把这部分另起一篇。</p>
+<a id="more"></a>
+<h2 id="module-与-package"><a href="#module-与-package" class="headerlink" title="module 与 package"></a>module 与 package</h2><p>[TOC]</p>
+<h3 id="0x0-module-不是-package"><a href="#0x0-module-不是-package" class="headerlink" title="0x0 module 不是 package"></a>0x0 module 不是 package</h3><p>是的，他们不是同一个概念！！module（模块）是新引入的概念，一个 module 是 零到多个 package（包）的组合，不要再把他们混为一谈。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>package</th>
+<th>module</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本质</td>
+<td>一个目录下所有 go 源码的集合（不包括子目录，那是另一个 package）</td>
+<td>同一个根目录下所有包的集合（包括子目录）</td>
+</tr>
+<tr>
+<td>共享</td>
+<td>代码 <strong>共享命名空间（包名）</strong>，包内可以 <strong>直接互相调用</strong>（包括小写开头的 unexported members）</td>
+<td>同一个 module 下的 package <strong>共享 module path 作为 package path 的前缀</strong>，module 内可以 <strong>直接互相 import</strong></td>
+</tr>
+<tr>
+<td>单位</td>
+<td><strong>import 的单位</strong></td>
+<td><strong>require 的单位</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>package</strong>  具体体现为一个目录下所有 go 源码的集合（不包括子目录，那是另一个 package），它们 <strong>共享命名空间（包名）</strong>，包内可以 <strong>直接互相调用</strong>（包括小写开头的 unexported members），是 <strong>import 的单位</strong> 。包名跟目录名 <strong>可以一样也可以不一样</strong>。（例如，<code>import path/to/pkg_dir</code> 中的 pkg_dir 是目录名，<code>package pkg</code> 和 <code>pkg.MyFunc()</code> 里的 pkg 是包名。）虽然允许不一样，但是大家习惯性认为目录就是包名；为了避免大家还要去查包名， <strong>没什么特别理由建议保持一致</strong>。</p>
+<p><strong>module</strong> 则是同一个根目录下所有包的集合（包括子目录），它们 <strong>共享 module path 作为 package path 的前缀</strong>，module 内可以 <strong>直接互相 import</strong>，是 <strong>require 的单位</strong>。</p>
+<h3 id="0x1-GOPATH-vendor-时代"><a href="#0x1-GOPATH-vendor-时代" class="headerlink" title="0x1 GOPATH + vendor 时代"></a>0x1 GOPATH + vendor 时代</h3><blockquote>
+<p>这段解释 GOPATH 的机制，是为了对比，加深理解。</p>
+<p>如果你不想了解已经被抛弃的 GOPATH ，可以直接跳过看 0x2 部分。</p>
+</blockquote>
+<p>在依赖 GOPATH 的时候，import 的查找范围如下：</p>
+<ol>
+<li><code>$GOROOT/pkg</code> 查找 <strong>内置包</strong></li>
+<li><del>查找 <strong>相对路径</strong> 的包</del></li>
+<li>项目根目录下的 vendor 目录查找 <strong>第三方包</strong></li>
+<li><code>$GOPATH/src</code> 查找下载的 <strong>第三方包</strong> 和 <strong>本地包</strong>，如果不存在，尝试 <code>go get</code></li>
+</ol>
+<p>重点解释 2 和 4。</p>
+<h4 id="相对路径-import？别用！"><a href="#相对路径-import？别用！" class="headerlink" title="相对路径 import？别用！"></a>相对路径 import？别用！</h4><p>假定有项目 A ，底下有两个包，分别为 A/alpha 和 A/beta。</p>
+<p>为了方便，A/alpha 包使用相对路径引入 A/beta：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"../beta"</span></div></pre></td></tr></table></figure>
+<p>如果 A 不在 GOPATH 里开发，换言之 A 不会被别的项目引用，那么是可以正常编译执行的。</p>
+<p>可是如果 A 在 GOPATH 里开发，那么编译时会报错：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">can<span class="string">'t load package: local import "../beta" in non-local package</span></div></pre></td></tr></table></figure>
+<p>这是因为 go 使用全局递归 import，来确保每个用到的包都只 import 一次。（题外话，也因此，go 不允许循环 import，会死循环。）</p>
+<p>假定有另一个项目 B，底下的 main 包引入了 A/alpha，那么就会触发以下 import 顺序：</p>
+<ul>
+<li>import “A/alpha”，递归 import “A/alpha” import 的包<ul>
+<li>import “../beta”，（到这里会出错，因为 B 项目下找不到 “../beta”）</li>
+</ul>
+</li>
+<li>运行 “A/alpha” 的 init()，然后 import 完成</li>
+</ul>
+<p>如果你觉得解释太啰嗦，记住 <strong>别用相对路径</strong> 就完了。</p>
+<h4 id="一切靠-GOPATH"><a href="#一切靠-GOPATH" class="headerlink" title="一切靠 GOPATH"></a>一切靠 GOPATH</h4><p>既然相对路径会有各种问题，那么本地包的导入，就只剩下第 4 种 - GOPATH 一条路了。</p>
+<p>这就导致了包管理高度依赖 GOPATH：</p>
+<ul>
+<li>为了本地开发的包 <strong>能被其它包引用</strong>，开发得在 GOPATH 下进行。</li>
+<li>不仅引用其他项目包要经 GOPATH，<strong>连项目内的包互相引用</strong> ，也得经过 GOPATH。（实际上这时不存在 <strong>项目</strong> 的概念，即使共享一个项目根目录，还是不同的包。）</li>
+<li>项目目录不能改名，一改，项目内外的引用全得改。（事实上，如果你要把项目托管到源码仓库，或者更换托管地址，项目目录是一定会改的。）</li>
+</ul>
+<p>这么打个比方，李明 爸爸叫 李雷，妈妈叫 韩梅梅，他们一家住 广东省广州市黄埔区。但是很奇怪，他们家互相称呼都得叫全名，而且是带地址那种。譬如 妈妈 喊老伴和儿子吃饭，就得喊『广东省 / 广州市 / 黄埔区 / VK花园10-204 / 李雷』和『广东省 / 广州市 / 黄埔区 / VK花园10-204 / 李明』。更诡异的是，如果他们过年回老家了，譬如说 长沙，然后妈妈忘记了改称呼，还按前面叫，明明都在一屋（项目）里，但他们俩都不知道在喊自己了。</p>
+<p>根本原因，在于 import 中只有全局，没有本地（项目 / 模块）概念。全局以下就直接是包，包和包之间没有联系，哪怕我们在一个项目里，目录相邻。</p>
+<p>如果你写过 Java，对比一下就发现，Java 的 classpath 默认为 <strong>当前目录</strong>；这个当前目录，是以执行 javac 的位置算的，其实就是项目的根目录。所以同一个项目下的包，用<strong>相对根目录的路径</strong> 就能 import，不管项目整体放哪、项目目录有没有改名。</p>
+<h3 id="0x2-引入-module"><a href="#0x2-引入-module" class="headerlink" title="0x2 引入 module"></a>0x2 引入 module</h3><p>module 模式设为 on，背后主要是两个变化：<strong>引入 module （和 module path），放弃 GOPATH （和 vendor）</strong> 。</p>
+<p>这个 module 就是介于 global 和 package 之间的概念，是 一系列的 package 集合。这个概念让在一个 module 里的 package 产生了联系：package 互相可见。</p>
+<h4 id="module-path-和-package-path"><a href="#module-path-和-package-path" class="headerlink" title="module path 和 package path"></a>module path 和 package path</h4><p>package path 具体来说，就是 import 后面那串路径；module path 则对应 require。</p>
+<p>在使用上，package path 似乎没有任何变化，其实它的组成有了重要的变化：</p>
+<h5 id="GOPATH-模式"><a href="#GOPATH-模式" class="headerlink" title="GOPATH 模式"></a>GOPATH 模式</h5><p>从 <code>$GOPATH/src</code> 起完整的路径。  </p>
+<p>例如 <code>$GOPATH/src/github.com/jay/mymod/midware/router</code> 的 package path 是 <code>github.com/jay/mymod/midware/router</code> ，其它包（包括同一个项目<code>github.com/jay/mymod</code> 下的其它包）需要 import 这个路径。  </p>
+<p>路径上的 <strong>任何变化</strong> 都要体现在 import 路径里，如果移出 GOPATH 则 <strong>直接找不到</strong> 。（是的，明明就在旁边都找不到。）</p>
+<h5 id="module-模式"><a href="#module-模式" class="headerlink" title="module 模式"></a>module 模式</h5><p>module path + module 内部的路径。（如果 package 在 module 根目录，也就是跟 go.mod 一个目录， module path 就是 package path。）  </p>
+<p>例如 module path 是 <code>github.com/jay/mymod</code> ，module 内的 <code>midware/router</code>  的 package path 是 <code>github.com/jay/mymod/midware/router</code> ，其它包（包括同一个module <code>github.com/jay/mymod</code> 下的其它包）需要 import 这个路径。  </p>
+<p>是不是感觉其实没啥差别，只是把路径截成了两段，把前面那段叫 module path。[苦笑]</p>
+<p>差别在于：</p>
+<ul>
+<li>module path 是一个在 go.mod 内的声明，<strong>不需要是真实的路径</strong>。你的 module 可以放在任何地方开发，不需要放在 GOPATH 地下，路径里也不须包含  <code>github.com/jay/mymod</code> ！</li>
+<li>基于这点，只要 go.mod 声明不改，<strong>挪位置，根目录重名，都不影响</strong> module 内 package 互相引用！</li>
+</ul>
+<h4 id="module-间引用"><a href="#module-间引用" class="headerlink" title="module 间引用"></a>module 间引用</h4><p>等等，这些便利都只是 module 内而已，那 module 之间的引用呢？</p>
+<p>再来对比一下：</p>
+<h5 id="GOPATH-模式-1"><a href="#GOPATH-模式-1" class="headerlink" title="GOPATH 模式"></a>GOPATH 模式</h5><p><strong>项目托管地址、本地存放路径、import 路径</strong> （的开头） 三者一致。  </p>
+<p>仍然以上面的项目为例，三个都是 <code>github.com/jay/mymod</code> 。  </p>
+<p>具体到 托管地址是 <code>https://github.com/jay/mymod</code> ，  </p>
+<p>本地存放地址（无论手动新建项目，还是 go get 自动放）是 <code>$GOPATH/src/github.com/jay/mymod</code> ，  </p>
+<p>import 则是 <code>import &quot;github.com/jay/mymod/midware/router&quot;</code> （mymod 下面其中一个 package）。</p>
+<h5 id="module-模式-1"><a href="#module-模式-1" class="headerlink" title="module 模式"></a>module 模式</h5><p>在上述三者基础上，加上 go.mod 声明的 module path 一致。   </p>
+<p>也就是在 module 初始化时，执行 <code>go mod init github.com/jay/mymod</code> ，生成的 go.mod 里第一行就是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">module github.com/jay/mymod</div></pre></td></tr></table></figure>
+<p>托管地址、import 路径都跟 GOPATH 一样。差别是本地存放路径：<code>$HOME/go/pkg/mod/github.com/jay/mymod</code> 。（<code>$HOME/go/pkg/mod</code> 叫 mod cache 目录）</p>
+<p><br></p>
+<p>看了这个对比，module 模式多了一个 go.mod 的声明要保持一致，存放路径还变长了，是不是又感觉根本没简化，还变复杂了。[苦笑]x2</p>
+<p>关键在于，go.mod 里提供了一个关键字 <code>replace</code>。</p>
+<h4 id="go-mod-里的-replace"><a href="#go-mod-里的-replace" class="headerlink" title="go.mod 里的 replace"></a>go.mod 里的 replace</h4><p>我们来设想一下 <strong>开发的不同阶段</strong> ：</p>
+<ol>
+<li><p>前期，<strong>一个人开发原型</strong> 。只有 module 内引用，爱放哪放哪。</p>
+</li>
+<li><p>继续前期，原型 <strong>新增了一个 mymod2</strong> ，而且 <strong>引用原来的 mymod</strong> ，有了 module 间引用，此时你有 <strong>两个选择</strong>：</p>
+<ol>
+<li><p><strong>继续随便放</strong> ，譬如 <code>~/mymod/</code> ，然后在 mymod2 根目录执行 <code>go mod edit -replace=github.com/jay/mymod@v=~/mymod@v</code> ，<code>@v</code> 是可选的。  </p>
+<p> <code>go mod edit -replace=github.com/jay/mymod=~/mymod</code> 就是所有版本都替换。你也可以指定版本如 <code>@v1.0.1</code> 。</p>
+</li>
+<li><p>把 mymod 按照 module path  <strong>托管到对应地址</strong> ，mymod2 就会从托管服务下载 mymod 自动存放到 <code>$HOME/go/pkg/mod/github.com/jay/mymod@vX.Y.Z</code> 。下载过程是自动的，存放位置自动跟 “托管地址+版本” 映射，并不需要人工干预。  </p>
+<p> <strong>需要注意</strong> 的是，mymod2 引用的是托管的代码，<code>~/mymod/</code> 下的最新修改如果没有push 到托管，是访问不到的。  </p>
+<p> 如果 mymod2 后续也要发布或者跟其他开发者协作，<strong>建议一开始就选择这种方式</strong> 提供引用。</p>
+</li>
+</ol>
+</li>
+<li><p>中期，<strong>其他开发者加入</strong> 。为了其他开发者可以正常地访问依赖，需要把所有用到的 module 按 module path 放到托管服务上 。如果按 2.1 的方式处理，其他人的电脑上可不一定有 <code>~/mymod</code> 这个目录，而且版本也没法管理。  </p>
+<p> 托管服务可以是公共的，也可以是私有的。如果是私有的，需要配置 ssh 以达到免密访问。（ssh 配置不展开。）</p>
+<p> 考虑到迟早需要发布到托管，最好初始化时就考虑 <strong>把托管地址作为 module path</strong> 。</p>
+</li>
+<li><p>后期，<strong>持续开发和维护</strong>。也许是 公共转私有（或者反过来，开源），又或者项目改名，或者某个公共托管撂挑子不干了——总之，有些 module 挪位置了。譬如说 <code>https://github.com/jay/mymod</code> 挪到 <code>https://bitbucket.com/jay/mymod</code>。  </p>
+<p> 这时 replace 再次发挥作用，在所有引用这个 module 的 module 的根目录执行 <code>go mod edit -replace=github.com/jay/mymod=bitbucket.com/jay/mymod</code> ，那些 import 语句就不用一个一个修改了。  </p>
+<p> 不过 mymod 本身，除非你只挪托管不修改 go.mod 的 module path 声明（意味着 mymod 只作为依赖存在，自身没有 main 包需要编译执行），否则 mymod 内部的 import 语句还是得改为新的 module path。</p>
+</li>
+</ol>
+<p>需要注意的是，replace <strong>只对当前 module 直接引用的依赖起作用</strong> ，对于间接引用不起作用。如果 mod1 引用 mod2，然后 mod2 引用 mod3；当 mod3 改动地址时，在 mod1 里 replace mod3 的地址，只会对 mod1 直接引用 mod3 起作用； mod2 对 mod3 的引用必须在 mod2 里改。</p>
+<p>如果 mod2 是第三方的 module，而它引用的同样是第三方的 mod3 挪了位置之后，mod2 没有及时更新，那么可能你只能 fork 一个 mod2 自行修改了。</p>
+<h3 id="0x3-semver-语义化版本"><a href="#0x3-semver-语义化版本" class="headerlink" title="0x3 semver 语义化版本"></a>0x3 semver 语义化版本</h3><p>TODO</p>
+<h2 id="扩展：可重现构建"><a href="#扩展：可重现构建" class="headerlink" title="扩展：可重现构建"></a>扩展：可重现构建</h2><hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在写 《&lt;a href=&quot;https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/&quot;&gt;配置 1.13+ 的 golang 环境&lt;/a&gt;》时，花了大量篇幅解释 module 的概念，还有 module 与 package 之间的联系。眼看字数翻了一番，干脆把这部分另起一篇。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
+    
+  </entry>
   
   <entry>
     <title>S/L 大法 —— 平凡人的做事方法</title>
@@ -1168,9 +1394,9 @@
     </summary>
     
     
-      <category term="git" scheme="https://jaycechant.info/tags/git/"/>
-    
       <category term="skill" scheme="https://jaycechant.info/tags/skill/"/>
+    
+      <category term="git" scheme="https://jaycechant.info/tags/git/"/>
     
   </entry>
   
@@ -1218,11 +1444,11 @@
     </summary>
     
     
-      <category term="Java" scheme="https://jaycechant.info/tags/Java/"/>
+      <category term="trouble" scheme="https://jaycechant.info/tags/trouble/"/>
     
       <category term="Jenkins" scheme="https://jaycechant.info/tags/Jenkins/"/>
     
-      <category term="trouble" scheme="https://jaycechant.info/tags/trouble/"/>
+      <category term="Java" scheme="https://jaycechant.info/tags/Java/"/>
     
       <category term="Tomcat" scheme="https://jaycechant.info/tags/Tomcat/"/>
     
@@ -1502,387 +1728,15 @@
     </summary>
     
     
-      <category term="Jenkins" scheme="https://jaycechant.info/tags/Jenkins/"/>
-    
       <category term="trouble" scheme="https://jaycechant.info/tags/trouble/"/>
+    
+      <category term="Jenkins" scheme="https://jaycechant.info/tags/Jenkins/"/>
     
       <category term="JavaMail" scheme="https://jaycechant.info/tags/JavaMail/"/>
     
       <category term="smtp" scheme="https://jaycechant.info/tags/smtp/"/>
     
       <category term="JCE" scheme="https://jaycechant.info/tags/JCE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>supervisor 踩坑</title>
-    <link href="https://jaycechant.info/2017/supervisor-traps/"/>
-    <id>https://jaycechant.info/2017/supervisor-traps/</id>
-    <published>2017-01-09T07:02:15.000Z</published>
-    <updated>2017-01-09T15:39:21.892Z</updated>
-    
-    <content type="html"><![CDATA[<p>在对比过几个Git web端管理器之后，在内网部署了gogs。初次运行不讲究，直接</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ su git</div><div class="line">$ ./gogs web</div></pre></td></tr></table></figure>
-<p>然而这不是长久之计，一直挂着一个shell不说（虽然我用byobu可以detach），重启还得手动再起来。</p>
-<p>之前在 CentOS 7 部署，因为有 systemd ，非常方便，可是 Ubuntu 只有 init ，全部换成 systemd 管理又太折腾了。<br>然后我就留意到 gogs 的 scripts 目录有 supervisor 的配置，于是就尝试用 supervisor 管理。</p>
-<p>纯踩坑记录，非详细教程。</p>
-<a id="more"></a>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>apt 源有，不解释。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install superviosr</div></pre></td></tr></table></figure>
-<p>安装完之后，supervisor 自动就启动了。<code>service --status-all</code> 可以看到。</p>
-<p>据说如果通过Python安装，需要自己生成配置文件之后启动：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ echo_supervisord_conf &gt; /etc/supervisord.conf</div></pre></td></tr></table></figure>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>gogs 的 scripts 目录下已经有了对应的配置，复制到 <code>/etc/supervisor/conf.d/</code>，并把名字改为 <code>gogs.conf</code>即可。</p>
-<h1 id="尝试启动"><a href="#尝试启动" class="headerlink" title="尝试启动"></a>尝试启动</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo supervisorctl start gogs</div><div class="line">gogs: ERROR (no such process)</div></pre></td></tr></table></figure>
-<p>原因是，supervisor 找不到 gogs 的配置。刚不是已经添加了配置了吗？生效之前，还要（每次修改配置之后都要）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo supervisorctl reload</div><div class="line">Restarted supervisord</div></pre></td></tr></table></figure>
-<p>再来一次</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo supervisorctl start gogs</div><div class="line">unix:///var/run/supervisor.sock no such file</div></pre></td></tr></table></figure>
-<p>没有socket文件，我们帮它创建一个</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ sudo touch /var/run/supervisor.sock</div><div class="line">$ sudo chmod 777 /var/run/supervisor.sock</div><div class="line">$ sudo service supervisor restart</div><div class="line">Restarting supervisor: Error: The directory named as part of the path /var/<span class="built_in">log</span>/gogs/stdout.log does not exist.</div></pre></td></tr></table></figure>
-<p>这个文件夹不存在，帮它建一个：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ sudo mkdir -p /var/<span class="built_in">log</span>/gogs/</div><div class="line">$ sudo service supervisor restart</div><div class="line">$ sudo supervisorctl start gogs</div><div class="line">gogs: ERROR (no such file)</div></pre></td></tr></table></figure>
-<p>查看 <code>/etc/supervisor/conf.d/gogs.conf</code> ，原来配置模板里，gogs的目录路径是随便填的，根据当前实际的路径改过来（记得reload），就好了。</p>
-<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>gogs 在supervisor 的管理下跑起来了，而且下次重启也会自动启动。</p>
-<p>我重新看了一次 gogs 的 scripts 目录，忽然发现，它其实是带了 init 配置的……</p>
-<p>我折腾这干嘛…… 谁叫我眼瞎[捂脸]</p>
-<hr>
-<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在对比过几个Git web端管理器之后，在内网部署了gogs。初次运行不讲究，直接&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ su git&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;$ ./gogs web&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;然而这不是长久之计，一直挂着一个shell不说（虽然我用byobu可以detach），重启还得手动再起来。&lt;/p&gt;
-&lt;p&gt;之前在 CentOS 7 部署，因为有 systemd ，非常方便，可是 Ubuntu 只有 init ，全部换成 systemd 管理又太折腾了。&lt;br&gt;然后我就留意到 gogs 的 scripts 目录有 supervisor 的配置，于是就尝试用 supervisor 管理。&lt;/p&gt;
-&lt;p&gt;纯踩坑记录，非详细教程。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="trouble" scheme="https://jaycechant.info/tags/trouble/"/>
-    
-      <category term="Linux" scheme="https://jaycechant.info/tags/Linux/"/>
-    
-      <category term="supervisor" scheme="https://jaycechant.info/tags/supervisor/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>为什么你应该用 Markdown 写文档？</title>
-    <link href="https://jaycechant.info/2017/why-you-should-document-with-Markdown/"/>
-    <id>https://jaycechant.info/2017/why-you-should-document-with-Markdown/</id>
-    <published>2017-01-04T04:13:27.000Z</published>
-    <updated>2017-11-06T15:53:40.516Z</updated>
-    
-    <content type="html"><![CDATA[<p>不记得第几次安利 Markdown 了。</p>
-<p>曾发过一篇<a href="../../2012/blog-with-markdown/">《用Markdown写日志》</a>。</p>
-<p>还是决定重写一篇：</p>
-<ol>
-<li>那篇重点在 HowTo ，理由一塌糊涂；这次不讨论语法，只谈为什么。</li>
-<li>那篇重点讨论写日志（博客）；这次想讨论 Markdown 串起各种文档的可能性。</li>
-<li>四年过去，环境和工具有了变化，像 Typora 、nodePPT 和 Marp 的出现，让 Markdown 有了更多可能，更加易用。 <strong>Typora 让写字有了仪式感和幸福感。</strong> </li>
-</ol>
-<a id="more"></a>
-<h2 id="壹、-为什么写文档"><a href="#壹、-为什么写文档" class="headerlink" title="壹、 为什么写文档"></a>壹、 为什么写文档</h2><h3 id="1-1-从问题开始"><a href="#1-1-从问题开始" class="headerlink" title="1.1 从问题开始"></a>1.1 从问题开始</h3><p><strong>成熟企业</strong> 跟 <strong>初创企业</strong> ，关键差距是什么？</p>
-<ul>
-<li>设施设备？</li>
-<li>钱？</li>
-<li>人？</li>
-<li>…</li>
-</ul>
-<hr>
-<p>一个领域 <strong>专家</strong> 跟 <strong>新手</strong> 的差距呢？</p>
-<ul>
-<li>知识储备？</li>
-</ul>
-<ul>
-<li>经验？</li>
-<li>人脉？</li>
-<li>…</li>
-</ul>
-<hr>
-<p><strong>钱不是</strong> 。</p>
-<p>虽然经验告诉我们一般老江湖家底厚，但并非必然。初创企业通过融资可以获得资金，或者保不准创始人是思聪们；成熟企业也有面临资金压力时。</p>
-<p>基于类似原因， <strong>人脉不是</strong> ，可以从 <strong>公开途径获取的知识</strong> 也不是。剩下的有些像是，又好像不是…</p>
-<p><br></p>
-<p>其实，老手 和 新丁 必然的差距，就是 <strong>老手经历多了</strong> ， 积累下来 <strong>那些东西</strong> 。毕竟 新丁 之 <strong>新</strong> ，就是 <strong>圈内（行业 / 领域）待的时间短</strong> ，即使是富二代，有资源摆平其余各种要素，也无法凭空变出没有的经历。</p>
-<p>可如何去量化描述 『那些东西』？是经验吗？</p>
-<p><br></p>
-<p>让我们换一组词：他们之间的差距，在于 <strong>『知识资产』</strong> ，特别是 <strong>『过程资产』</strong> 。</p>
-<blockquote>
-<p>知识资产（Knowledge assets）</p>
-<p>是指企业拥有或控制的、不具有独立实物形态、对生产和服务长期发挥作用并能带来经济效益的知识。</p>
-</blockquote>
-<p>知识资产 又叫 智力资产。只找到 MBA 智库 的狭义定义，其实个人、集体，都拥有知识资产。</p>
-<blockquote>
-<p>过程资产（Process assets）</p>
-<p>是指一个学习型组织在项目操作过程中所积累的无形资产。</p>
-</blockquote>
-<p>同样来自 MBA 智库 针对企业管理的狭义定义，这个时候叫做组织过程资产。但个人也有自己的过程资产。</p>
-<h3 id="1-2-知识资产-与-过程资产"><a href="#1-2-知识资产-与-过程资产" class="headerlink" title="1.2 知识资产 与 过程资产"></a>1.2 知识资产 与 过程资产</h3><h4 id="知识资产"><a href="#知识资产" class="headerlink" title="知识资产"></a>知识资产</h4><ul>
-<li>人力资产（HR）</li>
-<li>市场资产</li>
-<li>知识产权资产（IP）</li>
-<li>基础结构资产<ul>
-<li>管理哲学 、 企业文化</li>
-<li>IT系统 、 财务结构</li>
-<li>…</li>
-</ul>
-</li>
-</ul>
-<p>人力资产是人才，市场资产主要以 品牌美誉度 和 企业关系 方式存在。其余知识资产 多数以某种形式的资料——主要是文件、文档的方式——存在、传播 和 传承。</p>
-<p><br></p>
-<h4 id="过程资产"><a href="#过程资产" class="headerlink" title="过程资产"></a>过程资产</h4><ul>
-<li>规章制度、指导方针、规范标准、操作程序、工作流程、行为准则和工具方法等</li>
-<li>经验和教训，包括成文档案，也包括不成文的思想</li>
-<li>实践中形成的所有文档，包括知识资料库、文档模板、标准化表格、风险清单等</li>
-<li>实践中留下的历史信息</li>
-<li>…</li>
-</ul>
-<p>过程资产 首先 也是知识资产。</p>
-<p>不过如果说 知识资产 还包含着 可以 <strong>拿来</strong> 的普适部分，那么 过程资产 就更强调实践中的积累。这种积累跟 个人、企业 自身有着高度相关性，一方面不会轻易公开，另一方面，即使公开，也要经过一定程度整理重组，才能为他人所用。</p>
-<p>换言之，无法轻易拿来，只能自身积累。</p>
-<p><br></p>
-<p>譬如说认真学习 某知名企业 公开的工作流程，甚至有机会去参观，成果写入本企业的规章制度，可以认为获得了知识资产。但只有经过自身实践，根据实际调整，变成自己的过程资产，才可以说真正发挥作用。</p>
-<p>在这之前，很可能水土不服，画虎不成反类犬。</p>
-<p><br></p>
-<h3 id="1-3-为什么写文档"><a href="#1-3-为什么写文档" class="headerlink" title="1.3 为什么写文档"></a>1.3 为什么写文档</h3><p>说了这么多，跟文档有关系吗？</p>
-<p>有。知识资产 主要以 资料 形式存在，资料 需要文档作为载体。</p>
-<p>特别是 过程资产，不能从外部获取，如果没有过目不忘的记忆力，就必须规范地文档化。</p>
-<p>换言之，<strong>好好写文档，就是在积累『资产』，积累竞争力。</strong></p>
-<h2 id="贰、跟文档打交道"><a href="#贰、跟文档打交道" class="headerlink" title="贰、跟文档打交道"></a>贰、跟文档打交道</h2><h3 id="2-1-『资产』管理"><a href="#2-1-『资产』管理" class="headerlink" title="2.1 『资产』管理"></a>2.1 『资产』管理</h3><p>既然是资产，就要把它管理起来。</p>
-<blockquote>
-<p>知识管理 =&gt; 信息管理 =&gt; 文档管理</p>
-</blockquote>
-<p>三个词范围交叉，又不一样。前面范围大，越往后越具体，作为前面的开展手段。前面范围太大，我们聊聊文档的管理（其实范围也很大）。源码作为一种非常特殊的文档，自己形成了一套管理的方法（譬如 Github flow）；下面主要讨论非代码文档。当然你会发现，很多理论和工具正是来自源码管理。</p>
-<p>『管理』过程中，我们可能面对以下一些操作：</p>
-<p><img src="/images/document-management.png" alt="">  </p>
-<ul>
-<li>『归档』 和 『检索』 需要文件系统支持，如 Win-7 以后引入库的概念</li>
-<li>审批需要 OA 系统的导入</li>
-<li>销毁需要安全工具</li>
-</ul>
-<p>等等。涉及的工具超出了文档的范围，有机会再具体讨论。</p>
-<p>这次集中说加粗部分。</p>
-<h3 id="2-2-一些烦恼"><a href="#2-2-一些烦恼" class="headerlink" title="2.2 一些烦恼"></a>2.2 一些烦恼</h3><h4 id="记录："><a href="#记录：" class="headerlink" title="记录："></a>记录：</h4><p>不完整、不准确</p>
-<p>事件、经过、数据、观点……都必须通过某种记录，变成素材。可以说，记录是获取文档素材的主要途径——如果再考虑到引用而来的素材，其实也来自别人的记录，那么就是唯一的途径。然而除了闭路电视全天候自动化的记录，多数的记录都面临不完整、不准确的问题。</p>
-<p><strong>事后的追述，既费力，也不准确。而费力不讨好又会进一步降低记录的意愿。</strong> 随时随地记录，有利于保持内容的 完整 和 有效，也减少事后整理的负担。</p>
-<p>这需要工具足够便利，跨平台（包括移动端），快速加载打开，没有使用负担。</p>
-<p>事实上，很多人嫌记录麻烦，写文档变成了很痛苦的例行公事。只有在面临考核时，事后回忆 甚至编造一些记录应付了事。我自己就试过月度总结不写，到检查时一口气补几个月；有见过有人没有写 commit message，事后补上。</p>
-<h4 id="编辑："><a href="#编辑：" class="headerlink" title="编辑："></a>编辑：</h4><p>缺乏好用的工具；思路总被打断</p>
-<p>好的编辑器很重要。除了编辑效率的差别，还有很重要的一点，就是内容和格式同时编辑，会引起思路的打断。</p>
-<h4 id="发布："><a href="#发布：" class="headerlink" title="发布："></a>发布：</h4><p>不同场景、不同用途需要不同的格式，明明差不多的内容，却整天要返工。</p>
-<h4 id="演示："><a href="#演示：" class="headerlink" title="演示："></a>演示：</h4><p>做 PPT / KeyNote 吃力不讨好。</p>
-<h4 id="版本跟踪"><a href="#版本跟踪" class="headerlink" title="版本跟踪"></a>版本跟踪</h4><ul>
-<li>非程序员：『版本跟踪』是什么？</li>
-<li>程序员：文档还要做版本跟踪？/ 我们已经做了。</li>
-</ul>
-<p>演示上面，一个是已有的文档不能简单地转换成演示文稿；另一个是，容易在一些花俏的细节上（例如动画）花过多精力，但最终的效果也不好</p>
-<p>版本管理 程序员一般是知道的。目前我们多数用SVN，后面有机会跟大家分享一下Git的使用。我们现在的产品文档是已经用SVN管理起来，但严格来说，没有得到很好的管理，因为你没办法像代码一样diff两个版本。因为多数文档是二进制文件，你必须两个版本都获取下来，分别打开用肉眼判断，这是很低效而且容易犯错的。</p>
-<h3 id="2-3-贵在坚持"><a href="#2-3-贵在坚持" class="headerlink" title="2.3 贵在坚持"></a>2.3 贵在坚持</h3><p>高中时写代码，曾经问过为什么要写注释和文档这样的蠢话。因为当时写的东西都太简单了。</p>
-<p>工作几年，发现无论当时多么刻骨铭心的坑，通过多少个宵，最终都会忘记。只有成文的资料真正属于 自己 和 团队。</p>
-<p>工作前几年最可惜的事，就是因为公司繁琐的安保政策加上自己懒，太多经验没有总结记录。一定要有适合自己的工具，保持随时记录的习惯。</p>
-<h2 id="叁、为什么是Markdown"><a href="#叁、为什么是Markdown" class="headerlink" title="叁、为什么是Markdown"></a>叁、为什么是Markdown</h2><h3 id="3-1-纯文本的威力"><a href="#3-1-纯文本的威力" class="headerlink" title="3.1 纯文本的威力"></a>3.1 纯文本的威力</h3><blockquote>
-<p>Markdown 是一种纯文本标记语言</p>
-</blockquote>
-<p><em>*注：本章节的标题及部分内容引用自 《The Pragmatic Programmer》——Andrew Hunt &amp; David Thomas</em></p>
-<h4 id="什么是纯文本"><a href="#什么是纯文本" class="headerlink" title="什么是纯文本"></a>什么是纯文本</h4><ul>
-<li><p>plain text (.txt)</p>
-</li>
-<li><p>Initialization file (.ini), Properties, YAML, JavaScript Object Notation (.json)</p>
-</li>
-<li><p>eXtensive Markup Language (.xml), HyperText Markup Language (.html)</p>
-</li>
-<li><p>各种wiki (.wiki)</p>
-</li>
-<li><p>Markdown (.md), reStructuredText (.rst)</p>
-</li>
-<li><p>…</p>
-</li>
-</ul>
-<p><br></p>
-<blockquote>
-<p><strong>纯文本</strong> 由可打印字符组成，人可以直接阅读和理解其形式。</p>
-</blockquote>
-<p>举例说，尽管以下内容是可打印字符，却没有意义：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">Field19</span>=<span class="number">467</span>abe</div></pre></td></tr></table></figure>
-<p>更好的选择，是让其变得能让人理解：</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">DrawingType</span>=UMLActivityDrawing</div></pre></td></tr></table></figure>
-<p>关键在于定义后半句：<br>不仅可以直接不借助任何特殊工具查看。而且是 <strong>人（脱离特定上下文也）比较容易理解</strong> 。</p>
-<p>项目进行当中，你对项目细节如数家珍，觉得 <code>Field19</code> 非常清晰，<code>467abe</code> 意义也显而易见。但 <strong>上线一年后</strong> 再回来维护呢？一个 <strong>新同事</strong> 接手维护呢？ </p>
-<p>（一个题外话：基于类似的理由，代码中应该尽可能避免使用『魔法值』（Magic Number）。）</p>
-<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><p>纯文本两个主要缺点：</p>
-<ol>
-<li>跟压缩的二进制格式相比，纯文本占据 <strong>更多空间</strong></li>
-<li>解析处理纯文本，可能需要 <strong>更多运算</strong></li>
-</ol>
-<p>某些场景下，这两个缺点无法容忍：例如超大量需要压缩存储的数据，或者资源非常紧张的单片机。</p>
-<p>然而随着 <strong>存储空间 和 运算能力</strong> 变得越来越廉价，这点缺点跟以下优点比起来越来越微不足道。</p>
-<h4 id="文本的威力"><a href="#文本的威力" class="headerlink" title="文本的威力"></a>文本的威力</h4><h5 id="保证不过时"><a href="#保证不过时" class="headerlink" title="保证不过时"></a>保证不过时</h5><blockquote>
-<p>人能够阅读的数据形式，以及自述的数据，将比所有其他数据形式和创建它们的应用都活得更长久。</p>
-</blockquote>
-<p>只要数据还存在，你就有可能使用它。哪怕是创建它的程序不在的时候：有可能是这个程序过时已久；也有可能这个程序刚好在这台电脑，或者你的手机上没有。</p>
-<p>记事本打开 .doc （<em>原本是直接贴了两行乱码在这里，但是因为会引起博客的feed解析错误，改为截图</em>）</p>
-<p><img src="/images/mass-code-of-doc.png" alt=""></p>
-<p>记事本打开 Markdown</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="section">##### 保证不过时</span></div><div class="line"></div><div class="line"><span class="quote">&gt; 人能够阅读的数据形式，以及自述的数据，将比所有其他的数据形式和创建它们的应用都活得更长久。</span></div></pre></td></tr></table></figure>
-<ul>
-<li>例子1 是我用记事本打开word之后任意选了两行。一个二进制文件，没有找到对应格式的编辑器，勉强打开都是这样的乱码。</li>
-<li>例子2 就是前面引用那段话。完全纯文本（基于 Markdown）。电脑或者手机有安装解析软件，你可以看到前面渲染后的效果（分别是 二号标题，段落引用）。即使不巧没有对应工具，同时完全不懂 Markdown 标签，<strong>也丝毫不影响理解</strong> 。</li>
-</ul>
-<h5 id="杠杆作用"><a href="#杠杆作用" class="headerlink" title="杠杆作用"></a>杠杆作用</h5><blockquote>
-<p>提供锋利的『小工具』，各自专注做好一件事。</p>
-</blockquote>
-<p>这是 Unix 设计哲学。它基于一个公共底层格式：面向行的纯文本文件 实现。每个工具专注做好一件事，然后通过 管道(pipe) 和 纯文本文件 互相打通，变成无所不能的shell脚本。</p>
-<p>非技术背景的朋友可能还没反应过来，我换种方式复述一遍：</p>
-<p>Unix-like 系统（包括 Unix/Linux/Mac）上的工具，就像一根根看不到内部的管道，每个专注提供一种功能：例如入口放面粉，出口就出来面包（面包机）。</p>
-<p>如果你要进小麦出面包，没有；种子变面包，更没有。只有种子到小麦（姑且叫种植机），和小麦到面粉（磨面机）… 等等，都只专注一步。如果你需要 <strong>种子 =&gt; 三明治</strong> ，当然也没有；但你不需要从头发明这个机器，只需要 <strong>将现有的机器，一个接一个连接在一起</strong> 。 之所以这样可行，是因为这些工具都默认接受 『一行行的纯文本』作为输入，同时输出一行行的纯文本；大家按照这个惯例行事，不必额外考虑跟其他工具的兼容——哪怕这些工具的作者互不认识，甚至写出来的时间相差几十年。</p>
-<h5 id="还有"><a href="#还有" class="headerlink" title="还有"></a>还有</h5><ol>
-<li><p>假如系统崩溃，部分功能受限，如图形界面。（其实不用等系统崩溃，通过shell远程连接就没有GUI）这个时候，纯文本的优点就出来了。</p>
-<blockquote>
-<p>当系统崩溃时，你可能需要最小环境恢复。</p>
-</blockquote>
-</li>
-<li><p>在不同的系统、不同的环境之间，基于网络的异构通信、自行协商的数据交换，如果需要确保各方能用一个公共标准通信，纯文本就是这个标准（所以我们看到XML，json的流行）。</p>
-</li>
-<li><p>基于纯文本的版本控制，你可以追踪（diff）每个版本的修改，这才是真正的版本管理。</p>
-</li>
-</ol>
-<p>当一个标准可以串联起一系列工具，那么它就成为了一个支点，允许你用比较小的力气，借用现有的成果，完成复杂的工作。</p>
-<p><strong>纯文本就是不同时代、不同技术的最大公约数；就是标准。</strong></p>
-<h3 id="3-2-内容-与-样式-的分离"><a href="#3-2-内容-与-样式-的分离" class="headerlink" title="3.2 内容 与 样式 的分离"></a>3.2 内容 与 样式 的分离</h3><h4 id="两顶帽子"><a href="#两顶帽子" class="headerlink" title="两顶帽子"></a>两顶帽子</h4><blockquote>
-<p>有两顶帽子，每次只戴其中一顶：</p>
-<p>在修改内容时，不要理会显示的样式；</p>
-<p>当修改样式时，不要改动内容。</p>
-</blockquote>
-<p>两顶帽子的原则来自面向对象编程。有接口的两顶帽子、重构的两顶帽子，等等。</p>
-<p>强调的是每次关注改变的其中一个方面，隔离互相影响的变化。同时改变多个方面容易犯错，或者打乱思路。</p>
-<p>受Word等软件的影响，大家似乎已经把 内容编排 和 样式 混在一起了<br>我举个例子：<br>这一段的标题是一个二级标题，上面这段话，是一段引用；这是内容编排。</p>
-<p>具体二级标题、引用文字 应该怎么显示，这是样式。</p>
-<p>这是不同的东西：内容在编辑完之后，就相对固定下来了；而样式会因应不同的场景，不同的用途，不同的读者，有不同的需求。</p>
-<p>像我现在做演示文稿是一种需要，同样的内容发布到博客是一种需要。演示需要的字号肯定大很多。</p>
-<p>甚至我换一个演示环境，投影仪的对比度比显示器低，我又要改动对比度。</p>
-<p>他们变化的频率是不一样的，应该隔离开来。样式往往到最后根据场景来定。</p>
-<h4 id="Write-Once-Export-Everywhere"><a href="#Write-Once-Export-Everywhere" class="headerlink" title="Write Once, Export Everywhere"></a>Write Once, Export Everywhere</h4><p>Java 当年宣传，号称Write Once, Run everywhere。今天借用一下。</p>
-<p>Markdown不仅作为纯文本，在最坏的情况下都能被记事本打开。而且由于它有大量的工具支持，可以转换为各种场景下的文档。</p>
-<ul>
-<li><a href="http://pandoc.org/" target="_blank" rel="external">pandoc</a> (<a href="https://typora.io/" target="_blank" rel="external">Typora</a> , <a href="">Smark</a>)： HTML, Word, PDF, LaTeX, Epub…</li>
-<li><a href="https://yhatt.github.io/marp/" target="_blank" rel="external">Marp</a> ： PDF 演示文稿 </li>
-<li><a href="https://github.com/ksky521/nodePPT" target="_blank" rel="external">nodeppt</a> ： HTML5 演示文稿 （特效比Marp炫）</li>
-<li><a href="https://hexo.io/" target="_blank" rel="external">hexo</a> ： 静态博客</li>
-<li><a href="https://github.com/GitbookIO/gitbook" target="_blank" rel="external">gitbook</a> ：生成电子书和文档的命令行工具，同时官方提供一个<a href="https://www.gitbook.com/editor" target="_blank" rel="external">编辑器</a></li>
-<li>Markdown here ：一个原地将 Markdown 转换成 HTML的 浏览器插件</li>
-</ul>
-<p>pandoc是一个命令行工具，你当然可以敲命令使用；不过方便起见，我会推荐使用一个前端工具，首推Typora。</p>
-<p>而当你需要在只支持 HTML 的在线编辑器使用 Markdown 时（譬如公众号后台），Markdown here 是很好的选择。</p>
-<h4 id="代码高亮-和-数学环境"><a href="#代码高亮-和-数学环境" class="headerlink" title="代码高亮 和 数学环境"></a>代码高亮 和 数学环境</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"Hello world!"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><br></p>
-<p>$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</p>
-<p>这两点，一般人可能没什么需求，但是数学工作者和程序员是很需要的。</p>
-<p>以前每次用PPT，往上面贴代码的体验非常差。首先默认的字体一般不是编程用的等宽字体，要手动改。还有tab和空格的对齐，就足够折腾了。还要高亮就只能手动选中改颜色了。</p>
-<p>但这里，只要把代码贴上去，高亮是自动完成的。</p>
-<p>因为以前讲算法，偶尔有数学推导。Office倒是有公式编辑器，但是很难用，而且修改也不容易。</p>
-<p>而这里，只要用Mathjax写公式就可以了。</p>
-<p>Mathjax语法相当地直观，这里不详细展开，有需要的话，可以看我之前写的一篇文章：</p>
-<p><a href="http://jaycechant.info/2016/intro-to-mathjax/">Introduction to MathJax &amp; some samples</a></p>
-<h3 id="3-3-为什么是Markdown"><a href="#3-3-为什么是Markdown" class="headerlink" title="3.3 为什么是Markdown"></a>3.3 为什么是Markdown</h3><p>再问一次这个问题。</p>
-<blockquote>
-<p>纯文本是好的，内容与样式分离是好的。但那么多纯文本的标记语言可以做到，为什么是 Markdown？</p>
-</blockquote>
-<p>是的，不一定是Markdown。</p>
-<p>除了 Plaintext 太弱、HTML 太繁琐 不值得选择，reStructuredText 和 asciiDoc 都是 Markdown 强有力的对手。只能说目前 Markdown 工具支持更广泛，而且（对我而言）现阶段够用又最简单。未来几年，情况可能会发生变化。</p>
-<table>
-<thead>
-<tr>
-<th>特性</th>
-<th>Markdown</th>
-<th>rst</th>
-<th>HTML</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>标签</td>
-<td>约十几种</td>
-<td>约十几种</td>
-<td>HTML4.1 共89个标签</td>
-</tr>
-<tr>
-<td>标签读写</td>
-<td>不解析也能理解读写</td>
-<td>大部分不解析也能理解</td>
-<td>需要层次嵌套和严谨闭合，复杂冗余</td>
-</tr>
-<tr>
-<td>表达能力</td>
-<td>仅覆盖常用格式，较弱；但可以直接写HTML补充，并有较多第三方增强（Mathjx，代码高亮）</td>
-<td>支持格式比标准Markdown稍多</td>
-<td>最强，整个互联网基本都是构建在HTML之上，前两者多数情况也是转换成HTML</td>
-</tr>
-<tr>
-<td>工具支持</td>
-<td>Github等代码托管，各大云笔记</td>
-<td>不明</td>
-<td>多数工具以HTML实现，但不提供直接编辑</td>
-</tr>
-<tr>
-<td>格式支持</td>
-<td>通过pandoc，能直接或间接导出几乎所有文档格式，且有较多编辑器前端可选</td>
-<td>通过pandoc，能直接或间接导出几乎所有文档格式</td>
-<td>能转成word、PDF等格式，但不能替换样式</td>
-</tr>
-<tr>
-<td>总结</td>
-<td>简单，但可拓展性强，支持广泛，工具多且开发活跃。</td>
-<td>比Markdown稍复杂和强大，但热度不如Markdown，工具少很多。</td>
-<td>严谨精确，适合浏览器解析，不方便一般人读写。</td>
-</tr>
-</tbody>
-</table>
-<h3 id="一些栗子"><a href="#一些栗子" class="headerlink" title="一些栗子"></a>一些栗子</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="section">### 一些栗子 &lt;!-- 二级标题 --&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li>糖炒栗子</li>
-<li>水煮栗子</li>
-</ul>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="bullet">* </span>糖炒栗子</div><div class="line"><span class="bullet">* </span>水煮栗子</div></pre></td></tr></table></figure>
-<p><a href="http://zh.wikipedia.org/wiki/Markdown" target="_blank" rel="external">维基词条</a></p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="string">维基词条</span>](<span class="link">http://zh.wikipedia.org/wiki/Markdown</span>)</div></pre></td></tr></table></figure>
-<h3 id="更多参考"><a href="#更多参考" class="headerlink" title="更多参考"></a>更多参考</h3><p>这次主要是介绍概念，教程不是重点，更多用法技巧：</p>
-<ul>
-<li><a href="http://jaycechant.info/2012/blog-with-markdown/">用Markdown写日志</a> </li>
-<li><a href="http://daringfireball.net/projects/markdown/syntax" target="_blank" rel="external">Markdown语法官方版</a></li>
-</ul>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p><del>这个演示文稿（Presentation）完全由 Markdown 写成，使用<a href="https://yhatt.github.io/marp/" target="_blank" rel="external">Marp</a>输出。</del> </p>
-<p>同时稍作调整后，还会发表博客、以及其他格式的文档。</p>
-<p>如果你细心对比 博客文章 和 演示文稿，你会发现 演示文稿 上少了很多内容，这些内容是讲稿。讲稿以注释形式直接写在演示文稿里，讲的时候是对着注释讲的。</p>
-<p>作为文章发表时，不过把 注释符 和 分页符 删掉而已，就是一个查找替换。希望未来有工具自动识别输出场景，把这一步也省略；如果迟迟不出现，我尽量抽空自己实现。</p>
-<hr>
-<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;不记得第几次安利 Markdown 了。&lt;/p&gt;
-&lt;p&gt;曾发过一篇&lt;a href=&quot;../../2012/blog-with-markdown/&quot;&gt;《用Markdown写日志》&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;还是决定重写一篇：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;那篇重点在 HowTo ，理由一塌糊涂；这次不讨论语法，只谈为什么。&lt;/li&gt;
-&lt;li&gt;那篇重点讨论写日志（博客）；这次想讨论 Markdown 串起各种文档的可能性。&lt;/li&gt;
-&lt;li&gt;四年过去，环境和工具有了变化，像 Typora 、nodePPT 和 Marp 的出现，让 Markdown 有了更多可能，更加易用。 &lt;strong&gt;Typora 让写字有了仪式感和幸福感。&lt;/strong&gt; &lt;/li&gt;
-&lt;/ol&gt;
-    
-    </summary>
-    
-    
-      <category term="Markdown" scheme="https://jaycechant.info/tags/Markdown/"/>
-    
-      <category term="why" scheme="https://jaycechant.info/tags/why/"/>
-    
-      <category term="document" scheme="https://jaycechant.info/tags/document/"/>
-    
-      <category term="presentation" scheme="https://jaycechant.info/tags/presentation/"/>
     
   </entry>
   
