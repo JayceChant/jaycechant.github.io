@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="存档Save&Load">
 <meta property="og:description" content="在写 《配置 1.13+ 的 golang 环境》时，花了大量篇幅解释 module 的概念，还有 module 与 package 之间的联系。眼看字数翻了一番，干脆把这部分另起一篇。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2020-01-20T16:41:11.429Z">
+<meta property="og:updated_time" content="2020-01-20T16:55:42.178Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="golang 1.13 - module VS package">
 <meta name="twitter:description" content="在写 《配置 1.13+ 的 golang 环境》时，花了大量篇幅解释 module 的概念，还有 module 与 package 之间的联系。眼看字数翻了一番，干脆把这部分另起一篇。">
@@ -80,7 +80,7 @@
       <section id="main"><article id="post-golang-1-13-module-VS-package" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/golang-1-13-module-VS-package/" class="article-date">
-  <time datetime="2020-01-20T08:45:37.000Z" itemprop="datePublished">2020-01-20</time>
+  <time datetime="2020-01-20T08:50:37.000Z" itemprop="datePublished">2020-01-20</time>
 </a>
     
   </div>
@@ -101,8 +101,7 @@
       
         <p>在写 《<a href="https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/">配置 1.13+ 的 golang 环境</a>》时，花了大量篇幅解释 module 的概念，还有 module 与 package 之间的联系。眼看字数翻了一番，干脆把这部分另起一篇。</p>
 <a id="more"></a>
-<h2 id="module-与-package"><a href="#module-与-package" class="headerlink" title="module 与 package"></a>module 与 package</h2><p>[TOC]</p>
-<h3 id="0x0-module-不是-package"><a href="#0x0-module-不是-package" class="headerlink" title="0x0 module 不是 package"></a>0x0 module 不是 package</h3><p>是的，他们不是同一个概念！！module（模块）是新引入的概念，一个 module 是 零到多个 package（包）的组合，不要再把他们混为一谈。</p>
+<h2 id="module-与-package"><a href="#module-与-package" class="headerlink" title="module 与 package"></a>module 与 package</h2><h3 id="0x0-module-不是-package"><a href="#0x0-module-不是-package" class="headerlink" title="0x0 module 不是 package"></a>0x0 module 不是 package</h3><p>是的，他们不是同一个概念！！module（模块）是新引入的概念，一个 module 是 零到多个 package（包）的组合，不要再把他们混为一谈。</p>
 <table>
 <thead>
 <tr>
@@ -113,17 +112,17 @@
 </thead>
 <tbody>
 <tr>
-<td>本质</td>
+<td><strong>本质</strong></td>
 <td>一个目录下所有 go 源码的集合（不包括子目录，那是另一个 package）</td>
 <td>同一个根目录下所有包的集合（包括子目录）</td>
 </tr>
 <tr>
-<td>共享</td>
+<td><strong>共享</strong></td>
 <td>代码 <strong>共享命名空间（包名）</strong>，包内可以 <strong>直接互相调用</strong>（包括小写开头的 unexported members）</td>
 <td>同一个 module 下的 package <strong>共享 module path 作为 package path 的前缀</strong>，module 内可以 <strong>直接互相 import</strong></td>
 </tr>
 <tr>
-<td>单位</td>
+<td><strong>单位</strong></td>
 <td><strong>import 的单位</strong></td>
 <td><strong>require 的单位</strong></td>
 </tr>
@@ -224,6 +223,7 @@
 </ol>
 <p>需要注意的是，replace <strong>只对当前 module 直接引用的依赖起作用</strong> ，对于间接引用不起作用。如果 mod1 引用 mod2，然后 mod2 引用 mod3；当 mod3 改动地址时，在 mod1 里 replace mod3 的地址，只会对 mod1 直接引用 mod3 起作用； mod2 对 mod3 的引用必须在 mod2 里改。</p>
 <p>如果 mod2 是第三方的 module，而它引用的同样是第三方的 mod3 挪了位置之后，mod2 没有及时更新，那么可能你只能 fork 一个 mod2 自行修改了。</p>
+<p>这个问题据说可以通过 <strong>自建 goproxy</strong> 来指定重定向解决。我还没到需要用到的时候，将来踩了自建 goproxy 的坑再回来写。</p>
 <h3 id="0x3-semver-语义化版本"><a href="#0x3-semver-语义化版本" class="headerlink" title="0x3 semver 语义化版本"></a>0x3 semver 语义化版本</h3><p>TODO</p>
 <h2 id="扩展：可重现构建"><a href="#扩展：可重现构建" class="headerlink" title="扩展：可重现构建"></a>扩展：可重现构建</h2><hr>
 <p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
@@ -248,19 +248,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/setup-golang-env-for-1-13-and-above/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">
-        
-          配置 1.13+ 的 golang 环境
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/save-load-a-solution-for-ordinary-people/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/setup-golang-env-for-1-13-and-above/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">S/L 大法 —— 平凡人的做事方法</div>
+      <div class="article-nav-title">配置 1.13+ 的 golang 环境</div>
     </a>
   
 </nav>
@@ -305,11 +296,11 @@
       <ul>
         
           <li>
-            <a href="/2020/setup-golang-env-for-1-13-and-above/">配置 1.13+ 的 golang 环境</a>
+            <a href="/2020/golang-1-13-module-VS-package/">golang 1.13 - module VS package</a>
           </li>
         
           <li>
-            <a href="/2020/golang-1-13-module-VS-package/">golang 1.13 - module VS package</a>
+            <a href="/2020/setup-golang-env-for-1-13-and-above/">配置 1.13+ 的 golang 环境</a>
           </li>
         
           <li>

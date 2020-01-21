@@ -15,7 +15,7 @@
 <meta property="og:description" content="以前写过《配置 Golang 开发环境》（go &amp;lt; 1.13, win64）。然后 1.13 是一个重大变更，大到需要原有的依赖管理要做迁移的程度（《golang 1.13 - 依赖管理从 dep 到 mod 踩坑》）。
 1.13 让原来的配置方式有了变化，撇开语言特性不谈，仅说和配置相关的，最大的变化，是 go module 的转正，和 GOPATH 和 vendor 的边缘化（1.13">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2020-01-20T16:32:55.081Z">
+<meta property="og:updated_time" content="2020-01-21T15:44:20.688Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="配置 1.13+ 的 golang 环境">
 <meta name="twitter:description" content="以前写过《配置 Golang 开发环境》（go &amp;lt; 1.13, win64）。然后 1.13 是一个重大变更，大到需要原有的依赖管理要做迁移的程度（《golang 1.13 - 依赖管理从 dep 到 mod 踩坑》）。
@@ -132,7 +132,13 @@
 </ul>
 <p><strong>GOPROXY</strong> :</p>
 <p>国内环境必备，原因你懂的。甚至可以说这是新版本为中国开发者做出的最大改进之一也不为过。在 dep 的时代是靠自建的代理熬过来的，那么不会代理的朋友就很麻烦了。改用镜像就友好太多了。</p>
-<p>目前国内最早最好的镜像是 七牛云提供的 <code>https://goproxy.cn</code> 。如果公司内部还有搭建私有镜像，可以用 <code>,</code> 隔开，go 会依次尝试。最后记得加上 <code>direct</code> ，让镜像上找不到的依赖回源查找。（包括但不限于 镜像还没同步，私有仓库 等情况）</p>
+<p>目前国内最早最好的代理是 七牛云提供的 <code>https://goproxy.cn</code> 。如果团队内部还有搭建私有代理，可以用 <code>,</code> 隔开，go 会依次尝试。最后记得加上 <code>direct</code> ，让镜像上找不到的依赖回源查找。（包括但不限于 镜像还没同步，私有仓库 等情况）</p>
+<p>目前自建代理的开源方案貌似有以下几个。由于我暂时没有自建代理的需要，没有实测，请自行对比选择。</p>
+<ul>
+<li><a href="https://github.com/goproxyio/goproxy" target="_blank" rel="external">https://github.com/goproxyio/goproxy</a></li>
+<li><a href="https://github.com/gomods/athens" target="_blank" rel="external">https://github.com/gomods/athens</a></li>
+<li><a href="https://github.com/goproxy/goproxy" target="_blank" rel="external">https://github.com/goproxy/goproxy</a></li>
+</ul>
 <h4 id="推荐改"><a href="#推荐改" class="headerlink" title="推荐改"></a>推荐改</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">~ go env -w GOBIN=<span class="variable">$HOME</span>/go/bin</div></pre></td></tr></table></figure>
 <p><strong>GOBIN</strong> 如果没有设置，默认值为 <code>$GOPATH/bin</code> ，是通过 <code>go get</code> 或 <code>go install</code> 安装的可执行文件的存放目录。不设并不影响使用，但考虑到 GOPATH 正在被边缘化，未来不知道哪个版本就取消了，所以建议还是单独设置一下比较好。我为了保持使用习惯，设置了跟默认相同的目录（因为 GOPATH 默认值是 <code>$HOME/go</code>），区别只是这个值不依赖 GOPATH 的值。</p>
 <p>值得 <strong>提醒</strong> 的是，这个目录也需要加入系统 PATH ，并且我已经在 系统环境变量 里加入（最后一个），如果你根据自己的习惯修改了 GOBIN 的位置，那么 0x01 里的配置也得相应修改。</p>
@@ -178,10 +184,19 @@
     
 <nav id="article-nav">
   
+    <a href="/2020/golang-1-13-module-VS-package/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          golang 1.13 - module VS package
+        
+      </div>
+    </a>
   
-    <a href="/2020/golang-1-13-module-VS-package/" id="article-nav-older" class="article-nav-link-wrap">
+  
+    <a href="/2020/save-load-a-solution-for-ordinary-people/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">golang 1.13 - module VS package</div>
+      <div class="article-nav-title">S/L 大法 —— 平凡人的做事方法</div>
     </a>
   
 </nav>
@@ -226,11 +241,11 @@
       <ul>
         
           <li>
-            <a href="/2020/setup-golang-env-for-1-13-and-above/">配置 1.13+ 的 golang 环境</a>
+            <a href="/2020/golang-1-13-module-VS-package/">golang 1.13 - module VS package</a>
           </li>
         
           <li>
-            <a href="/2020/golang-1-13-module-VS-package/">golang 1.13 - module VS package</a>
+            <a href="/2020/setup-golang-env-for-1-13-and-above/">配置 1.13+ 的 golang 环境</a>
           </li>
         
           <li>
