@@ -4,12 +4,12 @@
 
     
   <url>
-    <loc>https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/</loc>
-    <lastmod>2020-01-21T15:44:20.688Z</lastmod>
+    <loc>https://jaycechant.info/2020/golang-1-13-module-VS-package/</loc>
+    <lastmod>2020-01-22T10:07:43.519Z</lastmod>
     <data>
         <display>
-        <title>配置 1.13+ 的 golang 环境</title>
-        <pubTime>2020-01-20T08:46:44.000Z</pubTime>
+        <title>golang 1.13 - module VS package</title>
+        <pubTime>2020-01-20T08:50:37.000Z</pubTime>
         
         <tag>golang</tag>
          
@@ -21,12 +21,12 @@
 
     
   <url>
-    <loc>https://jaycechant.info/2020/golang-1-13-module-VS-package/</loc>
-    <lastmod>2020-01-20T16:55:42.178Z</lastmod>
+    <loc>https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/</loc>
+    <lastmod>2020-01-21T15:44:20.688Z</lastmod>
     <data>
         <display>
-        <title>golang 1.13 - module VS package</title>
-        <pubTime>2020-01-20T08:50:37.000Z</pubTime>
+        <title>配置 1.13+ 的 golang 环境</title>
+        <pubTime>2020-01-20T08:46:44.000Z</pubTime>
         
         <tag>golang</tag>
          
