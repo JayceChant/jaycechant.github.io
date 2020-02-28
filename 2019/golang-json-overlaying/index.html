@@ -22,6 +22,8 @@
 但有一些特殊情况，还要考虑反序列化过程中，值的覆盖性：用到的字段非常多，给每个都赋值很麻烦，所以提供一套默认值（注意默认值不一定是 0 值），只要 json 中没有指定，就转而使用默认值。这在 jQuery 中只需">
 <meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
   
+    <link rel="alternative" href="/atom.xml" title="存档Save&amp;Load" type="application/atom+xml">
+  
   
   <link rel="stylesheet" href="/css/style.css">
   <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
@@ -59,10 +61,10 @@
         
           <a class="main-nav-link" href="/sitemap.xml">Sitemap</a>
         
-          <a class="main-nav-link" href="/atom.xml">rss</a>
-        
       </nav>
       <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
         <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
@@ -291,8 +293,6 @@
     <a href="/about" class="mobile-nav-link">About</a>
   
     <a href="/sitemap.xml" class="mobile-nav-link">Sitemap</a>
-  
-    <a href="/atom.xml" class="mobile-nav-link">rss</a>
   
 </nav>
   <!-- totop start -->
