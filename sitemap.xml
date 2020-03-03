@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/collections/go-snippets/index.html</loc>
+    
+    <lastmod>2020-03-03T13:02:35.983Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/collections/index.html</loc>
+    
+    <lastmod>2020-03-03T13:01:33.465Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/about/index.html</loc>
     
     <lastmod>2020-02-28T15:40:26.191Z</lastmod>
@@ -16,13 +30,6 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/collections/index.html</loc>
-    
-    <lastmod>2020-02-28T14:52:34.448Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jaycechant.info/2017/my-software-and-service-list/</loc>
     
     <lastmod>2020-02-28T14:51:09.592Z</lastmod>
@@ -33,13 +40,6 @@
     <loc>https://jaycechant.info/2016/mirrors-collection/</loc>
     
     <lastmod>2020-02-28T12:03:26.322Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jaycechant.info/2020/correct-way-to-delete-an-opened-file/</loc>
-    
-    <lastmod>2020-02-20T16:33:54.852Z</lastmod>
     
   </url>
   
@@ -198,6 +198,13 @@
   </url>
   
   <url>
+    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
+    
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
@@ -213,13 +220,6 @@
   
   <url>
     <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
-    
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     

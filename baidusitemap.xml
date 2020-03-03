@@ -4,6 +4,8 @@
 
     
     
+    
+    
   <url>
     <loc>https://jaycechant.info/2017/special-for-tools/</loc>
     <lastmod>2020-02-28T14:53:58.954Z</lastmod>
@@ -22,7 +24,6 @@
     </data>
     </url>
 
-    
     
   <url>
     <loc>https://jaycechant.info/2017/my-software-and-service-list/</loc>
@@ -68,23 +69,6 @@
         <tag>npm</tag>
          
         <tag>maven</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2020/correct-way-to-delete-an-opened-file/</loc>
-    <lastmod>2020-02-20T16:33:54.852Z</lastmod>
-    <data>
-        <display>
-        <title>删除打开文件的正确方法（Linux）</title>
-        <pubTime>2020-01-08T16:05:41.000Z</pubTime>
-        
-        <tag>file-system</tag>
          
          
            
@@ -173,9 +157,9 @@
         
         <tag>golang</tag>
          
-        <tag>dep</tag>
-         
         <tag>glide</tag>
+         
+        <tag>dep</tag>
          
          
            
@@ -367,9 +351,9 @@
         <title>用 Syncthing 备份的技巧</title>
         <pubTime>2016-08-28T07:57:03.000Z</pubTime>
         
-        <tag>Syncthing</tag>
-         
         <tag>skill</tag>
+         
+        <tag>Syncthing</tag>
          
         <tag>dropbox</tag>
          
@@ -409,9 +393,9 @@
         <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
         <pubTime>2017-01-20T06:44:31.000Z</pubTime>
         
-        <tag>Java</tag>
-         
         <tag>Jenkins</tag>
+         
+        <tag>Java</tag>
          
         <tag>trouble</tag>
          
@@ -522,6 +506,31 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>在 Windows 搭建Python多版本环境</title>
+        <pubTime>2016-07-12T07:21:27.000Z</pubTime>
+        
+        <tag>Python</tag>
+         
+        <tag>unfinished</tag>
+         
+        <tag>pip</tag>
+         
+        <tag>trouble</tag>
+         
+        <tag>virtualenv</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     <data>
@@ -574,31 +583,6 @@
         <tag>Ubuntu</tag>
          
         <tag>vsftp</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>在 Windows 搭建Python多版本环境</title>
-        <pubTime>2016-07-12T07:21:27.000Z</pubTime>
-        
-        <tag>Python</tag>
-         
-        <tag>unfinished</tag>
-         
-        <tag>pip</tag>
-         
-        <tag>trouble</tag>
-         
-        <tag>virtualenv</tag>
          
          
            
