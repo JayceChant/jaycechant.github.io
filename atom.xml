@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaycechant.info/"/>
-  <updated>2020-03-05T18:55:21.903Z</updated>
+  <updated>2020-03-05T19:04:56.500Z</updated>
   <id>https://jaycechant.info/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://jaycechant.info/2020/correct-way-to-delete-an-opened-file/"/>
     <id>https://jaycechant.info/2020/correct-way-to-delete-an-opened-file/</id>
     <published>2020-02-19T16:05:41.000Z</published>
-    <updated>2020-03-05T18:55:21.903Z</updated>
+    <updated>2020-03-05T19:04:56.500Z</updated>
     
     <content type="html"><![CDATA[<p>凭记忆复述一个坑，稍微带到 Linux 文件系统知识。时间久远，记忆可能存在差错。发现了错误请留言告知，感激不尽。</p>
 <p>标题的中文断句上容易有歧义，重复一下英文：correct way to delete an opened file ，关键在 『打开了的文件』或者叫 『已经打开的文件』，怎么解释都比 opened 拗口。</p>
@@ -86,7 +86,7 @@
 <p>所以不用多久，很可能还是要再处理一次。如果确认进程已经没有用，还是停掉吧。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 正则式 /[d]ummy/ 和 /dummy/ 含义没有差别，但可以避免匹配自身</span></div><div class="line">$ <span class="built_in">kill</span> -9 `ps x | awk <span class="string">'/[d]ummy/&#123;print $1&#125;'</span>`</div><div class="line">$ lsof | grep nohup.out</div><div class="line"><span class="comment"># 没有输出，inode 彻底释放掉了</span></div></pre></td></tr></table></figure>
 <h2 id="涉及的文件系统原理"><a href="#涉及的文件系统原理" class="headerlink" title="涉及的文件系统原理"></a>涉及的文件系统原理</h2><p>上面的内容要透彻理解，涉及到 Linux 的文件系统原理。直接上一张图</p>
-<p><img src="../images/linux_fs.png" alt=""></p>
+<p><img src="../../images/linux_fs.png" alt=""></p>
 <ol>
 <li>首先目录本身也是文件，只是系统做了特殊处理。里面的内容非常简单，所有子文件的 <strong>文件名</strong> 以及对应的 inode 号，也就是 <code>ls -i</code> 输出的内容。</li>
 <li>inode 储存 <strong>文件名 和 文件内容 以外</strong> 的所有信息（大小 / 所有者 / 分组 / 权限 / 时间戳 / 链接数 / 块的位置，基本上等于 <code>stat</code> 输出的内容）。访问文件时，根据文件名获取到对应的 inode，再从 inode 获取各个块的位置，从块里读取 <strong>内容</strong>。</li>
