@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2020/golang-1-13-env-for-win/</loc>
+    
+    <lastmod>2020-03-10T17:24:59.938Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/</loc>
+    
+    <lastmod>2020-03-10T15:10:25.969Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/correct-way-to-delete-an-opened-file/</loc>
     
     <lastmod>2020-03-05T19:04:56.500Z</lastmod>
@@ -54,13 +68,6 @@
     <loc>https://jaycechant.info/2020/golang-1-13-module-VS-package/</loc>
     
     <lastmod>2020-01-22T10:10:38.811Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/</loc>
-    
-    <lastmod>2020-01-21T15:44:20.688Z</lastmod>
     
   </url>
   
@@ -212,7 +219,7 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
+    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     
@@ -226,7 +233,7 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
+    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     
