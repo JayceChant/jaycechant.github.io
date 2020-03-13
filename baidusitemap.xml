@@ -4,8 +4,25 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/flutter-kickoff/</loc>
+    <lastmod>2020-03-13T16:03:41.386Z</lastmod>
+    <data>
+        <display>
+        <title>flutter 踩坑流水账</title>
+        <pubTime>2020-03-13T14:10:05.000Z</pubTime>
+        
+        <tag>flutter</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/golang-1-13-env-for-win/</loc>
-    <lastmod>2020-03-10T17:24:59.938Z</lastmod>
+    <lastmod>2020-03-11T07:53:39.897Z</lastmod>
     <data>
         <display>
         <title>配置 1.13+ 的 golang 环境（Windows 篇）</title>
@@ -105,15 +122,15 @@
         <title>镜像清单</title>
         <pubTime>2016-12-31T02:29:12.000Z</pubTime>
         
-        <tag>Android</tag>
-         
         <tag>Jenkins</tag>
+         
+        <tag>Android</tag>
          
         <tag>pip</tag>
          
-        <tag>mirror</tag>
-         
         <tag>Ubuntu</tag>
+         
+        <tag>mirror</tag>
          
         <tag>aliyun</tag>
          
@@ -191,9 +208,9 @@
         
         <tag>golang</tag>
          
-        <tag>dep</tag>
-         
         <tag>glide</tag>
+         
+        <tag>dep</tag>
          
          
            
@@ -227,9 +244,9 @@
         <title>golang 预置 json 包的值覆盖测试</title>
         <pubTime>2019-05-19T16:45:38.000Z</pubTime>
         
-        <tag>golang</tag>
-         
         <tag>json</tag>
+         
+        <tag>golang</tag>
          
          
            
@@ -324,11 +341,11 @@
         
         <tag>Markdown</tag>
          
-        <tag>why</tag>
-         
         <tag>document</tag>
          
         <tag>presentation</tag>
+         
+        <tag>why</tag>
          
          
            
@@ -347,9 +364,9 @@
         
         <tag>how-to</tag>
          
-        <tag>nodePPT</tag>
-         
         <tag>Mathjax</tag>
+         
+        <tag>nodePPT</tag>
          
          
            
@@ -450,9 +467,9 @@
         <title>git: 在两个 repo 之间 merge</title>
         <pubTime>2017-01-21T03:28:29.000Z</pubTime>
         
-        <tag>git</tag>
-         
         <tag>skill</tag>
+         
+        <tag>git</tag>
          
          
            
@@ -526,57 +543,11 @@
         <title>Linux 上 为 Jenkins 配置 Android-sdk 及其它</title>
         <pubTime>2017-01-16T03:24:34.000Z</pubTime>
         
-        <tag>Android</tag>
-         
         <tag>Jenkins</tag>
          
+        <tag>Android</tag>
+         
         <tag>Android-sdk</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>在 Windows 搭建Python多版本环境</title>
-        <pubTime>2016-07-12T07:21:27.000Z</pubTime>
-        
-        <tag>Python</tag>
-         
-        <tag>unfinished</tag>
-         
-        <tag>pip</tag>
-         
-        <tag>trouble</tag>
-         
-        <tag>virtualenv</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>vsftp 503 和 500 错误</title>
-        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
-        
-        <tag>trouble</tag>
-         
-        <tag>Ubuntu</tag>
-         
-        <tag>vsftp</tag>
          
          
            
@@ -605,6 +576,31 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>在 Windows 搭建Python多版本环境</title>
+        <pubTime>2016-07-12T07:21:27.000Z</pubTime>
+        
+        <tag>Python</tag>
+         
+        <tag>unfinished</tag>
+         
+        <tag>trouble</tag>
+         
+        <tag>pip</tag>
+         
+        <tag>virtualenv</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     <data>
@@ -617,6 +613,27 @@
         <tag>practice</tag>
          
         <tag>solution-report</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>vsftp 503 和 500 错误</title>
+        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
+        
+        <tag>trouble</tag>
+         
+        <tag>Ubuntu</tag>
+         
+        <tag>vsftp</tag>
          
          
            
@@ -706,9 +723,9 @@
         
         <tag>Python</tag>
          
-        <tag>pip</tag>
-         
         <tag>trouble</tag>
+         
+        <tag>pip</tag>
          
          
            
@@ -744,13 +761,13 @@
         
         <tag>git</tag>
          
-        <tag>node.js</tag>
-         
-        <tag>trouble</tag>
-         
         <tag>blog</tag>
          
         <tag>hexo</tag>
+         
+        <tag>node.js</tag>
+         
+        <tag>trouble</tag>
          
          
            

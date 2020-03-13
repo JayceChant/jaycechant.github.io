@@ -15,7 +15,7 @@
 <meta property="og:description" content="前段时间为 go 1.13 写了 《配置 1.13+ 的 golang 环境》 （注：现在go 1.14 都发布了），以区别于 1.9 还在用 GOPATH 时写的  《配置 Golang 开发环境》 。考虑到后者写了 Win 环境下的配置，于是前者就写一下 Linux 环境。
 当下这个时间点，当然参考 1.13+ 那篇。可是在 Windows 配置怎么办？那就把文中系统相关的操作（主要是环境变量">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2020-03-10T17:24:59.938Z">
+<meta property="og:updated_time" content="2020-03-11T07:53:39.897Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="配置 1.13+ 的 golang 环境（Windows 篇）">
 <meta name="twitter:description" content="前段时间为 go 1.13 写了 《配置 1.13+ 的 golang 环境》 （注：现在go 1.14 都发布了），以区别于 1.9 还在用 GOPATH 时写的  《配置 Golang 开发环境》 。考虑到后者写了 Win 环境下的配置，于是前者就写一下 Linux 环境。
@@ -104,12 +104,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>前段时间为 go 1.13 写了 <a href="../setup-golang-env-for-1-13-and-above/">《配置 1.13+ 的 golang 环境》</a> （注：现在go 1.14 都发布了），以区别于 1.9 还在用 GOPATH 时写的  <a href="https://jaycechant.info/2018/setup-golang-env/">《配置 Golang 开发环境》</a> 。考虑到后者写了 Win 环境下的配置，于是前者就写一下 Linux 环境。</p>
+        <p>前段时间为 go 1.13 写了 <a href="../setup-golang-env-for-1-13-and-above/">《配置 1.13+ 的 golang 环境》</a> （注：现在go 1.14 都发布了），以区别于 1.9 还在用 GOPATH 时写的  <a href="../../setup-golang-env/">《配置 Golang 开发环境》</a> 。考虑到后者写了 Win 环境下的配置，于是前者就写一下 Linux 环境。</p>
 <p>当下这个时间点，当然参考 1.13+ 那篇。可是在 Windows 配置怎么办？那就把文中系统相关的操作（主要是环境变量）换成 Win 的对应操作。两篇文章，分别涉及到了 “&lt; 1.13 &amp; Win” 和 “1.13+ &amp; Linux”，看完举一反三，应该新旧版本两个系统平台，都会配置了。</p>
 <p>结果今晚让朋友看着新教程（1.13+）配置 Win 下 go 1.13+ 环境，证明我还是太天真：这些配置教程的目标读者很可能根本没有跨平台的经验，一个 Linux 的操作在 Windows 下对应着什么，他们完全没有概念 [摊手]。</p>
 <p>一气之下，只好再发一篇。注意，这篇 <strong>没有任何新内容</strong>，纯粹是旧文的重新组合！（Windows &amp; go 1.13+）</p>
 <a id="more"></a>
-<p>注意，不是我想水好吧，我也是被某些人气的。[摊手]</p>
+<p>不是我想水好吧，我也是被某些人气的。[摊手]</p>
 <p>反正入门教程就不能对读者有期待，不然达不到 <strong>扔给 朋友 / 学生 之后不用管</strong> 的效果。本文遇到大段引用我其他文章的，不再只给链接，直接把内容贴过来，方便你们不用跳转，也方便我不用解释 [白眼]。</p>
 <h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>重申，这篇讲 Windows 环境下，go 1.13 以上版本的配置。当下最新的是 1.14，但是配置方法没有变化。</p>
 <h3 id="0x00-下载安装"><a href="#0x00-下载安装" class="headerlink" title="0x00 下载安装"></a>0x00 下载安装</h3><p><del>找下载链接请到官网 golang.org/dl ，如果国内不能访问</del>，请直接到国内的官方镜像站 golang.google.cn/dl 。</p>
@@ -131,7 +131,7 @@
 <h4 id="确认"><a href="#确认" class="headerlink" title="确认"></a>确认</h4><p>惯例地检查一下是否配置正确</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">go version</div><div class="line">go version go1.14 windows/amd64</div></pre></td></tr></table></figure>
 <p>如果不能正确执行 <code>go version</code> ，把当前版本输出，请回头检查哪里出错。</p>
-<p>跟老版本不同的是，只要把 go 本身的可执行路径 和 go bin 的安装路径加入 PATH 就可以了，剩下的 go env 自行管理了。</p>
+<p>跟老版本不同的是，只要把 go 本身的可执行路径 和 go bin 的安装路径加入 Path 就可以了，剩下的 go env 自行管理了。</p>
 <h3 id="0x02-go-env"><a href="#0x02-go-env" class="headerlink" title="0x02 go env"></a>0x02 go env</h3><p>执行 <code>go env</code>，就会看到 go 内置的环境变量，以及部分默认值。</p>
 <p>大家看自己的输出，我的已经改过，不是默认值，就不贴了。</p>
 <p><code>go env -w key=value</code>  这样的形式，是将 key 变量修改成 value 这个值。</p>
@@ -179,7 +179,7 @@
 <p>由于 git 本身就是一个大话题，基本的安装使用教程不难搜到，有时间时会另起文章讨论，这里只是提醒安装，不再展开。</p>
 <h3 id="0x05-开始一个项目"><a href="#0x05-开始一个项目" class="headerlink" title="0x05 开始一个项目"></a>0x05 开始一个项目</h3><p>终于把环境都配置好了，然后就可以开始第一个 go 的项目了。由于 go modules 不再依赖 GOPATH，所以项目可以放在任何地方——这个 『任何』，是指可以不是 GOPATH ，但是要是习惯了，继续放在 <code>%GOPATH%/src</code> 也没问题。</p>
 <p>好了，不管放在哪，现在新建一个项目的根目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">~ mkdir demo</div><div class="line">~ <span class="built_in">cd</span> demo</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir demo</div><div class="line"><span class="built_in">cd</span> demo</div></pre></td></tr></table></figure>
 <p>然后执行 <code>go mod init &lt;module_path&gt;</code> ，生成 go.mod ，这个项目就算初始化完了，接下来就该敲代码了。随着开发的进行，还会自动生成 go.sum 文件，记录依赖的校验信息。注意 go.sum <strong>不是 lock 文件</strong> ，重现构建的信息已经包含在 go.mod 里，go.sum <strong>属于 checksum 文件</strong> ，用来 <strong>确保下载的依赖没有被篡改</strong> 。 go.mod 和 go.sum 需要一起提交<strong>参与版本控制</strong> 。关于 <code>go mod</code> 的详细用法，可以直接 <code>go help mod</code> 获取帮助信息，不展开。</p>
 <p>关于 module path 的内容，以及 module 与 package 之间的关系，篇幅所限，另有一篇文章详细解释，请看《<a href="https://jaycechant.info/2020/golang-1-13-module-VS-package/">golang 1.13 - module VS package</a>》。</p>
 <p>go 语法和开发，限于篇幅，也不是本文内容，后续可能需要开一个系列展开。</p>
@@ -208,7 +208,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2020/golang-1-13-env-for-win/" data-id="ck7m60yac005pdoxl3yllf2ue" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2020/golang-1-13-env-for-win/" data-id="ck7qdfwc60035ioxlikmxsjc8" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -223,6 +223,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2020/flutter-kickoff/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          flutter 踩坑流水账
+        
+      </div>
+    </a>
   
   
     <a href="/2020/correct-way-to-delete-an-opened-file/" id="article-nav-older" class="article-nav-link-wrap">
@@ -251,7 +260,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Anaconda/" style="font-size: 10px;">Anaconda</a> <a href="/tags/Android/" style="font-size: 11.67px;">Android</a> <a href="/tags/Android-sdk/" style="font-size: 10px;">Android-sdk</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/JCE/" style="font-size: 10px;">JCE</a> <a href="/tags/Java/" style="font-size: 11.67px;">Java</a> <a href="/tags/JavaMail/" style="font-size: 10px;">JavaMail</a> <a href="/tags/Jenkins/" style="font-size: 16.67px;">Jenkins</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 13.33px;">Markdown</a> <a href="/tags/Mathjax/" style="font-size: 10px;">Mathjax</a> <a href="/tags/OJ/" style="font-size: 10px;">OJ</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/OpenGrok/" style="font-size: 10px;">OpenGrok</a> <a href="/tags/Python/" style="font-size: 16.67px;">Python</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Syncthing/" style="font-size: 10px;">Syncthing</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/algorithm/" style="font-size: 11.67px;">algorithm</a> <a href="/tags/aliyun/" style="font-size: 10px;">aliyun</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/byobu/" style="font-size: 11.67px;">byobu</a> <a href="/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/tags/dep/" style="font-size: 11.67px;">dep</a> <a href="/tags/document/" style="font-size: 10px;">document</a> <a href="/tags/dropbox/" style="font-size: 10px;">dropbox</a> <a href="/tags/file-system/" style="font-size: 10px;">file-system</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/glide/" style="font-size: 10px;">glide</a> <a href="/tags/golang/" style="font-size: 20px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/how-to/" style="font-size: 16.67px;">how-to</a> <a href="/tags/json/" style="font-size: 11.67px;">json</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mirror/" style="font-size: 10px;">mirror</a> <a href="/tags/netdisk/" style="font-size: 10px;">netdisk</a> <a href="/tags/node-js/" style="font-size: 11.67px;">node.js</a> <a href="/tags/nodePPT/" style="font-size: 11.67px;">nodePPT</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/pgyer/" style="font-size: 10px;">pgyer</a> <a href="/tags/pip/" style="font-size: 15px;">pip</a> <a href="/tags/practice/" style="font-size: 11.67px;">practice</a> <a href="/tags/presentation/" style="font-size: 10px;">presentation</a> <a href="/tags/screen/" style="font-size: 11.67px;">screen</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/skill/" style="font-size: 13.33px;">skill</a> <a href="/tags/smtp/" style="font-size: 10px;">smtp</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/solution-report/" style="font-size: 10px;">solution-report</a> <a href="/tags/supervisor/" style="font-size: 10px;">supervisor</a> <a href="/tags/trouble/" style="font-size: 18.33px;">trouble</a> <a href="/tags/unfinished/" style="font-size: 13.33px;">unfinished</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftp/" style="font-size: 10px;">vsftp</a> <a href="/tags/why/" style="font-size: 11.67px;">why</a>
+      <a href="/tags/Anaconda/" style="font-size: 10px;">Anaconda</a> <a href="/tags/Android/" style="font-size: 11.67px;">Android</a> <a href="/tags/Android-sdk/" style="font-size: 10px;">Android-sdk</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/JCE/" style="font-size: 10px;">JCE</a> <a href="/tags/Java/" style="font-size: 11.67px;">Java</a> <a href="/tags/JavaMail/" style="font-size: 10px;">JavaMail</a> <a href="/tags/Jenkins/" style="font-size: 16.67px;">Jenkins</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 13.33px;">Markdown</a> <a href="/tags/Mathjax/" style="font-size: 10px;">Mathjax</a> <a href="/tags/OJ/" style="font-size: 10px;">OJ</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/OpenGrok/" style="font-size: 10px;">OpenGrok</a> <a href="/tags/Python/" style="font-size: 16.67px;">Python</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Syncthing/" style="font-size: 10px;">Syncthing</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/algorithm/" style="font-size: 11.67px;">algorithm</a> <a href="/tags/aliyun/" style="font-size: 10px;">aliyun</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/byobu/" style="font-size: 11.67px;">byobu</a> <a href="/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/tags/dep/" style="font-size: 11.67px;">dep</a> <a href="/tags/document/" style="font-size: 10px;">document</a> <a href="/tags/dropbox/" style="font-size: 10px;">dropbox</a> <a href="/tags/file-system/" style="font-size: 10px;">file-system</a> <a href="/tags/flutter/" style="font-size: 10px;">flutter</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/glide/" style="font-size: 10px;">glide</a> <a href="/tags/golang/" style="font-size: 20px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/how-to/" style="font-size: 16.67px;">how-to</a> <a href="/tags/json/" style="font-size: 11.67px;">json</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mirror/" style="font-size: 10px;">mirror</a> <a href="/tags/netdisk/" style="font-size: 10px;">netdisk</a> <a href="/tags/node-js/" style="font-size: 11.67px;">node.js</a> <a href="/tags/nodePPT/" style="font-size: 11.67px;">nodePPT</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/pgyer/" style="font-size: 10px;">pgyer</a> <a href="/tags/pip/" style="font-size: 15px;">pip</a> <a href="/tags/practice/" style="font-size: 11.67px;">practice</a> <a href="/tags/presentation/" style="font-size: 10px;">presentation</a> <a href="/tags/screen/" style="font-size: 11.67px;">screen</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/skill/" style="font-size: 13.33px;">skill</a> <a href="/tags/smtp/" style="font-size: 10px;">smtp</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/solution-report/" style="font-size: 10px;">solution-report</a> <a href="/tags/supervisor/" style="font-size: 10px;">supervisor</a> <a href="/tags/trouble/" style="font-size: 18.33px;">trouble</a> <a href="/tags/unfinished/" style="font-size: 13.33px;">unfinished</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftp/" style="font-size: 10px;">vsftp</a> <a href="/tags/why/" style="font-size: 11.67px;">why</a>
     </div>
   </div>
 
@@ -260,7 +269,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -270,6 +279,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/flutter-kickoff/">flutter 踩坑流水账</a>
+          </li>
         
           <li>
             <a href="/2020/golang-1-13-env-for-win/">配置 1.13+ 的 golang 环境（Windows 篇）</a>
@@ -285,10 +298,6 @@
         
           <li>
             <a href="/2020/setup-golang-env-for-1-13-and-above/">配置 1.13+ 的 golang 环境</a>
-          </li>
-        
-          <li>
-            <a href="/2020/save-load-a-solution-for-ordinary-people/">S/L 大法 —— 平凡人的做事方法</a>
           </li>
         
       </ul>

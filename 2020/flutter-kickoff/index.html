@@ -1,0 +1,503 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>flutter 踩坑流水账 | 存档Save&amp;Load</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Flutter 作为前端一个发展方向大热，有必要了解一下。
+踩坑流水账，遇到啥记啥，不求全；遇到的 弯弯绕绕，错误示范 也 如实记载 。当前 Flutter 还不太稳定，可能过一段时间操作细节就变了（希望是改进），这种记录可以跟将来做对比。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flutter 踩坑流水账">
+<meta property="og:url" content="https://jaycechant.info/2020/flutter-kickoff/index.html">
+<meta property="og:site_name" content="存档Save&Load">
+<meta property="og:description" content="Flutter 作为前端一个发展方向大热，有必要了解一下。
+踩坑流水账，遇到啥记啥，不求全；遇到的 弯弯绕绕，错误示范 也 如实记载 。当前 Flutter 还不太稳定，可能过一段时间操作细节就变了（希望是改进），这种记录可以跟将来做对比。">
+<meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta property="og:updated_time" content="2020-03-13T16:03:41.386Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="flutter 踩坑流水账">
+<meta name="twitter:description" content="Flutter 作为前端一个发展方向大热，有必要了解一下。
+踩坑流水账，遇到啥记啥，不求全；遇到的 弯弯绕绕，错误示范 也 如实记载 。当前 Flutter 还不太稳定，可能过一段时间操作细节就变了（希望是改进），这种记录可以跟将来做对比。">
+<meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+  
+    <link rel="alternative" href="/atom.xml" title="存档Save&amp;Load" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+</head>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">存档Save&amp;Load</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">存档意味着放下包袱，搞砸了不过回来读档</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/collections">Collections</a>
+        
+          <a class="main-nav-link" href="https://github.com/JayceChant">Github</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/sitemap.xml">Sitemap</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="http://www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="jaycechant.info">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-flutter-kickoff" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/flutter-kickoff/" class="article-date">
+  <time datetime="2020-03-13T14:10:05.000Z" itemprop="datePublished">2020-03-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      flutter 踩坑流水账
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Flutter 作为前端一个发展方向大热，有必要了解一下。</p>
+<p>踩坑流水账，遇到啥记啥，不求全；遇到的 <strong>弯弯绕绕，错误示范</strong> 也 <strong>如实记载</strong> 。当前 Flutter 还不太稳定，可能过一段时间操作细节就变了（希望是改进），这种记录可以跟将来做对比。</p>
+<a id="more"></a>
+<blockquote>
+<p>我的水平远远够不上厉害，但在一些朋友看来可能有可取之处，当他们自学遇到困难时，偶尔会问我是怎么学的。记录这样的流水账，你可以看到，我遇到新事物，一样是一点点试错。相信真正的大牛，（至少曾经）也是这样过来。  只不过大牛可能悟性好，试错时间和次数少一些。自己试错多了，也会掌握试错的套路。</p>
+<p>某个程序员朋友，连 help 和 man 都不知道，让人着急。可我高中时，明明已经学过简单的编程，对 Linux 居然连听都没听过，听同学讨论一头问号。我的反应是什么？放假第一时间让我的电脑变成 Windows / Ubuntu 双系统。他之前不知道 help，现在知道了。<strong>互联网时代，知道了关键词，就不能说你一无所知。起码要把公开资料看完吧？</strong></p>
+<p>你看到的『最佳实践』的文章，其实已经是作者熟练之后提炼的结果。好处是读者不必再走一次弯路，坏处是读者可能会产生心理落差。</p>
+<p>—— 这段文字跟本文内容关系不大，发散一下，算是响应我《S/L 大法——平凡人的做事方法》那篇文章吧。</p>
+</blockquote>
+<p>如果觉得 Flutter 开发（在当前、对我而言）可以入坑，再来写经过整理总结的经验帖，否则就此一篇。</p>
+<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><h3 id="获取-Flutter-stable"><a href="#获取-Flutter-stable" class="headerlink" title="获取 Flutter stable"></a>获取 Flutter stable</h3><p>考虑 flutter 还在快速开发中，为了方便更新，直接拉仓库的 stable 分支。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> -b stable https://github.com/flutter/flutter.git</div></pre></td></tr></table></figure>
+<p>得到的版本是 <code>1.12.13+Hotfix.8</code> 。</p>
+<p>然后运行 flutter_console.bat ，按提示，先执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flutter doctor</div></pre></td></tr></table></figure>
+<p>提示 powershell 版本太低，这时才想起，去看看依赖（这台老电脑买的时候预装 Win8，因为 Win8 只是个过渡产物很快升了 Win10。结果某个硬件驱动不兼容 Win10，干脆退回 Win7。）</p>
+<blockquote>
+<ul>
+<li><p><a href="https://docs.microsoft.com/en-us/powershell/scripting/install/installing-windows-powershell" target="_blank" rel="external">Windows PowerShell 5.0</a> 或者更高的版本（Windows 10 中已经预装了）</p>
+</li>
+<li><p><a href="https://git-scm.com/download/win" target="_blank" rel="external">Git for Windows</a> 2.x，并且勾选<strong>从 Windows 命令提示符使用 Git</strong> 选项。</p>
+<p>  如果 Windows 版的 Git 已经安装过了，那么请确保能从命令提示符或者 PowerShell 中直接执行 git 命令。</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="Powershell"><a href="#Powershell" class="headerlink" title="Powershell"></a>Powershell</h3><p>git 作为最高频的工具，几乎是最新的。而平时不用的 Powershell，什么版本真的没概念，赶紧打开一个 Powershell，输入</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$PSVersionTable</span></div></pre></td></tr></table></figure>
+<p>才 2.0，装个最新的吧。</p>
+<p><a href="https://docs.microsoft.com/zh-cn/powershell/scripting/install/installing-powershell" target="_blank" rel="external">installing-powershell</a></p>
+<p>发现 6.0 以上不能直接安装，还得安装 Powershell Core （因为从 Win 专用变成跨平台了）。要不要装最新的呢？先不管，反正 .NET 4.5 以上是一定需要的，先看 .NET 的版本</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$DotNetVersions</span> = <span class="built_in">Get-ChildItem</span> HKLM:\SOFTWARE\WOW6432Node\Microsoft\Updates | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.name <span class="nomarkup">-like</span></div><div class="line"> <span class="string">"*.NET Framework*"</span>&#125;</div><div class="line"></div><div class="line"><span class="keyword">ForEach</span>(<span class="variable">$Version</span> <span class="keyword">in</span> <span class="variable">$DotNetVersions</span>)&#123;</div><div class="line">    </div><div class="line">   <span class="variable">$Updates</span> = <span class="built_in">Get-ChildItem</span> <span class="variable">$Version</span>.PSPath</div><div class="line">    <span class="variable">$Version</span>.PSChildName</div><div class="line">    <span class="keyword">ForEach</span> (<span class="variable">$Update</span> <span class="keyword">in</span> <span class="variable">$Updates</span>)&#123;</div><div class="line">       <span class="variable">$Update</span>.PSChildName</div><div class="line">       &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>是 4.7 ，够新了。</p>
+<h3 id="WMF"><a href="#WMF" class="headerlink" title="WMF"></a>WMF</h3><p>然后是 WMF(Windows Management Framework)。</p>
+<p><a href="https://docs.microsoft.com/zh-cn/powershell/scripting/wmf/setup/install-configure" target="_blank" rel="external">wmf-install-configure</a></p>
+<p>不同版本的 Powershell 和 WMF 的依赖关系如下：</p>
+<table>
+<thead>
+<tr>
+<th>Powershell 版本</th>
+<th>PS 5.0</th>
+<th>PS 5.1</th>
+<th>PS 6.0+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>依赖的 WMF 版本</td>
+<td>WMF 5.0 （已包含 PS 5.0）</td>
+<td>WMF 5.1 （已包含 PS 5.1）</td>
+<td>WMF 4.0+</td>
+</tr>
+</tbody>
+</table>
+<p>结论，不管我装不装 6.0+，安装一个 WMF 5.1 总是没错的。</p>
+<p>下载，解压，按说明在 Powershell 里运行安装的 ps1 脚本。提示没有签名。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">get-executionpolicy</span> -list</div><div class="line"><span class="built_in">set-executionpolicy</span> remotesigned -scope <span class="keyword">process</span></div></pre></td></tr></table></figure>
+<p>再运行一次，可以了。</p>
+<p>这时再看 Powershell 的版本。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$PSVersionTable</span>.PSVersion</div><div class="line"></div><div class="line">Major  Minor  Build  Revision</div><div class="line">-----  -----  -----  --------</div><div class="line"><span class="number">5</span>      <span class="number">1</span>      <span class="number">14409</span>  <span class="number">1005</span></div></pre></td></tr></table></figure>
+<p>Powershell 5.1 已经包含在 WMF 5.1 了，已经满足要求，就没啥动力继续折腾 6.0+ 了。</p>
+<h3 id="Flutter-镜像"><a href="#Flutter-镜像" class="headerlink" title="Flutter 镜像"></a>Flutter 镜像</h3><p>回到 flutter_console ，继续 <code>flutter doctor</code> ，这回 Powershell 不报错，开始自动下载 Dart SDK 了（难怪没有要求先安装 Dart）：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Checking Dart SDK version...</div><div class="line">Downloading Dart SDK from Flutter engine e1e6ced81d029258d449bdec2ba3cddca9c2ca0c...</div></pre></td></tr></table></figure>
+<p>貌似因为网络不好，下载过程重试了几遍，还好最终成功了</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Checking Dart SDK version...</div><div class="line">Downloading Dart SDK from Flutter engine e1e6ced81d029258d449bdec2ba3cddca9c2ca0c...</div><div class="line">Unzipping Dart SDK...</div><div class="line">Building flutter tool...</div><div class="line">Running pub upgrade...</div><div class="line">Error (<span class="number">69</span>): Unable to <span class="string">'pub upgrade'</span> flutter tool. Retrying <span class="keyword">in</span> five seconds... (<span class="number">9</span> tries left)</div></pre></td></tr></table></figure>
+<p>同样的，<code>pub upgrade</code> 也重试了很多遍，不过次数太多，引起注意，先停掉。翻到</p>
+<p><a href="https://flutter.cn/community/china" target="_blank" rel="external">在中国网络环境下使用 Flutter</a></p>
+<p>扫了一眼，直接用 Flutter 社区的镜像。因为是 Windows，打开环境变量，加上这两个值：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">PUB_HOSTED_URL=https://pub.flutter-io.cn</div><div class="line">FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn</div></pre></td></tr></table></figure>
+<h3 id="Android-SDK"><a href="#Android-SDK" class="headerlink" title="Android SDK"></a>Android SDK</h3><p>重新打开 flutter_console.bat，再次 <code>flutter doctor</code> </p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">Doctor summary (to see all details, run flutter doctor -v):</div><div class="line">[√] Flutter (Channel stable, v1.<span class="number">12.13</span>+hotfix.<span class="number">8</span>, on Microsoft Windows [Version <span class="number">6.1</span>.<span class="number">7601</span>], locale</div><div class="line">    zh-CN)</div><div class="line">[X] Android toolchain - develop <span class="keyword">for</span> Android devices</div><div class="line">    X Unable to locate Android SDK.</div><div class="line">      Install Android Studio from: https://developer.android.com/studio/index.html</div><div class="line">      On first launch it will assist you <span class="keyword">in</span> installing the Android SDK components.</div><div class="line">      (or visit https://flutter.dev/setup/<span class="comment">#android-setup for detailed instructions).</span></div><div class="line">      <span class="keyword">If</span> the Android SDK has been installed to a custom location, set ANDROID_HOME to that location.</div><div class="line"></div><div class="line">      You may also want to add it to your PATH environment variable.</div><div class="line"></div><div class="line">[!] Android Studio (version <span class="number">3.6</span>)</div><div class="line">    X Flutter plugin not installed; this adds Flutter specific functionality.</div><div class="line">    X Dart plugin not installed; this adds Dart specific functionality.</div><div class="line">[!] Connected device</div><div class="line">    ! No devices available</div></pre></td></tr></table></figure>
+<blockquote>
+<p>作为一个前 Android 开发者，电脑上其实一直有 Android Studio 和 Android SDK。</p>
+<p>开始这篇流水账之前，我已经把 Android Studio 升级到当下最新的 3.6，SDK tools 也升级到最新的 26.1.1。只是 Android Studio 能定位 SDK 的位置，所以没有设置 ANDROID_HOME。</p>
+<p>因为 Android Studio 已经很稳定，下载很快，安装很傻瓜，就不提了。</p>
+</blockquote>
+<h4 id="SDK-version"><a href="#SDK-version" class="headerlink" title="SDK version"></a>SDK version</h4><p>新添加 <code>ANDROID_HOME</code> ，重开 console（以重新加载环境变量），再次 <code>flutter doctor</code> ，SDK 居然不是最新，而且也不是 Android Studio 里显示的 26.1.1，可能升级时漏了什么：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[!] Android toolchain - develop <span class="keyword">for</span> Android devices (Android SDK version <span class="number">27.0</span>.<span class="number">3</span>)</div><div class="line">    X Flutter requires Android SDK <span class="number">28</span> and the Android BuildTools <span class="number">28.0</span>.<span class="number">3</span></div><div class="line">      To update using sdkmanager, run:</div><div class="line">        <span class="string">"%ANDROID_HOME%\tools\bin\sdkmanager"</span> <span class="string">"platforms;android-28"</span> <span class="string">"build-tools;28.0.3"</span></div><div class="line">      or visit https://flutter.dev/setup/<span class="comment">#android-setup for detailed instructions.</span></div><div class="line">    X Android license status unknown.</div><div class="line">      <span class="keyword">Try</span> re-installing or updating your Android SDK Manager.</div><div class="line">      See https://developer.android.com/studio/<span class="comment">#downloads or visit</span></div><div class="line">      https://flutter.dev/setup/<span class="comment">#android-setup for detailed instructions.</span></div></pre></td></tr></table></figure>
+<p>那就去跑一下 sdkmanager 吧</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">sdkmanager.bat</div><div class="line">Exception <span class="keyword">in</span> thread <span class="string">"main"</span> java.lang.NoClassDefFoundError: javax/xml/bind/annotation/XmlSchema</div><div class="line">        at com.android.repository.api.SchemaModule<span class="variable">$SchemaModuleVersion</span>.&lt;init&gt;(SchemaModule.java:<span class="number">156</span>)</div><div class="line"></div><div class="line">        at com.android.repository.api.SchemaModule.&lt;init&gt;(SchemaModule.java:<span class="number">75</span>)</div><div class="line">        at com.android.sdklib.repository.AndroidSdkHandler.&lt;clinit&gt;(AndroidSdkHandler.java:<span class="number">81</span>)</div><div class="line">        at com.android.sdklib.tool.sdkmanager.SdkManagerCli.main(SdkManagerCli.java:<span class="number">73</span>)</div><div class="line">        at com.android.sdklib.tool.sdkmanager.SdkManagerCli.main(SdkManagerCli.java:<span class="number">48</span>)</div><div class="line">Caused by: java.lang.ClassNotFoundException: javax.xml.bind.annotation.XmlSchema</div><div class="line">        at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:<span class="number">582</span>)</div><div class="line">        at java.base/jdk.internal.loader.ClassLoaders<span class="variable">$AppClassLoader</span>.loadClass(ClassLoaders.java:<span class="number">190</span></div><div class="line">)</div><div class="line">        at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:<span class="number">499</span>)</div><div class="line">        ... <span class="number">5</span> more</div><div class="line"><span class="comment"># 改为写 go 之后好久没写 Java，难道是版本太旧？</span></div><div class="line">java --version</div><div class="line">java <span class="number">10.0</span>.<span class="number">1</span> <span class="number">2018</span>-<span class="number">04</span>-<span class="number">17</span></div><div class="line">Java(TM) SE Runtime Environment <span class="number">18.3</span> (build <span class="number">10.0</span>.<span class="number">1</span>+<span class="number">10</span>)</div><div class="line">Java HotSpot(TM) <span class="number">64</span>-Bit Server VM <span class="number">18.3</span> (build <span class="number">10.0</span>.<span class="number">1</span>+<span class="number">10</span>, mixed mode)</div></pre></td></tr></table></figure>
+<p>虽然因为有一段时间没写 Java，并非最新的 LTS 版本（当前是 Java8 u241 或者 Java 11.0.6），但 Java 10 也不旧。我还特意看了 Java 10 的文档，确定有 <code>javax/xml/bind/annotation/XmlSchema</code> 。而且 sdkmanager 的版本也很迷。</p>
+<p>（后来发现，Java 很可能是太新，而不是太旧，所以需要指定 JavaEE 包。据说 Java 11 已经移除了 JavaEE (变成了雅加达独立出去了)，更加运行不了。）</p>
+<p>暂时没有兴趣深入了解哪里出了问题，直接卸载 Android SDK tools，然后下载最新的 SDK tools 压缩包。</p>
+<p><a href="https://www.androiddevtools.cn/" target="_blank" rel="external">https://www.androiddevtools.cn/</a> 有收集。注意只是收集各个版本的地址而已，来源还是官方的，下完可以校验一下。这回的 SDK tools 在 Android Studio 显示 26.0.1，终于可以调用了。有一个可用更新 26.1.1，感觉这里就是问题所在，又给升了级，果然又出现上面的 <code>NoClassDefFoundError</code>。</p>
+<p>先不管这个问题，退回到可用的 26.0.1。这是重新认真看 Doctor summaries，发现 <code>&quot;platforms;android-28&quot; &quot;build-tools;28.0.3&quot;</code> ，也就是它要求的所谓 SDK Version，并非我理解的 SDK tools 的 version，而是分别指 platform 和 build-tools 的版本，对应 Android 9(Pie)。为什么迟迟没有发现这点？因为在官方的<a href="https://flutter.dev/docs/get-started/install/windows#set-up-your-android-device" target="_blank" rel="external">引导</a>上面有这么一句话</p>
+<blockquote>
+<p>To prepare to run and test your Flutter app on an Android device, you’ll need an Android device running Android 4.1 (API level 16) or higher.</p>
+</blockquote>
+<p>被我理解为了开发的 API level 是 16+。</p>
+<h4 id="license-status-unknown"><a href="#license-status-unknown" class="headerlink" title="license status unknown"></a>license status unknown</h4><p>再次 <code>flutter doctor</code>，这回 SDK 版本不报错了，只剩下 <code>Android license status unknown.</code> 。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">flutter doctor --android-licenses</div><div class="line">A newer version of the Android SDK is required. To update, run:</div><div class="line">%ANDROID_HOME%\tools\bin\sdkmanager --update</div></pre></td></tr></table></figure>
+<p>跟上面说的 <code>Try re-installing or updating your Android SDK Manager.</code> 一致。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sdkmanager --update</div></pre></td></tr></table></figure>
+<p><code>NoClassDefFoundError</code> 又出现了…… 本来不想在这上面耗时间，看来是躲不过了。</p>
+<p>最后找到StackOverflow 的两个问题的回答： <a href="https://stackoverflow.com/questions/47150410/failed-to-run-sdkmanager-list-with-java-9" target="_blank" rel="external">问题1</a> ，<a href="https://stackoverflow.com/questions/43574426/how-to-resolve-java-lang-noclassdeffounderror-javax-xml-bind-jaxbexception-in-j/43574427#43574427" target="_blank" rel="external">问题2</a></p>
+<p>编辑器打开 sdkmanager.bat，找到 ，在后面追加 <code>-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee</code> ，注意 Windows 环境不需要额外在外面加单引号，加了会导致变量扩充 <code>%~dp0\..</code> 出错，加完之后那一行变成了：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">set DEFAULT_JVM_OPTS=<span class="string">"-Dcom.android.sdklib.toolsdir=%~dp0\.."</span> -XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee</div></pre></td></tr></table></figure>
+<p>然后再次执行</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sdkmanager --update</div><div class="line">done</div></pre></td></tr></table></figure>
+<p>没有任何变化，版本没变，文件修改时间没变，然后 <code>flutter doctor --android-licenses</code> 依然说需要新版本。</p>
+<p>然后尝试执行</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sdkmanager --licenses</div></pre></td></tr></table></figure>
+<p>提示有 licenses 还没 accept，赶紧一路 yes。</p>
+<p>这是我试着再 <code>flutter doctor</code> 一次，居然通过了。说明版本旧不是根本问题。<strong>关键是 accept 掉 licenses</strong> 。</p>
+<h4 id="升级-SDK-tools"><a href="#升级-SDK-tools" class="headerlink" title="升级 SDK tools"></a>升级 SDK tools</h4><p>本来这样就完事了，但还是有点好奇。记不记得 Android Studio 可以直接升级 SDK tools 到 26.1.1 ，那就升级看看。</p>
+<p>Android Studio 确实可以升级 SDK tools，但是执行到最后，升级失败。因为升级靠的是打补丁，升级程序检查到 sdkmanage.bat <strong>有过修改，补丁失败</strong>。然后升级程序自动改为全量安装，不知道是不是因为打开了某些目录或者文件没管，继续失败。我猜 <code>sdkmanage --update</code> 也是因为类似的原因所以失败了，只是没有报错信息。</p>
+<p>这时我想到两个选择：</p>
+<ol>
+<li>把 sdkmanager.bat 改回去，然后用 Android Studio 升级。</li>
+<li>把修改之后的 sdkmanager.bat 改个名字，然后复制一份原名的改回去。然后执行修改过的 bat。</li>
+</ol>
+<p>（因为没有备份）这需要一字不差改回去，还好改动不多。我尝试了 1 ，成功了。2 就没有验证。</p>
+<p>升级完 <strong>还得把参数加回去</strong> ，不然又会出现 <code>NoClassDefFoundError</code>。</p>
+<p>继续 <code>flutter doctor</code> ，这回</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[!] Android toolchain - develop <span class="keyword">for</span> Android devices (Android SDK version <span class="number">28.0</span>.<span class="number">3</span>)</div><div class="line">    ! Some Android licenses not accepted.  To resolve this, run: flutter doctor --android-licenses</div></pre></td></tr></table></figure>
+<p>这次有了经验，我没有按它的来，而是 <code>sdkmanager --licenses</code> 。应该是升级过的 tools 还要再确认一遍 licenses。</p>
+<h3 id="Android-Studio-Plugins"><a href="#Android-Studio-Plugins" class="headerlink" title="Android Studio Plugins"></a>Android Studio Plugins</h3><p>Settings &gt; Plugins 或者直接在打开项目的界面 Configure &gt; Plugins， 直接搜索 Flutter 安装，安装过程中会提示依赖 Dart 一起安装。</p>
+<p>如果中间出现网络不好导致超时，就不要同时装，先装 Dart，再装 Flutter。</p>
+<p>据说用 VSCode 开发也可以，我也有在用 VSCode。但是既然 flutter doctor 要求 Android Studio，就先按它的套路走通。</p>
+<h3 id="真机-or-AVD"><a href="#真机-or-AVD" class="headerlink" title="真机 or AVD"></a>真机 or AVD</h3><p>最后一步就比较简单了，要么插个真机，要么创建一个 AVD。因为没有多余手机，随便选了一个 Pixel 3 + 奥利奥8.0 x86_64 的AVD。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Doctor summary (to see all details, run flutter doctor -v):</div><div class="line">[√] Flutter (Channel stable, v1.<span class="number">12.13</span>+hotfix.<span class="number">8</span>, on Microsoft Windows [Version <span class="number">6.1</span>.<span class="number">7601</span>], locale</div><div class="line">    zh-CN)</div><div class="line">[√] Android toolchain - develop <span class="keyword">for</span> Android devices (Android SDK version <span class="number">28.0</span>.<span class="number">3</span>)</div><div class="line">[√] Android Studio (version <span class="number">3.6</span>)</div><div class="line">[√] Connected device (<span class="number">1</span> available)</div><div class="line"></div><div class="line">• No issues found!</div></pre></td></tr></table></figure>
+<p>这四个 ✔ 得来不易。</p>
+<h2 id="第一个项目"><a href="#第一个项目" class="headerlink" title="第一个项目"></a>第一个项目</h2><p>安装 flutter 插件之后的 Android Studio ，New 菜单会多出一个 New Flutter Project，有引导，没啥值得说的，一路 Next。结果创建完之后，在生成项目的界面转了半天。第一次生成，对需要多长时间没有概念，以为是老机器卡，就先丢下去干别的。等我离开电脑半天，回来还在转，事情就不太正常了。</p>
+<h3 id="flutter-lockfile"><a href="#flutter-lockfile" class="headerlink" title="flutter lockfile"></a>flutter lockfile</h3><p>试图强关 AS 无效之后，只好直接杀掉进程。这时去看 AS 的 workspace，项目看起来已经生成好了。试着重新打开 AS，可能是因为杀进程丢失了一些配置，需要重新指定 Android SDK 的位置。打开 AS 没看到新建的项目，就去打开前面生成的项目。</p>
+<p>打开成功，没有提示缺这少那，说明项目生成是没什么问题的。但是初始化之后（自动生成的）代码一片红色，明显是缺少依赖引起的，同时 AS 也弹出提醒，还没有<code>run flutter packages get</code> ，旁边给了几个选项，分别是 Get dependencies 和 Update dependencies（第三个忘了）。</p>
+<p>一次都还没获取依赖，自然点第一个，底下的 log 显示：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">flutter.bat --no-color packages get</div><div class="line">Running <span class="string">"flutter pub get"</span> <span class="keyword">in</span> myapp...</div><div class="line">Waiting <span class="keyword">for</span> another flutter command to release the startup lock...</div></pre></td></tr></table></figure>
+<p>查了一下，flutter 有一个全局的 lockfile，在 <code>flutter/bin/cache/lockfile</code> ，每次只允许一个进程打开，作为全局锁。这种套路经常跟 Linux 打交道的应该很熟悉。按网上的说法，把它删掉（因为有进程占用，使用了 unlocker 释放句柄），然后再来。</p>
+<h3 id="flutter-pub-get"><a href="#flutter-pub-get" class="headerlink" title="flutter pub get"></a>flutter pub get</h3><p>这回只是输出少了一行，然后又陷入了无尽的等待。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">flutter.bat --no-color packages get</div><div class="line">Running <span class="string">"flutter pub get"</span> <span class="keyword">in</span> myapp...</div></pre></td></tr></table></figure>
+<p>没办法，退出 AS 再来（这次没有生成的对话框，可以正常退出），然后又提示锁的问题。死循环了。</p>
+<p>锁的问题前面已经说了，是因为 dart 执行命令异常退出，没有释放锁，强制释放就行（后来发现 lockfile 不用删，释放掉就行。当然如果没有 unlocker 之类的工具，强删也行，反正就一个大小为 0 的文件，没有会自动新建）。问题在于为什么第一次会卡死。</p>
+<p>pub 是 dart 的包管理器，如同 pip 于 Python，go mod 于 go，Maven 于 Java，npm 于 nodejs… 试了一下，pub 不能直接调用，大概因为没有独立安装 dart，而 flutter pub 是针对 flutter 的封装。</p>
+<p>既然是获取依赖包这步卡了，那么大概率就是 GFW 的问题。还记得上面设置的镜像吗？这回释放完 lockfile，改在 flutter_console 里执行：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">flutter packages get</div><div class="line">Running <span class="string">"flutter pub get"</span> <span class="keyword">in</span> three_five_two...                      <span class="number">5.9</span>s</div></pre></td></tr></table></figure>
+<p>不到 6 秒完事，还真就好了。代码里的各种错误也没了。</p>
+<h3 id="Android-Studio-的环境变量"><a href="#Android-Studio-的环境变量" class="headerlink" title="Android Studio 的环境变量"></a>Android Studio 的环境变量</h3><p>可是每次都要手动执行命令也很烦。而且就算我愿意，AS 也不会每次执行命令停下来，告诉我对应的命令让执行；它一旦卡死，还得费劲去释放 lockfile。所以，是 AS 读不到设置的环境变量吗？</p>
+<p>首先，<code>flutter help</code> 输出的指令里没有 <code>packages</code> ，然后 <code>flutter help packages</code> 告诉我们，<code>packages</code> 只是 <code>pub</code> 的别名。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">flutter help packages</div><div class="line">Commands <span class="keyword">for</span> managing Flutter packages.</div><div class="line"></div><div class="line">Usage: flutter pub &lt;subcommand&gt; [arguments]</div><div class="line">-h, --help    Print this usage information.</div><div class="line"></div><div class="line">Available subcommands:</div><div class="line">  cache       Work with the Pub system cache.</div><div class="line">  deps        Print package dependencies.</div><div class="line">  downgrade   Downgrade packages <span class="keyword">in</span> a Flutter project.</div><div class="line">  get         Get packages <span class="keyword">in</span> a Flutter project.</div><div class="line">  global      Work with Pub global packages.</div><div class="line">  pub         Pass the remaining arguments to Dart<span class="string">'s "pub" tool.</span></div><div class="line">  publish     Publish the current package to pub.dev</div><div class="line">  run         Run an executable from a package.</div><div class="line">  test        Run the "test" package.</div><div class="line">  upgrade     Upgrade packages in a Flutter project.</div><div class="line">  uploader    Manage uploaders for a package on pub.dev.</div><div class="line">  version     Print Pub version.</div><div class="line"></div><div class="line">Run "flutter help" to see global options.</div></pre></td></tr></table></figure>
+<p>再 <code>flutter help packages get</code> 一下。三层命令 help 进来，都没有看到 <code>--no-color</code> 参数干嘛用，先不管它。</p>
+<p>这次模仿 AS 的调用方式，不直接在 flutter_console 操作，而是直接调用 <code>flutter/bin/flutter.bat</code> ：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">flutter\bin\flutter.bat packages get</div><div class="line">Running <span class="string">"flutter pub get"</span> <span class="keyword">in</span> three_five_two...                      <span class="number">0.6</span>s</div><div class="line"></div><div class="line">flutter\bin\flutter.bat packages get</div><div class="line">Running <span class="string">"flutter pub get"</span> <span class="keyword">in</span> three_five_two...                      <span class="number">0.5</span>s</div><div class="line"></div><div class="line">flutter\bin\flutter.bat --no-color packages get</div><div class="line">Running <span class="string">"flutter pub get"</span> <span class="keyword">in</span> three_five_two...                      <span class="number">0.5</span>s</div></pre></td></tr></table></figure>
+<p>完全没问题。其实没问题是应该的，因为打开 flutter_console.bat 看就知道，里面只做了两件事，把 <code>flutter/bin/</code> 临时加入 PATH，然后打开一个 cmd，没了。</p>
+<p>（好吧，其实是三件，前面还显示了 flutter 的 ascii-art 和 简单的说明。）</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">REM <span class="string">"%~dp0"</span> is the directory of this file including trailing backslash</div><div class="line">SET PATH=%~dp0bin;%PATH%</div><div class="line"></div><div class="line">CALL cmd /K <span class="string">"@echo off &amp; cd %USERPROFILE% &amp; echo on"</span></div></pre></td></tr></table></figure>
+<p>会不会是因为依赖已经下载好了，根本没有触发网络访问？在 AS 再试一次，又卡了……（又要找 unlocker）</p>
+<p>在 AS 里打开Terminal，从输出看其实就是一个 cmd，在这里再执行一次，又卡死了……</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 这里是 AS 里面的 Terminal</span></div><div class="line">echo %PUB_HOSTED_URL%</div><div class="line">%PUB_HOSTED_URL%</div></pre></td></tr></table></figure>
+<p>环境变量实锤了。</p>
+<p>在对着 AS 的 Terminal 一顿 echo 之后，发现绝大多数环境变量都能读到，无论是系统变量，还是全局变量。什么 <code>PATH</code>，<code>GOROOT</code>，<code>GOPATH</code>….. 都有值，唯独 <code>ANDROID_HOME</code> 和 两个镜像地址。然后想了想，这几个值好像都是这次新建的，并且中间没有重启过。呃，人家 cmd 都是关掉重开就可以加载到，难道就你 AS 非要重启计算机？（AS 都重启好多遍了）</p>
+<p>试试吧。重启，第一时间打开 AS。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">echo %PUB_HOSTED_URL%</div><div class="line">https://pub.flutter-io.cn</div><div class="line">flutter\bin\flutter.bat --no-color packages get</div><div class="line">Running <span class="string">"flutter pub get"</span> <span class="keyword">in</span> three_five_two...                      <span class="number">2.9</span>s</div><div class="line"><span class="keyword">Process</span> finished with <span class="keyword">exit</span> code <span class="number">0</span></div></pre></td></tr></table></figure>
+<p>我 [口吐芬芳]，还真是！浪费我时间。有空研究一下 AS 的环境变量究竟是怎么加载的。</p>
+<p>这老电脑开关机慢，一堆文件也懒得关了重新打开，平时都是休眠的。这样搞让我很为难。</p>
+<h3 id="Run"><a href="#Run" class="headerlink" title="Run"></a>Run</h3><p>接下来还剩一步，就是验证自带的模板程序能不能跑起来。</p>
+<p>打开 AVD，启动前面创建的虚拟设备，然后选这个设备为 run target，然后 run。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">Launching lib\main.dart on Android SDK built <span class="keyword">for</span> x86 <span class="number">64</span> <span class="keyword">in</span> debug mode...</div><div class="line">Running Gradle task <span class="string">'assembleDebug'</span>...</div><div class="line"><span class="comment"># 再等一下就能结束战斗了</span></div><div class="line"><span class="comment"># 啪，打脸</span></div><div class="line">FAILURE: Build failed with an exception.</div><div class="line"></div><div class="line">* What went wrong:</div><div class="line">A problem occurred configuring root project <span class="string">'android'</span>.</div><div class="line">&gt; Could not resolve all artifacts <span class="keyword">for</span> configuration <span class="string">':classpath'</span>.</div><div class="line">   &gt; Could not download kotlin-gradle-plugin.jar (org.jetbrains.kotlin:kotlin-gradle-plugin:<span class="number">1.3</span>.<span class="number">50</span>)</div><div class="line">      &gt; Could not get resource <span class="string">'https://jcenter.bintray.com/org/jetbrains/kotlin/kotlin-gradle-plugin/1.3.50/kotlin-gradle-plugin-1.3.50.jar'</span>.</div><div class="line">         &gt; Connection reset</div><div class="line"></div><div class="line">* <span class="keyword">Try</span>:</div><div class="line">Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.</div><div class="line"></div><div class="line">* Get more help at https://help.gradle.org</div><div class="line"></div><div class="line">BUILD FAILED <span class="keyword">in</span> <span class="number">8</span>m <span class="number">41</span>s</div><div class="line">Finished with error: Gradle task assembleDebug failed with <span class="keyword">exit</span> code <span class="number">1</span></div></pre></td></tr></table></figure>
+<p>这明显是 jcenter 的网络问题。侥幸认为应该只是慢，重试一遍，居然真的跑起来了。</p>
+<p>下次还是换个 aliyun 的仓库镜像吧。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">maven&#123; url<span class="string">'http://maven.aliyun.com/nexus/content/groups/public/'</span> &#125;</div><div class="line">maven&#123; url<span class="string">'http://maven.aliyun.com/nexus/content/repositories/jcenter'</span>&#125;</div></pre></td></tr></table></figure>
+<p>第一次的编译时间特别久，老机器可能加重了这个情况。后续的修改用 hot reload 应该会快很多。</p>
+<p><br></p>
+<p>到这，一行代码都没写，但写代码前的准备工作，算是告一段落。不知不觉居然记了这么长流水账，前后断断续续折腾了两天多。时间大部分是被地理位置下访问技术资源的可达性及网速（简称 Qiang）拖累的，少部分是因为 flutter 有些小坑且文档有误导性。</p>
+<p>在等网络和命令执行的间隙，快速扫了一眼 dart 的语法，从不同的地方看到了 Java、Python 还有 Go 的影子，当然也有一些比较原创的语法糖（如级联调用）。刚好这三门语言都还算熟，希望写起来不费劲。</p>
+<p>这篇太长了，就此打住。</p>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://jaycechant.info/2020/flutter-kickoff/" data-id="ck7qdfwc0002zioxlcdftfy97" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="https://jaycechant.info/2020/flutter-kickoff/#disqus_thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flutter/">flutter</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/golang-1-13-env-for-win/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">配置 1.13+ 的 golang 环境（Windows 篇）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Anaconda/" style="font-size: 10px;">Anaconda</a> <a href="/tags/Android/" style="font-size: 11.67px;">Android</a> <a href="/tags/Android-sdk/" style="font-size: 10px;">Android-sdk</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/JCE/" style="font-size: 10px;">JCE</a> <a href="/tags/Java/" style="font-size: 11.67px;">Java</a> <a href="/tags/JavaMail/" style="font-size: 10px;">JavaMail</a> <a href="/tags/Jenkins/" style="font-size: 16.67px;">Jenkins</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 13.33px;">Markdown</a> <a href="/tags/Mathjax/" style="font-size: 10px;">Mathjax</a> <a href="/tags/OJ/" style="font-size: 10px;">OJ</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/OpenGrok/" style="font-size: 10px;">OpenGrok</a> <a href="/tags/Python/" style="font-size: 16.67px;">Python</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Syncthing/" style="font-size: 10px;">Syncthing</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/algorithm/" style="font-size: 11.67px;">algorithm</a> <a href="/tags/aliyun/" style="font-size: 10px;">aliyun</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/byobu/" style="font-size: 11.67px;">byobu</a> <a href="/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/tags/dep/" style="font-size: 11.67px;">dep</a> <a href="/tags/document/" style="font-size: 10px;">document</a> <a href="/tags/dropbox/" style="font-size: 10px;">dropbox</a> <a href="/tags/file-system/" style="font-size: 10px;">file-system</a> <a href="/tags/flutter/" style="font-size: 10px;">flutter</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/glide/" style="font-size: 10px;">glide</a> <a href="/tags/golang/" style="font-size: 20px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/how-to/" style="font-size: 16.67px;">how-to</a> <a href="/tags/json/" style="font-size: 11.67px;">json</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mirror/" style="font-size: 10px;">mirror</a> <a href="/tags/netdisk/" style="font-size: 10px;">netdisk</a> <a href="/tags/node-js/" style="font-size: 11.67px;">node.js</a> <a href="/tags/nodePPT/" style="font-size: 11.67px;">nodePPT</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/pgyer/" style="font-size: 10px;">pgyer</a> <a href="/tags/pip/" style="font-size: 15px;">pip</a> <a href="/tags/practice/" style="font-size: 11.67px;">practice</a> <a href="/tags/presentation/" style="font-size: 10px;">presentation</a> <a href="/tags/screen/" style="font-size: 11.67px;">screen</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/skill/" style="font-size: 13.33px;">skill</a> <a href="/tags/smtp/" style="font-size: 10px;">smtp</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/solution-report/" style="font-size: 10px;">solution-report</a> <a href="/tags/supervisor/" style="font-size: 10px;">supervisor</a> <a href="/tags/trouble/" style="font-size: 18.33px;">trouble</a> <a href="/tags/unfinished/" style="font-size: 13.33px;">unfinished</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftp/" style="font-size: 10px;">vsftp</a> <a href="/tags/why/" style="font-size: 11.67px;">why</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/flutter-kickoff/">flutter 踩坑流水账</a>
+          </li>
+        
+          <li>
+            <a href="/2020/golang-1-13-env-for-win/">配置 1.13+ 的 golang 环境（Windows 篇）</a>
+          </li>
+        
+          <li>
+            <a href="/2020/correct-way-to-delete-an-opened-file/">删除打开文件的正确方法（Linux）</a>
+          </li>
+        
+          <li>
+            <a href="/2020/golang-1-13-module-VS-package/">golang 1.13 - module VS package</a>
+          </li>
+        
+          <li>
+            <a href="/2020/setup-golang-env-for-1-13-and-above/">配置 1.13+ 的 golang 环境</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://hexo.io/zh-cn/" target="_blank">Hexo主页</a>
+          </li>
+        
+          <li>
+            <a href="https://hexo.io/zh-cn/docs/" target="_blank">Hexo文档</a>
+          </li>
+        
+          <li>
+            <a href="https://github.com/xiangming/landscape-plus" target="_blank">landscape-plus项目主页</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jayce Sigit Chant<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/collections" class="mobile-nav-link">Collections</a>
+  
+    <a href="https://github.com/JayceChant" class="mobile-nav-link">Github</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/sitemap.xml" class="mobile-nav-link">Sitemap</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+<script>
+  var disqus_shortname = 'jaycetb';
+  
+  var disqus_url = 'https://jaycechant.info/2020/flutter-kickoff/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+                processEscapes: true
+                    
+}
+  
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                  
+}
+    
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                            all[i].SourceElement().parentNode.className += ' has-jax';
+                                    
+            }
+                
+        });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
