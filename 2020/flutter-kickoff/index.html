@@ -4,20 +4,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>flutter 踩坑流水账 | 存档Save&amp;Load</title>
+  <title>Flutter 踩坑流水账 | 存档Save&amp;Load</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Flutter 作为前端一个发展方向大热，有必要了解一下。
 踩坑流水账，遇到啥记啥，不求全；遇到的 弯弯绕绕，错误示范 也 如实记载 。当前 Flutter 还不太稳定，可能过一段时间操作细节就变了（希望是改进），这种记录可以跟将来做对比。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="flutter 踩坑流水账">
+<meta property="og:title" content="Flutter 踩坑流水账">
 <meta property="og:url" content="https://jaycechant.info/2020/flutter-kickoff/index.html">
 <meta property="og:site_name" content="存档Save&Load">
 <meta property="og:description" content="Flutter 作为前端一个发展方向大热，有必要了解一下。
 踩坑流水账，遇到啥记啥，不求全；遇到的 弯弯绕绕，错误示范 也 如实记载 。当前 Flutter 还不太稳定，可能过一段时间操作细节就变了（希望是改进），这种记录可以跟将来做对比。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2020-03-13T16:03:41.386Z">
+<meta property="og:updated_time" content="2020-03-13T17:04:52.428Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="flutter 踩坑流水账">
+<meta name="twitter:title" content="Flutter 踩坑流水账">
 <meta name="twitter:description" content="Flutter 作为前端一个发展方向大热，有必要了解一下。
 踩坑流水账，遇到啥记啥，不求全；遇到的 弯弯绕绕，错误示范 也 如实记载 。当前 Flutter 还不太稳定，可能过一段时间操作细节就变了（希望是改进），这种记录可以跟将来做对比。">
 <meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
@@ -96,7 +96,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      flutter 踩坑流水账
+      Flutter 踩坑流水账
     </h1>
   
 
@@ -111,9 +111,9 @@
 <p>我的水平远远够不上厉害，但在一些朋友看来可能有可取之处，当他们自学遇到困难时，偶尔会问我是怎么学的。记录这样的流水账，你可以看到，我遇到新事物，一样是一点点试错。相信真正的大牛，（至少曾经）也是这样过来。  只不过大牛可能悟性好，试错时间和次数少一些。自己试错多了，也会掌握试错的套路。</p>
 <p>某个程序员朋友，连 help 和 man 都不知道，让人着急。可我高中时，明明已经学过简单的编程，对 Linux 居然连听都没听过，听同学讨论一头问号。我的反应是什么？放假第一时间让我的电脑变成 Windows / Ubuntu 双系统。他之前不知道 help，现在知道了。<strong>互联网时代，知道了关键词，就不能说你一无所知。起码要把公开资料看完吧？</strong></p>
 <p>你看到的『最佳实践』的文章，其实已经是作者熟练之后提炼的结果。好处是读者不必再走一次弯路，坏处是读者可能会产生心理落差。</p>
-<p>—— 这段文字跟本文内容关系不大，发散一下，算是响应我《S/L 大法——平凡人的做事方法》那篇文章吧。</p>
+<p>—— 这段文字跟本文内容关系不大，发散一下，算是呼应之前《<a href="../save-load-a-solution-for-ordinary-people/">S/L 大法——平凡人的做事方法</a>》的观点吧。</p>
 </blockquote>
-<p>如果觉得 Flutter 开发（在当前、对我而言）可以入坑，再来写经过整理总结的经验帖，否则就此一篇。</p>
+<p>后面如果觉得 Flutter 开发（在当前、对我而言）可以入坑，再来写经过整理总结的经验帖，否则就此一篇。</p>
 <h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><h3 id="获取-Flutter-stable"><a href="#获取-Flutter-stable" class="headerlink" title="获取 Flutter stable"></a>获取 Flutter stable</h3><p>考虑 flutter 还在快速开发中，为了方便更新，直接拉仓库的 stable 分支。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> -b stable https://github.com/flutter/flutter.git</div></pre></td></tr></table></figure>
 <p>得到的版本是 <code>1.12.13+Hotfix.8</code> 。</p>
@@ -187,7 +187,7 @@
 <p>（后来发现，Java 很可能是太新，而不是太旧，所以需要指定 JavaEE 包。据说 Java 11 已经移除了 JavaEE (变成了雅加达独立出去了)，更加运行不了。）</p>
 <p>暂时没有兴趣深入了解哪里出了问题，直接卸载 Android SDK tools，然后下载最新的 SDK tools 压缩包。</p>
 <p><a href="https://www.androiddevtools.cn/" target="_blank" rel="external">https://www.androiddevtools.cn/</a> 有收集。注意只是收集各个版本的地址而已，来源还是官方的，下完可以校验一下。这回的 SDK tools 在 Android Studio 显示 26.0.1，终于可以调用了。有一个可用更新 26.1.1，感觉这里就是问题所在，又给升了级，果然又出现上面的 <code>NoClassDefFoundError</code>。</p>
-<p>先不管这个问题，退回到可用的 26.0.1。这是重新认真看 Doctor summaries，发现 <code>&quot;platforms;android-28&quot; &quot;build-tools;28.0.3&quot;</code> ，也就是它要求的所谓 SDK Version，并非我理解的 SDK tools 的 version，而是分别指 platform 和 build-tools 的版本，对应 Android 9(Pie)。为什么迟迟没有发现这点？因为在官方的<a href="https://flutter.dev/docs/get-started/install/windows#set-up-your-android-device" target="_blank" rel="external">引导</a>上面有这么一句话</p>
+<p>先不管这个问题，退回到可用的 26.0.1。这是重新认真看 Doctor summaries，发现 <code>&quot;platforms;android-28&quot; &quot;build-tools;28.0.3&quot;</code> ，也就是它要求的所谓 SDK Version，并非我理解的 SDK tools 的 version，而是分别指 platform 和 build-tools 的版本，对应 Android 9(Pie)。为什么迟迟没有发现这点？因为在<a href="https://flutter.dev/docs/get-started/install/windows#set-up-your-android-device" target="_blank" rel="external">flutter 官方的引导</a>上面有这么一句话</p>
 <blockquote>
 <p>To prepare to run and test your Flutter app on an Android device, you’ll need an Android device running Android 4.1 (API level 16) or higher.</p>
 </blockquote>
@@ -197,8 +197,8 @@
 <p>跟上面说的 <code>Try re-installing or updating your Android SDK Manager.</code> 一致。</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sdkmanager --update</div></pre></td></tr></table></figure>
 <p><code>NoClassDefFoundError</code> 又出现了…… 本来不想在这上面耗时间，看来是躲不过了。</p>
-<p>最后找到StackOverflow 的两个问题的回答： <a href="https://stackoverflow.com/questions/47150410/failed-to-run-sdkmanager-list-with-java-9" target="_blank" rel="external">问题1</a> ，<a href="https://stackoverflow.com/questions/43574426/how-to-resolve-java-lang-noclassdeffounderror-javax-xml-bind-jaxbexception-in-j/43574427#43574427" target="_blank" rel="external">问题2</a></p>
-<p>编辑器打开 sdkmanager.bat，找到 ，在后面追加 <code>-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee</code> ，注意 Windows 环境不需要额外在外面加单引号，加了会导致变量扩充 <code>%~dp0\..</code> 出错，加完之后那一行变成了：</p>
+<p>最后找到StackOverflow 的两个问题的回答： <a href="https://stackoverflow.com/questions/47150410/failed-to-run-sdkmanager-list-with-java-9" target="_blank" rel="external">StackOverflow 问题1</a> ，<a href="https://stackoverflow.com/questions/43574426/how-to-resolve-java-lang-noclassdeffounderror-javax-xml-bind-jaxbexception-in-j/43574427#43574427" target="_blank" rel="external">StackOverflow 问题2</a></p>
+<p>编辑器打开 sdkmanager.bat，找到 DEFAULT_JVM_OPTS，在后面追加 <code>-XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee</code> ，注意 Windows 环境不需要额外在外面加单引号，加了会导致变量扩充 <code>%~dp0\..</code> 出错，加完之后那一行变成了：</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">set DEFAULT_JVM_OPTS=<span class="string">"-Dcom.android.sdklib.toolsdir=%~dp0\.."</span> -XX:+IgnoreUnrecognizedVMOptions --add-modules java.se.ee</div></pre></td></tr></table></figure>
 <p>然后再次执行</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sdkmanager --update</div><div class="line">done</div></pre></td></tr></table></figure>
@@ -206,7 +206,7 @@
 <p>然后尝试执行</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sdkmanager --licenses</div></pre></td></tr></table></figure>
 <p>提示有 licenses 还没 accept，赶紧一路 yes。</p>
-<p>这是我试着再 <code>flutter doctor</code> 一次，居然通过了。说明版本旧不是根本问题。<strong>关键是 accept 掉 licenses</strong> 。</p>
+<p>这时我试着再 <code>flutter doctor</code> 一次，居然通过了。说明版本旧不是根本问题。<strong>关键是 accept 掉 licenses</strong> 。</p>
 <h4 id="升级-SDK-tools"><a href="#升级-SDK-tools" class="headerlink" title="升级 SDK tools"></a>升级 SDK tools</h4><p>本来这样就完事了，但还是有点好奇。记不记得 Android Studio 可以直接升级 SDK tools 到 26.1.1 ，那就升级看看。</p>
 <p>Android Studio 确实可以升级 SDK tools，但是执行到最后，升级失败。因为升级靠的是打补丁，升级程序检查到 sdkmanage.bat <strong>有过修改，补丁失败</strong>。然后升级程序自动改为全量安装，不知道是不是因为打开了某些目录或者文件没管，继续失败。我猜 <code>sdkmanage --update</code> 也是因为类似的原因所以失败了，只是没有报错信息。</p>
 <p>这时我想到两个选择：</p>
@@ -252,11 +252,10 @@
 <p>在 AS 里打开Terminal，从输出看其实就是一个 cmd，在这里再执行一次，又卡死了……</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 这里是 AS 里面的 Terminal</span></div><div class="line">echo %PUB_HOSTED_URL%</div><div class="line">%PUB_HOSTED_URL%</div></pre></td></tr></table></figure>
 <p>环境变量实锤了。</p>
-<p>在对着 AS 的 Terminal 一顿 echo 之后，发现绝大多数环境变量都能读到，无论是系统变量，还是全局变量。什么 <code>PATH</code>，<code>GOROOT</code>，<code>GOPATH</code>….. 都有值，唯独 <code>ANDROID_HOME</code> 和 两个镜像地址。然后想了想，这几个值好像都是这次新建的，并且中间没有重启过。呃，人家 cmd 都是关掉重开就可以加载到，难道就你 AS 非要重启计算机？（AS 都重启好多遍了）</p>
+<p>在对着 AS 的 Terminal 一顿 echo 之后，发现绝大多数环境变量都能读到，无论是系统变量，还是用户变量。什么 <code>PATH</code>，<code>GOROOT</code>，<code>GOPATH</code>….. 都有值，唯独 <code>ANDROID_HOME</code> 和 两个镜像地址。然后想了想，这几个值好像都是这次新建的，并且中间没有重启过。呃，人家 cmd 都是关掉重开就可以加载到，难道就你 AS 非要重启计算机？（AS 都重启好多遍了）</p>
 <p>试试吧。重启，第一时间打开 AS。</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">echo %PUB_HOSTED_URL%</div><div class="line">https://pub.flutter-io.cn</div><div class="line">flutter\bin\flutter.bat --no-color packages get</div><div class="line">Running <span class="string">"flutter pub get"</span> <span class="keyword">in</span> three_five_two...                      <span class="number">2.9</span>s</div><div class="line"><span class="keyword">Process</span> finished with <span class="keyword">exit</span> code <span class="number">0</span></div></pre></td></tr></table></figure>
-<p>我 [口吐芬芳]，还真是！浪费我时间。有空研究一下 AS 的环境变量究竟是怎么加载的。</p>
-<p>这老电脑开关机慢，一堆文件也懒得关了重新打开，平时都是休眠的。这样搞让我很为难。</p>
+<p>我x [口吐芬芳]，还真是！浪费时间。估计新建项目时也是卡在这里。有空研究一下 AS 的环境变量究竟是怎么加载的。这老电脑开关机慢，一堆文件也懒得关了重新打开，平时都是休眠的，改点啥都要重启真是为难人。</p>
 <h3 id="Run"><a href="#Run" class="headerlink" title="Run"></a>Run</h3><p>接下来还剩一步，就是验证自带的模板程序能不能跑起来。</p>
 <p>打开 AVD，启动前面创建的虚拟设备，然后选这个设备为 run target，然后 run。</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">Launching lib\main.dart on Android SDK built <span class="keyword">for</span> x86 <span class="number">64</span> <span class="keyword">in</span> debug mode...</div><div class="line">Running Gradle task <span class="string">'assembleDebug'</span>...</div><div class="line"><span class="comment"># 再等一下就能结束战斗了</span></div><div class="line"><span class="comment"># 啪，打脸</span></div><div class="line">FAILURE: Build failed with an exception.</div><div class="line"></div><div class="line">* What went wrong:</div><div class="line">A problem occurred configuring root project <span class="string">'android'</span>.</div><div class="line">&gt; Could not resolve all artifacts <span class="keyword">for</span> configuration <span class="string">':classpath'</span>.</div><div class="line">   &gt; Could not download kotlin-gradle-plugin.jar (org.jetbrains.kotlin:kotlin-gradle-plugin:<span class="number">1.3</span>.<span class="number">50</span>)</div><div class="line">      &gt; Could not get resource <span class="string">'https://jcenter.bintray.com/org/jetbrains/kotlin/kotlin-gradle-plugin/1.3.50/kotlin-gradle-plugin-1.3.50.jar'</span>.</div><div class="line">         &gt; Connection reset</div><div class="line"></div><div class="line">* <span class="keyword">Try</span>:</div><div class="line">Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.</div><div class="line"></div><div class="line">* Get more help at https://help.gradle.org</div><div class="line"></div><div class="line">BUILD FAILED <span class="keyword">in</span> <span class="number">8</span>m <span class="number">41</span>s</div><div class="line">Finished with error: Gradle task assembleDebug failed with <span class="keyword">exit</span> code <span class="number">1</span></div></pre></td></tr></table></figure>
@@ -339,7 +338,7 @@
       <ul>
         
           <li>
-            <a href="/2020/flutter-kickoff/">flutter 踩坑流水账</a>
+            <a href="/2020/flutter-kickoff/">Flutter 踩坑流水账</a>
           </li>
         
           <li>
