@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2020/should-i-learn-programming/</loc>
+    
+    <lastmod>2020-03-18T07:09:56.999Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/flutter-kickoff/</loc>
     
     <lastmod>2020-03-13T17:04:52.428Z</lastmod>
@@ -250,6 +257,13 @@
     <loc>https://jaycechant.info/2012/hello-octopress/</loc>
     
     <lastmod>2017-01-25T04:21:21.968Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/collections/my-dev-env-list/index.html</loc>
+    
+    <lastmod>2017-01-23T07:30:50.000Z</lastmod>
     
   </url>
   

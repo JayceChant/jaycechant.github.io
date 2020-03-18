@@ -4,6 +4,23 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/should-i-learn-programming/</loc>
+    <lastmod>2020-03-18T07:09:56.999Z</lastmod>
+    <data>
+        <display>
+        <title>我该学编程吗？</title>
+        <pubTime>2020-03-17T17:29:21.000Z</pubTime>
+        
+        <tag>presentation</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/flutter-kickoff/</loc>
     <lastmod>2020-03-13T17:04:52.428Z</lastmod>
     <data>
@@ -122,9 +139,9 @@
         <title>镜像清单</title>
         <pubTime>2016-12-31T02:29:12.000Z</pubTime>
         
-        <tag>Jenkins</tag>
-         
         <tag>Android</tag>
+         
+        <tag>Jenkins</tag>
          
         <tag>pip</tag>
          
@@ -364,9 +381,9 @@
         
         <tag>how-to</tag>
          
-        <tag>Mathjax</tag>
-         
         <tag>nodePPT</tag>
+         
+        <tag>Mathjax</tag>
          
          
            
@@ -467,9 +484,9 @@
         <title>git: 在两个 repo 之间 merge</title>
         <pubTime>2017-01-21T03:28:29.000Z</pubTime>
         
-        <tag>skill</tag>
-         
         <tag>git</tag>
+         
+        <tag>skill</tag>
          
          
            
@@ -543,9 +560,9 @@
         <title>Linux 上 为 Jenkins 配置 Android-sdk 及其它</title>
         <pubTime>2017-01-16T03:24:34.000Z</pubTime>
         
-        <tag>Jenkins</tag>
-         
         <tag>Android</tag>
+         
+        <tag>Jenkins</tag>
          
         <tag>Android-sdk</tag>
          
@@ -652,11 +669,11 @@
         
         <tag>how-to</tag>
          
-        <tag>unfinished</tag>
-         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
+         
+        <tag>unfinished</tag>
          
          
            
@@ -664,6 +681,7 @@
     </data>
     </url>
 
+    
     
     
     
@@ -763,9 +781,9 @@
          
         <tag>blog</tag>
          
-        <tag>hexo</tag>
-         
         <tag>node.js</tag>
+         
+        <tag>hexo</tag>
          
         <tag>trouble</tag>
          
