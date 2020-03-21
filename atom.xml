@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaycechant.info/"/>
-  <updated>2020-03-21T18:10:07.009Z</updated>
+  <updated>2020-03-21T18:14:54.135Z</updated>
   <id>https://jaycechant.info/</id>
   
   <author>
@@ -20,15 +20,15 @@
     <link href="https://jaycechant.info/2020/progressive-image-loading/"/>
     <id>https://jaycechant.info/2020/progressive-image-loading/</id>
     <published>2020-03-20T11:30:39.000Z</published>
-    <updated>2020-03-21T18:10:07.009Z</updated>
+    <updated>2020-03-21T18:14:54.135Z</updated>
     
     <content type="html"><![CDATA[<p>网页上的图片，先加载一个模糊预览，然后逐渐变清晰，怎么实现的？</p>
 <a id="more"></a>
 <h2 id="源起"><a href="#源起" class="headerlink" title="源起"></a>源起</h2><p>之前文章多是折腾记录，宁可长篇大论，也懒得截 / 画图。前几天，发演示文档截图，一篇的配图是之前所有配图总量的 7 倍。博客托管在 Github pages，因不~明原因，访问速度越来越慢。图多 + 访问慢，居然偶尔能看到图片加载的过程 —— 就是那种等待投影幕放下来的效果，偏偏放得很慢，还卡顿。</p>
-<p><img src="../images/basiline-jpeg-load.png" alt=""></p>
+<p><img src="../../images/basiline-jpeg-load.png" alt=""></p>
 <p>通过压缩图片大小算是初步解决。</p>
 <p>可如果访问速度进一步恶化呢？这时想起之前见过另一种加载效果，不是下放幕布，而是类似对焦，先显示一幅非常模糊的图片，然后逐渐变清晰。于是有了开头一问。</p>
-<p><img src="../images/progressive-jpeg-load.png" alt=""></p>
+<p><img src="../../images/progressive-jpeg-load.png" alt=""></p>
 <p>直觉技术上应该不难，之前居然没想过去了解。</p>
 <h2 id="常见方案"><a href="#常见方案" class="headerlink" title="常见方案"></a>常见方案</h2><p>经过尝试不同的关键词组合，大概知道关键词应该是 ‘progressive image loading’ / 渐进式图像加载。看完网上讨论，发现可以分成两大类方案：</p>
 <ul>
@@ -95,10 +95,10 @@
 <p>交错版：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">89 50 4E 47 0D 0A 1A 0A 00 00 00 0D 49 48 44 52</div><div class="line">00 00 02 00 00 00 01 72 08 03 00 00 01 C3 A3 A2</div></pre></td></tr></table></figure>
 <ul>
-<li>开头 8 个字节：都是 89 50 4E 47 0D 0A 1A 0A，符合文档说明。</li>
-<li>第二部分 4 个字节：都是 00 00 00 0D （13），符合 IHDR 数据长度是 13。</li>
-<li>第三部分 4 个字节：49 48 44 52（IHDR），是块类型。</li>
-<li>第四部分 13 个字节，直接看 第 13个：符合 标准版是 00，交错版是 01。</li>
+<li>开头 8 个字节：都是 <code>89 50 4E 47 0D 0A 1A 0A</code>，符合文档说明。</li>
+<li>第二部分 4 个字节：都是 <code>00 00 00 0D</code> （13），符合 IHDR 数据长度是 13。</li>
+<li>第三部分 4 个字节：<code>49 48 44 52</code>（IHDR），是块类型。</li>
+<li>第四部分 13 个字节，直接看 第 13个：符合 标准版是 <code>00</code>，交错版是 <code>01</code>。</li>
 </ul>
 <p>再试了几个文件，都符合以上规律。说明对规范的理解是正确的。那么在没有找到工具支持查看 interlace 特性时，可以直接用 十六进制编辑器打开 判断：第 29 个字节，或者像这样每行 16 个字节排版的第 2 行倒数第 4 个字节。</p>
 <h3 id="交错实现原理"><a href="#交错实现原理" class="headerlink" title="交错实现原理"></a>交错实现原理</h3><p>在文档 <code>4.5 Encoding the PNG image</code> 和 <code>8 Interlacing and pass extraction</code> 解释了 interlace 的原理。篇幅所限，就不贴原文了。</p>
