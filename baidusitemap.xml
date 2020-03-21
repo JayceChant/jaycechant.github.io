@@ -4,8 +4,31 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/progressive-image-loading/</loc>
+    <lastmod>2020-03-21T18:10:07.009Z</lastmod>
+    <data>
+        <display>
+        <title>渐进式图像加载</title>
+        <pubTime>2020-03-20T11:30:39.000Z</pubTime>
+        
+        <tag>png</tag>
+         
+        <tag>jpg</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+    
+    
+  <url>
     <loc>https://jaycechant.info/2020/should-i-learn-programming/</loc>
-    <lastmod>2020-03-18T07:09:56.999Z</lastmod>
+    <lastmod>2020-03-18T10:39:04.061Z</lastmod>
     <data>
         <display>
         <title>我该学编程吗？</title>
@@ -90,7 +113,6 @@
     
     
     
-    
   <url>
     <loc>https://jaycechant.info/2017/special-for-tools/</loc>
     <lastmod>2020-02-28T14:53:58.954Z</lastmod>
@@ -145,9 +167,9 @@
          
         <tag>pip</tag>
          
-        <tag>Ubuntu</tag>
-         
         <tag>mirror</tag>
+         
+        <tag>Ubuntu</tag>
          
         <tag>aliyun</tag>
          
@@ -381,9 +403,9 @@
         
         <tag>how-to</tag>
          
-        <tag>nodePPT</tag>
-         
         <tag>Mathjax</tag>
+         
+        <tag>nodePPT</tag>
          
          
            
@@ -461,9 +483,9 @@
         <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
         <pubTime>2017-01-20T06:44:31.000Z</pubTime>
         
-        <tag>Java</tag>
-         
         <tag>Jenkins</tag>
+         
+        <tag>Java</tag>
          
         <tag>trouble</tag>
          
@@ -484,9 +506,9 @@
         <title>git: 在两个 repo 之间 merge</title>
         <pubTime>2017-01-21T03:28:29.000Z</pubTime>
         
-        <tag>git</tag>
-         
         <tag>skill</tag>
+         
+        <tag>git</tag>
          
          
            
@@ -669,11 +691,11 @@
         
         <tag>how-to</tag>
          
+        <tag>unfinished</tag>
+         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
-         
-        <tag>unfinished</tag>
          
          
            
@@ -781,9 +803,9 @@
          
         <tag>blog</tag>
          
-        <tag>node.js</tag>
-         
         <tag>hexo</tag>
+         
+        <tag>node.js</tag>
          
         <tag>trouble</tag>
          
@@ -828,7 +850,6 @@
     </data>
     </url>
 
-    
     
   <url>
     <loc>https://jaycechant.info/2016/skills-on-OJ/</loc>

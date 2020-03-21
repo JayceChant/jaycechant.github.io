@@ -2,9 +2,44 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2020/progressive-image-loading/</loc>
+    
+    <lastmod>2020-03-21T18:10:07.009Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/collections/enlightening-laws-rules-and-principles/index.html</loc>
+    
+    <lastmod>2020-03-21T09:04:36.643Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/collections/shell-snippets/index.html</loc>
+    
+    <lastmod>2020-03-21T06:14:39.129Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/collections/index.html</loc>
+    
+    <lastmod>2020-03-21T05:56:47.771Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/collections/mirror-collection/index.html</loc>
+    
+    <lastmod>2020-03-21T04:23:54.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/should-i-learn-programming/</loc>
     
-    <lastmod>2020-03-18T07:09:56.999Z</lastmod>
+    <lastmod>2020-03-18T10:39:04.061Z</lastmod>
     
   </url>
   
@@ -40,13 +75,6 @@
     <loc>https://jaycechant.info/collections/go-snippets/index.html</loc>
     
     <lastmod>2020-03-03T13:22:19.661Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jaycechant.info/collections/index.html</loc>
-    
-    <lastmod>2020-03-03T13:01:33.465Z</lastmod>
     
   </url>
   
@@ -261,14 +289,14 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/collections/my-dev-env-list/index.html</loc>
+    <loc>https://jaycechant.info/collections/my-software-and-service-list/index.html</loc>
     
     <lastmod>2017-01-23T07:30:50.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://jaycechant.info/collections/my-software-and-service-list/index.html</loc>
+    <loc>https://jaycechant.info/collections/my-dev-env-list/index.html</loc>
     
     <lastmod>2017-01-23T07:30:50.000Z</lastmod>
     
@@ -334,13 +362,6 @@
     <loc>https://jaycechant.info/2015/algorithm-practice-set/</loc>
     
     <lastmod>2017-01-02T08:46:23.819Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jaycechant.info/collections/mirror-collection/index.html</loc>
-    
-    <lastmod>2016-12-31T02:29:12.000Z</lastmod>
     
   </url>
   
