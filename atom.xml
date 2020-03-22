@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaycechant.info/"/>
-  <updated>2020-03-21T18:14:54.135Z</updated>
+  <updated>2020-03-22T03:42:28.323Z</updated>
   <id>https://jaycechant.info/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://jaycechant.info/2020/progressive-image-loading/"/>
     <id>https://jaycechant.info/2020/progressive-image-loading/</id>
     <published>2020-03-20T11:30:39.000Z</published>
-    <updated>2020-03-21T18:14:54.135Z</updated>
+    <updated>2020-03-22T03:42:28.323Z</updated>
     
     <content type="html"><![CDATA[<p>网页上的图片，先加载一个模糊预览，然后逐渐变清晰，怎么实现的？</p>
 <a id="more"></a>
@@ -56,7 +56,7 @@
 <p>注：在文章快写完时，才发现用 XnView 打开，显示『图像信息』，在格式一栏有显示，非常地不起眼（本以为会有一个独立字段显示）。</p>
 <ul>
 <li>png 会显示 <code>Portable Network Graphics (Interlaced)</code> ，多出括号里的 Interlaced。</li>
-<li>gif 会显示 Compuserve GIF (Version 89a - Interlaced)，同样多了 Interlaced.</li>
+<li>gif 会显示 <code>Compuserve GIF (Version 89a - Interlaced)</code>，同样多了 Interlaced.</li>
 <li>jpg 文件仍然没有看到区别。</li>
 </ul>
 </blockquote>
@@ -70,7 +70,7 @@
 </ol>
 <p>就本文的目的而言，意义不大。</p>
 <h2 id="格式规范-Specifications"><a href="#格式规范-Specifications" class="headerlink" title="格式规范 Specifications"></a>格式规范 Specifications</h2><p>考虑到博客配图以图表为主，多数是有清晰边缘的色块，很少实景照片，而且 png 支持 alpha 通道，显然选择 png 格式会得到更好的显示效果，压缩率也（大概率）不会比 jpg 差。所以下面主要研究 png 的格式。</p>
-<h3 id="RFC2083"><a href="#RFC2083" class="headerlink" title="RFC2083"></a>RFC2083</h3><p>查维基可知，png 是 Portable Network Graphics 或 PNG is Not GIF 的缩写。1996 年由 IESG（Internet Engineering Task Force，互联网工程任务组）起草，并成为 W3C 建议，后成为 RFC2083。现行版本是 2003 年的国际标准 ISO 15948。</p>
+<h3 id="RFC2083"><a href="#RFC2083" class="headerlink" title="RFC2083"></a>RFC2083</h3><p>查维基可知，png 是 Portable Network Graphics 或 PNG is Not GIF 的缩写。1996 年由 IETF（Internet Engineering Task Force，互联网工程任务组）起草，并成为 W3C 建议，后成为 RFC2083。现行版本是 2003 年的国际标准 ISO 15948。</p>
 <blockquote>
 <ul>
 <li>查询 RFC ：<a href="https://www.rfc-editor.org/search/rfc_search.php，可以用关键词或者编号查询" target="_blank" rel="external">https://www.rfc-editor.org/search/rfc_search.php，可以用关键词或者编号查询</a></li>
@@ -116,7 +116,7 @@
 <p>JPEG 官网：<a href="https://jpeg.org/" target="_blank" rel="external">https://jpeg.org/</a></p>
 <p>大概扫了一眼，这两种格式要麻烦很多。</p>
 <p>GIF 的 interlace flag 比较靠后，前面有好几个数据块，计算偏移会麻烦些。</p>
-<p>更麻烦的是 JPEG。JPEG 实际上是一个组织名，<strong>联合图像专家组</strong>（Joint Photographic Experts Group），用作后缀时实际上是指 JFIF（JPEG File Interchange Format，JPEG 文件交换格式）。但除此之外，还有 JPEG-XT, JPEG Lossless, JPEG 2000, JPEG-XR……等等格式。虽然我知道这里面很多格式并不共享 <code>.jpeg</code> 这个后缀名，而是各自有专属的后缀。但是在全部看完他们的规范之前，还是无法确定他们跟 JPEG 的关系，已经 JPEG 从哪个版本开始支持 progressive 特性 —— 据了解第一版是不支持的，而 JFIF3 的规范文档里，也完全搜不到 interlace 或者 progressive 这些关键词。</p>
+<p>更麻烦的是 JPEG。JPEG 实际上是一个组织名，<strong>联合图像专家组</strong>（Joint Photographic Experts Group），用作后缀时实际上是指 JFIF（JPEG File Interchange Format，JPEG 文件交换格式）。但除此之外，还有 JPEG-XT, JPEG Lossless, JPEG 2000, JPEG-XR……等等格式。虽然我知道这里面很多格式并不共享 <code>.jpeg</code> 这个后缀名，而是各自有专属的后缀。但是在全部看完他们的规范之前，还是无法确定他们跟 JPEG 的关系，以及 JPEG 从哪个版本开始支持 progressive 特性 —— 据了解第一版是不支持的，而 JFIF3 的规范文档里，也完全搜不到 interlace 或者 progressive 这些关键词。</p>
 <p>好吧，这次就先到这里吧。以后有空，或者用到 JPEG 时再回来继续。</p>
 <h2 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h2><p>其实目前对于 渐进式加载 的需要并没有那么急切。我只是惊讶于自己老早看过这种效果，居然没有想过去探究。感觉应该不复杂，想着了解一下就完了，没想到工具支持不算完善，中文互联网上的资料质量也很参差（基本是互相参考，抄来抄去连排版都不改）。</p>
 <p>后面直接去读官方的规范文档，只看某一部分的话，加一点耐心查找和理解，并不难。</p>
