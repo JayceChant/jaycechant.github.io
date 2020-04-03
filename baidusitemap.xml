@@ -4,6 +4,44 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/go-bindata-golang-static-resources-embedding/</loc>
+    <lastmod>2020-04-03T08:46:03.425Z</lastmod>
+    <data>
+        <display>
+        <title>go-bindata：go 语言的静态资源嵌入</title>
+        <pubTime>2020-04-02T06:28:09.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2016/intro-to-nodeppt/</loc>
+    <lastmod>2020-03-23T14:55:25.009Z</lastmod>
+    <data>
+        <display>
+        <title>nodePPT 简介及快速上手</title>
+        <pubTime>2016-06-20T06:35:29.000Z</pubTime>
+        
+        <tag>how-to</tag>
+         
+        <tag>Markdown</tag>
+         
+        <tag>nodePPT</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/progressive-image-loading/</loc>
     <lastmod>2020-03-22T03:42:28.323Z</lastmod>
     <data>
@@ -167,9 +205,9 @@
          
         <tag>pip</tag>
          
-        <tag>mirror</tag>
-         
         <tag>Ubuntu</tag>
+         
+        <tag>mirror</tag>
          
         <tag>aliyun</tag>
          
@@ -312,27 +350,6 @@
 
     
   <url>
-    <loc>https://jaycechant.info/2016/intro-to-nodeppt/</loc>
-    <lastmod>2019-02-19T16:58:53.463Z</lastmod>
-    <data>
-        <display>
-        <title>nodePPT 简介及快速上手</title>
-        <pubTime>2016-06-20T06:35:29.000Z</pubTime>
-        
-        <tag>how-to</tag>
-         
-        <tag>Markdown</tag>
-         
-        <tag>nodePPT</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://jaycechant.info/2016/nodejs-install-and-config/</loc>
     <lastmod>2019-02-19T16:57:35.905Z</lastmod>
     <data>
@@ -403,9 +420,9 @@
         
         <tag>how-to</tag>
          
-        <tag>Mathjax</tag>
-         
         <tag>nodePPT</tag>
+         
+        <tag>Mathjax</tag>
          
          
            
@@ -483,9 +500,9 @@
         <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
         <pubTime>2017-01-20T06:44:31.000Z</pubTime>
         
-        <tag>Jenkins</tag>
-         
         <tag>Java</tag>
+         
+        <tag>Jenkins</tag>
          
         <tag>trouble</tag>
          
@@ -506,9 +523,9 @@
         <title>git: 在两个 repo 之间 merge</title>
         <pubTime>2017-01-21T03:28:29.000Z</pubTime>
         
-        <tag>skill</tag>
-         
         <tag>git</tag>
+         
+        <tag>skill</tag>
          
          
            
@@ -615,6 +632,27 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>解题报告 —— 从水题开一个头</title>
+        <pubTime>2016-11-08T09:40:20.000Z</pubTime>
+        
+        <tag>algorithm</tag>
+         
+        <tag>practice</tag>
+         
+        <tag>solution-report</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     <data>
@@ -631,27 +669,6 @@
         <tag>pip</tag>
          
         <tag>virtualenv</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>解题报告 —— 从水题开一个头</title>
-        <pubTime>2016-11-08T09:40:20.000Z</pubTime>
-        
-        <tag>algorithm</tag>
-         
-        <tag>practice</tag>
-         
-        <tag>solution-report</tag>
          
          
            
@@ -691,11 +708,11 @@
         
         <tag>how-to</tag>
          
-        <tag>unfinished</tag>
-         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
+         
+        <tag>unfinished</tag>
          
          
            

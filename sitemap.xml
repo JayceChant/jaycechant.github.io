@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2020/go-bindata-golang-static-resources-embedding/</loc>
+    
+    <lastmod>2020-04-03T08:46:03.425Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/2016/intro-to-nodeppt/</loc>
+    
+    <lastmod>2020-03-23T14:55:25.009Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/progressive-image-loading/</loc>
     
     <lastmod>2020-03-22T03:42:28.323Z</lastmod>
@@ -156,13 +170,6 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/2016/intro-to-nodeppt/</loc>
-    
-    <lastmod>2019-02-19T16:58:53.463Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jaycechant.info/2016/nodejs-install-and-config/</loc>
     
     <lastmod>2019-02-19T16:57:35.905Z</lastmod>
@@ -261,14 +268,14 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
+    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
+    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     

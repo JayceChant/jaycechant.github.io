@@ -75,6 +75,56 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-golang-json-overlaying" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/golang-json-overlaying/" class="article-date">
+  <time datetime="2019-05-19T16:45:38.000Z" itemprop="datePublished">2019-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/golang-json-overlaying/">golang 预置 json 包的值覆盖测试</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>json 作为一种可读性高、跨平台的序列化手段，常用在持久化和网络间传输。一般情况下，只需考虑是否按照作者的意图序列化和反序列化；反序列化的目标一般是一个 <strong>空白的对象</strong>，供写入得到的值。</p>
+<p>但有一些特殊情况，还要考虑反序列化过程中，值的覆盖性：用到的字段非常多，给每个都赋值很麻烦，所以提供一套默认值（注意默认值不一定是 0 值），只要 json 中没有指定，就转而使用默认值。这在 jQuery 中只需要使用 <code>$.extend(default, opts1, opts2...)</code>；而如果想递归合并，则只需要把 <code>true</code> 作为第一个参数。</p>
+        
+          <p class="article-more-link">
+            <a href="/2019/golang-json-overlaying/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://jaycechant.info/2019/golang-json-overlaying/" data-id="ck8jy2ynx003vqwxlf5j8i3mv" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="https://jaycechant.info/2019/golang-json-overlaying/#disqus_thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/golang/">golang</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/json/">json</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-golang-unsafe-cast-between-string-and-bytes" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/golang-unsafe-cast-between-string-and-bytes/" class="article-date">
@@ -116,7 +166,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2019/golang-unsafe-cast-between-string-and-bytes/" data-id="ck81xhcva002sxcxl7s0j66ev" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2019/golang-unsafe-cast-between-string-and-bytes/" data-id="ck8jy2ynw003tqwxlmzmkwvad" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -166,7 +216,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2019/why-not-install-conda-with-pip/" data-id="ck81xhcvc002vxcxlz9jj2ttv" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2019/why-not-install-conda-with-pip/" data-id="ck8jy2yo20040qwxl0in6kufw" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -216,7 +266,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2018/setup-golang-env/" data-id="ck81xhcv9002qxcxlgk3kouqk" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2018/setup-golang-env/" data-id="ck8jy2yo1003yqwxlnb5sqxx4" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -269,7 +319,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2018/glide-from-start-up-to-give-up/" data-id="ck81xhcv8002nxcxlx8h6iyhs" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2018/glide-from-start-up-to-give-up/" data-id="ck8jy2ynu003qqwxlv2mqw29d" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -318,7 +368,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2017/why-you-should-learn-python/" data-id="ck81xhcv4002hxcxlfxvilxa0" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2017/why-you-should-learn-python/" data-id="ck8jy2yno003jqwxl02dtmo9d" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -367,7 +417,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2017/use-screen-as-byobu-backend/" data-id="ck81xhcv5002ixcxlhgaited0" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2017/use-screen-as-byobu-backend/" data-id="ck8jy2ynp003lqwxlwhze653i" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -416,7 +466,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2017/OpenGrok-Universal-ctags/" data-id="ck81xhcv2002dxcxlj2tznpam" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2017/OpenGrok-Universal-ctags/" data-id="ck8jy2ynm003hqwxl8cxgk9ks" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -470,7 +520,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2017/two-tips-for-jenkins-pgyer/" data-id="ck81xhcv3002fxcxl5sj4lkyd" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2017/two-tips-for-jenkins-pgyer/" data-id="ck8jy2ynn003iqwxlbyd0ylng" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -519,7 +569,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2017/suspected-bug-in-json-lib-2-4-jdk15/" data-id="ck81xhcv7002lxcxlnchadfac" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2017/suspected-bug-in-json-lib-2-4-jdk15/" data-id="ck8jy2ynt003oqwxln31chfvk" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -528,52 +578,6 @@
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/json/">json</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-my-software-and-service-list" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/my-software-and-service-list/" class="article-date">
-  <time datetime="2017-01-23T07:30:50.000Z" itemprop="datePublished">2017-01-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/my-software-and-service-list/">我的自用 软件 和 服务 清单</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这是一个 <strong>持续更新</strong> 的清单，记录我在 各个平台（目前主要是 Windows 、 Linux  和 Android） 的首选 软件 / App / 服务。供我换机或重装系统时 <strong>回顾</strong>，也供大家参考；也欢迎大家在留言推荐更好的选择。</p>
-<p>我在博客新增了一个<a href="../../collections/">清单栏目</a> ，将需要持续更新的清单跟博文分开。本文的正文也已经挪到了<a href="../../collections/my-software-and-service-list/">这里</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="https://jaycechant.info/2017/my-software-and-service-list/" data-id="ck81xhcv1002bxcxly31wvf7e" class="article-share-link" data-share="baidu">分享到</a>
-      
-
-      
-        <a href="https://jaycechant.info/2017/my-software-and-service-list/#disqus_thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/app/">app</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/service/">service</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/software/">software</a></li></ul>
 
     </footer>
   </div>
@@ -606,7 +610,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -616,6 +620,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/go-bindata-golang-static-resources-embedding/">go-bindata：go 语言的静态资源嵌入</a>
+          </li>
         
           <li>
             <a href="/2020/progressive-image-loading/">渐进式图像加载</a>
@@ -631,10 +639,6 @@
         
           <li>
             <a href="/2020/golang-1-13-env-for-win/">配置 1.13+ 的 golang 环境（Windows 篇）</a>
-          </li>
-        
-          <li>
-            <a href="/2020/correct-way-to-delete-an-opened-file/">删除打开文件的正确方法（Linux）</a>
           </li>
         
       </ul>

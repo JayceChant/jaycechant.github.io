@@ -4,20 +4,14 @@
 <head>
   <meta charset="utf-8">
   
-  <title>vsftp 503 和 500 错误 | 存档Save&amp;Load</title>
+  <title>Archives: 2020/4 | 存档Save&amp;Load</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="想在远程服务器上装一些东西，在yum或者apt源里的自然很容易，但那以外的，shell + wget 总是有许多不便（有些下载需要登录，有些需要梯子……服务器上又希望尽量少不必要的东西），何况偶尔需要和本地交换一些东西，FTP是必要的。之前在 CentOS 7 上相当顺利，这次在Ubuntu 14.04上却不太顺利。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="vsftp 503 和 500 错误">
-<meta property="og:url" content="https://jaycechant.info/2016/vsftp-error-503-and-500/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="存档Save&Load">
+<meta property="og:url" content="https://jaycechant.info/archives/2020/04/index.html">
 <meta property="og:site_name" content="存档Save&Load">
-<meta property="og:description" content="想在远程服务器上装一些东西，在yum或者apt源里的自然很容易，但那以外的，shell + wget 总是有许多不便（有些下载需要登录，有些需要梯子……服务器上又希望尽量少不必要的东西），何况偶尔需要和本地交换一些东西，FTP是必要的。之前在 CentOS 7 上相当顺利，这次在Ubuntu 14.04上却不太顺利。">
-<meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2017-01-25T04:21:21.984Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="vsftp 503 和 500 错误">
-<meta name="twitter:description" content="想在远程服务器上装一些东西，在yum或者apt源里的自然很容易，但那以外的，shell + wget 总是有许多不便（有些下载需要登录，有些需要梯子……服务器上又希望尽量少不必要的东西），何况偶尔需要和本地交换一些东西，FTP是必要的。之前在 CentOS 7 上相当顺利，这次在Ubuntu 14.04上却不太顺利。">
-<meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta name="twitter:title" content="存档Save&Load">
   
     <link rel="alternative" href="/atom.xml" title="存档Save&amp;Load" type="application/atom+xml">
   
@@ -79,94 +73,39 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="post-vsftp-error-503-and-500" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/vsftp-error-503-and-500/" class="article-date">
-  <time datetime="2016-12-29T02:53:19.000Z" itemprop="datePublished">2016-12-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+      <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      vsftp 503 和 500 错误
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2020/go-bindata-golang-static-resources-embedding/" class="archive-article-date">
+  <time datetime="2020-04-02T06:28:09.000Z" itemprop="datePublished">4月 2</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/go-bindata-golang-static-resources-embedding/">go-bindata：go 语言的静态资源嵌入</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>想在远程服务器上装一些东西，在yum或者apt源里的自然很容易，但那以外的，shell + wget 总是有许多不便（有些下载需要登录，有些需要梯子……服务器上又希望尽量少不必要的东西），何况偶尔需要和本地交换一些东西，FTP是必要的。之前在 CentOS 7 上相当顺利，这次在Ubuntu 14.04上却不太顺利。</p>
-<a id="more"></a>
-<h1 id="503"><a href="#503" class="headerlink" title="503"></a>503</h1><p>安装，然后创建了一个用户叫vsftp，设置一个相对简单的密码，禁止匿名登录。</p>
-<p>然后在本地用ftp客户端登录：</p>
-<figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">命令:	USER vsftp</div><div class="line">响应:	<span class="number">331</span> Please specify the password.</div><div class="line">命令:	PASS *****</div><div class="line">响应:	<span class="number">530</span> Login incorrect.</div></pre></td></tr></table></figure>
-<p>照例放Google，结果搜到一堆解决方法，众说纷纭，不禁让我疑惑中间一部分是碰运气，根本不知道原因，因为我是在Ubuntu上有问题，结果找到这么一个讨论：<a href="http://askubuntu.com/questions/413677/vsftpd-530-login-incorrect" target="_blank" rel="external">http://askubuntu.com/questions/413677/vsftpd-530-login-incorrect</a></p>
-<p>提问者的情况跟我完全一致，而最高票的答案（将pam_service_name 从 vsftp 改为 ftp）也多次出现在各个搜索结果里，看来是可以解决问题的。不过我留了个心眼，继续看底下的评论：</p>
-<blockquote>
-<p>You are disabling default access control via PAM, because default “ftp” has no rules. The default <code>pam_service_name=vsftp</code> uses the file <code>/etc/pam.d/vsftpd</code>. This file by default requires FTP users to have a shell listed in <code>/etc/shells</code> and requires them <strong>not</strong> to be listed in <code>/etc/ftpusers</code>.</p>
-</blockquote>
-<p>一看，果然如此，pam.d/ 下只有vsftp的配置，你改名当然绕过了，但是就失去保护了。</p>
-<p>查看 <code>/et/ftpusers</code>，vsftp 并没有在里面。再查看 <code>/etc/passwd</code>，vsftp 没有指定shell。于是我就将它的shell指定为<code>/usr/sbin/nologin</code> （不允许真正登录shell操作），并且添加到 <code>/etc/shells</code>。再试，却又报了另一个错误。</p>
-<h1 id="500"><a href="#500" class="headerlink" title="500"></a>500</h1><figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">命令:	USER vsftp</div><div class="line">响应:	<span class="number">331</span> Please specify the password.</div><div class="line">命令:	PASS *****</div><div class="line">响应:	<span class="number">500</span> OOPS: cannot change directory:/home/vsftp</div></pre></td></tr></table></figure>
-<p>又是先放Google，又是一堆众说纷纭。然后这个回答提醒了我：<a href="http://blog.arithm.com/2009/06/15/defeating-vsftp-error-500-oops-cannot-change-directorysomedirectory/" target="_blank" rel="external">http://blog.arithm.com/2009/06/15/defeating-vsftp-error-500-oops-cannot-change-directorysomedirectory/</a></p>
-<p>简单说就是：你搞那么多幺蛾子之前，有先最基本的检查一下目录的权限吗？</p>
-<p>一看，目录根本还没创建 T_T 。因为vsftp 不能执行shell，所以用sudo 给它创建了目录，在chown 给 vsftp。</p>
-<p>这回FTP客户端真的可以登录了。</p>
-<hr>
-<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="https://jaycechant.info/2016/vsftp-error-503-and-500/" data-id="ck8jy2yn3002pqwxlivvyaqwc" class="article-share-link" data-share="baidu">分享到</a>
-      
-
-      
-        <a href="https://jaycechant.info/2016/vsftp-error-503-and-500/#disqus_thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/trouble/">trouble</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vsftp/">vsftp</a></li></ul>
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2016/mirrors-collection/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">
-        
-          镜像清单
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2016/trap-while-upgrading-pip/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">升级 pip 时的一个坑</div>
-    </a>
-  
-</nav>
-
-  
 </article>
-
-
-  <section id="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-  </section>
+  
+  
+    </div></section>
+  
 </section>
       
       <aside id="sidebar">
@@ -285,13 +224,11 @@
 <script>
   var disqus_shortname = 'jaycetb';
   
-  var disqus_url = 'https://jaycechant.info/2016/vsftp-error-503-and-500/';
-  
   (function(){
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   })();
 </script>
