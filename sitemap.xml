@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2020/ohain-and-heinrich/</loc>
+    
+    <lastmod>2020-04-12T16:45:31.023Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/name-server-from-dnspod-to-cloudflare/</loc>
     
     <lastmod>2020-04-12T05:22:10.791Z</lastmod>
@@ -47,13 +54,6 @@
     <loc>https://jaycechant.info/list/index.html</loc>
     
     <lastmod>2020-04-08T16:50:59.507Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jaycechant.info/2020/ohain-and-heinrich/</loc>
-    
-    <lastmod>2020-04-08T16:49:31.452Z</lastmod>
     
   </url>
   
