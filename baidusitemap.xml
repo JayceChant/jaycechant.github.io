@@ -3,6 +3,112 @@
 
 
     
+  <url>
+    <loc>https://jaycechant.info/2020/name-server-from-dnspod-to-cloudflare/</loc>
+    <lastmod>2020-04-12T03:39:08.077Z</lastmod>
+    <data>
+        <display>
+        <title>域名解析从 DNSPod 到 Cloudflare</title>
+        <pubTime>2020-04-10T15:11:52.000Z</pubTime>
+        
+        <tag>DNS</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>https://jaycechant.info/2017/my-software-and-service-list/</loc>
+    <lastmod>2020-04-10T12:23:31.413Z</lastmod>
+    <data>
+        <display>
+        <title>我的自用 软件 和 服务 清单</title>
+        <pubTime>2017-01-23T07:30:50.000Z</pubTime>
+        
+        <tag>software</tag>
+         
+        <tag>service</tag>
+         
+        <tag>app</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2017/special-for-tools/</loc>
+    <lastmod>2020-04-10T12:23:03.320Z</lastmod>
+    <data>
+        <display>
+        <title>小工具专题</title>
+        <pubTime>2017-01-16T06:56:57.000Z</pubTime>
+        
+        <tag>screen</tag>
+         
+        <tag>byobu</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2016/mirrors-collection/</loc>
+    <lastmod>2020-04-10T12:22:36.116Z</lastmod>
+    <data>
+        <display>
+        <title>镜像清单</title>
+        <pubTime>2016-12-31T02:29:12.000Z</pubTime>
+        
+        <tag>pip</tag>
+         
+        <tag>Ubuntu</tag>
+         
+        <tag>mirror</tag>
+         
+        <tag>aliyun</tag>
+         
+        <tag>npm</tag>
+         
+        <tag>maven</tag>
+         
+        <tag>Android</tag>
+         
+        <tag>Jenkins</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2016/some-good-features-on-CentOS/</loc>
+    <lastmod>2020-04-10T12:22:13.049Z</lastmod>
+    <data>
+        <display>
+        <title>CentOS 一些好用的特性</title>
+        <pubTime>2016-12-23T06:12:46.000Z</pubTime>
+        
+        <tag>CentOS</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
     
   <url>
     <loc>https://jaycechant.info/2020/ohain-and-heinrich/</loc>
@@ -20,7 +126,6 @@
     </data>
     </url>
 
-    
     
     
   <url>
@@ -170,77 +275,6 @@
     
     
   <url>
-    <loc>https://jaycechant.info/2017/special-for-tools/</loc>
-    <lastmod>2020-02-28T14:53:58.954Z</lastmod>
-    <data>
-        <display>
-        <title>小工具专题</title>
-        <pubTime>2017-01-16T06:56:57.000Z</pubTime>
-        
-        <tag>screen</tag>
-         
-        <tag>byobu</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2017/my-software-and-service-list/</loc>
-    <lastmod>2020-02-28T14:51:09.592Z</lastmod>
-    <data>
-        <display>
-        <title>我的自用 软件 和 服务 清单</title>
-        <pubTime>2017-01-23T07:30:50.000Z</pubTime>
-        
-        <tag>software</tag>
-         
-        <tag>service</tag>
-         
-        <tag>app</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2016/mirrors-collection/</loc>
-    <lastmod>2020-02-28T12:03:26.322Z</lastmod>
-    <data>
-        <display>
-        <title>镜像清单</title>
-        <pubTime>2016-12-31T02:29:12.000Z</pubTime>
-        
-        <tag>Android</tag>
-         
-        <tag>Jenkins</tag>
-         
-        <tag>pip</tag>
-         
-        <tag>Ubuntu</tag>
-         
-        <tag>mirror</tag>
-         
-        <tag>aliyun</tag>
-         
-        <tag>npm</tag>
-         
-        <tag>maven</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://jaycechant.info/2020/golang-1-13-module-VS-package/</loc>
     <lastmod>2020-01-22T10:10:38.811Z</lastmod>
     <data>
@@ -303,9 +337,9 @@
         
         <tag>golang</tag>
          
-        <tag>dep</tag>
-         
         <tag>glide</tag>
+         
+        <tag>dep</tag>
          
          
            
@@ -476,9 +510,9 @@
         <title>用 Syncthing 备份的技巧</title>
         <pubTime>2016-08-28T07:57:03.000Z</pubTime>
         
-        <tag>Syncthing</tag>
-         
         <tag>skill</tag>
+         
+        <tag>Syncthing</tag>
          
         <tag>dropbox</tag>
          
@@ -518,11 +552,11 @@
         <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
         <pubTime>2017-01-20T06:44:31.000Z</pubTime>
         
-        <tag>Java</tag>
+        <tag>trouble</tag>
          
         <tag>Jenkins</tag>
          
-        <tag>trouble</tag>
+        <tag>Java</tag>
          
         <tag>Tomcat</tag>
          
@@ -541,9 +575,9 @@
         <title>git: 在两个 repo 之间 merge</title>
         <pubTime>2017-01-21T03:28:29.000Z</pubTime>
         
-        <tag>skill</tag>
-         
         <tag>git</tag>
+         
+        <tag>skill</tag>
          
          
            
@@ -631,52 +665,6 @@
 
     
   <url>
-    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>在 Windows 搭建Python多版本环境</title>
-        <pubTime>2016-07-12T07:21:27.000Z</pubTime>
-        
-        <tag>Python</tag>
-         
-        <tag>unfinished</tag>
-         
-        <tag>trouble</tag>
-         
-        <tag>pip</tag>
-         
-        <tag>virtualenv</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>vsftp 503 和 500 错误</title>
-        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
-        
-        <tag>trouble</tag>
-         
-        <tag>Ubuntu</tag>
-         
-        <tag>vsftp</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     <data>
@@ -684,9 +672,34 @@
         <title>Windows 下 Python 2x 和 3x 版本共存</title>
         <pubTime>2012-04-11T11:46:00.000Z</pubTime>
         
+        <tag>unfinished</tag>
+         
         <tag>Python</tag>
          
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>在 Windows 搭建Python多版本环境</title>
+        <pubTime>2016-07-12T07:21:27.000Z</pubTime>
+        
         <tag>unfinished</tag>
+         
+        <tag>trouble</tag>
+         
+        <tag>Python</tag>
+         
+        <tag>pip</tag>
+         
+        <tag>virtualenv</tag>
          
          
            
@@ -717,6 +730,27 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>vsftp 503 和 500 错误</title>
+        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
+        
+        <tag>trouble</tag>
+         
+        <tag>Ubuntu</tag>
+         
+        <tag>vsftp</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2012/hello-octopress/</loc>
     <lastmod>2017-01-25T04:21:21.968Z</lastmod>
     <data>
@@ -724,11 +758,11 @@
         <title>Hello Octopress</title>
         <pubTime>2012-04-11T10:28:00.000Z</pubTime>
         
-        <tag>how-to</tag>
-         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
+         
+        <tag>how-to</tag>
          
         <tag>unfinished</tag>
          
@@ -750,9 +784,9 @@
         <title>Jenkins JavaMail 配置：JCE 及其他</title>
         <pubTime>2017-01-11T07:02:31.000Z</pubTime>
         
-        <tag>Jenkins</tag>
-         
         <tag>trouble</tag>
+         
+        <tag>Jenkins</tag>
          
         <tag>JavaMail</tag>
          
@@ -796,28 +830,11 @@
         <title>升级 pip 时的一个坑</title>
         <pubTime>2016-12-29T02:50:03.000Z</pubTime>
         
-        <tag>Python</tag>
-         
         <tag>trouble</tag>
          
+        <tag>Python</tag>
+         
         <tag>pip</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2016/some-good-features-on-CentOS/</loc>
-    <lastmod>2017-01-09T15:36:40.775Z</lastmod>
-    <data>
-        <display>
-        <title>CentOS 一些好用的特性</title>
-        <pubTime>2016-12-23T06:12:46.000Z</pubTime>
-        
-        <tag>CentOS</tag>
          
          
            
@@ -834,13 +851,13 @@
         <title>博客迁移到了Hexo（附折腾记录）</title>
         <pubTime>2016-06-27T07:46:12.000Z</pubTime>
         
-        <tag>git</tag>
-         
         <tag>blog</tag>
          
         <tag>hexo</tag>
          
         <tag>node.js</tag>
+         
+        <tag>git</tag>
          
         <tag>trouble</tag>
          
@@ -894,9 +911,9 @@
         <title>刷OJ的技巧</title>
         <pubTime>2016-12-09T01:35:03.000Z</pubTime>
         
-        <tag>skill</tag>
-         
         <tag>OJ</tag>
+         
+        <tag>skill</tag>
          
          
            
