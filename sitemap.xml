@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/list/mirror-list/index.html</loc>
+    
+    <lastmod>2020-04-13T05:49:22.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/list/essential-steps-on-newly-installed-Linux/index.html</loc>
+    
+    <lastmod>2020-04-13T04:38:40.561Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/ohain-and-heinrich/</loc>
     
-    <lastmod>2020-04-12T16:45:31.023Z</lastmod>
+    <lastmod>2020-04-13T04:32:01.876Z</lastmod>
     
   </url>
   
@@ -12,13 +26,6 @@
     <loc>https://jaycechant.info/2020/name-server-from-dnspod-to-cloudflare/</loc>
     
     <lastmod>2020-04-12T05:22:10.791Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jaycechant.info/list/essential-steps-on-newly-installed-Linux/index.html</loc>
-    
-    <lastmod>2020-04-10T14:38:21.492Z</lastmod>
     
   </url>
   
@@ -89,13 +96,6 @@
     <loc>https://jaycechant.info/list/shell-snippets/index.html</loc>
     
     <lastmod>2020-03-21T06:14:39.129Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jaycechant.info/list/mirror-list/index.html</loc>
-    
-    <lastmod>2020-03-21T04:23:54.000Z</lastmod>
     
   </url>
   

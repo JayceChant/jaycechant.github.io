@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="存档Save&Load">
 <meta property="og:description" content="每次新安装完 Linux，都需要进行一些基本的配置和工具安装。可是由于这个操作比较低频，每次回忆一些细节都很费劲，还得重新搜索。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2020-04-10T14:38:21.492Z">
+<meta property="og:updated_time" content="2020-04-13T04:38:40.561Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="新安装 Linux 上的必要操作">
 <meta name="twitter:description" content="每次新安装完 Linux，都需要进行一些基本的配置和工具安装。可是由于这个操作比较低频，每次回忆一些细节都很费劲，还得重新搜索。">
@@ -134,7 +134,7 @@
 <p>  详情参考 <a href="https://wiki.ubuntu.com/Kernel/LTSEnablementStack" target="_blank" rel="external">https://wiki.ubuntu.com/Kernel/LTSEnablementStack</a></p>
 <p>  简单说，就是 Ubuntu 为了老系统可以支持最新的硬件和内核，为 LTS （LongTerm Support 长期支持版本）系统打包测试最新的 内核 和 关键组件（如 XServer）。区别于稳定的 GA 内核（General Availability，通用可用性），过快应用新内核可能引入一些潜在的问题，但总比自己安装未经 Ubuntu 测试的内核要强。</p>
 <p>  对14.04 来说，就是用 apt 安装以下内容</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install --install-recommends \</div><div class="line">    linux-generic-lts-xenial \</div><div class="line"><span class="comment"># 以下的包仅 Desktop 需要， Server 版不用安装</span></div><div class="line">    xserver-xorg-core-lts-xenial \</div><div class="line">    xserver-xorg-lts-xenial \</div><div class="line">    xserver-xorg-video-all-lts-xenial \</div><div class="line">    xserver-xorg-input-all-lts-xenial \</div><div class="line">    libwayland-egl1-mesa-lts-xenial</div></pre></td></tr></table></figure>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># xserver 及后面的包仅 Desktop 需要， Server 版不用安装</span></div><div class="line">sudo apt-get install --install-recommends \</div><div class="line">    linux-generic-lts-xenial \</div><div class="line">    xserver-xorg-core-lts-xenial \</div><div class="line">    xserver-xorg-lts-xenial \</div><div class="line">    xserver-xorg-video-all-lts-xenial \</div><div class="line">    xserver-xorg-input-all-lts-xenial \</div><div class="line">    libwayland-egl1-mesa-lts-xenial</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>无论用哪种方法，成功安装之后：</p>
