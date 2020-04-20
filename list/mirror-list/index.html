@@ -147,7 +147,9 @@
 <p>因为除了镜像，他们还提供了定制的 cnpm 代替 npm：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g cnpm --registry=https://registry.npm.taobao.org</div></pre></td></tr></table></figure>
 <p>除了敲命令时前面多个 c，用法上跟 npm 没有任何差别。详情可以看官方的说明。</p>
-<h2 id="Maven-repository"><a href="#Maven-repository" class="headerlink" title="Maven repository"></a>Maven repository</h2><p>Maven 仓库推荐阿里云的中央库：<a href="http://maven.aliyun.com/nexus/" target="_blank" rel="external">http://maven.aliyun.com/nexus/</a></p>
+<h2 id="Maven-repository"><a href="#Maven-repository" class="headerlink" title="Maven repository"></a>Maven repository</h2><p>Maven 仓库推荐阿里云的中央库：</p>
+<p><s><a href="http://maven.aliyun.com/nexus/" target="_blank" rel="external">http://maven.aliyun.com/nexus/</a></s></p>
+<p><a href="https://maven.aliyun.com" target="_blank" rel="external">https://maven.aliyun.com</a></p>
 <p>一般的做法是修改 Maven 的 settings.xml：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">mirrors</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>aliyun<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>aliyun maven<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span>        </div><div class="line">  <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">mirrors</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>settings.xml 有两个，分别在：</p>
@@ -163,6 +165,7 @@
 <h3 id="gradle-项目设置"><a href="#gradle-项目设置" class="headerlink" title="gradle 项目设置"></a>gradle 项目设置</h3><p>如果 Android 项目，那么构建工具就是 gradle。部分新建的 Java 项目，也有尝试用 gradle 管理依赖和构建的。Android 默认使用内置的 <code>google()</code> 和 <code>jcenter()</code> ，由于我们知道的原因，访问非常不稳定，所以也可以替换成 Aliyun 的镜像。</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">maven&#123; url<span class="string">'http://maven.aliyun.com/nexus/content/groups/public/'</span> &#125;</div><div class="line">maven&#123; url<span class="string">'http://maven.aliyun.com/nexus/content/repositories/jcenter'</span>&#125;</div></pre></td></tr></table></figure>
 <p>分别添加在 <code>buildscript</code> 和 <code>allprojects</code> 下的 <code>repositories</code> 。前者是 gradle 依赖，后者是项目依赖。</p>
+<p><em>注：Maven 有 10 个左右的 repository，请根据实际需要添加，不要照抄。具体仓库用途和地址，阿里的 maven 镜像主页有。</em></p>
 <h2 id="pip"><a href="#pip" class="headerlink" title="pip"></a>pip</h2><p>网上都在推荐豆瓣的源：<a href="http://www.jianshu.com/p/785bb1f4700d" target="_blank" rel="external">http://www.jianshu.com/p/785bb1f4700d</a></p>
 <ul>
 <li>豆瓣的源：<a href="https://pypi.douban.com/simple" target="_blank" rel="external">https://pypi.douban.com/simple</a></li>
@@ -364,6 +367,9 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
 
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
 
 
 <! -- mathjax config similar to math.stackexchange -->
@@ -400,7 +406,7 @@ MathJax.Hub.Queue(function() {
         });
 </script>
 
-<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
