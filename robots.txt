@@ -5,8 +5,8 @@ Allow: /collections/
 Allow: /categories/
 Allow: /tags/
 Allow: /about/
-Disallow: /js/
-Disallow: /css/
+Allow: /js/
+Allow: /css/
 Disallow: /fonts/
 Disallow: /vendors/
 Disallow: /fancybox/

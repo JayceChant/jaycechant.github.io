@@ -3,6 +3,23 @@
 
 
     
+  <url>
+    <loc>https://jaycechant.info/2020/difficulties-of-writing/</loc>
+    <lastmod>2020-05-01T14:22:44.117Z</lastmod>
+    <data>
+        <display>
+        <title>写作困难：你是否有类似的烦恼？</title>
+        <pubTime>2020-04-29T09:03:15.000Z</pubTime>
+        
+        <tag>写作</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
     
     
   <url>
@@ -87,6 +104,10 @@
         <title>镜像清单</title>
         <pubTime>2016-12-31T02:29:12.000Z</pubTime>
         
+        <tag>Android</tag>
+         
+        <tag>Jenkins</tag>
+         
         <tag>pip</tag>
          
         <tag>Ubuntu</tag>
@@ -98,10 +119,6 @@
         <tag>npm</tag>
          
         <tag>maven</tag>
-         
-        <tag>Android</tag>
-         
-        <tag>Jenkins</tag>
          
          
            
@@ -337,9 +354,9 @@
         
         <tag>golang</tag>
          
-        <tag>glide</tag>
-         
         <tag>dep</tag>
+         
+        <tag>glide</tag>
          
          
            
@@ -510,9 +527,9 @@
         <title>用 Syncthing 备份的技巧</title>
         <pubTime>2016-08-28T07:57:03.000Z</pubTime>
         
-        <tag>skill</tag>
-         
         <tag>Syncthing</tag>
+         
+        <tag>skill</tag>
          
         <tag>dropbox</tag>
          
@@ -552,11 +569,11 @@
         <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
         <pubTime>2017-01-20T06:44:31.000Z</pubTime>
         
-        <tag>trouble</tag>
+        <tag>Java</tag>
          
         <tag>Jenkins</tag>
          
-        <tag>Java</tag>
+        <tag>trouble</tag>
          
         <tag>Tomcat</tag>
          
@@ -672,34 +689,9 @@
         <title>Windows 下 Python 2x 和 3x 版本共存</title>
         <pubTime>2012-04-11T11:46:00.000Z</pubTime>
         
-        <tag>unfinished</tag>
-         
         <tag>Python</tag>
          
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>在 Windows 搭建Python多版本环境</title>
-        <pubTime>2016-07-12T07:21:27.000Z</pubTime>
-        
         <tag>unfinished</tag>
-         
-        <tag>trouble</tag>
-         
-        <tag>Python</tag>
-         
-        <tag>pip</tag>
-         
-        <tag>virtualenv</tag>
          
          
            
@@ -721,6 +713,31 @@
         <tag>practice</tag>
          
         <tag>solution-report</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>在 Windows 搭建Python多版本环境</title>
+        <pubTime>2016-07-12T07:21:27.000Z</pubTime>
+        
+        <tag>Python</tag>
+         
+        <tag>unfinished</tag>
+         
+        <tag>trouble</tag>
+         
+        <tag>pip</tag>
+         
+        <tag>virtualenv</tag>
          
          
            
@@ -758,11 +775,11 @@
         <title>Hello Octopress</title>
         <pubTime>2012-04-11T10:28:00.000Z</pubTime>
         
+        <tag>how-to</tag>
+         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
-         
-        <tag>how-to</tag>
          
         <tag>unfinished</tag>
          
@@ -784,9 +801,9 @@
         <title>Jenkins JavaMail 配置：JCE 及其他</title>
         <pubTime>2017-01-11T07:02:31.000Z</pubTime>
         
-        <tag>trouble</tag>
-         
         <tag>Jenkins</tag>
+         
+        <tag>trouble</tag>
          
         <tag>JavaMail</tag>
          
@@ -830,9 +847,9 @@
         <title>升级 pip 时的一个坑</title>
         <pubTime>2016-12-29T02:50:03.000Z</pubTime>
         
-        <tag>trouble</tag>
-         
         <tag>Python</tag>
+         
+        <tag>trouble</tag>
          
         <tag>pip</tag>
          
@@ -851,13 +868,13 @@
         <title>博客迁移到了Hexo（附折腾记录）</title>
         <pubTime>2016-06-27T07:46:12.000Z</pubTime>
         
+        <tag>git</tag>
+         
         <tag>blog</tag>
          
         <tag>hexo</tag>
          
         <tag>node.js</tag>
-         
-        <tag>git</tag>
          
         <tag>trouble</tag>
          
@@ -911,9 +928,9 @@
         <title>刷OJ的技巧</title>
         <pubTime>2016-12-09T01:35:03.000Z</pubTime>
         
-        <tag>OJ</tag>
-         
         <tag>skill</tag>
+         
+        <tag>OJ</tag>
          
          
            
