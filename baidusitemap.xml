@@ -4,8 +4,28 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/buran-virus-what-happens/</loc>
+    <lastmod>2020-05-03T17:57:26.100Z</lastmod>
+    <data>
+        <display>
+        <title>听说 B 站 500+ 万粉丝 up 主被病毒勒索</title>
+        <pubTime>2020-05-03T09:16:18.000Z</pubTime>
+        
+        <tag>安全</tag>
+         
+         
+           
+             
+              <breadCrumb title="科普" url="https://jaycechant.info/categories/%E7%A7%91%E6%99%AE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/difficulties-of-writing/</loc>
-    <lastmod>2020-05-01T16:13:30.344Z</lastmod>
+    <lastmod>2020-05-01T16:39:04.060Z</lastmod>
     <data>
         <display>
         <title>写作困难：你是否有类似的烦恼？</title>
@@ -110,9 +130,9 @@
          
         <tag>pip</tag>
          
-        <tag>Ubuntu</tag>
-         
         <tag>mirror</tag>
+         
+        <tag>Ubuntu</tag>
          
         <tag>aliyun</tag>
          
@@ -489,9 +509,9 @@
         
         <tag>how-to</tag>
          
-        <tag>nodePPT</tag>
-         
         <tag>Mathjax</tag>
+         
+        <tag>nodePPT</tag>
          
          
            
@@ -682,16 +702,22 @@
 
     
   <url>
-    <loc>https://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
+    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     <data>
         <display>
-        <title>Windows 下 Python 2x 和 3x 版本共存</title>
-        <pubTime>2012-04-11T11:46:00.000Z</pubTime>
+        <title>在 Windows 搭建Python多版本环境</title>
+        <pubTime>2016-07-12T07:21:27.000Z</pubTime>
         
         <tag>Python</tag>
          
         <tag>unfinished</tag>
+         
+        <tag>trouble</tag>
+         
+        <tag>pip</tag>
+         
+        <tag>virtualenv</tag>
          
          
            
@@ -722,31 +748,6 @@
 
     
   <url>
-    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>在 Windows 搭建Python多版本环境</title>
-        <pubTime>2016-07-12T07:21:27.000Z</pubTime>
-        
-        <tag>Python</tag>
-         
-        <tag>unfinished</tag>
-         
-        <tag>trouble</tag>
-         
-        <tag>pip</tag>
-         
-        <tag>virtualenv</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     <data>
@@ -759,6 +760,25 @@
         <tag>Ubuntu</tag>
          
         <tag>vsftp</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>Windows 下 Python 2x 和 3x 版本共存</title>
+        <pubTime>2012-04-11T11:46:00.000Z</pubTime>
+        
+        <tag>Python</tag>
+         
+        <tag>unfinished</tag>
          
          
            
