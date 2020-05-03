@@ -15,7 +15,7 @@
 <meta property="og:image" content="https://jaycechant.info/../../images/encryption.svg">
 <meta property="og:image" content="https://jaycechant.info/../../images/asym-encryption.svg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2020-05-03T17:57:26.100Z">
+<meta property="og:updated_time" content="2020-05-03T18:58:31.573Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="听说 B 站 500+ 万粉丝 up 主被病毒勒索">
 <meta name="twitter:description" content="最近刷 B 站，在首页刷到一个视频：百大 up 主，B 站全站排名第 13，拥有 500+ 万粉丝的『机智的党妹』，被“黑客”攻击并勒索了。">
@@ -141,8 +141,8 @@
 <p>加密本质上是一系列特别复杂的 <strong>数学运算</strong> 。有意义的明文（原文）经加密运算之后得到无意义的密文。想重新得到明文，则要执行相反的解密运算。当然，如果大家都用一样的加密算法，解密没什么难的，所以加密过程还要引入一个变量：密钥（key，为了避免跟密码混淆，下面直接称 key）。加密算法一样，但每次 key 不同，不知道 key 就无法解密。（俗称的密码，实际上是口令（password），能通过运算转换成 key。）</p>
 <p><img src="../../images/encryption.svg" alt=""></p>
 <p>如果使用经过理论和实践证明过的强加密算法，例如 AES 和 RSA，加密后 <strong>只有知道 key</strong> 才能读取有效信息，否则只能读到一堆加密后无意义的乱码。</p>
-<p>如果不知道 key，只能暴力穷举。2 bit 的 key （实际上不允许），只有 00, 01, 10, 11 四种，一下子就全部试完。可如果是常见的 256 bit 长的 key，总共有 $$ 2^{256} \approx 1.1579209\times10^{77} $$ 种。这是一个非常大的数，科学家推断整个宇宙中的原子数也不过在 $$ 10^{78} \sim 10^{82}$$ 之间。</p>
-<p>假定计算机运算特别快，一秒能试 $$ 10^{8} $$ 个 key，也得 3 万多年才能试完。如果上超大算力的计算机集群（千万台计算机的算力），也许能勉强进入可以接受的时间（一天内），显然这个价格就不是一般人可以接受的。</p>
+<p>如果不知道 key，只能暴力穷举。2 bit 的 key （实际上不允许），只有 00, 01, 10, 11 四种，一下子就全部试完。可如果是常见的 256 bit 长的 key，总共有 $ 2^{256} \approx 1.1579209\times10^{77} $ 种。这是一个非常大的数，科学家推断整个宇宙中的原子数也不过在 $ 10^{78} \sim 10^{82}$ 之间。</p>
+<p>假定计算机运算特别快，一秒能试 $ 10^{8} $ 个 key，也得 $ 3.6717431\times10^{61} $ 年才能试完，仍然是个天文数字。即使调动整个比特币网络 18 年时的算力（$ 3.5\times10^{19}  $ FLOPS），依然没有进入可以接受的范围。目前破解只有通过对硬件缺陷和人的疏漏（社会工程学）下手。</p>
 <p>RSA 还要特殊一些，属于 <strong>非对称加密</strong> ，简单说，它加密解密不同同一个 key，而是使用成对的 公钥 和 私钥。密钥对虽然关联，但是拿着其中一个算不出另一个。所以 公钥 可以公开，这也是它为什么叫公钥。作为代价，生成密钥对很慢，不像 AES 随机一串就可以了。另外，RSA 加密运算也比 AES 慢。非对称加密还有更多用途，感兴趣可以自己了解一下。</p>
 <p><img src="../../images/asym-encryption.svg" alt=""></p>
 <h3 id="商业机密"><a href="#商业机密" class="headerlink" title="商业机密"></a>商业机密</h3><p>其实你手里的是一系列非常值钱的商业机密，是谈判的重要筹码。竞争对手偷走了电脑，一边尝试解密，一边跟你谈判。你早就预料到这么一天，文件很多，有可能在电脑还在执行加密时，对方就出现把电脑带走，停掉加密。该怎么设计加密方案呢？</p>
