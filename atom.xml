@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaycechant.info/"/>
-  <updated>2020-05-12T10:54:48.608Z</updated>
+  <updated>2020-05-16T17:01:49.838Z</updated>
   <id>https://jaycechant.info/</id>
   
   <author>
@@ -14,6 +14,100 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>LeetCode 25: Reverse Nodes in k-Group</title>
+    <link href="https://jaycechant.info/2020/leetcode-25-reverse-nodes-in-k-group/"/>
+    <id>https://jaycechant.info/2020/leetcode-25-reverse-nodes-in-k-group/</id>
+    <published>2020-05-16T10:25:33.000Z</published>
+    <updated>2020-05-16T17:01:49.838Z</updated>
+    
+    <content type="html"><![CDATA[<p>好久不刷题，还得捡起来。</p>
+<a id="more"></a>
+<p>太久不刷，不好一来就选太难。好奇 LeetCode 中国有啥区别，逛了一下，刚好发现置顶推荐 25 号题，选择困难症表示就它了。（不过考虑到翻译和讨论质量，还是刷 LeetCode 原版，最多两边都提交一下。）</p>
+<p>题目在此：<a href="https://leetcode.com/problems/reverse-nodes-in-k-group/" target="_blank" rel="external">https://leetcode.com/problems/reverse-nodes-in-k-group/</a></p>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>一句话题意：给定链表 和数字 k，把链表按照每 k 个节点一组，组内原地倒序；最后不满 k 个的剩余元素保留原样。</p>
+<p>例子：</p>
+<p><code>1-&gt;2-&gt;3-&gt;4-&gt;5</code></p>
+<p>k = 2 时，返回 <code>2-&gt;1-&gt;4-&gt;3-&gt;5</code></p>
+<p>k = 3 时，返回 <code>3-&gt;2-&gt;1-&gt;4-&gt;5</code></p>
+<p>约束：</p>
+<ul>
+<li>只能使用常数规模的额外内存</li>
+<li>不能修改节点的值，而要动链表的结构</li>
+</ul>
+<p>题目只需要实现给定签名的 <code>reverseKGroup(head *ListNode, k int)</code> 函数，不需要写完整的程序。</p>
+<hr>
+<p>就是考察链表基本操作的题目，这样的题目居然也标 Hard？</p>
+<p>水题一道，为了避免浪费读者时间，<strong>刷题老手可以关闭了</strong> 。新手可以参考一下我的解题流程和切入思路，毕竟没有难点可说。</p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><h3 id="测试驱动"><a href="#测试驱动" class="headerlink" title="测试驱动"></a>测试驱动</h3><p>题目虽然简单，但链表操作还是比较违反直觉的。</p>
+<p>『七加减二』法则说，人只能在短时记忆里同时处理 5 到 9 个内容。而最新的研究表明，实际上人类的平均值更低，大约只有 4。（你知道为什么一般记数字都是 4 个一组记了吧）</p>
+<p>如果光凭想象，多数没有经过特殊训练的人，很快就不记得哪个节点指向哪个了。所以开始前对于新手有两个建议：</p>
+<ul>
+<li>拿好纸和笔，没有把握的内容，写下来推算</li>
+<li>写实现之前，先写测试</li>
+</ul>
+<p>事实上，这两个建议对实际的软件开发也是适用的。很多时候，大家信心满满，觉得这么点事情，拿纸笔和写测试的时间是浪费。可很快就会发现，节省的时间跟陷入莫名错误时调试耗的心力和时间比，根本不算什么。正所谓『磨刀不误砍柴工』。</p>
+<p>第二个建议，如果按规范执行，就是所谓的 TDD （测试驱动开发）。这里不展开，不知道的自己查一下。最近一直在用 Go，刷题也是。借助 Go 自带的测试框架，很快就可以写出这样的单元测试代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"fmt"</span></div><div class="line">	<span class="string">"strings"</span></div><div class="line">	<span class="string">"testing"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="comment">// 静态类型检查</span></div><div class="line"><span class="keyword">var</span> _ fmt.Stringer = (*ListNode)(<span class="literal">nil</span>)</div><div class="line"></div><div class="line"><span class="comment">// String 方法方便调试输出</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(head *ListNode)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123;</div><div class="line">	b := strings.Builder&#123;&#125;</div><div class="line">	<span class="keyword">for</span> ; head != <span class="literal">nil</span>; head = head.Next &#123;</div><div class="line">		<span class="comment">// 为了省事，不特殊处理最后的逗号</span></div><div class="line">		b.WriteString(fmt.Sprintf(<span class="string">"%d%s"</span>, head.Val, <span class="string">","</span>))</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> b.String()</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 从切片（Go 的动态数组）生成链表，避免声明链表的麻烦</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">sliceToList</span><span class="params">(s []<span class="keyword">int</span>)</span> *<span class="title">ListNode</span></span> &#123;</div><div class="line">	<span class="comment">// 为了不用特殊处理，头节点留空</span></div><div class="line">	head := <span class="built_in">new</span>(ListNode)</div><div class="line">	last := head</div><div class="line">	<span class="keyword">var</span> cur *ListNode</div><div class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> s &#123;</div><div class="line">		cur = <span class="built_in">new</span>(ListNode)</div><div class="line">		cur.Val = v</div><div class="line">		last.Next = cur</div><div class="line">		last = cur</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 跳过头节点</span></div><div class="line">	<span class="keyword">return</span> head.Next</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 测试用例，需要增加用例只需要添加，不需要动逻辑</span></div><div class="line"><span class="keyword">var</span> tests = []<span class="keyword">struct</span> &#123;</div><div class="line">	name <span class="keyword">string</span></div><div class="line">	k    <span class="keyword">int</span></div><div class="line">	s    []<span class="keyword">int</span></div><div class="line">	want <span class="keyword">string</span></div><div class="line">&#125;&#123;</div><div class="line">	&#123;</div><div class="line">		name: <span class="string">"1"</span>, <span class="comment">// name 是为了并发测试时用来区分用例的，随便给，能区分就行</span></div><div class="line">		k:    <span class="number">1</span>,</div><div class="line">		s:    []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125;,</div><div class="line">		want: <span class="string">"1,2,3,4,5,6,7,"</span>,</div><div class="line">	&#125;,</div><div class="line">	&#123;</div><div class="line">		name: <span class="string">"2"</span>,</div><div class="line">		k:    <span class="number">2</span>,</div><div class="line">		s:    []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>&#125;,</div><div class="line">		want: <span class="string">"2,1,4,3,6,5,7,"</span>,</div><div class="line">	&#125;,</div><div class="line">	&#123;</div><div class="line">		name: <span class="string">"3"</span>,</div><div class="line">		k:    <span class="number">3</span>,</div><div class="line">		s:    []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>&#125;,</div><div class="line">		want: <span class="string">"3,2,1,6,5,4,7,8,"</span>,</div><div class="line">	&#125;,</div><div class="line">	&#123;</div><div class="line">		name: <span class="string">"39"</span>,</div><div class="line">		k:    <span class="number">3</span>,</div><div class="line">		s:    []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>&#125;,</div><div class="line">		want: <span class="string">"3,2,1,6,5,4,9,8,7,"</span>,</div><div class="line">	&#125;,</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestReverseKGroup</span><span class="params">(t *testing.T)</span></span> &#123;</div><div class="line">	<span class="keyword">for</span> _, tt := <span class="keyword">range</span> tests &#123;</div><div class="line">		<span class="comment">// 并发测试</span></div><div class="line">		t.Run(tt.name, <span class="function"><span class="keyword">func</span><span class="params">(t *testing.T)</span></span> &#123;</div><div class="line">			head := sliceToList(tt.s)</div><div class="line">			got := reverseKGroup(head, tt.k).String()</div><div class="line">			<span class="keyword">if</span> got != tt.want &#123;</div><div class="line">				t.Errorf(<span class="string">"reverseKGroup() = %v; want %v"</span>, got, tt.want)</div><div class="line">			&#125;</div><div class="line">		&#125;)</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>不要看着这些代码很长，写多了都是套路，部分代码还能工具生成（这里用的 VS Code + 插件），耗费的注意力是很少的。而一旦测试用例写完，我们就有了一个清晰的目标：通过修改实现，让测试通过。每次验证的成本为 0。</p>
+<h3 id="倒序"><a href="#倒序" class="headerlink" title="倒序"></a>倒序</h3><p>解决任何问题，首先要懂得分解问题。如果问题看起来有点复杂，尝试分解成几个子问题去解决。如果还是棘手，就继续分解，直到比较容易解决为止。怎样的问题算复杂，因人而异。有些问题很难，解决多了有了固定解法，也可以直接写答案；新手生疏，就多分解细一些。</p>
+<p>这里先忽略 k，先考虑整个链表原地倒序。</p>
+<p>所谓倒序，对于单向链表而言，就是 前一个节点 和 后继 节点反过来。</p>
+<p><code>1-&gt;2-&gt;3-&gt;4-&gt;5</code> ==&gt; <code>1&lt;-2&lt;-3&lt;-4&lt;-5</code> （为了强调修改结构而不是节点，特意不动节点位置，而修改指针指向。）</p>
+<p>很容易想到，可以新建一个链表，将原链表的节点，从尾部逐个放到新链表。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">reverseKGroup</span><span class="params">(head *ListNode, k <span class="keyword">int</span>)</span> *<span class="title">ListNode</span></span> &#123;</div><div class="line">	<span class="comment">// 倒序后的链表，创建一个空节点避免特殊处理</span></div><div class="line">	reversed := <span class="built_in">new</span>(ListNode)</div><div class="line">	<span class="comment">// 倒序链表尾节点</span></div><div class="line">	rTail := reversed</div><div class="line">	<span class="keyword">for</span> head.Next != <span class="literal">nil</span> &#123;</div><div class="line">		<span class="comment">// 原链表尾节点</span></div><div class="line">		<span class="keyword">var</span> tail *ListNode</div><div class="line">		cur := head</div><div class="line">		<span class="comment">// 将 cur 移向原链表最后一个节点，tail 指向倒数第二个节点</span></div><div class="line">		<span class="keyword">for</span> cur.Next != <span class="literal">nil</span> &#123;</div><div class="line">			tail = cur</div><div class="line">			cur = cur.Next</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 将最后一个节点挂到倒序链</span></div><div class="line">		rTail.Next = cur</div><div class="line">		rTail = cur</div><div class="line">		<span class="comment">// 并从原链移除</span></div><div class="line">		tail.Next = <span class="literal">nil</span></div><div class="line">	&#125;</div><div class="line">	rTail.Next = head</div><div class="line">	<span class="comment">// 跳过空节点</span></div><div class="line">	<span class="keyword">return</span> reversed.Next</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>用了四个指针，分别指向两条链表的头和尾。跑一下单元测试，当然是失败的，但可以看到，输出整体倒序了。</p>
+<p>不过，这个实现，效率太差。链表是无法随机访问的，光访问尾节点，就得耗费 $ O(N) $ 复杂度，每次访问尾节点都从头开始查找，整体的复杂度就变成 $ O(N^2) $ 了。其实，倒序链没有必要非要从头部开始构建。原链只能从头开始读，那么倒序链就从尾部开始构建，就可以遍历一遍完成倒序。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">reverseKGroup</span><span class="params">(head *ListNode, k <span class="keyword">int</span>)</span> *<span class="title">ListNode</span></span> &#123;</div><div class="line">	rNext := head</div><div class="line">	reversed := rNext.Next</div><div class="line">	head = reversed.Next</div><div class="line">	rNext.Next = <span class="literal">nil</span></div><div class="line"></div><div class="line">	<span class="keyword">for</span> &#123;</div><div class="line">		reversed.Next = rNext</div><div class="line">		<span class="keyword">if</span> head == <span class="literal">nil</span> &#123;</div><div class="line">			<span class="keyword">return</span> reversed</div><div class="line">		&#125;</div><div class="line">		rNext = reversed</div><div class="line">		reversed = head</div><div class="line">		head = head.Next</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这种实现不仅只需要遍历一次，连指针都少用了一个。解释起来比较麻烦，直接画图反而直观：</p>
+<p><img src="../../images/leetcode25-reverse.svg" alt=""></p>
+<p>每次从原链表取头节点，放到倒序链表做头节点，三个额外的指针一路向后移动。遍历完成，转换也完成了。对链表稍熟练一点，应该直接想到这种做法。前面第一版实际上是写文章时临时写出来做对比的。</p>
+<h3 id="分组断开与重组"><a href="#分组断开与重组" class="headerlink" title="分组断开与重组"></a>分组断开与重组</h3><p>最基本的倒序解决了。不过实际上要解决的，是把原链表分成多个 k 大小的子链表，每条子链表内部倒序。把上面实现的函数，重命名为 <code>func reverseSubGroup(head *ListNode) *ListNode</code> ，用来给每个子链表倒序时调用。参数 k 去掉，用不上。原来函数，变成解决两个问题：把原链表分割后交给倒序函数；把倒序后的链表重新拼成完整的链表。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">reverseKGroup</span><span class="params">(head *ListNode, k <span class="keyword">int</span>)</span> *<span class="title">ListNode</span></span> &#123;</div><div class="line">	<span class="keyword">if</span> k == <span class="number">1</span> &#123;</div><div class="line">		<span class="comment">// 及早剪枝</span></div><div class="line">		<span class="keyword">return</span> head</div><div class="line">	&#125;</div><div class="line">	cur := head</div><div class="line">	<span class="comment">// head, tail: 原链表 头节点，尾节点</span></div><div class="line">	<span class="comment">// gHead, gTail: 当前 Group 头节点 和 尾节点</span></div><div class="line">	<span class="keyword">var</span> gHead, gTail, tail *ListNode</div><div class="line">	<span class="keyword">for</span> &#123;</div><div class="line">		gHead = cur</div><div class="line">		<span class="keyword">if</span> gHead == <span class="literal">nil</span> &#123;</div><div class="line">			<span class="comment">// 新 Group 为空，表明节点数刚好是 k 的倍数，返回</span></div><div class="line">			<span class="keyword">return</span> head</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 跳过 k 个节点，找到 Group 尾部</span></div><div class="line">		<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; k; i++ &#123;</div><div class="line">			<span class="keyword">if</span> cur == <span class="literal">nil</span> &#123;</div><div class="line">				<span class="comment">// 当前 Group 不够 k 个节点</span></div><div class="line">				<span class="comment">// 不需倒序，接上剩余节点后返回</span></div><div class="line">				tail.Next = gHead</div><div class="line">				<span class="keyword">return</span> head</div><div class="line">			&#125;</div><div class="line">			gTail = cur</div><div class="line">			cur = cur.Next</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 倒序之前，将当前 Group 和后面断开</span></div><div class="line">		gTail.Next = <span class="literal">nil</span></div><div class="line">		<span class="keyword">if</span> tail == <span class="literal">nil</span> &#123;</div><div class="line">			head = reverseSubGroup(gHead)</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			tail.Next = reverseSubGroup(gHead)</div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 倒序之后 gHead 实际上变成了 Group 尾</span></div><div class="line">		tail = gHead</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>遍历逻辑跟前面很接近，差别是这里不需要倒序，只是 Group 的断开和重连。重点都用注释标注了。</p>
+<p>再跑一次单元测试，OK 了。提交一下，AC，时间 4ms（打败 97.84%），内存 3.6 MB（打败 50%）。</p>
+<p>外层函数也是只遍历了一遍，时间复杂度 $ O(N) $ （机械地从有多少层循环得出 $ O(N^2) $ 乃至 $ O(N^3) $ 的醒醒），空间复杂度也满足常数阶。如果不追求极限优化，特别是考虑到代码的可读性，我觉得可以接受了。</p>
+<h3 id="一些要点"><a href="#一些要点" class="headerlink" title="一些要点"></a>一些要点</h3><ul>
+<li><p>理解链表不能随机访问，只能从头节点开始遍历的特点，尽量用几个指针，在一次遍历里尽量多地获取稍后需要用到的节点。</p>
+</li>
+<li><p>多个指针一起移动时，需要小心处理赋值顺序，避免拿到错误的值。一般马上要断开的指针（修改成指向别的节点），需要先用另一个指针备份避免『失联』。</p>
+</li>
+<li><p>我看到讨论区里有人用栈来实现，还通过了。需要指出，这是 <strong>不符合题目要求</strong>的。</p>
+<p>  题目要求额外的内存是常数。而一旦使用了栈来储存节点，栈的大小就是与 k 相关的了。k 作为一个输入，是无法控制其大小的。在实际生产环境，这会成为性能隐患。而刷题的角度说，题目既然给定了约束，这种做法直接是不符合题意。居然能通过，说明这道题的测试用例太弱了。</p>
+</li>
+</ul>
+<p>总的来说，这道题作为新手熟悉 链表操作 的题目，值得一做。但也就这样了，我故意多写一种倒序的『初级思路』，把过程掰碎了说，也只能写到这么点内容。</p>
+<p>你觉得我讲得怎样？关键点说明白了吗？有讲到你疑惑的点，还是废话连篇？欢迎留言告诉我。</p>
+<h2 id="题外话：什么是-ARTS"><a href="#题外话：什么是-ARTS" class="headerlink" title="题外话：什么是 ARTS"></a>题外话：什么是 ARTS</h2><p><strong>ARTS</strong> 是由陈皓（左耳朵耗子）发起的一个活动，每周坚持做四件事，具体内容如下</p>
+<ul>
+<li>Algorithm：至少做一道 leetcode 的算法题</li>
+<li>Review：阅读并点评至少一篇英文技术文章</li>
+<li>Tip：学习至少一个技术技巧</li>
+<li>Share：分享一篇有观点和思考的技术文章</li>
+</ul>
+<p>耗子叔说『只要坚持每天学习 1 小时，就超过了 99% 的人』（大意）。</p>
+<p>我印象中很早就见过。当时不知道是忙还是别的原因，居然没有想到一起打卡。</p>
+<p>儿子出生后，压力更大更忙了。可我反而意识到，需要做的事，迟早都得做，一个都逃不掉。年轻的时候会说『等 xxx 的时候』，现在越来越明白，那个时候可能永远等不到，如果现在不做，等到什么时候？</p>
+<p>早年也零星刷过题，不过一般在 POJ，然后是 URAL，再后来为了方便，就泡在 Virtual Judge。在三星当算法讲师时最爽，能够带薪刷题，还自己出题构造测试用例；但是投入太多，开发业务却又落下。现在重新捡起，选择了业界一致选择的 LeetCode，然后顺便开启 ARTS 的打卡。</p>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;好久不刷题，还得捡起来。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="刷题" scheme="https://jaycechant.info/categories/%E5%88%B7%E9%A2%98/"/>
+    
+    
+      <category term="LeetCode" scheme="https://jaycechant.info/tags/LeetCode/"/>
+    
+      <category term="数据结构" scheme="https://jaycechant.info/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+  </entry>
   
   <entry>
     <title>跟黄执中学观念传递：简单、意外、具体</title>
@@ -69,9 +163,9 @@
     </summary>
     
     
-      <category term="语言表达" scheme="https://jaycechant.info/tags/%E8%AF%AD%E8%A8%80%E8%A1%A8%E8%BE%BE/"/>
-    
       <category term="写作" scheme="https://jaycechant.info/tags/%E5%86%99%E4%BD%9C/"/>
+    
+      <category term="语言表达" scheme="https://jaycechant.info/tags/%E8%AF%AD%E8%A8%80%E8%A1%A8%E8%BE%BE/"/>
     
   </entry>
   
@@ -2037,9 +2131,9 @@
     </summary>
     
     
-      <category term="json" scheme="https://jaycechant.info/tags/json/"/>
-    
       <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
+    
+      <category term="json" scheme="https://jaycechant.info/tags/json/"/>
     
   </entry>
   
@@ -2287,113 +2381,6 @@
     
     
       <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
-    
-      <category term="dep" scheme="https://jaycechant.info/tags/dep/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>golang 依赖管理：glide 从入门到放弃（转投 dep）</title>
-    <link href="https://jaycechant.info/2018/glide-from-start-up-to-give-up/"/>
-    <id>https://jaycechant.info/2018/glide-from-start-up-to-give-up/</id>
-    <published>2018-10-24T10:01:17.000Z</published>
-    <updated>2020-01-07T09:06:14.110Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="0x0-结论"><a href="#0x0-结论" class="headerlink" title="0x0 结论"></a>0x0 结论</h2><p>先丢结论，两个推荐选项：</p>
-<ul>
-<li>forked glide + 配置 mirror ：<a href="https://github.com/xkeyideal/glide" target="_blank" rel="external">https://github.com/xkeyideal/glide</a> ，具体修复哪些 bug ，以及它特有的 mirror 配置，请看 <a href="https://github.com/xkeyideal/glide/blob/master/README_CN.md" target="_blank" rel="external">https://github.com/xkeyideal/glide/blob/master/README_CN.md</a></li>
-<li>dep + proxy ：<a href="https://github.com/golang/dep" target="_blank" rel="external">https://github.com/golang/dep</a> ，proxy 不过是设置 <code>http_proxy</code> 和 <code>https_proxy</code> 两个环境变量。</li>
-</ul>
-<a id="more"></a>
-<p>glide 声名在外，但太子 dep 出生以来不再活跃，bug 不少且修复不活跃，要改用网友 fork 的版本。<strong>如果不会搞 proxy，推荐这个</strong> 。</p>
-<p>而 <strong>长远考虑，官方支持的 dep 更好</strong> ，别的不说，光 prune 一个特性就值了。</p>
-<p>折腾过程请看下文：</p>
-<hr>
-<p>go 最近几年热了起来，我一个长期靠 Java 吃饭的人，也从 Python 吹，变成了 go 吹。</p>
-<h2 id="0x1-依赖管起来-glide-init"><a href="#0x1-依赖管起来-glide-init" class="headerlink" title="0x1 依赖管起来 glide init"></a>0x1 依赖管起来 glide init</h2><p>一开始就知道 go 官方的依赖管理不给力。如果第三方依赖有 breaking changes，或者干脆删库走人，好好一个项目，换个没有依赖包缓存的机器，就编译不能了。1.5 开始引入了 vendor 目录，但毕竟没有默认启用，工具支持也不够（当时 dep 不知道是没发布，还是还在 alpha）。</p>
-<p>当时看了网上的讨论，好像一致推崇 glide 。安装，玩一下就算了。当时写小工具，依赖很少，没把 glide 用起来。（多数是用 go 重写 Python 工具。把工具共享出去时别人没装 Python，懒得折腾打包。）</p>
-<h3 id="breaking-changes"><a href="#breaking-changes" class="headerlink" title="breaking changes"></a>breaking changes</h3><p>直到写稍大一点的项目，依赖多起来。但还是拖着，心想具体用哪个包可能还会变，不会刚写两天就来一个 breaking change。</p>
-<p>写到稍有模样，碰到个 bug，最后发现是依赖包引起的，去主页一看，作者已经 fix 了，是个 breaking change，发了个大版本。我升级了，还好 breaking 的地方对我没有影响。但这样一来，就下决心把依赖管理起来。</p>
-<h3 id="碰『壁』"><a href="#碰『壁』" class="headerlink" title="碰『壁』"></a>碰『壁』</h3><p>（这不是教学帖，不教安装使用。反正教程一搜一大把。）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">glide init</div><div class="line">...... // 省略 glide 问我的一堆问题</div><div class="line">glide install</div><div class="line">[INFO]  Lock file (glide.lock) does not exist. Performing update.</div><div class="line">[INFO]  Downloading dependencies. Please wait...</div><div class="line">...... // 省略那些成功的包</div><div class="line">[INFO]  --&gt; Fetching golang.org/x/crypto/acme/autocert</div><div class="line">[WARN]  Unable to checkout golang.org/x/crypto/acme/autocert</div><div class="line">[ERROR] Error looking <span class="keyword">for</span> golang.org/x/crypto/acme/autocert: Cannot detect VCS</div><div class="line">...... // 这种报错一个 4 个，都是 golang.org 上的包</div></pre></td></tr></table></figure>
-<p>出问题问谷歌，然后找到这么一个文章： <a href="https://studygolang.com/articles/10453" target="_blank" rel="external">https://studygolang.com/articles/10453</a> ， 里面说是 golang.org 被墙了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">curl golang.org</div><div class="line">curl: (7) Failed to connect to golang.org port 80: Timed out</div><div class="line"></div><div class="line">curl https://golang.org</div><div class="line">curl: (7) Failed to connect to golang.org port 443: Timed out</div><div class="line"></div><div class="line">curl -x socks5://127.0.0.1:1080 https://golang.org/x/crypto/acme/autocert</div><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;meta http-equiv=<span class="string">"Content-Type"</span> content=<span class="string">"text/html; charset=utf-8"</span>/&gt;</div><div class="line">&lt;meta name=<span class="string">"go-import"</span> content=<span class="string">"golang.org/x/crypto git https://go.googlesource.com/crypto"</span>&gt;</div><div class="line">&lt;meta name=<span class="string">"go-source"</span> content=<span class="string">"golang.org/x/crypto https://github.com/golang/crypto/ https://github.com/golang/crypto/tree/master&#123;/dir&#125; https://github.com/golang/crypto/blob/master&#123;/dir&#125;/&#123;file&#125;#L&#123;line&#125;"</span>&gt;</div><div class="line">&lt;meta http-equiv=<span class="string">"refresh"</span> content=<span class="string">"0; url=https://godoc.org/golang.org/x/crypto/acme/autocert"</span>&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">Nothing to see here; &lt;a href=<span class="string">"https://godoc.org/golang.org/x/crypto/acme/autocert"</span>&gt;move along&lt;/a&gt;.</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p>确实被墙了。那平时上为什么毫无障碍的？这时才想起翻 pac 配置，发现 golang.org 赫然在列，说明被屏蔽不是一天两天，早早被加入了 gfwlist。（后来得知网站托管在 google 服务器上）</p>
-<p>而且结合 <code>golang.org/x/crypto</code> 的重定向 和 meta 信息，可以看出来 golang.org 只是提供重定向信息，<code>go get</code> 和 <code>glide</code> 应该是解析这些信息之后，再去 googlesource 或者 github 取代码。而目前第一步就 Time out 了，所以即使给 git 加 proxy 也没用。</p>
-<h2 id="0x2-配置镜像-glide-mirror"><a href="#0x2-配置镜像-glide-mirror" class="headerlink" title="0x2 配置镜像 glide mirror"></a>0x2 配置镜像 glide mirror</h2><h3 id="mirror-的-N-种配置方法"><a href="#mirror-的-N-种配置方法" class="headerlink" title="mirror 的 N 种配置方法"></a>mirror 的 N 种配置方法</h3><p>那配置镜像吧。咦，不对，别人的例子都是 import 依赖包的根目录，例如 <code>golang.org/x/crypto</code> ，可以直接映射 <code>github.com/golang/crypto</code> ，但是子包 <code>golang.org/x/crypto/acme/autocert</code> 怎么办？</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">glide mirror <span class="built_in">set</span> golang.org/x/crypto github.com/golang/crypto</div></pre></td></tr></table></figure>
-<p>照样 <code>Cannot detect VCS</code> 。 这个命令实际上写入了 <code>~/.glide/mirrors.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">repos:</span> <span class="comment"># 以这个包为例子，省略同理的其他包，下同</span></div><div class="line"><span class="attr">- original:</span> golang.org/x/crypto</div><div class="line"><span class="attr">  repo:</span> github.com/golang/crypto</div></pre></td></tr></table></figure>
-<p>所以为了避免反复 <code>glide mirror remove</code>  再 set，我直接在 <code>mirrors.yaml</code> 上修改：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">repos:</span> <span class="comment"># 考虑 import 的路径是 golang.org/x/crypto/acme/autocert，可能不会命中 golang.org/x/crypto</span></div><div class="line"><span class="attr">- original:</span> golang.org/x/crypto/acme/autocert</div><div class="line"><span class="attr">  repo:</span> github.com/golang/crypto/acme/autocert</div></pre></td></tr></table></figure>
-<p>继续一样的错误，再改</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">repos:</span> <span class="comment"># github 上实际的地址是 github.com/golang/crypto/tree/master&#123;/dir&#125;， github.com/golang/crypto/acme/autocert 根本不存在，也许映射到根目录，余下的会根据规则匹配？</span></div><div class="line"><span class="attr">- original:</span> golang.org/x/crypto/acme/autocert</div><div class="line"><span class="attr">  repo:</span> github.com/golang/crypto</div></pre></td></tr></table></figure>
-<p>照旧，再改</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">repos:</span> <span class="comment"># 看到有些人加了 https，死马当活马医，加上试试</span></div><div class="line"><span class="attr">- original:</span> https://golang.org/x/crypto/acme/autocert</div><div class="line"><span class="attr">  repo:</span> https://github.com/golang/crypto</div></pre></td></tr></table></figure>
-<p>好了，终于不报该死的 <code>Cannot detect VCS</code> 了。</p>
-<h3 id="看不见的折腾"><a href="#看不见的折腾" class="headerlink" title="看不见的折腾"></a>看不见的折腾</h3><p>这数次不断尝试和失败的过程非常痛苦。因为没有一次跑到最后，没有生成 gllide.lock 文件，所以每次执行 <code>glide install</code> ，实际触发的都是 <code>glide update</code> ；而 github 虽然可以访问，速度并不快，在知道关键的 4 个包是否成功 fetch 前，先要忍受一堆包的 fetch updates，偶尔还会因为超时出现 <code>exit status 128</code>。</p>
-<p>而除了上面列出的，还尝试过加 <code>--vcs git</code> ，加 <code>--base</code> ，给 git 加 proxy …… 尝试次数比看到的要多，只是最后证明无关就没有列出；每次失败之后都要思考背后的原因，看哪里还能调整一下。在这上面耗了大半天。</p>
-<h2 id="0x3-还有-ERROR？-另一个-glide"><a href="#0x3-还有-ERROR？-另一个-glide" class="headerlink" title="0x3 还有 ERROR？ 另一个 glide"></a>0x3 还有 ERROR？ 另一个 glide</h2><h3 id="endless-errors"><a href="#endless-errors" class="headerlink" title="endless errors"></a>endless errors</h3><p>你以为这就完了？并没有！</p>
-<p>在终于消灭了所有 <code>Cannot detect VCS</code> 之后</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[ERROR] Unable to <span class="built_in">export</span> dependencies to vendor directory: Error moving files: <span class="built_in">exit</span> status 1. output</div><div class="line">: ***********</div><div class="line">************** // 乱码会打乱这篇文章的编码，所以用 * 代替</div></pre></td></tr></table></figure>
-<p>还有 ERROR，而且还乱码，什么鬼啊！？？ 然后我就找到了这个：</p>
-<p><a href="https://github.com/xkeyideal/glide/blob/master/README_CN.md" target="_blank" rel="external">https://github.com/xkeyideal/glide/blob/master/README_CN.md</a></p>
-<p>简单说，glide 有两个 bug，一个是子包的目录映射错误（还没成功 export 过，无缘见识），一个是 Windows 下 export dependencies 时的权限问题，乱码是由于编码（Windows 默认 GB2312，但 glide 输出 UTF-8）。因为原作者迟迟没有合 PR <a href="https://github.com/Masterminds/glide/pull/889/commits/cc37dc711a3191c2b91b01b9593c685660eeb9af" target="_blank" rel="external">#889</a> ，作者就 fork 之后修复了。（我去看了，17 年 7 月的 PR，到现在 18 年 10 月，仍然没有合并……）</p>
-<h3 id="forked-glide"><a href="#forked-glide" class="headerlink" title="forked glide"></a>forked glide</h3><p>先把原来的 glide 重命名为 <code>glide.Materminds.bk</code> （在 <code>~/go/bin</code> 下），然后</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">go get github.com/xkeyideal/glide</div></pre></td></tr></table></figure>
-<p>另外，记得加上 base 参数，实测过不加 export 的目录结构确实是错的。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="attr">repos:</span></div><div class="line"><span class="attr">- original:</span> https://golang.org/x/crypto</div><div class="line"><span class="attr">  repo:</span> https://github.com/golang/crypto</div><div class="line"><span class="attr">  base:</span> github.com/golang/crypto</div></pre></td></tr></table></figure>
-<p>已经忘了是第几次执行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># glide init 只需执行一次，只要 glide.yaml 存在就不必再次执行</span></div><div class="line">glide install</div></pre></td></tr></table></figure>
-<p>终于执行到了最后。</p>
-<h2 id="0x4-转投-dep"><a href="#0x4-转投-dep" class="headerlink" title="0x4 转投 dep"></a>0x4 转投 dep</h2><p>完事了吗？还没有。</p>
-<p>从上面的尝试可以看出，glide 虽在一众依赖管理工具中收获了人气， 但存在不少 bug；而 364 个 open issue / 34 个 oepn pr ，多数有一年没有处理，最早的居然是 15 年的 （截止 2018/10/24），可以看出来作者 <strong>不再活跃</strong> ，对一个开源项目来说， <strong>比有 bug 更糟糕</strong> 。</p>
-<p>像 Windows 下的权限问题，上面 #889 一年多前提了 PR 没人管，9月又有人提了重复的PR <a href="https://github.com/Masterminds/glide/pull/1020" target="_blank" rel="external">#1020: Update winbug.go</a> ，作者依旧没有处理。</p>
-<p>fork 项目虽解决了几个明显问题，毕竟不是活跃的原项目，更多是先修复继续用的权益之计，以后也很难代替原作者继续推进开发。</p>
-<h3 id="重新评估"><a href="#重新评估" class="headerlink" title="重新评估"></a>重新评估</h3><p>我要考虑对于 go 依赖管理工具的认知是不是已经过时了。重新查这方面的对比，尽量留意时间近的帖子，翻到这么两篇：</p>
-<ul>
-<li><p><a href="https://github.com/golang/go/wiki/PackageManagementTools" target="_blank" rel="external">PackageManagementTools</a></p>
-</li>
-<li><p><a href="https://github.com/blindpirate/report-of-build-tools-for-java-and-golang" target="_blank" rel="external">A Survey on Build Tools of Golang and Java</a></p>
-</li>
-</ul>
-<p>挑重点说：go 有了官方的依赖管理工具 dep，关注度很高，而这还是 17 年 11 月的比较，当时 dep 刚出不久。</p>
-<p>关键我还在原版 glide 的 release history 发现这么个东西：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Release 0.13.0</div><div class="line">@mattfarina mattfarina released this on 29 Sep 2017 · 16 commits to master since this release</div><div class="line"></div><div class="line">The latest release of Glide brings continued support.</div><div class="line"></div><div class="line">Consider switching to dep</div><div class="line">Glide is used by a great number of projects and will continue to get support for some time. But, the near future is likely in dep. dep can handle importing Glide config files. Please consider trying dep on your project or converting to dep. If you encounter an issue please check if there is an existing bug report and file one if there is not.</div><div class="line"></div><div class="line">Glide will continue to be supported for some time as there are many users who rely on it and some are not able or ready to move to dep.</div></pre></td></tr></table></figure>
-<p>重点就是：这是 Glide 最后一个持续支持的版本了（我的理解是，往后只 patch，不大改），你们考虑切换到 dep 吧。dep 都能导入 Glide 的配置了，未来是官方亲儿子的。</p>
-<h3 id="亲儿子-dep"><a href="#亲儿子-dep" class="headerlink" title="亲儿子 dep"></a>亲儿子 dep</h3><p>说得那么好，试试。地址在这 <a href="https://github.com/golang/dep" target="_blank" rel="external">https://github.com/golang/dep</a></p>
-<p>安装略过，请按官方指引来，以后也许会变。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 加 -gopath 优先检查本地 gopath，加 -v 看详细输出否则啥进度没有干着急</span></div><div class="line">dep init -gopath -v</div><div class="line">...... // 省略正常内容</div><div class="line">init failed: unable to solve the dependency graph: Solving failure: No versions of github.com/kataras/pio met constraints:</div><div class="line">        master: unable to deduce repository and <span class="built_in">source</span> <span class="built_in">type</span> <span class="keyword">for</span> <span class="string">"golang.org/x/sys/unix"</span>: unable to <span class="built_in">read</span> metadata: unable to fetch raw metadata: failed HTTP request to URL <span class="string">"http://golang.org/x/sys/unix?go-get=1"</span>: Get http://golang.org/x/sys/unix?go-get=1: dial tcp 216.239.37.1:80: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.</div></pre></td></tr></table></figure>
-<p>又是 golang.org 无法访问。是不是同样的配方，熟悉的味道？</p>
-<p>这还没到下载，而是分析依赖图时获取 metadata 就出错了，所以 gopath 里已有了 cache 并不改变结果。难道 glide 上的困难又得重来一遍？继续问谷歌，又找到一篇：<a href="https://my.oschina.net/u/553243/blog/1504715" target="_blank" rel="external">https://my.oschina.net/u/553243/blog/1504715</a></p>
-<p>具体说，就是设置 <code>http_proxy</code> 和 <code>https_proxy</code> 两个环境变量，dep 自然会读取并使用。环境变量根据系统有差异，为了不影响其他地方，每次打开 cmd / shell 设一下也不算麻烦；当然 alias 也是一种解决办法。</p>
-<h3 id="意外惊喜"><a href="#意外惊喜" class="headerlink" title="意外惊喜"></a>意外惊喜</h3><p>这回终于好了。依赖图分析需要网络，稍有点久，后面直接读 gopath，速度很快。之后就是把 vendor 提交掉。</p>
-<p>不过，提交过程太流畅了，隐约有一丝不对劲。毕竟用 glide 的时候，提交卡顿了一会儿，70+M 的一堆小文件，很正常。去看一眼 vendor 文件夹，这次居然才 25+M！？太小了吧，难道漏文件了？</p>
-<p>可是点进去看我就懂了，dep 把引用不到的子包删掉了。换言之，glide 的最小粒度是 项目，哪怕只引用了大项目里的一个子包，也会把整个项目 export 到 vendor； 而 dep 应该是基于 subpackage 或者 文件的，先分析依赖图，没有引用到的文件都不要。<code>Gopkg.toml</code> 里的这段可以作为佐证：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[prune]</div><div class="line">  go-tests = true</div><div class="line">  unused-packages = true</div></pre></td></tr></table></figure>
-<p>用过之后，感觉 dep 相当简洁，<code>-gopath</code> 选项 和 prune 特性则是意外之喜。</p>
-<h2 id="0x5-写在最后"><a href="#0x5-写在最后" class="headerlink" title="0x5 写在最后"></a>0x5 写在最后</h2><ul>
-<li>在程序员的节日折腾这些，感受 GFW 带来的不便，相当不友好，感叹国内开发的不易，总有额外成本</li>
-<li>今天这『群雄并起，太子一统』的故事套路，怎么感觉跟当年 pip 那么像</li>
-</ul>
-<hr>
-<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>详情请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">协议</a>具体内容。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;0x0-结论&quot;&gt;&lt;a href=&quot;#0x0-结论&quot; class=&quot;headerlink&quot; title=&quot;0x0 结论&quot;&gt;&lt;/a&gt;0x0 结论&lt;/h2&gt;&lt;p&gt;先丢结论，两个推荐选项：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;forked glide + 配置 mirror ：&lt;a href=&quot;https://github.com/xkeyideal/glide&quot;&gt;https://github.com/xkeyideal/glide&lt;/a&gt; ，具体修复哪些 bug ，以及它特有的 mirror 配置，请看 &lt;a href=&quot;https://github.com/xkeyideal/glide/blob/master/README_CN.md&quot;&gt;https://github.com/xkeyideal/glide/blob/master/README_CN.md&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;dep + proxy ：&lt;a href=&quot;https://github.com/golang/dep&quot;&gt;https://github.com/golang/dep&lt;/a&gt; ，proxy 不过是设置 &lt;code&gt;http_proxy&lt;/code&gt; 和 &lt;code&gt;https_proxy&lt;/code&gt; 两个环境变量。&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
-      <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
-    
-      <category term="glide" scheme="https://jaycechant.info/tags/glide/"/>
     
       <category term="dep" scheme="https://jaycechant.info/tags/dep/"/>
     
