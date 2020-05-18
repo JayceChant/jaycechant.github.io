@@ -4,8 +4,25 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/review-why-should-you-learn-go/</loc>
+    <lastmod>2020-05-18T04:54:30.908Z</lastmod>
+    <data>
+        <display>
+        <title>英语文章评论：为什么你应该学 Go ？</title>
+        <pubTime>2020-05-17T04:48:48.000Z</pubTime>
+        
+        <tag>review</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/leetcode-25-reverse-nodes-in-k-group/</loc>
-    <lastmod>2020-05-16T17:01:49.838Z</lastmod>
+    <lastmod>2020-05-16T17:05:43.369Z</lastmod>
     <data>
         <display>
         <title>LeetCode 25: Reverse Nodes in k-Group</title>
@@ -33,9 +50,9 @@
         <title>跟黄执中学观念传递：简单、意外、具体</title>
         <pubTime>2020-05-12T09:16:34.000Z</pubTime>
         
-        <tag>写作</tag>
-         
         <tag>语言表达</tag>
+         
+        <tag>写作</tag>
          
          
            
@@ -653,9 +670,9 @@
         <title>git: 在两个 repo 之间 merge</title>
         <pubTime>2017-01-21T03:28:29.000Z</pubTime>
         
-        <tag>git</tag>
-         
         <tag>skill</tag>
+         
+        <tag>git</tag>
          
          
            
@@ -762,6 +779,27 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>解题报告 —— 从水题开一个头</title>
+        <pubTime>2016-11-08T09:40:20.000Z</pubTime>
+        
+        <tag>algorithm</tag>
+         
+        <tag>practice</tag>
+         
+        <tag>solution-report</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     <data>
@@ -778,27 +816,6 @@
         <tag>pip</tag>
          
         <tag>virtualenv</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>解题报告 —— 从水题开一个头</title>
-        <pubTime>2016-11-08T09:40:20.000Z</pubTime>
-        
-        <tag>algorithm</tag>
-         
-        <tag>practice</tag>
-         
-        <tag>solution-report</tag>
          
          
            
@@ -838,11 +855,11 @@
         
         <tag>how-to</tag>
          
+        <tag>unfinished</tag>
+         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
-         
-        <tag>unfinished</tag>
          
          
            
@@ -929,13 +946,13 @@
         <title>博客迁移到了Hexo（附折腾记录）</title>
         <pubTime>2016-06-27T07:46:12.000Z</pubTime>
         
-        <tag>git</tag>
-         
         <tag>blog</tag>
+         
+        <tag>hexo</tag>
          
         <tag>node.js</tag>
          
-        <tag>hexo</tag>
+        <tag>git</tag>
          
         <tag>trouble</tag>
          
