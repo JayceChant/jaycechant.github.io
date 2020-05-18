@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaycechant.info/"/>
-  <updated>2020-05-18T04:54:30.908Z</updated>
+  <updated>2020-05-18T05:00:18.598Z</updated>
   <id>https://jaycechant.info/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>英语文章评论：为什么你应该学 Go ？</title>
+    <title>评论：为什么你应该学 Go ？</title>
     <link href="https://jaycechant.info/2020/review-why-should-you-learn-go/"/>
     <id>https://jaycechant.info/2020/review-why-should-you-learn-go/</id>
     <published>2020-05-17T04:48:48.000Z</published>
-    <updated>2020-05-18T04:54:30.908Z</updated>
+    <updated>2020-05-18T05:00:18.598Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>这篇评论是我 ARTS 打卡中 Review 的部分，也就是阅读一篇英语（技术）文章，然后评论。</p>
@@ -31,7 +31,7 @@
 <p>所以当第一次为了打卡 <strong>无目标地主动</strong> 找英文材料看，突然不知道从哪里找起。翻了半天，大多是社交网络的碎片内容。眼看时间浪费了不少，先随便找了一篇，正好我最近也想写一下学 Go 的原因。</p>
 <p>《Why should you learn go?》，文章地址：<a href="https://medium.com/@kevalpatel2106/why-should-you-learn-go-f607681fad65" target="_blank" rel="external">https://medium.com/@kevalpatel2106/why-should-you-learn-go-f607681fad65</a> （17 年 1 月的文章，有点旧。特别提醒，Medium 为 推家 旗下网站，访问需工具。）</p>
 <p>如题，作者罗列了推荐 Go 的理由。我先简单总结作者观点（只是用引用格式区分，并非原文），再提出我的看法。</p>
-<h3 id="硬件限制"><a href="#硬件限制" class="headerlink" title="硬件限制"></a>硬件限制</h3><blockquote>
+<h2 id="硬件限制"><a href="#硬件限制" class="headerlink" title="硬件限制"></a>硬件限制</h2><blockquote>
 <p>摩尔定律正在失效</p>
 <p>过去十几年，计算机（单核）算力没有明显的变化。</p>
 <p>随着在微观尺度上量子效应越发明显，堆砌晶体管数量也变得越来越难，越来越不经济。现在厂商只能增加内核数量和增大缓存。但这些办法也有其限制，很快就无法继续。</p>
@@ -44,7 +44,7 @@
 </ul>
 <p>例子非常粗糙，现实世界比这个复杂得多，但勉强能说明问题：50 倍 和 2 倍，看似前者更重要。可现实中我们比较的是差值。980 ms 运行速度提升，没有人在意；而 40 工时的提速，实际上重要的多。至于这 40 工时再被不确定的需求浪费掉，就是另一个故事了。</p>
 <p>摩尔定律有效时，『挥霍』是理性的选择。不过，随着大规模分布式系统的普及，以及摩尔定律逐渐失效，在处理器有基础突破之前（超导？量子？），运行效率应该被重新重视起来。</p>
-<h3 id="Go-有协程"><a href="#Go-有协程" class="headerlink" title="Go 有协程"></a>Go 有协程</h3><blockquote>
+<h2 id="Go-有协程"><a href="#Go-有协程" class="headerlink" title="Go 有协程"></a>Go 有协程</h2><blockquote>
 <ul>
 <li>轻量用户级协程，2KB 低开销，动态增长栈，MPG 调度模型 …… 轻易开到百万协程。对比之下，Java 线程开销 1MB 起。</li>
 <li>CSP （Communicating Sequential Process，通信顺序进程）并发模型，可以大幅降低正确并发代码的心智负担。</li>
@@ -58,7 +58,7 @@
 <li>Java 通过第三方库也引入了协程 和 CSP。虽然使用不如原生的直接，但是结合 Java 已有的生态，还是增强了 Java 在并发方面的能力，使得 协程 + CSP 不再是 Go 的专属。</li>
 <li>CSP 的底层依然是靠 锁 实现的，只是通过封装向开发者屏蔽了复杂性。在大多数场景，性能不差，同时大大降低了心智负担。但是极端情况下，还是自己控制锁的粒度才能最大限度发挥性能，这时 Go 并没有明显的优势。</li>
 </ul>
-<h3 id="Go-直接运行在硬件上"><a href="#Go-直接运行在硬件上" class="headerlink" title="Go 直接运行在硬件上"></a>Go 直接运行在硬件上</h3><blockquote>
+<h2 id="Go-直接运行在硬件上"><a href="#Go-直接运行在硬件上" class="headerlink" title="Go 直接运行在硬件上"></a>Go 直接运行在硬件上</h2><blockquote>
 <p>其实就两点</p>
 <ul>
 <li>Go 是编译语言</li>
@@ -69,7 +69,7 @@
 <p>这里要提点反对意见了。早些年我也想当然地认为，Go 接近 C/C++ ，Go 肯定比 Java 快。</p>
 <p>现在我要说，这是 <strong>分场合的</strong> 。Java 凭借多年深厚的积累，特别是在不同场景下的 JIT 或 AOT 优化，有些情况就是比年纪尚轻的 Go 快。当然，发生在特定场景，在 Java 可以优化，而 Go 还没有或者基于某些设计不能进行优化的时候。更多情况下，Go 比 Java 快一点，或者差不多。懒得研究和稀泥说法是，它们都在比 C/C++ 略慢的第二梯队，比多数高级语言要快。但有一点是确定的，<strong>不能闭着眼睛说 Go 没有虚拟机就一定比有虚拟机的 Java 快</strong> ！</p>
 <p>编译语言、没有虚拟机真正的优势在于，无依赖地跨平台发布。实际上，通过一些技巧，还能达到单文件发布。做过运维搞过批量部署的同学，会知道这是多么宝贵的特性。</p>
-<h3 id="Go-容易维护"><a href="#Go-容易维护" class="headerlink" title="Go 容易维护"></a>Go 容易维护</h3><blockquote>
+<h2 id="Go-容易维护"><a href="#Go-容易维护" class="headerlink" title="Go 容易维护"></a>Go 容易维护</h2><blockquote>
 <p>Go 非常克制地保持了一个简洁和清晰的语法。</p>
 <p>它拒绝了很多现代高级语言会有的特性，来避免副作用：</p>
 <ul>
@@ -93,14 +93,14 @@
 </blockquote>
 <p>这才是核心团队的意思。泛型的草案已经讨论有年头了，社区的呼声也非常高。期待 Go 泛型的到来。</p>
 <p>无论如何，足够精简的特性，对于 编译速度、运行速度 还有 开发者的心智负担，都很重要。也正是凭借这些方面的优势，让 Go 在各个方面都能做到接近第一梯队，然后整体下来一看，综合很强。</p>
-<h3 id="背靠-Google"><a href="#背靠-Google" class="headerlink" title="背靠 Google"></a>背靠 Google</h3><p>以及很多大公司在用。</p>
+<h2 id="背靠-Google"><a href="#背靠-Google" class="headerlink" title="背靠 Google"></a>背靠 Google</h2><p>以及很多大公司在用。</p>
 <p>严格来说，这是生态角度。生态的几个指标：大厂支持，杀手案例，活跃社区，企业框架。</p>
 <p>但是文章作者角度刁钻地说出了一个算技术方面的理由：</p>
 <blockquote>
 <p>Google 见过大场面，Google 有世界最大规模的云设施之一，由它设计的语言一定会把它遇到的问题考虑进去，做到可扩展和高效。</p>
 </blockquote>
 <p>呃，G 厂厉害也不是这样吹的。</p>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>最后的结论还是『虽然我考试每科都是老二，但是总分高啊』。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>最后的结论还是『虽然我考试每科都是老二，但是总分高啊』。</p>
 <p>运行速度不如 C/C++ ，但是开发效率和心智负担妥妥碾压。C/C++ 历史包袱重，对新手意味着学习曲线更陡、坑更多，对团队意味着管理难度高。对于离得硬件和性能稍微远一些的开发，这些代价可能不值得。</p>
 <p>表达力、开发自由度不如 JavaScript 和 Python，但是静态安全性和速度又是遥遥领先。</p>
 <p>所以 Go 就是很适合作为 CLI 工具、web 服务（特别是云原生的微服务）的开发语言。</p>
