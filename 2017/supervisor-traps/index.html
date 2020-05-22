@@ -73,7 +73,16 @@
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
         
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        
       </nav>
+      
+      <div id="search-form-wrap">
+        <form action="" accept-charset="utf-8" class="search-form">
+          <input id="searchtext" type="search" name="q" maxlength="20" class="search-form-input" placeholder="Search" onkeypress="if(event.keyCode==13){document.getElementById('searchsub').click();return false;}">
+          <input id="searchsub" type="submit" value="" class="search-form-submit" onclick="window.open('https://global.bing.com/search?&amp;q=site:jaycechant.info '+document.getElementById('searchtext').value, '_blank')">
+        </form>
+      </div>
       
     </div>
   </div>
