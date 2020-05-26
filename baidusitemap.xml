@@ -4,6 +4,21 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/use-bing-search-in-your-static-pages/</loc>
+    <lastmod>2020-05-24T11:49:36.371Z</lastmod>
+    <data>
+        <display>
+        <title>在静态页中使用必应搜索</title>
+        <pubTime>2020-05-24T01:20:03.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/cognitive-tunnel-and-2-step-note-taking/</loc>
     <lastmod>2020-05-20T18:00:47.233Z</lastmod>
     <data>
@@ -199,13 +214,13 @@
         <title>镜像清单</title>
         <pubTime>2016-12-31T02:29:12.000Z</pubTime>
         
-        <tag>Jenkins</tag>
-         
         <tag>Android</tag>
          
-        <tag>Ubuntu</tag>
+        <tag>Jenkins</tag>
          
         <tag>pip</tag>
+         
+        <tag>Ubuntu</tag>
          
         <tag>mirror</tag>
          
@@ -449,9 +464,9 @@
         
         <tag>golang</tag>
          
-        <tag>glide</tag>
-         
         <tag>dep</tag>
+         
+        <tag>glide</tag>
          
          
            
@@ -584,9 +599,9 @@
         
         <tag>how-to</tag>
          
-        <tag>nodePPT</tag>
-         
         <tag>Mathjax</tag>
+         
+        <tag>nodePPT</tag>
          
          
            
@@ -763,9 +778,9 @@
         <title>Linux 上 为 Jenkins 配置 Android-sdk 及其它</title>
         <pubTime>2017-01-16T03:24:34.000Z</pubTime>
         
-        <tag>Jenkins</tag>
-         
         <tag>Android</tag>
+         
+        <tag>Jenkins</tag>
          
         <tag>Android-sdk</tag>
          
@@ -796,18 +811,18 @@
 
     
   <url>
-    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
+    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     <data>
         <display>
-        <title>vsftp 503 和 500 错误</title>
-        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
+        <title>解题报告 —— 从水题开一个头</title>
+        <pubTime>2016-11-08T09:40:20.000Z</pubTime>
         
-        <tag>trouble</tag>
+        <tag>algorithm</tag>
          
-        <tag>Ubuntu</tag>
+        <tag>practice</tag>
          
-        <tag>vsftp</tag>
+        <tag>solution-report</tag>
          
          
            
@@ -842,18 +857,18 @@
 
     
   <url>
-    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
+    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     <data>
         <display>
-        <title>解题报告 —— 从水题开一个头</title>
-        <pubTime>2016-11-08T09:40:20.000Z</pubTime>
+        <title>vsftp 503 和 500 错误</title>
+        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
         
-        <tag>algorithm</tag>
+        <tag>trouble</tag>
          
-        <tag>practice</tag>
+        <tag>Ubuntu</tag>
          
-        <tag>solution-report</tag>
+        <tag>vsftp</tag>
          
          
            
@@ -967,9 +982,9 @@
          
         <tag>blog</tag>
          
-        <tag>hexo</tag>
-         
         <tag>node.js</tag>
+         
+        <tag>hexo</tag>
          
         <tag>trouble</tag>
          
