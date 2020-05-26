@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2020/leetcode-4-median-of-two-sorted-arrays/</loc>
+    
+    <lastmod>2020-05-26T15:51:51.519Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/use-bing-search-in-your-static-pages/</loc>
     
     <lastmod>2020-05-24T11:49:36.371Z</lastmod>
@@ -345,14 +352,14 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
+    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
+    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     
@@ -373,14 +380,14 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/list/my-software-and-service-list/index.html</loc>
+    <loc>https://jaycechant.info/list/my-dev-env-list/index.html</loc>
     
     <lastmod>2017-01-23T07:30:50.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://jaycechant.info/list/my-dev-env-list/index.html</loc>
+    <loc>https://jaycechant.info/list/my-software-and-service-list/index.html</loc>
     
     <lastmod>2017-01-23T07:30:50.000Z</lastmod>
     
