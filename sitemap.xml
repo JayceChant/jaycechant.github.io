@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2020/rapidly-generate-unit-tests-in-vs-code/</loc>
+    
+    <lastmod>2020-06-03T14:23:22.547Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/leetcode-4-median-of-two-sorted-arrays/</loc>
     
     <lastmod>2020-05-26T16:26:54.204Z</lastmod>
@@ -380,14 +387,14 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/list/my-dev-env-list/index.html</loc>
+    <loc>https://jaycechant.info/list/my-software-and-service-list/index.html</loc>
     
     <lastmod>2017-01-23T07:30:50.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://jaycechant.info/list/my-software-and-service-list/index.html</loc>
+    <loc>https://jaycechant.info/list/my-dev-env-list/index.html</loc>
     
     <lastmod>2017-01-23T07:30:50.000Z</lastmod>
     

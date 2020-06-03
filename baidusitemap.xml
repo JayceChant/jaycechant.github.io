@@ -4,6 +4,23 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/rapidly-generate-unit-tests-in-vs-code/</loc>
+    <lastmod>2020-06-03T14:23:22.547Z</lastmod>
+    <data>
+        <display>
+        <title>如何在 VS Code 快速生成单元测试</title>
+        <pubTime>2020-06-03T03:05:16.000Z</pubTime>
+        
+        <tag>TDD</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/leetcode-4-median-of-two-sorted-arrays/</loc>
     <lastmod>2020-05-26T16:26:54.204Z</lastmod>
     <data>
@@ -483,9 +500,9 @@
         
         <tag>golang</tag>
          
-        <tag>glide</tag>
-         
         <tag>dep</tag>
+         
+        <tag>glide</tag>
          
          
            
@@ -698,9 +715,9 @@
         <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
         <pubTime>2017-01-20T06:44:31.000Z</pubTime>
         
-        <tag>Java</tag>
-         
         <tag>Jenkins</tag>
+         
+        <tag>Java</tag>
          
         <tag>trouble</tag>
          
@@ -721,9 +738,9 @@
         <title>git: 在两个 repo 之间 merge</title>
         <pubTime>2017-01-21T03:28:29.000Z</pubTime>
         
-        <tag>skill</tag>
-         
         <tag>git</tag>
+         
+        <tag>skill</tag>
          
          
            
@@ -906,11 +923,11 @@
         
         <tag>how-to</tag>
          
-        <tag>unfinished</tag>
-         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
+         
+        <tag>unfinished</tag>
          
          
            

@@ -1,0 +1,416 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>如何在 VS Code 快速生成单元测试 | 存档Save&amp;Load</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="每次写 LeetCode 解题，都会强调 准备纸笔 和 单元测试。但这是正确的废话，特别是单元测试。对老手而言这是常识，对新手而言说了也还是不知道具体怎么操作。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在 VS Code 快速生成单元测试">
+<meta property="og:url" content="https://jaycechant.info/2020/rapidly-generate-unit-tests-in-vs-code/index.html">
+<meta property="og:site_name" content="存档Save&Load">
+<meta property="og:description" content="每次写 LeetCode 解题，都会强调 准备纸笔 和 单元测试。但这是正确的废话，特别是单元测试。对老手而言这是常识，对新手而言说了也还是不知道具体怎么操作。">
+<meta property="og:image" content="https://jaycechant.info/../../images/vs-code-go-extension.png">
+<meta property="og:image" content="https://jaycechant.info/../../images/vs-code-command-palette.png">
+<meta property="og:image" content="https://jaycechant.info/../../images/manual_test.svg">
+<meta property="og:image" content="https://jaycechant.info/../../images/UTDD.svg">
+<meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta property="og:updated_time" content="2020-06-03T14:23:22.547Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何在 VS Code 快速生成单元测试">
+<meta name="twitter:description" content="每次写 LeetCode 解题，都会强调 准备纸笔 和 单元测试。但这是正确的废话，特别是单元测试。对老手而言这是常识，对新手而言说了也还是不知道具体怎么操作。">
+<meta name="twitter:image" content="https://jaycechant.info/../../images/vs-code-go-extension.png">
+  
+    <link rel="alternative" href="/atom.xml" title="存档Save&amp;Load" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+</head>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">存档Save&amp;Load</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">存档意味着放下包袱，搞砸了不过回来读档</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/list">List</a>
+        
+          <a class="main-nav-link" href="https://github.com/JayceChant">Github</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/sitemap.xml">Sitemap</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="" accept-charset="utf-8" class="search-form">
+          <input id="searchtext" type="search" name="q" maxlength="20" class="search-form-input" placeholder="Search" onkeypress="if(event.keyCode==13){document.getElementById('searchsub').click();return false;}">
+          <input id="searchsub" type="submit" value="" class="search-form-submit" onclick="window.open('https://global.bing.com/search?&amp;q=site:jaycechant.info '+document.getElementById('searchtext').value, '_blank')">
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-rapidly-generate-unit-tests-in-vs-code" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/rapidly-generate-unit-tests-in-vs-code/" class="article-date">
+  <time datetime="2020-06-03T03:05:16.000Z" itemprop="datePublished">2020-06-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何在 VS Code 快速生成单元测试
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>每次写 LeetCode 解题，都会强调 准备纸笔 和 单元测试。但这是正确的废话，特别是单元测试。对老手而言这是常识，对新手而言说了也还是不知道具体怎么操作。</p>
+<a id="more"></a>
+<p>那今天就来说一说。</p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>下面用 VS Code 写 Go 举例。</p>
+<p>VS Code 是开源 IDE 里一个不错的选择。依托强大的插件生态，啥开发都能做。我现在基本把各种开发都挪里面，甚至包括 幻灯制作 和 一些简单的制图。</p>
+<p>但 VS Code 不是唯一的选项，你也不一定写 Go。很多朋友觉得 IDEA 更好用（具体到 Go 是 GoLand），也有人习惯 Eclipse，我也体会过 Vim 纯用键盘工作的效率。这无所谓，只是提供一个思路，在你习惯的 IDE 和 语言也总是可以找到工具提高效率的。就是商业软件记得买授权，要不就用免费开源的社区工具。</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>VS Code 的安装，跟着官网走，不展开。Go 环境的安装配置，也不是重点。</p>
+<p>打开 VS Code，在扩展商店（Extensions）搜索 <code>Go</code> ，一般排在第一位的结果就是要安装的插件。（插件描述为 Rich Go language support for Visual Studio Code。开发者就是 Microsoft。）</p>
+<p><img src="../../images/vs-code-go-extension.png" alt=""></p>
+<p>安装完插件，它会提示安装各种 Go 开发需要用到的工具，按提示同意安装即可。注意的是，这些工具需要用到 go get / install 命令，所以走到这一步之前，先确认 Go 的环境已经配置好了。</p>
+<p>下面我们主要用到 <code>gotests</code> 。如果已经安装，这一部分就可以跳过了。</p>
+<p>如果不确定，按 <code>F1</code> 或者 <code>Ctrl + Shift + P</code>唤出指令面板（Command Palette），输入 <code>Go: Generate Unit Tests</code> ，如果出现三个提示 <code>For File</code> ，<code>For Function</code>，<code>For Package</code> ，就说明安装好了。实际上，指令面板的内容不需要完整输入，只输入开头一部分，或者首字母（像 <code>GGUT</code>），都能够智能匹配。善用指令面板，可以一定程度上摆脱鼠标。</p>
+<p><img src="../../images/vs-code-command-palette.png" alt=""></p>
+<p>如果没有，唤出指令面板，执行 <code>Go: Install/Update Tools</code>，找到 <code>gotests</code> 安装即可。</p>
+<h2 id="干活"><a href="#干活" class="headerlink" title="干活"></a>干活</h2><p>这里用 LeetCode 的题目 <a href="https://leetcode.com/problems/regular-expression-matching/" target="_blank" rel="external">https://leetcode.com/problems/regular-expression-matching/</a> 举例。</p>
+<p>实际开发稍复杂一些，原理是一样的。主要差别是，题目帮你定好了函数签名；而实际工作中，如何模块化、如何命名、传递哪些参数，恰恰是比较难的一部分。不过，如果题目比较复杂，最好也不要一个函数到底，也要考虑抽取模块梳理逻辑，还有复用。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>题目要求实现一个函数，返回字符串 s 和 正则式 p 是否匹配（bool 值）。函数签名为 <code>func isMatch(s string, p string) bool</code> 。</p>
+<p>VS Code 打开工作目录。我启用了 <code>go modules</code> ，需要初始化 <code>go.mod</code> ，module name 随便给一个： <code>go mod init leetcode</code> 。然后新建一个 <code>ans.go</code> 文件用来写代码实现：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ans.go</span></div><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">isMatch</span><span class="params">(s <span class="keyword">string</span>, p <span class="keyword">string</span>)</span> <span class="title">bool</span></span> &#123;</div><div class="line">	<span class="keyword">return</span> <span class="literal">true</span> <span class="comment">// 先随便返回，确保能编译运行</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>将焦点（也就是输入光标）停留在 <code>isMatch</code> 函数上，<code>F1</code> 唤出 指令面板，执行 <code>Go: Generate Unit Tests For Function</code> ，测试代码就自动生成了。熟练之后，<code>F1</code> 接着 <code>GGUTFF</code> （不必输完），方向键选一下，回车，很快的。也可以试试 <code>For File</code> 和 <code>For Package</code> ，就是生成 文件 / 包 内所有函数的测试。只有一个函数时，其实没有差别。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ans_test.go</span></div><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"testing"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Test_isMatch</span><span class="params">(t *testing.T)</span></span> &#123;</div><div class="line">	<span class="keyword">type</span> args <span class="keyword">struct</span> &#123;</div><div class="line">		s <span class="keyword">string</span></div><div class="line">		p <span class="keyword">string</span></div><div class="line">	&#125;</div><div class="line">	tests := []<span class="keyword">struct</span> &#123;</div><div class="line">		name <span class="keyword">string</span></div><div class="line">		args args</div><div class="line">		want <span class="keyword">bool</span></div><div class="line">	&#125;&#123;</div><div class="line">		<span class="comment">// <span class="doctag">TODO:</span> Add test cases.</span></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">for</span> _, tt := <span class="keyword">range</span> tests &#123;</div><div class="line">		t.Run(tt.name, <span class="function"><span class="keyword">func</span><span class="params">(t *testing.T)</span></span> &#123;</div><div class="line">			<span class="keyword">if</span> got := isMatch(tt.args.s, tt.args.p); got != tt.want &#123;</div><div class="line">				t.Errorf(<span class="string">"isMatch() = %v, want %v"</span>, got, tt.want)</div><div class="line">			&#125;</div><div class="line">		&#125;)</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>到这里为止，用时不到一分钟，熟练的话，<strong>十几秒</strong> 就做完了。</p>
+<h3 id="添加测试用例"><a href="#添加测试用例" class="headerlink" title="添加测试用例"></a>添加测试用例</h3><p>接着添加测试用例。这里直接用题目提供的 5 个例子。</p>
+<p>实际做题和开发中，一定还要多考虑不同的边界条件，以及随机生成大数据量进行测试。当然，在比赛中，如果时间非常紧，又实在想不出其他 cases，判断一次错误提交对于得分影响不大，也可以用基本用例测试完之后，直接提交看看。一般情况下，还是要重视 Test Cases 的设计。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ans_test.go</span></div><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"testing"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">var</span> tests = []<span class="keyword">struct</span> &#123;</div><div class="line">	name <span class="keyword">string</span></div><div class="line">	s    <span class="keyword">string</span></div><div class="line">	p    <span class="keyword">string</span></div><div class="line">	want <span class="keyword">bool</span></div><div class="line">&#125;&#123;</div><div class="line">	&#123;</div><div class="line">		name: <span class="string">"1"</span>, <span class="comment">// 按个人习惯随便给，只要后面出错时，能够区分、定位就行</span></div><div class="line">		s:    <span class="string">"aa"</span>,</div><div class="line">		p:    <span class="string">"a"</span>,</div><div class="line">		want: <span class="literal">false</span>,</div><div class="line">	&#125;,</div><div class="line">	&#123;</div><div class="line">		name: <span class="string">"2"</span>,</div><div class="line">		s:    <span class="string">"aa"</span>,</div><div class="line">		p:    <span class="string">"a*"</span>,</div><div class="line">		want: <span class="literal">true</span>,</div><div class="line">	&#125;,</div><div class="line">	&#123;</div><div class="line">		name: <span class="string">"3"</span>,</div><div class="line">		s:    <span class="string">"ab"</span>,</div><div class="line">		p:    <span class="string">".*"</span>,</div><div class="line">		want: <span class="literal">true</span>,</div><div class="line">	&#125;,</div><div class="line">	&#123;</div><div class="line">		name: <span class="string">"4"</span>,</div><div class="line">		s:    <span class="string">"aab"</span>,</div><div class="line">		p:    <span class="string">"c*a*b"</span>,</div><div class="line">		want: <span class="literal">true</span>,</div><div class="line">	&#125;,</div><div class="line">	&#123;</div><div class="line">		name: <span class="string">"5"</span>,</div><div class="line">		s:    <span class="string">"mississippi"</span>,</div><div class="line">		p:    <span class="string">"mis*is*p*."</span>,</div><div class="line">		want: <span class="literal">false</span>,</div><div class="line">	&#125;,</div><div class="line">	<span class="comment">// 篇幅关系，只提供题目的例子</span></div><div class="line">	<span class="comment">// 实际开发一定要多考虑不同的测试用例</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Test_isMatch</span><span class="params">(t *testing.T)</span></span> &#123;</div><div class="line">	<span class="keyword">for</span> _, tt := <span class="keyword">range</span> tests &#123;</div><div class="line">		t.Run(tt.name, <span class="function"><span class="keyword">func</span><span class="params">(t *testing.T)</span></span> &#123;</div><div class="line">			<span class="keyword">if</span> got := isMatch(tt.s, tt.p); got != tt.want &#123;</div><div class="line">				t.Errorf(<span class="string">"isMatch() = %v, want %v"</span>, got, tt.want)</div><div class="line">			&#125;</div><div class="line">		&#125;)</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>除了填测试数据，我还根据自己的习惯做了一些调整，仅供参考：</p>
+<ul>
+<li>我习惯把测试数据放在测试函数外定义，这样：<ul>
+<li>测试数据和测试逻辑分离，视觉上比较清晰，分别修改也比较容易定位。</li>
+<li>如果有多个测试共用测试数据，方便复用。</li>
+</ul>
+</li>
+<li>测试数据嵌套层次太多，数据定义会又麻烦又乱，所以我把 <code>args</code> 直接展开了。</li>
+</ul>
+<p>完成之后，直接执行一次测试。（可以鼠标点击 <code>Test_isMatch</code> 上面的 <code>run test</code>。如果不想动鼠标，也可以将焦点停留在测试函数，指令面板执行 <code>Go: Test Function At Cursor</code>。）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Running tool: go.exe <span class="built_in">test</span> -timeout 30s leetcode -run ^(Test_isMatch)$</div><div class="line"></div><div class="line">--- FAIL: Test_isMatch (0.00s)</div><div class="line">    --- FAIL: Test_isMatch/1 (0.00s)</div><div class="line">        ans_test.go:51: isMatch() = <span class="literal">true</span>, want <span class="literal">false</span></div><div class="line">    --- FAIL: Test_isMatch/5 (0.00s)</div><div class="line">        ans_test.go:51: isMatch() = <span class="literal">true</span>, want <span class="literal">false</span></div><div class="line">FAIL</div><div class="line">FAIL	leetcode	0.309s</div><div class="line">FAIL</div></pre></td></tr></table></figure>
+<p>FAIL 是肯定的，因为待测函数根本没有实现。如果 PASS 反而有问题，说明测试用例太弱。明知道是 FAIL ，也要执行一次，首先是确保没有编译错误，能正常运行；其次就是确认一下，测试用例没有弱到直接可以 PASS。</p>
+<p>到这里为止， <strong>用时不到两分钟</strong> 。当然这没有包括生成更多测试用例的时间。这个时间根据要解决的问题、开发者、测试要求的不同，差别很大。</p>
+<p>之后就是实现函数，然后回来测试，直到所有 cases 都 PASS 为止。</p>
+<h2 id="一点展开"><a href="#一点展开" class="headerlink" title="一点展开"></a>一点展开</h2><p>看到这里，你可能会问，你要说的就这？是的，本文说的不是什么很复杂的内容。</p>
+<p>然而就是这么简单的东西，很多人要么不知道，要么知道却觉得没必要、懒得写。 <strong>你在刷题和实际项目中有坚持写单元测试吗</strong> ？你能说出你的常用语言至少一个测试工具和框架吗？我猜读者朋友里，除了部分关注 Go，写  Java 的比较多。这些朋友有好好写 JUnit 或者别的测试框架代码吗？</p>
+<p>如果你的答案都是肯定的，必须说你有很好的开发习惯。</p>
+<p>根据我以前做算法内训讲师时的观察，大多数学员在做题时的习惯是这样的：</p>
+<p><img src="../../images/manual_test.svg" alt=""></p>
+<p>想到哪写到哪，凭感觉写出差不多的代码，然后 <strong>手敲输入数据</strong> 进行验证。这样测试既低效，又没有足够的测试强度。换言之，手动测试时间和精力花掉了，没有达到效果。而且因为实现、测试、修改 都依赖注意力集中，这样会很累很慢，测试和调试不知不觉就变成了 <strong>时间黑洞</strong> 。总感觉差一点就可以了，但是不断还是有错，不断消磨你的耐心。</p>
+<p>为什么图里说通过是『侥幸正确』？因为手敲几个输入的测试，输入数据复杂一点的题，甚至连题目提供的例子都很难敲完，这种测试强度下居然一两次通过，要么题太水，要么人思维极其清晰，要么运气好。</p>
+<h3 id="UTDD"><a href="#UTDD" class="headerlink" title="UTDD"></a>UTDD</h3><p>你不能指望遇到水题，不能指望自己不犯错和运气好。唯一可靠的，是<strong>可重复的、自动完成的</strong> 测试，帮你 <strong>低成本覆盖</strong> 所有能想到的边界条件。这其实就是 TDD （测试驱动开发）中的 UTDD（Unit Test Driven Development 单元测试驱动开发）。（篇幅关系，这里不讨论 TDD 的实施细节和优劣。）</p>
+<p><img src="../../images/UTDD.svg" alt=""></p>
+<p>看着好像步骤多了很多，变复杂了。但如果你看了本文前面的部分，你就会明白，大多数步骤是不怎么消耗注意力的机械操作，甚至可以借助工具自动完成：</p>
+<ul>
+<li>伪实现：写空白函数，返回默认值，能编译就行。</li>
+<li>编写测试代码：根据实现自动生成测试代码，花时间列测试用例。</li>
+<li>自动测试：辛苦鼠标点一下。</li>
+</ul>
+<p>费点脑细胞的，就是改进代码实现（第一次因为从空白实现开始，其实是从头实现）。另外，列出测试用例，特别是提交之后有错，考虑遗漏了什么边界用例，需要比较细心。</p>
+<p>刷题如此，实际开发比这复杂（需要自己模块化，测试用例变更更频繁），但道理相通。</p>
+<p>关键在于：</p>
+<ul>
+<li>每个步骤责任分割得足够细，只需要关注一个焦点。这样有助于聚焦思维，也方便借助工具，乃至自动化。</li>
+<li>实现目标以测试用例的形式存在，每次测试都可以复用。强化用例并不会增加自动测试的负担，反而有助于引导实现。</li>
+<li>测试代码告诉调用方、同事或者以后的自己，如何调用代码，哪些用法是对的哪些会引起错误。这甚至比不能运行的文档效果更好。</li>
+</ul>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>必须承认，我很长一段时间里面也是不写测试的（包括但不限于 单元测试）。一方面是学校里教测试局限于理论；另一方面工作后多数企业对此没有规范要求，反而 deadline 逼得很紧；最后，不还有测试部门在后面守着吗。说来惭愧，近些年才开始意识到测试的重要性，逐渐要求自己，并摸索到一点点技巧。</p>
+<p>多数人不写 单元测试 的理由，无外乎 没有必要 和 没有时间。</p>
+<p>如果代码非常简单，一眼看清做了什么，当然没有必要。但究竟有多少代码能简单到这种程度？何况最初简单的代码，在不断变更需求和改进实现之后，还能保持简单吗？写过测试用例，认真考虑过边界条件，就会发现根本不简单。</p>
+<p>至于时间，被 毫无头绪的调试 和 痛苦的重构 折磨过就明白，与之相比，熟练之后写单元测试的时间简直不值一提。以此为理由就好像说磨刀耽误砍柴一般。多数人（包括我）的问题是出在 <strong>根本没有了解过怎样能写好测试</strong>，更不要提有为此练习过。</p>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://jaycechant.info/2020/rapidly-generate-unit-tests-in-vs-code/" data-id="ckazfyrz9004gf8xljhvcg6hl" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="https://jaycechant.info/2020/rapidly-generate-unit-tests-in-vs-code/#disqus_thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TDD/">TDD</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/leetcode-4-median-of-two-sorted-arrays/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">LeetCode 4: Median of Two Sorted Arrays</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/刷题/">刷题</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/科普/">科普</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Algorithm/" style="font-size: 10px;">Algorithm</a> <a href="/tags/Anaconda/" style="font-size: 10px;">Anaconda</a> <a href="/tags/Android/" style="font-size: 11.67px;">Android</a> <a href="/tags/Android-sdk/" style="font-size: 10px;">Android-sdk</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/DNS/" style="font-size: 10px;">DNS</a> <a href="/tags/JCE/" style="font-size: 10px;">JCE</a> <a href="/tags/Java/" style="font-size: 11.67px;">Java</a> <a href="/tags/JavaMail/" style="font-size: 10px;">JavaMail</a> <a href="/tags/Jenkins/" style="font-size: 16.67px;">Jenkins</a> <a href="/tags/LeetCode/" style="font-size: 11.67px;">LeetCode</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 13.33px;">Markdown</a> <a href="/tags/Mathjax/" style="font-size: 10px;">Mathjax</a> <a href="/tags/OJ/" style="font-size: 10px;">OJ</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/OpenGrok/" style="font-size: 10px;">OpenGrok</a> <a href="/tags/Python/" style="font-size: 16.67px;">Python</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Syncthing/" style="font-size: 10px;">Syncthing</a> <a href="/tags/TDD/" style="font-size: 10px;">TDD</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/algorithm/" style="font-size: 11.67px;">algorithm</a> <a href="/tags/aliyun/" style="font-size: 10px;">aliyun</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/byobu/" style="font-size: 11.67px;">byobu</a> <a href="/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/tags/dep/" style="font-size: 11.67px;">dep</a> <a href="/tags/document/" style="font-size: 10px;">document</a> <a href="/tags/dropbox/" style="font-size: 10px;">dropbox</a> <a href="/tags/file-system/" style="font-size: 10px;">file-system</a> <a href="/tags/flutter/" style="font-size: 10px;">flutter</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/glide/" style="font-size: 10px;">glide</a> <a href="/tags/golang/" style="font-size: 20px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/how-to/" style="font-size: 16.67px;">how-to</a> <a href="/tags/jpg/" style="font-size: 10px;">jpg</a> <a href="/tags/json/" style="font-size: 11.67px;">json</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mirror/" style="font-size: 10px;">mirror</a> <a href="/tags/netdisk/" style="font-size: 10px;">netdisk</a> <a href="/tags/node-js/" style="font-size: 11.67px;">node.js</a> <a href="/tags/nodePPT/" style="font-size: 11.67px;">nodePPT</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/pgyer/" style="font-size: 10px;">pgyer</a> <a href="/tags/pip/" style="font-size: 15px;">pip</a> <a href="/tags/png/" style="font-size: 10px;">png</a> <a href="/tags/practice/" style="font-size: 11.67px;">practice</a> <a href="/tags/presentation/" style="font-size: 11.67px;">presentation</a> <a href="/tags/review/" style="font-size: 10px;">review</a> <a href="/tags/screen/" style="font-size: 11.67px;">screen</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/skill/" style="font-size: 13.33px;">skill</a> <a href="/tags/smtp/" style="font-size: 10px;">smtp</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/solution-report/" style="font-size: 10px;">solution-report</a> <a href="/tags/supervisor/" style="font-size: 10px;">supervisor</a> <a href="/tags/thought/" style="font-size: 10px;">thought</a> <a href="/tags/trouble/" style="font-size: 18.33px;">trouble</a> <a href="/tags/unfinished/" style="font-size: 13.33px;">unfinished</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftp/" style="font-size: 10px;">vsftp</a> <a href="/tags/why/" style="font-size: 11.67px;">why</a> <a href="/tags/写作/" style="font-size: 13.33px;">写作</a> <a href="/tags/安全/" style="font-size: 10px;">安全</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/语言表达/" style="font-size: 10px;">语言表达</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/rapidly-generate-unit-tests-in-vs-code/">如何在 VS Code 快速生成单元测试</a>
+          </li>
+        
+          <li>
+            <a href="/2020/leetcode-4-median-of-two-sorted-arrays/">LeetCode 4: Median of Two Sorted Arrays</a>
+          </li>
+        
+          <li>
+            <a href="/2020/use-bing-search-in-your-static-pages/">在静态页中使用必应搜索</a>
+          </li>
+        
+          <li>
+            <a href="/2020/cognitive-tunnel-and-2-step-note-taking/">写作之难（二）：认知隧道 与 两步笔记法</a>
+          </li>
+        
+          <li>
+            <a href="/2020/review-why-should-you-learn-go/">评论：为什么你应该学 Go ？</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://hexo.io/zh-cn/" target="_blank">Hexo主页</a>
+          </li>
+        
+          <li>
+            <a href="https://hexo.io/zh-cn/docs/" target="_blank">Hexo文档</a>
+          </li>
+        
+          <li>
+            <a href="https://github.com/xiangming/landscape-plus" target="_blank">landscape-plus项目主页</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jayce Sigit Chant<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/list" class="mobile-nav-link">List</a>
+  
+    <a href="https://github.com/JayceChant" class="mobile-nav-link">Github</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/sitemap.xml" class="mobile-nav-link">Sitemap</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+<script>
+  var disqus_shortname = 'jaycetb';
+  
+  var disqus_url = 'https://jaycechant.info/2020/rapidly-generate-unit-tests-in-vs-code/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+                processEscapes: true
+                    
+}
+  
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                  
+}
+    
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                            all[i].SourceElement().parentNode.className += ' has-jax';
+                                    
+            }
+                
+        });
+</script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
