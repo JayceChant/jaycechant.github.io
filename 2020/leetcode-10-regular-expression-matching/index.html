@@ -12,14 +12,14 @@
 <meta property="og:url" content="https://jaycechant.info/2020/leetcode-10-regular-expression-matching/index.html">
 <meta property="og:site_name" content="存档Save&Load">
 <meta property="og:description" content="一点点找回手感，容我继续水小题号的 Hard。">
-<meta property="og:image" content="https://jaycechant.info/../images/leetcode10-sample1.svg">
-<meta property="og:image" content="https://jaycechant.info/../images/leetcode10-sample2.svg">
+<meta property="og:image" content="https://jaycechant.info/../../images/leetcode10-sample1.svg">
+<meta property="og:image" content="https://jaycechant.info/../../images/leetcode10-sample2.svg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2020-06-06T15:34:56.655Z">
+<meta property="og:updated_time" content="2020-06-06T16:23:28.476Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode 题解： Regular Expression Matching">
 <meta name="twitter:description" content="一点点找回手感，容我继续水小题号的 Hard。">
-<meta name="twitter:image" content="https://jaycechant.info/../images/leetcode10-sample1.svg">
+<meta name="twitter:image" content="https://jaycechant.info/../../images/leetcode10-sample1.svg">
   
     <link rel="alternative" href="/atom.xml" title="存档Save&amp;Load" type="application/atom+xml">
   
@@ -110,7 +110,8 @@
 <p>中文：<a href="https://leetcode-cn.com/problems/regular-expression-matching/" target="_blank" rel="external">https://leetcode-cn.com/problems/regular-expression-matching/</a></p>
 <h2 id="理解题意"><a href="#理解题意" class="headerlink" title="理解题意"></a>理解题意</h2><h3 id="一句话题意"><a href="#一句话题意" class="headerlink" title="一句话题意"></a>一句话题意</h3><p>实现一个只有 <code>.</code> 和 <code>*</code> 的正则表达式子集，对给定的 字符串 <code>s</code> 和 模式串 <code>p</code> ，返回是否 <strong>全文匹配</strong> 。</p>
 <blockquote>
-<p><code>.</code> 匹配任意单个字符<br><code>*</code> 匹配零个或多个前一个元素</p>
+<p><code>.</code> 匹配任意单个字符</p>
+<p><code>*</code> 匹配零个或多个前一个元素</p>
 </blockquote>
 <h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>见测试用例</p>
 <h3 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h3><ul>
@@ -131,7 +132,7 @@
 <p>如果把 <code>*</code> 去掉，只需要从头到尾逐个字符匹配，任意一个字符不匹配就可以直接返回 false。没有任何例外。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">isMatch</span><span class="params">(s <span class="keyword">string</span>, p <span class="keyword">string</span>)</span> <span class="title">bool</span></span> &#123;</div><div class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(s) != <span class="built_in">len</span>(p) &#123;</div><div class="line">		<span class="keyword">return</span> <span class="literal">false</span></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">for</span> i := <span class="keyword">range</span> s &#123;</div><div class="line">		<span class="keyword">if</span> s[i] != p[i] &amp;&amp; p[i] != <span class="string">'.'</span> &#123;</div><div class="line">			<span class="keyword">return</span> <span class="literal">false</span></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> <span class="literal">true</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>一旦加入 <code>*</code> ，事情就变复杂了。举例 <code>abbbbbbba</code> 和 <code>abb*bba</code> ：</p>
-<p><img src="../images/leetcode10-sample1.svg" alt=""></p>
+<p><img src="../../images/leetcode10-sample1.svg" alt=""></p>
 <p>假定 <code>*</code> 尽量少匹配字符（简称懒汉策略），从匹配 0 个字符开始（是的，不要忘了可以匹配 0 个字符），继续往下试，直到发现不匹配。这时不能像没有 <code>*</code> 时那样直接返回不匹配，而是要回到 <code>*</code> 之前匹配的位置，尝试让 <code>*</code> 多匹配一个字符，把剩下的再来一遍。不行？再来一遍。又不行？再来一遍……</p>
 <p>直到</p>
 <ul>
@@ -163,7 +164,7 @@
 <h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><p>不过，如果你生成比较大、比较复杂的测试数据，会发现回溯法的用时特别多，轻易上到秒级别。</p>
 <p>原因其实前面已经提到过了，那就是每次回溯，<strong>剩余的字符串都要再尝试匹配一遍</strong> 。</p>
 <p>这里面有没有重复劳动？我们再来看一个例子 <code>abbbccccccca</code> 和 <code>ab*b*c*</code> ：</p>
-<p><img src="../images/leetcode10-sample2.svg" alt=""></p>
+<p><img src="../../images/leetcode10-sample2.svg" alt=""></p>
 <p>前半段 <code>abbb</code> 和 <code>ab*b*</code> 有多种匹配方式。前面匹配之后，接着判断余下 <code>ccccccca</code> 和 <code>c*</code> 部分。</p>
 <p>后面不匹配？可能前面匹配多了或者少了字符，换一种方式匹配后，又回到后半段。因为当前的代码没有记录，并不知道后半段的状态重复出现，又运算了一遍。这些运算量就浪费掉了。</p>
 <p>如果能保存运算过的结果就好了。</p>
@@ -187,8 +188,8 @@
 </li>
 </ul>
 <p>即使对同一个问题，这两个条件也不是固定不变的，是否成立有时依赖于如何定义子问题。要 <strong>恰当地定义和分割子问题</strong> ，满足这两个条件，将复杂问题逐渐分解成简单子问题，并缓存子问题的解。这需要 <strong>分治法</strong> 作为前置知识，篇幅所限，有机会再补坑。</p>
-<p>回到题目，我们将子问题 $ DP_{is, ip} $ 定义为 <code>s[is:]</code> 与 <code>p[ip:]</code> 是否匹配（注：<code>s[is:]</code> 表示从下标 is 一直到结尾的子串，子串右下标缺省表示取到末尾），那么全局就是 $ DP_{0, 0} $ 。全局解和子问题解的递推关系为：</p>
-<p>$$<br>\left{<br>\begin{array}{lr}<br>DP_{is, ip} = match(s[is],p[ip]) \and DP_{is+1, ip+1} &amp; (p[ip+1]\ is\ not\ <em>)\<br>DP_{is, ip} = DP_{is, ip+2} \or (match(s[is],p[ip]) \and DP_{is+1, ip}) &amp; (p[ip+1]\ is\ </em>)<br>\end{array}<br>\right.<br>$$</p>
+<p>回到题目，我们将子问题 $ DP<em>{is, ip} $ 定义为 <code>s[is:]</code> 与 <code>p[ip:]</code> 是否匹配（注：<code>s[is:]</code> 表示从下标 is 一直到结尾的子串，子串右下标缺省表示取到末尾），那么全局就是 $ DP</em>{0, 0} $ 。全局解和子问题解的递推关系为：</p>
+<p>$$<br>\left{<br>\begin{array}{lr}<br>DP<em>{is, ip} = match(s[is],p[ip]) \land DP</em>{is+1, ip+1} &amp; (p[ip+1]\ is\ not\ <em>)\<br>DP<em>{is, ip} = DP</em>{is, ip+2} \lor (match(s[is],p[ip]) \land DP_{is+1, ip}) &amp; (p[ip+1]\ is\ </em>)<br>\end{array}<br>\right.<br>$$</p>
 <p>翻译成大白话就是，当前子问题匹配，需要 1. 当前位置两边的字符匹配 且 2. 余下的子问题匹配。<code>*</code> 的特殊处理后面就着代码说。</p>
 <p>重叠子问题上面已经给了例子。至于最优子结构，将字符串分割成不同部分进行匹配，需要每一部分都匹配，才能得出整体匹配。全局解，包含局部解。而子问题 $ DP_{is, ip} $ 匹配与否，只有唯一解，相当于最优解。</p>
 <p>子问题的解称为状态，这种根据上一阶段的状态计算出当前状态的推导式，称之为 <strong>状态转移方程</strong> 。</p>
@@ -240,7 +241,7 @@
 <h4 id="回溯法-1"><a href="#回溯法-1" class="headerlink" title="回溯法"></a>回溯法</h4><p>回溯法的复杂度计算复杂一些。如果没有 <code>*</code> ，那么时间复杂度只是 $ O(S) $。加入 <code>*</code> 是复杂度的主要来源。参考基准测试的两个例子，构建类似 <code>aaaaaaaaac</code> 和 <code>.*.*.*b</code> 这样的最坏情况，p 串里都是 <code>.*</code> ，最后一个字符总是匹配失败无法提前退出。</p>
 <p>考虑 递归函数 <code>isMatchBT</code> 的调用次数。对 <code>isMatchBT(s, p, is, ip)</code>，ip 点左边一共有 $ ip / 2 $ 个 <code>.*</code> ，匹配的过程相当于把 $ is $ 个元素分成 $ ip/2 $ 组，也就是在 $ is + 1 $ 个点里选取 $ ip / 2-1 $ 个点分割，数量为 $ \mathrm{C}_{is + 1}^{ip / 2-1} $ 。</p>
 <p>对于一次函数调用，调用之前在 s 串匹配一个字符，然后调用函数，不考虑进入函数之后的开销，需要常数时间。进入函数后分两种情况：一是普通字符串的匹配，二是递归调用函数。考虑最坏的情况，都是 <code>*</code> 产生的递归调用，递归调用的开销在统计其他函数调用时计算。换言之，总的递归函数调用次数就是总的复杂度。</p>
-<p>$$ \sum_{is=0}^S \sum_{ip=0}^{P/2} \mathrm{C}_{is + 1}^{ip / 2-1} $$</p>
+<p>$$ \sum<em>{is=0}^S \sum</em>{ip=0}^{P/2} \mathrm{C}_{is + 1}^{ip / 2-1} $$</p>
 <p>太久不看数学，已经不记得怎么算这种式子了。时间关系，只好以后再计算和验证了。</p>
 <p>空间开销主要在函数调用栈上，每次函数调用使用常数内存，如果不考虑内存释放，那么空间复杂度和时间复杂度一致。但实际上，函数返回栈上的空间就释放了，空间复杂度跟最大调用深度相关，也就是 $ O(P) $ 。</p>
 <p><br></p>
