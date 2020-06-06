@@ -15,7 +15,7 @@
 <meta property="og:image" content="https://jaycechant.info/../images/leetcode10-sample1.svg">
 <meta property="og:image" content="https://jaycechant.info/../images/leetcode10-sample2.svg">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2020-06-06T12:13:21.941Z">
+<meta property="og:updated_time" content="2020-06-06T15:34:56.655Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LeetCode 题解： Regular Expression Matching">
 <meta name="twitter:description" content="一点点找回手感，容我继续水小题号的 Hard。">
@@ -187,8 +187,8 @@
 </li>
 </ul>
 <p>即使对同一个问题，这两个条件也不是固定不变的，是否成立有时依赖于如何定义子问题。要 <strong>恰当地定义和分割子问题</strong> ，满足这两个条件，将复杂问题逐渐分解成简单子问题，并缓存子问题的解。这需要 <strong>分治法</strong> 作为前置知识，篇幅所限，有机会再补坑。</p>
-<p>回到题目，我们将子问题 $ DP<em>{is, ip} $ 定义为 <code>s[is:]</code> 与 <code>p[ip:]</code> 是否匹配（注：<code>s[is:]</code> 表示从下标 is 一直到结尾的子串，子串右下标缺省表示取到末尾），那么全局就是 $ DP</em>{0, 0} $ 。全局解和子问题解的递推关系为：</p>
-<p>$$<br>\left{<br>\begin{array}{lr}<br>DP<em>{is, ip} = match(s[is],p[ip]) \and DP</em>{is+1, ip+1} &amp; (p[ip+1]\ is\ not\ <em>)\<br>DP<em>{is, ip} = DP</em>{is, ip+2} \or (match(s[is],p[ip]) \and DP_{is+1, ip}) &amp; (p[ip+1]\ is\ </em>)<br>\end{array}<br>\right.<br>$$</p>
+<p>回到题目，我们将子问题 $ DP_{is, ip} $ 定义为 <code>s[is:]</code> 与 <code>p[ip:]</code> 是否匹配（注：<code>s[is:]</code> 表示从下标 is 一直到结尾的子串，子串右下标缺省表示取到末尾），那么全局就是 $ DP_{0, 0} $ 。全局解和子问题解的递推关系为：</p>
+<p>$$<br>\left{<br>\begin{array}{lr}<br>DP_{is, ip} = match(s[is],p[ip]) \and DP_{is+1, ip+1} &amp; (p[ip+1]\ is\ not\ <em>)\<br>DP_{is, ip} = DP_{is, ip+2} \or (match(s[is],p[ip]) \and DP_{is+1, ip}) &amp; (p[ip+1]\ is\ </em>)<br>\end{array}<br>\right.<br>$$</p>
 <p>翻译成大白话就是，当前子问题匹配，需要 1. 当前位置两边的字符匹配 且 2. 余下的子问题匹配。<code>*</code> 的特殊处理后面就着代码说。</p>
 <p>重叠子问题上面已经给了例子。至于最优子结构，将字符串分割成不同部分进行匹配，需要每一部分都匹配，才能得出整体匹配。全局解，包含局部解。而子问题 $ DP_{is, ip} $ 匹配与否，只有唯一解，相当于最优解。</p>
 <p>子问题的解称为状态，这种根据上一阶段的状态计算出当前状态的推导式，称之为 <strong>状态转移方程</strong> 。</p>
@@ -240,7 +240,7 @@
 <h4 id="回溯法-1"><a href="#回溯法-1" class="headerlink" title="回溯法"></a>回溯法</h4><p>回溯法的复杂度计算复杂一些。如果没有 <code>*</code> ，那么时间复杂度只是 $ O(S) $。加入 <code>*</code> 是复杂度的主要来源。参考基准测试的两个例子，构建类似 <code>aaaaaaaaac</code> 和 <code>.*.*.*b</code> 这样的最坏情况，p 串里都是 <code>.*</code> ，最后一个字符总是匹配失败无法提前退出。</p>
 <p>考虑 递归函数 <code>isMatchBT</code> 的调用次数。对 <code>isMatchBT(s, p, is, ip)</code>，ip 点左边一共有 $ ip / 2 $ 个 <code>.*</code> ，匹配的过程相当于把 $ is $ 个元素分成 $ ip/2 $ 组，也就是在 $ is + 1 $ 个点里选取 $ ip / 2-1 $ 个点分割，数量为 $ \mathrm{C}_{is + 1}^{ip / 2-1} $ 。</p>
 <p>对于一次函数调用，调用之前在 s 串匹配一个字符，然后调用函数，不考虑进入函数之后的开销，需要常数时间。进入函数后分两种情况：一是普通字符串的匹配，二是递归调用函数。考虑最坏的情况，都是 <code>*</code> 产生的递归调用，递归调用的开销在统计其他函数调用时计算。换言之，总的递归函数调用次数就是总的复杂度。</p>
-<p>$$ \sum<em>{is=0}^S \sum</em>{ip=0}^{P/2} \mathrm{C}_{is + 1}^{ip / 2-1} $$</p>
+<p>$$ \sum_{is=0}^S \sum_{ip=0}^{P/2} \mathrm{C}_{is + 1}^{ip / 2-1} $$</p>
 <p>太久不看数学，已经不记得怎么算这种式子了。时间关系，只好以后再计算和验证了。</p>
 <p>空间开销主要在函数调用栈上，每次函数调用使用常数内存，如果不考虑内存释放，那么空间复杂度和时间复杂度一致。但实际上，函数返回栈上的空间就释放了，空间复杂度跟最大调用深度相关，也就是 $ O(P) $ 。</p>
 <p><br></p>
