@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaycechant.info/"/>
-  <updated>2020-06-07T10:41:29.937Z</updated>
+  <updated>2020-06-14T15:55:39.028Z</updated>
   <id>https://jaycechant.info/</id>
   
   <author>
@@ -16,11 +16,358 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>粤语（广州话）的九声六调</title>
+    <link href="https://jaycechant.info/2020/the-nine-tones-and-six-tunes-of-cantonese/"/>
+    <id>https://jaycechant.info/2020/the-nine-tones-and-six-tunes-of-cantonese/</id>
+    <published>2020-06-12T14:05:57.000Z</published>
+    <updated>2020-06-14T15:55:39.028Z</updated>
+    
+    <content type="html"><![CDATA[<p>学汉语，其中一道坎就是声调。只会北方官话的人学声调更多的南方方言，如粤语，也面临类似的困难。</p>
+<a id="more"></a>
+<p>多数西方语言属于印欧语系，没有声调的概念。音调的变化影响句子的语气（所以叫语调 intonation），不影响单词的含义。汉语的北方官话只有四个声调，而多数南方方言则保留了更多声调。像广州话，有九声六调。</p>
+<h2 id="辨音"><a href="#辨音" class="headerlink" title="辨音"></a>辨音</h2><p>语言区别意义的最小声音单位，术语叫音位。一个音位允许多种不同发音，语言使用者心理上把它们当做同一发音，甚至完全没有察觉有什么不同。母语里不区分的音，或者直接没有的音，过了学语言的关键期，甚至是成年之后再来学，就比较难区分。</p>
+<p>这种例子可以举很多：</p>
+<ul>
+<li>接触英语晚的同胞，比较难区分 s [s] （清齿龈擦音）和 th [θ] （清齿擦音）；</li>
+<li>学普通话晚的南方人，比较难区分 z [ts] （不送气清齿龈塞擦音），c [tsʰ] （送气清齿龈塞擦音），s [s] （清齿龈擦音）和 zh [ʈʂ] （不送气清卷舌塞擦音），ch [ʈʂʰ] （送气清卷舌塞擦音），sh [ʂ]（清卷舌擦音）两组音，也就是一般所说的 平舌音 和 卷舌音；</li>
+<li>部分方言不区分 l [l] （齿龈边音）和 n [n] （齿龈鼻音）；</li>
+<li>当然还有非声调语言的母语者，很难区分声调；声调少的母语者，难区分母语里没有的声调。</li>
+</ul>
+<p>母语的学习，在婴幼儿这个听力最敏锐的时期（是的，耳蜗毛细胞的数量出生即巅峰，往后一辈子只会减少不能再生，所以要好好保护听力），加上没有既有语言的干扰，光凭模仿就能学得非常好，不需要任何发音、语法的概念。非母语的学习者，过了关键期再学，用沉浸式的方法多听多说，还是可以学得很好的。只是听力可能没有那么灵敏了，大脑中也有了母语的干扰，需要更用功，花更多时间。</p>
+<p>无论如何，关键在于辨别不同的音，包括听觉上区分不同的音，和区分不同音的发音位置和技巧。<strong>能辨别的音，充分练习后基本上就能发出来。</strong> 先天条件的差异，可能会让部分人更难发出特定的音，但不至于彻底无法发出。一般人遇到的困难，更多是从未发过的音，受母语相近音的路径依赖干扰，以及练习不够。这就好像身体素质差、没有经过训练、有错误的手势会影响打篮球投篮命中，但极少人生理上就无法投篮。</p>
+<p>这时如果学过发音规则和技巧，我认为对辨别相近音和矫正发音是有帮助的。只是这些知识只能减轻负担，不能代替努力；多听多说，特别是听自己说然后校正，是必经之路。所以懂很多语言知识但是不努力，跟很努力但没学过相关知识相比，反倒是后者比较有可能成。</p>
+<p>今天先整理粤语九声六调的内容。后续再尝试整理粤语拼音和正字的内容。</p>
+<p>如果你不想看声调背后的历史渊源，只是想直接学，可以只阅读 <strong>五度标记法</strong> 和 <strong>九声六调</strong> 两个章节。但对我而言，了解这些有助于理解和记忆。</p>
+<h2 id="五度标记法"><a href="#五度标记法" class="headerlink" title="五度标记法"></a>五度标记法</h2><p>声调，是指附着在音节上的 抑扬（音调、音高变化）和 顿挫（辅音韵尾的停顿变化）。</p>
+<p>先说音高。</p>
+<p>可能由于印欧语系很少使用声调，现在国际通用的音高调值标记的办法，是我国语言学家赵元任发明的 <strong>五度制调值标记法</strong>，已经成为国际音标标准的一部分。</p>
+<p>这个方法模仿五线谱，以 1、2、3、4、5 标记说话时的相对音高，以 1 为最低，5 为最高。</p>
+<p>例如用五度标记法来标记普通话的四声（阴平，阳平，上声，去声）：</p>
+<p><img src="../../images/pinyin-tones-in-five-level-tone-mark.png" alt=""></p>
+<p>因为普通话声调四个调型不重复，没有必要标相对音高，可以简化用 <code>¯</code> 、<code>ˊ</code> 、<code>ˇ</code> 、<code>ˋ</code> 分别表示。</p>
+<p>但在别的语言 / 方言可能会出现相同调型，这时就需要竖标来标明音高，同样是水平声调，从高到低分别是： <code>˥</code>， <code>˦</code>， <code>˧</code>， <code>˨</code>， <code>˩</code> 。这样普通话四声就可以标记为： <code>˥</code>，<code>˧˥</code>，<code>˨˩˦</code>，<code>˥˩</code> 。考虑到这些非 ascii 字母不好输入，有些环境不一定能正确显示，所以更多的时候，会用音高数字标明：55，35，214，51。</p>
+<p>需要注意的是，这些都是相对音高，调值的高低是跟其他音比较之后得出的。以广州话的 阴平（55）和 阴去（33）为例，可能一个男生发出的 55 跟一个女生的 33 绝对音高差不多，但是女生发出的 55 更高，对比之下就会发现女生前面发的是 33。没有比较单发出一个 <strong>周</strong> （zau55）是没办法跟 <strong>皱</strong> （zau33）区分的，需要有其他字的音高做参考。</p>
+<h2 id="声调演变"><a href="#声调演变" class="headerlink" title="声调演变"></a>声调演变</h2><p>有了标记音高的办法，然后我们才能来讨论声调。</p>
+<h3 id="上古汉语"><a href="#上古汉语" class="headerlink" title="上古汉语"></a>上古汉语</h3><p>大部分语言学家认为汉语的声调是后起的，战国及之前的原始汉语没有声调，而以比现在更复杂的辅音系统区分现在不同声调的字。之后漫长的岁月里，逐渐从一些复杂的辅音演变出声调，到魏晋南北朝稳定为中古四声。</p>
+<p>由于汉字是表意文字，古代又没有准确的注音手段，这方面的研究仍然存在一些争议。</p>
+<h3 id="中古四声"><a href="#中古四声" class="headerlink" title="中古四声"></a>中古四声</h3><p>中古汉语（南北朝至唐宋之间的汉语）有四个声调，分别为 <strong>平、上、去、入</strong>。四声可能在上古汉语已经存在，但最早由南朝士子提出。梁武帝萧衍问周捨何谓四声，周捨答：『天子圣哲』。其中 『天』『平』都是平声，『子』『上』都是上声，『圣』『去』都是去声，『哲』『入』都是入声。</p>
+<p>平上去入 四个字，既是刚好发 平上去入 四声，也一定程度描述四声的特点，提出时应该有经过特意挑选。日本遣唐僧人空海《文镜秘府论》有言：『平声哀而安，上声厉而举，去声清而远，入声直而促』；明朝僧人释真空在《玉钥匙歌诀》提到：『平声平道莫低昂，上声高呼猛烈强，去声分明哀远道，入声短促急收藏』。陈寅恪推测四声可能为 中平调、高平调、低平调、促调。可惜古代没有记录调值的手段，只能从历代韵书推断同声字，无法考究具体调值。</p>
+<h3 id="四声流变"><a href="#四声流变" class="headerlink" title="四声流变"></a>四声流变</h3><p>语音的演变没有停留，四声继续发生变化：</p>
+<ul>
+<li><p>平分阴阳</p>
+<p>  四声根据开头辅音的清浊（辅音发音时声带是否震动），清为阴（高亢），浊为阳（低沉），各分为两声。分化程度在现代汉语方言中各不相同。<strong>广州话四声都分阴阳</strong> ，烟台话继续不分阴阳，北京话只有平声分阴阳。</p>
+<p>  此后很多方言里阴阳逐渐代替了清浊，浊音消失或者减少（清化）。但烟台话这样不分阴阳的方言还保留浊声母。也有吴语这样既分阴阳也保留浊声的例子，以此推测平分阴阳比浊母清化要早，阴阳承担了原本清浊的区分功能之后，浊音逐渐清化。</p>
+</li>
+<li><p>浊上归去</p>
+<p>  这是另一个浊音相关的变化，发浊音的上声变成了去声。举例说 <strong>岛</strong> 中古音 发 清上声，现代无论普通话还是广州话，都还是上声（普通话第三声， <strong>广州话是阴上</strong>）；而 <strong>道</strong> 中古音 发 浊上声，现代普通话变成了 去声（第四声），<strong>广州话还是上声（阳上）</strong> 。浊上归去最典型的例子，就是 上 字本身。</p>
+<p>  换言之，因为 平分阴阳 和 浊母清化 在前，<strong>广州话没有发生浊上归去</strong> 。</p>
+</li>
+<li><p>入派三声</p>
+<p>  就是入声消失，最终并入 平上去 三声。中古汉语的入声，有 p，t，k 三个塞音韵尾，消失的过程中，先逐渐归并到一个到两个（一部分闽南话和客家话方言），然后只剩下一个喉塞音（吴语、晋语、江淮官话），再韵尾脱落变成独立的声调（温州话、湘语、闽北语、闽中语等），再并入其他声调（绝大部分官话方言）。各方言入声消失的进程不同，停留在了不同阶段。</p>
+<p>  这一过程始于唐末宋初的中原北部，到元朝官话已经没有了入声，但在南方地区特别是华南地区保留得比较完整。现代普通话没有入声，最典型的例子就是 入 字本身，被派入了去声。 <strong>广州话完整保留了入声</strong>。</p>
+</li>
+</ul>
+<p>完整的四声跟方言声调的对照，可以参考 <a href="https://zh.wikipedia.org/wiki/%E5%9B%9B%E8%81%B2#%E6%96%B9%E9%9F%B3%E5%A3%B0%E8%B0%83%E5%AF%B9%E7%85%A7" target="_blank" rel="external">四聲#方音声调对照</a> 。</p>
+<h2 id="九声六调"><a href="#九声六调" class="headerlink" title="九声六调"></a>九声六调</h2><p>看了上面的内容，我们知道粤语的声调系统比较接近中古汉语，只是发生了 平分阴阳，入声仍然保留。不过粤语内部不同小片差异还是很大，以下仅讨论广州话。</p>
+<p>广州话有九声六调，即 阴平，阴上，阴去，阳平，阳上，阳去，阴入，中入，阳入 九个声调。注意不是 9 + 6 = 15 个声调，而是 6 个调（抑扬，音高）+ 3 个入声（顿挫，塞音）= 9 个声调（同时包含抑扬顿挫）。其中 阴入（上阴入） 跟 阴平 ，中入（下阴入）跟 阴去，阳入 跟 阳去 的音高调值 是一样的，只是结尾带塞音韵母。</p>
+<p>如果觉得这样看很乱，整理成表就不乱了：</p>
+<table>
+<thead>
+<tr>
+<th>阴阳 \ 调型</th>
+<th>平</th>
+<th>上</th>
+<th>去</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>阴</td>
+<td>阴平 1（加塞音 阴入）</td>
+<td>阴上 2</td>
+<td>阴去 3（加塞音 中入）</td>
+</tr>
+<tr>
+<td>阳</td>
+<td>阳平 4</td>
+<td>阳上 5</td>
+<td>阳去 6（加塞音 阳入）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="六调"><a href="#六调" class="headerlink" title="六调"></a>六调</h3><p>先不管三个入声，六调的详细调值和拼写代号如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">调类</th>
+<th style="text-align:center">调值标记</th>
+<th style="text-align:center">调值数字</th>
+<th style="text-align:center">拼写代号</th>
+<th style="text-align:center">字例</th>
+<th style="text-align:center">粤拼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">阴平</td>
+<td style="text-align:center">˥、˥˧</td>
+<td style="text-align:center">55、53</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">分</td>
+<td style="text-align:center">fen1</td>
+</tr>
+<tr>
+<td style="text-align:center">阴上</td>
+<td style="text-align:center">˧˥</td>
+<td style="text-align:center">35</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">粉</td>
+<td style="text-align:center">fen2</td>
+</tr>
+<tr>
+<td style="text-align:center">阴去</td>
+<td style="text-align:center">˧</td>
+<td style="text-align:center">33</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">粪</td>
+<td style="text-align:center">fen3</td>
+</tr>
+<tr>
+<td style="text-align:center">阳平</td>
+<td style="text-align:center">˩、˨˩</td>
+<td style="text-align:center">11、21</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">焚</td>
+<td style="text-align:center">fen4</td>
+</tr>
+<tr>
+<td style="text-align:center">阳上</td>
+<td style="text-align:center">˨˧</td>
+<td style="text-align:center">23</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">奋</td>
+<td style="text-align:center">fen5</td>
+</tr>
+<tr>
+<td style="text-align:center">阳去</td>
+<td style="text-align:center">˨</td>
+<td style="text-align:center">22</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">份</td>
+<td style="text-align:center">fen6</td>
+</tr>
+</tbody>
+</table>
+<p>如果不考虑 阴平、阳平 的发音变体（考虑就画不下了），五度标记图如下：</p>
+<p><img src="../../images/cantonese-tones-in-five-level-tone-mark.png" alt=""></p>
+<blockquote>
+<p>如果你和我一样，看了 平上去 三声在不同方言的调型之后，想总结一下规律，就要失望了。平声调型不一定平，有可能升调（普通话阳平，青岛话平声），有可能降调（上海话阴平，江淮官话阴平），甚至还有转折（济南话阴平），其它声调也类似，很难总结出规律。</p>
+<p>这是因为 四声 经过了长时间的演变，已经变成单纯声调的分类，只是继续沿用原来的叫法。中古汉语一个声调下的字，除了通过某些规律分成多个声调，或者并入某个声调，剩下的还是叫原来的声调。例如 古代是平声的字，现代各方言还是叫平声，最多分开了阴阳；但是 这个平声怎么发音，现代和古代，现代各方言之间，经过长时间演变，规律已经不明显。</p>
+<p>这就好比火车早就不烧火了，但我们约定俗成还是叫火车。</p>
+</blockquote>
+<h3 id="入声"><a href="#入声" class="headerlink" title="入声"></a>入声</h3><p>入声包括入声韵和入声调，大多数情况下不作区分，通称入声。</p>
+<p>入声韵，又叫促声韵，是指在音节的结尾，加入塞音韵尾，使发音快速结束，再无声除阻。例如 姑（广州话 gu1）和 谷 （广州话 guk1），前者是阴平，后者多了一个 k [k̚] （无声除阻清软腭塞音）使 u 音变得短而急促，就变成了 入声。（普通话没有了 入声，谷 被派入了 上声。）</p>
+<p>广州话保留了完整的三个入声韵尾：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">韵尾</th>
+<th style="text-align:center">拼写</th>
+<th style="text-align:center">发音</th>
+<th style="text-align:center">字例</th>
+<th style="text-align:center">粤拼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">清双唇塞音</td>
+<td style="text-align:center">p</td>
+<td style="text-align:center">[p̚]</td>
+<td style="text-align:center">湿</td>
+<td style="text-align:center">sap1</td>
+</tr>
+<tr>
+<td style="text-align:center">清齿音塞音</td>
+<td style="text-align:center">t</td>
+<td style="text-align:center">[t̚]</td>
+<td style="text-align:center">失</td>
+<td style="text-align:center">sat1</td>
+</tr>
+<tr>
+<td style="text-align:center">清软腭塞音</td>
+<td style="text-align:center">k</td>
+<td style="text-align:center">[k̚]</td>
+<td style="text-align:center">塞</td>
+<td style="text-align:center">sak1</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>用作韵尾的辅音，都发无声除阻音，又叫唯闭音，指除阻时听不到爆发的塞音，以 ◌̚ 表示。</p>
+</blockquote>
+<p>而入声调有两种含义。在还有入声韵的时候，入声调强调发音 <strong>短而急促</strong> ，区别于其他声调。但在入声韵的韵尾消失之后，在某些方言还存在的入声调，变成了一个纯粹的声调分类，失去了促声韵的特点（温州话的入声甚至比其它声调还要长）。</p>
+<p>广州话有三个入声调，音高调值跟 阴平、阴去、阳去 一致：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">调类</th>
+<th style="text-align:center">调值标记</th>
+<th style="text-align:center">调值数字</th>
+<th style="text-align:center">拼写代号</th>
+<th style="text-align:center">字例</th>
+<th style="text-align:center">粤拼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">阴入（上阴入）</td>
+<td style="text-align:center">˥、˥˧</td>
+<td style="text-align:center">55、53</td>
+<td style="text-align:center">1 或 7</td>
+<td style="text-align:center">忽</td>
+<td style="text-align:center">fat1</td>
+</tr>
+<tr>
+<td style="text-align:center">中入（下阴入）</td>
+<td style="text-align:center">˧</td>
+<td style="text-align:center">33</td>
+<td style="text-align:center">3 或 8</td>
+<td style="text-align:center">发</td>
+<td style="text-align:center">faat3</td>
+</tr>
+<tr>
+<td style="text-align:center">阳入</td>
+<td style="text-align:center">˨</td>
+<td style="text-align:center">22</td>
+<td style="text-align:center">6 或 9</td>
+<td style="text-align:center">佛</td>
+<td style="text-align:center">fat6</td>
+</tr>
+</tbody>
+</table>
+<h3 id="助记口诀"><a href="#助记口诀" class="headerlink" title="助记口诀"></a>助记口诀</h3><p>六个不同调（音高调值），加上三个入声调，一共九个声调。为了方便看全貌，再贴一次完整的表格：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">调类</th>
+<th style="text-align:center">调值数字</th>
+<th style="text-align:center">拼写代号</th>
+<th style="text-align:center">字例</th>
+<th style="text-align:center">粤拼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">阴平</td>
+<td style="text-align:center">55、53</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">分</td>
+<td style="text-align:center">fen1</td>
+</tr>
+<tr>
+<td style="text-align:center">阴上</td>
+<td style="text-align:center">35</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">粉</td>
+<td style="text-align:center">fen2</td>
+</tr>
+<tr>
+<td style="text-align:center">阴去</td>
+<td style="text-align:center">33</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">粪</td>
+<td style="text-align:center">fen3</td>
+</tr>
+<tr>
+<td style="text-align:center">阳平</td>
+<td style="text-align:center">11、21</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">焚</td>
+<td style="text-align:center">fen4</td>
+</tr>
+<tr>
+<td style="text-align:center">阳上</td>
+<td style="text-align:center">23</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">奋</td>
+<td style="text-align:center">fen5</td>
+</tr>
+<tr>
+<td style="text-align:center">阳去</td>
+<td style="text-align:center">22</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">份</td>
+<td style="text-align:center">fen6</td>
+</tr>
+<tr>
+<td style="text-align:center">阴入（上阴入）</td>
+<td style="text-align:center">55、53</td>
+<td style="text-align:center">1 或 7</td>
+<td style="text-align:center">忽</td>
+<td style="text-align:center">fat1</td>
+</tr>
+<tr>
+<td style="text-align:center">中入（下阴入）</td>
+<td style="text-align:center">33</td>
+<td style="text-align:center">3 或 8</td>
+<td style="text-align:center">发</td>
+<td style="text-align:center">faat3</td>
+</tr>
+<tr>
+<td style="text-align:center">阳入</td>
+<td style="text-align:center">22</td>
+<td style="text-align:center">6 或 9</td>
+<td style="text-align:center">佛</td>
+<td style="text-align:center">fat6</td>
+</tr>
+</tbody>
+</table>
+<p>必须说，九个声调还是不少的，即使作为母语者，偶尔也会反应不过来，这时就需要助记口诀了。</p>
+<ul>
+<li>首先是 <strong>分粉粪焚奋份忽发佛</strong> （fen1 fen2 fen3 fen4 fen5 fen6 fat1 faat3 fat6），几乎都是一个音，可以着重感受声调的差别；</li>
+<li><strong>三九四零五二七八六</strong> （saam1 gau2 sei3 ling4 ng5 ji6 cat1 baat3 luk6），可以当电话号码背下来，就是小心不要把数字本身当作发音的声调；</li>
+<li><strong>周口店河姆渡得发掘</strong> （zau1 hau2 dim3 ho4 mou5 dou6 dak1 faat3 gwat6），这个纯粹是个人喜欢。</li>
+</ul>
+<p>更多的口诀，可以参考 <a href="https://zh.wikipedia.org/wiki/%E7%B2%B5%E8%AA%9E%E8%81%B2%E8%AA%BF#%E4%B9%9D%E8%81%B2%E5%8F%A3%E8%A8%A3" target="_blank" rel="external">粵語聲調#九聲口訣</a> 。</p>
+<p>当然，初学者还是要通过听声音先模仿发音，光靠看书面内容是无法学会的。B 站搜『九声六调』应该很容易找到视频。后续我也会考虑录一些九声六调的演示。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>很早以前就想为粤语做点什么。奈何自己水平不高，不知道从哪里入手，一直拖着。等到孩子出生，周围已经没有了说粤语的环境，才意识到不能再拖。通过行动来倒逼水平提高，比不做强。</p>
+<p>于是尝试录粤语的视频，现在开始整理一点资料，说是为孩子攒以后学粤语的材料。</p>
+<p>着手做之后，有了不同想法。想让孩子说粤语，比起资料，还是更需要一个环境，需要我主动跟他说。就算需要学习材料，市面上、网络上的材料虽然不算多，也远远比自己做要来得快，来得专业。而我也只是比普通人多知道一点点，需要恶补的课很多。</p>
+<p>但我反而没有要放弃的想法，而是更坚定地想继续下去，只是目的变了：<strong>增进自己对粤语的了解</strong> 。之前看街访视频，一个广州小朋友在有家人教的情况下，还是不会说广州话。甚至从话里听出，因为家人教学过于积极，小朋友对说广州话产生了抵触。大环境已经变了，失去沉浸的语境，在学校的普通话之外，同时保持母语方言并不容易。起码没有我们小时候顺理成章。我们只能提供环境和帮助，而不是增加压力。</p>
+<p>我没有信心将来孩子一定愿意讲，但希望到时我可以展示粤语多么有趣，我有多了解粤语，还有我对这件事有多认真 。希望做一个榜样。所以，不需要担心自己水平不高，不需要跟别人比较，不用管孩子以后是不是真的用得上。 <strong>所有努力的目标都在于自己，做就完了。</strong> </p>
+<p>选题方面，一开始的题目有点大，下笔才发现 hold 不住。不断收缩范围之后，今天先从『九声六调』开始，后续做些科普型的内容。如果大神路过，发现错漏，能留言告知，感激不尽；如果有粤语爱好者，能从中获得一点助益，一起进步，则不胜荣幸。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p>本文不是粤语的原创研究，而是我的个人体会、理解，加上对公开信息的整理与解说。不确定的内容，参考信息主要来源于维基百科。</p>
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/印欧语系" target="_blank" rel="external">https://zh.wikipedia.org/wiki/印欧语系</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/汉藏语系" target="_blank" rel="external">https://zh.wikipedia.org/wiki/汉藏语系</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/音位" target="_blank" rel="external">https://zh.wikipedia.org/wiki/音位</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/國際音標" target="_blank" rel="external">https://zh.wikipedia.org/wiki/國際音標</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/汉语拼音" target="_blank" rel="external">https://zh.wikipedia.org/wiki/汉语拼音</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/聲調" target="_blank" rel="external">https://zh.wikipedia.org/wiki/聲調</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/五度标记法" target="_blank" rel="external">https://zh.wikipedia.org/wiki/五度标记法</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/四聲" target="_blank" rel="external">https://zh.wikipedia.org/wiki/四聲</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/三十六字母" target="_blank" rel="external">https://zh.wikipedia.org/wiki/三十六字母</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/广州话" target="_blank" rel="external">https://zh.wikipedia.org/wiki/广州话</a></li>
+</ul>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;学汉语，其中一道坎就是声调。只会北方官话的人学声调更多的南方方言，如粤语，也面临类似的困难。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>LeetCode 题解： Regular Expression Matching</title>
     <link href="https://jaycechant.info/2020/leetcode-10-regular-expression-matching/"/>
     <id>https://jaycechant.info/2020/leetcode-10-regular-expression-matching/</id>
     <published>2020-06-04T03:03:24.000Z</published>
-    <updated>2020-06-07T10:41:29.937Z</updated>
+    <updated>2020-06-09T07:00:20.883Z</updated>
     
     <content type="html"><![CDATA[<p>一点点找回手感，容我继续水小题号的 Hard。</p>
 <a id="more"></a>
@@ -170,7 +517,7 @@
 <p>我实际做题时用的是 Top-down，其余代码都是为了写文章额外写的，所以没有太注意优化。</p>
 <p>公众号发出之后，有朋友提醒，Bottom-up 只引用到最近的两排状态，空间复杂度可以优化到 $ O(P) $ 。</p>
 <p>确实如此，优化之后，综合时间和空间复杂度，Bottom-up 才是最佳解法。Top-down 快 30% 毕竟是在极端 case 测得，一般快不了这么多。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">isMatch</span><span class="params">(s <span class="keyword">string</span>, p <span class="keyword">string</span>)</span> <span class="title">bool</span></span> &#123;</div><div class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(p) == <span class="number">0</span> &#123;</div><div class="line">		<span class="keyword">return</span> <span class="built_in">len</span>(s) == <span class="number">0</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	lastDp := <span class="built_in">make</span>([]<span class="keyword">bool</span>, <span class="built_in">len</span>(p)+<span class="number">1</span>)</div><div class="line">	curDp := <span class="built_in">make</span>([]<span class="keyword">bool</span>, <span class="built_in">len</span>(p)+<span class="number">1</span>)</div><div class="line">	<span class="keyword">for</span> is := <span class="built_in">len</span>(s); is &gt;= <span class="number">0</span>; is-- &#123;</div><div class="line">		<span class="keyword">for</span> ip := <span class="built_in">len</span>(p) - <span class="number">1</span>; ip &gt;= <span class="number">0</span>; ip-- &#123;</div><div class="line">			preMatch := is &lt; <span class="built_in">len</span>(s) &amp;&amp; (p[ip] == <span class="string">'.'</span> || s[is] == p[ip])</div><div class="line">			<span class="keyword">if</span> ip+<span class="number">1</span> &lt; <span class="built_in">len</span>(p) &amp;&amp; p[ip+<span class="number">1</span>] == <span class="string">'*'</span> &#123;</div><div class="line">				curDp[ip] = curDp[ip+<span class="number">2</span>] ||</div><div class="line">					(preMatch &amp;&amp; lastDp[ip]) || (is == <span class="built_in">len</span>(s) &amp;&amp; ip+<span class="number">2</span> == <span class="built_in">len</span>(p))</div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				curDp[ip] = preMatch &amp;&amp; (lastDp[ip+<span class="number">1</span>] || (is+<span class="number">1</span> == <span class="built_in">len</span>(s) &amp;&amp; ip+<span class="number">1</span> == <span class="built_in">len</span>(p)))</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		lastDp, curDp = curDp, lastDp</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">return</span> lastDp[<span class="number">0</span>]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">isMatch</span><span class="params">(s <span class="keyword">string</span>, p <span class="keyword">string</span>)</span> <span class="title">bool</span></span> &#123;</div><div class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(p) == <span class="number">0</span> &#123;</div><div class="line">		<span class="keyword">return</span> <span class="built_in">len</span>(s) == <span class="number">0</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	lastDp := <span class="built_in">make</span>([]<span class="keyword">bool</span>, <span class="built_in">len</span>(p)+<span class="number">1</span>)</div><div class="line">	curDp := <span class="built_in">make</span>([]<span class="keyword">bool</span>, <span class="built_in">len</span>(p)+<span class="number">1</span>)</div><div class="line">	<span class="keyword">for</span> is := <span class="built_in">len</span>(s); is &gt;= <span class="number">0</span>; is-- &#123;</div><div class="line">		<span class="keyword">for</span> ip := <span class="built_in">len</span>(p) - <span class="number">1</span>; ip &gt;= <span class="number">0</span>; ip-- &#123;</div><div class="line">			preMatch := is &lt; <span class="built_in">len</span>(s) &amp;&amp; (p[ip] == <span class="string">'.'</span> || s[is] == p[ip])</div><div class="line">			<span class="keyword">if</span> ip+<span class="number">1</span> &lt; <span class="built_in">len</span>(p) &amp;&amp; p[ip+<span class="number">1</span>] == <span class="string">'*'</span> &#123;</div><div class="line">				curDp[ip] = curDp[ip+<span class="number">2</span>] ||</div><div class="line">					(preMatch &amp;&amp; lastDp[ip]) || </div><div class="line">					(is == <span class="built_in">len</span>(s) &amp;&amp; ip+<span class="number">2</span> == <span class="built_in">len</span>(p))</div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				curDp[ip] = preMatch &amp;&amp;</div><div class="line">					(lastDp[ip+<span class="number">1</span>] ||</div><div class="line">					 (is+<span class="number">1</span> == <span class="built_in">len</span>(s) &amp;&amp; ip+<span class="number">1</span> == <span class="built_in">len</span>(p)))</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		lastDp, curDp = curDp, lastDp</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">return</span> lastDp[<span class="number">0</span>]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>用同样的数据再跑一次 Benchmark，不仅内存用少了，还比 Top-down 还要快。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Benchmark_isMatch1-8    	       2	 681538950 ns/op	       0 B/op	       0 allocs/op</div><div class="line">Benchmark_isMatch2-8       	   43952	     27259 ns/op	   16160 B/op	     404 allocs/op</div><div class="line">Benchmark_isMatch3-8    	   32874	     36262 ns/op	   16160 B/op	     404 allocs/op</div><div class="line">Benchmark_isMatch4-8   	       48579	     24745 ns/op	      64 B/op	       4 allocs/op</div><div class="line">PASS</div></pre></td></tr></table></figure>
 <hr>
@@ -182,6 +529,8 @@
       &lt;p&gt;一点点找回手感，容我继续水小题号的 Hard。&lt;/p&gt;
     
     </summary>
+    
+      <category term="刷题" scheme="https://jaycechant.info/categories/%E5%88%B7%E9%A2%98/"/>
     
     
       <category term="LeetCode" scheme="https://jaycechant.info/tags/LeetCode/"/>
@@ -283,7 +632,7 @@
     <link href="https://jaycechant.info/2020/leetcode-4-median-of-two-sorted-arrays/"/>
     <id>https://jaycechant.info/2020/leetcode-4-median-of-two-sorted-arrays/</id>
     <published>2020-05-26T07:27:12.000Z</published>
-    <updated>2020-05-26T16:26:54.204Z</updated>
+    <updated>2020-06-09T07:00:02.919Z</updated>
     
     <content type="html"><![CDATA[<p>继续刷题。</p>
 <a id="more"></a>
@@ -408,6 +757,8 @@
       &lt;p&gt;继续刷题。&lt;/p&gt;
     
     </summary>
+    
+      <category term="刷题" scheme="https://jaycechant.info/categories/%E5%88%B7%E9%A2%98/"/>
     
     
       <category term="LeetCode" scheme="https://jaycechant.info/tags/LeetCode/"/>
@@ -903,9 +1254,9 @@
     </summary>
     
     
-      <category term="写作" scheme="https://jaycechant.info/tags/%E5%86%99%E4%BD%9C/"/>
-    
       <category term="语言表达" scheme="https://jaycechant.info/tags/%E8%AF%AD%E8%A8%80%E8%A1%A8%E8%BE%BE/"/>
+    
+      <category term="写作" scheme="https://jaycechant.info/tags/%E5%86%99%E4%BD%9C/"/>
     
   </entry>
   
@@ -2543,90 +2894,6 @@
     <summary type="html">
     
       &lt;p&gt;在写 《&lt;a href=&quot;https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/&quot;&gt;配置 1.13+ 的 golang 环境&lt;/a&gt;》时，花了大量篇幅解释 module 的概念，还有 module 与 package 之间的联系。眼看字数翻了一番，干脆把这部分另起一篇。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>配置 1.13+ 的 golang 环境</title>
-    <link href="https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/"/>
-    <id>https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/</id>
-    <published>2020-01-20T08:46:44.000Z</published>
-    <updated>2020-03-10T15:10:25.969Z</updated>
-    
-    <content type="html"><![CDATA[<p>以前写过《<a href="../../2018/setup-golang-env/">配置 Golang 开发环境</a>》（go &lt; 1.13, win64）。然后 1.13 是一个重大变更，大到需要原有的依赖管理要做迁移的程度（《<a href="../..//2019/golang-1-13-from-dep-to-mod/">golang 1.13 - 依赖管理从 dep 到 mod 踩坑</a>》）。</p>
-<p>1.13 让原来的配置方式有了变化，撇开语言特性不谈，仅说和配置相关的，最大的变化，是 go module 的转正，和 GOPATH 和 vendor 的边缘化（1.13 仍然给你选择的余地，但是推荐选择 module，停用 GOPATH 和 vendor）。</p>
-<p>那么如果你从 1.13 之后才刚刚开始接触 go， 那么前面两篇文章对你来说并不友好。</p>
-<p>所以我找到了理由又水一篇。</p>
-<a id="more"></a>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>之前的文章讲的 Win64 环境的配置，正好新版本重写，这次写 Linux 环境下。</p>
-<h3 id="0x00-下载解压"><a href="#0x00-下载解压" class="headerlink" title="0x00 下载解压"></a>0x00 下载解压</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 为免你无脑复制黏贴，强迫你走一趟流程，也确保你下载最新版本，这不是有效的下载链接，请自行到官网找最新版本，替换掉版本号 x.y.z</span></div><div class="line">~ wget https://dl.google.com/go/gox.y.z.linux-amd64.tar.gz</div></pre></td></tr></table></figure>
-<p>找下载链接请到官网 golang.org/dl ，如果国内不能访问，请到官方镜像站 golang.google.cn/dl 。</p>
-<p>然后解压</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 记得改文件名里的 x.y.z</span></div><div class="line">~ tar -zxvf gox.y.z.linux-amd64.tar.gz</div><div class="line">mv -t /opt/ go</div></pre></td></tr></table></figure>
-<p>个人习惯放到 /opt/ 下。</p>
-<h3 id="0x01-系统环境变量"><a href="#0x01-系统环境变量" class="headerlink" title="0x01 系统环境变量"></a>0x01 系统环境变量</h3><p>然后将可执行文件加入系统路径。</p>
-<p>在 <code>/etc/profile</code> 末尾加上，保存之后记得 source 一下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># manually added</span></div><div class="line">GOROOT=/opt/go</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$GOROOT</span>/bin:<span class="variable">$HOME</span>/go/bin</div></pre></td></tr></table></figure>
-<p>我是想全局生效所以丢这里，如果你只是想当前账户生效，可以加在 <code>~/.bashrc</code>。</p>
-<p>惯例地检查一下是否配置正确</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">~ go version</div><div class="line">go version go1.13.6 linux/amd64</div></pre></td></tr></table></figure>
-<p>如果不能正确执行 <code>go version</code> ，把当前版本输出，请回头检查哪里出错。</p>
-<p>跟老版本不同的是，只要把 go 本身的可执行路径 和 go bin 的安装路径加入 PATH 就可以了，剩下的 go env 自行管理了。</p>
-<h3 id="0x02-go-env"><a href="#0x02-go-env" class="headerlink" title="0x02 go env"></a>0x02 go env</h3><p>执行 <code>go env</code>，就会看到 go 内置的环境变量，以及部分默认值</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">go env</div><div class="line">GO111MODULE=<span class="string">""</span></div><div class="line">GOARCH=<span class="string">"amd64"</span></div><div class="line">GOBIN=<span class="string">""</span></div><div class="line">GOCACHE=<span class="string">"/home/jaycechant/.cache/go-build"</span></div><div class="line">GOENV=<span class="string">"/home/jaycechant/.config/go/env"</span></div><div class="line">GOEXE=<span class="string">""</span></div><div class="line">GOFLAGS=<span class="string">""</span></div><div class="line">GOHOSTARCH=<span class="string">"amd64"</span></div><div class="line">GOHOSTOS=<span class="string">"linux"</span></div><div class="line">GONOPROXY=<span class="string">""</span></div><div class="line">GONOSUMDB=<span class="string">""</span></div><div class="line">GOOS=<span class="string">"linux"</span></div><div class="line">GOPATH=<span class="string">"/home/jaycechant/go"</span></div><div class="line">GOPRIVATE=<span class="string">""</span></div><div class="line">GOPROXY=<span class="string">"https://proxy.golang.org,direct"</span></div><div class="line">GOROOT=<span class="string">"/opt/go"</span></div><div class="line">GOSUMDB=<span class="string">"sum.golang.org"</span></div><div class="line">GOTMPDIR=<span class="string">""</span></div><div class="line">GOTOOLDIR=<span class="string">"/opt/go/pkg/tool/linux_amd64"</span></div><div class="line">GCCGO=<span class="string">"gccgo"</span></div><div class="line">AR=<span class="string">"ar"</span></div><div class="line">CC=<span class="string">"gcc"</span></div><div class="line">CXX=<span class="string">"g++"</span></div><div class="line">CGO_ENABLED=<span class="string">"1"</span></div><div class="line">GOMOD=<span class="string">""</span></div><div class="line">CGO_CFLAGS=<span class="string">"-g -O2"</span></div><div class="line">CGO_CPPFLAGS=<span class="string">""</span></div><div class="line">CGO_CXXFLAGS=<span class="string">"-g -O2"</span></div><div class="line">CGO_FFLAGS=<span class="string">"-g -O2"</span></div><div class="line">CGO_LDFLAGS=<span class="string">"-g -O2"</span></div><div class="line">PKG_CONFIG=<span class="string">"pkg-config"</span></div><div class="line">GOGCCFLAGS=<span class="string">"-fPIC -m64 -pthread -fmessage-length=0 -fdebug-prefix-map=/tmp/go-build089244508=/tmp/go-build -gno-record-gcc-switches"</span></div></pre></td></tr></table></figure>
-<h4 id="必改"><a href="#必改" class="headerlink" title="必改"></a>必改</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">~ go env -w GO111MODULE=on</div><div class="line">~ go env -w GOPROXY=https://goproxy.cn,direct</div></pre></td></tr></table></figure>
-<p><strong>GO111MODULE</strong> : </p>
-<ul>
-<li>auto : 自 1.11 实验性加入之后就是默认值。auto 意味着由工具链自动判断是否启用 go modules。在 1.13 以前的启用条件是『项目根目录有 go.mod 且项目不在 GOPATH 内』，1.13+ 去掉了 『不在 GOPATH 内的限制』，也就是只要有 go.mod 就会启用。</li>
-<li>on : 如果你觉得上面这段话太长懒得看，或者害怕以后启用条件还会变，那么 1.13 已经准备好全面启用 go modules，直接设为 on 就好了。设为 on 之后无条件启用 go modules。</li>
-<li>off :  关闭 go modules，回到 GOPATH 时代。</li>
-</ul>
-<p><strong>GOPROXY</strong> :</p>
-<p>国内环境必备，原因你懂的。甚至可以说这是新版本为中国开发者做出的最大改进之一也不为过。在 dep 的时代是靠自建的代理熬过来的，那么不会代理的朋友就很麻烦了。改用镜像就友好太多了。</p>
-<p>目前国内最早最好的代理是 七牛云提供的 <code>https://goproxy.cn</code> 。如果团队内部还有搭建私有代理，可以用 <code>,</code> 隔开，go 会依次尝试。最后记得加上 <code>direct</code> ，让镜像上找不到的依赖回源查找。（包括但不限于 镜像还没同步，私有仓库 等情况）</p>
-<p>目前自建代理的开源方案貌似有以下几个。由于我暂时没有自建代理的需要，没有实测，请自行对比选择。</p>
-<ul>
-<li><a href="https://github.com/goproxyio/goproxy" target="_blank" rel="external">https://github.com/goproxyio/goproxy</a></li>
-<li><a href="https://github.com/gomods/athens" target="_blank" rel="external">https://github.com/gomods/athens</a></li>
-<li><a href="https://github.com/goproxy/goproxy" target="_blank" rel="external">https://github.com/goproxy/goproxy</a></li>
-</ul>
-<h4 id="推荐改"><a href="#推荐改" class="headerlink" title="推荐改"></a>推荐改</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">~ go env -w GOBIN=<span class="variable">$HOME</span>/go/bin</div></pre></td></tr></table></figure>
-<p><strong>GOBIN</strong> 如果没有设置，默认值为 <code>$GOPATH/bin</code> ，是通过 <code>go get</code> 或 <code>go install</code> 安装的可执行文件的存放目录。不设并不影响使用，但考虑到 GOPATH 正在被边缘化，未来不知道哪个版本就取消了，所以建议还是单独设置一下比较好。我为了保持使用习惯，设置了跟默认相同的目录（因为 GOPATH 默认值是 <code>$HOME/go</code>），区别只是这个值不依赖 GOPATH 的值。</p>
-<p>值得 <strong>提醒</strong> 的是，这个目录也需要加入系统 PATH ，并且我已经在 系统环境变量 里加入（最后一个），如果你根据自己的习惯修改了 GOBIN 的位置，那么 0x01 里的配置也得相应修改。</p>
-<p>更多的变量，推荐参考 《<a href="https://mp.weixin.qq.com/s/AsdCDodxZFxs2SkhSwOvpg" target="_blank" rel="external">干货满满的 Go Modules 和 goproxy.cn</a>》。</p>
-<h3 id="0x03-cgo-和-build-tool"><a href="#0x03-cgo-和-build-tool" class="headerlink" title="0x03 cgo 和 build tool"></a>0x03 cgo 和 build tool</h3><p>go 语言的 cgo 特性允许 C 语言 和 go 语言互调，达到 <strong>复用已有的 C/C++ 庞大代码资源</strong> 的目的；又或者用 C 编写程序的一部分以达到某些 底层语言才能达到的目标。而要使用 cgo 特性，就需要有 C/C++ 的构建工具链 <strong>gcc</strong> 。</p>
-<p>另一方面，随着项目规模变大，你会逐渐需要一个 <strong>构建工具</strong> （build tools）帮你管理构建细节，就像 ant / maven / gradle 之于 Java。由于 go 本身的构建比较简单（或者说 go 的构建规则比较清晰，自带的 build 命令够用），又有了现成的依赖管理（之前的 vgo / glide / dep，现在官方的 go modules），官方并没有一个专用的构建工具。这部分，因为依赖管理已有，管理额外的构建细节， <strong>Makefile (make) 足矣</strong> 。</p>
-<p>gcc 和 make 在多数 Linux 发行版是自带的，你可以通过  <code>gcc -v</code> 和 <code>make -v</code> 来确认安装的版本。即使没有，视乎不同的包管理器，也就是一两句命令的事。Windows 下稍微麻烦一些，但仍然有解决方案，我在《<a href="https://jaycechant.info/2018/setup-golang-env/">配置 Golang 开发环境</a>》#2. gcc 和 make 部分有提及，go 的重大升级不影响这部分内容依然有效。</p>
-<h3 id="0x04-安装-VCS"><a href="#0x04-安装-VCS" class="headerlink" title="0x04 安装 VCS"></a>0x04 安装 VCS</h3><p>在使用 go get 命令之前，需要安装依赖托管服务对应的 VCS （Version Control System）。go get 会根据依赖所托管的网站反馈的信息，调用对应的工具 （git / hg / svn）拉取依赖。</p>
-<p>就我的个人实践而言，绝大多数的第三方依赖都是基于 git 发布的（或者说直接就是放在 github 上），所以 <strong>直接安装 git 就好</strong> ，后面遇到基于其他工具的依赖，再安装不迟。</p>
-<p>由于 git 本身就是一个大话题，基本的安装使用教程不难搜到，有时间时会另起文章讨论，这里只是提醒安装，不再展开。</p>
-<h3 id="0x05-开始一个项目"><a href="#0x05-开始一个项目" class="headerlink" title="0x05 开始一个项目"></a>0x05 开始一个项目</h3><p>终于把环境都配置好了，然后就可以开始第一个 go 的项目了。由于 go modules 不再依赖 GOPATH，所以项目可以放在任何地方——这个 『任何』，是指可以不是 GOPATH ，但是要是习惯了，继续放在 <code>$GOPATH/src</code> 也没问题。</p>
-<p>好了，不管放在哪，现在新建一个项目的根目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">~ mkdir testproj</div><div class="line">~ <span class="built_in">cd</span> testproj</div></pre></td></tr></table></figure>
-<p>然后执行 <code>go mod init &lt;module_path&gt;</code> ，生成 go.mod ，这个项目就算初始化完了，接下来就该敲代码了。随着开发的进行，还会自动生成 go.sum 文件，记录依赖的校验信息。注意 go.sum <strong>不是 lock 文件</strong> ，重现构建的信息已经包含在 go.mod 里，go.sum <strong>属于 checksum 文件</strong> ，用来 <strong>确保下载的依赖没有被篡改</strong> 。 go.mod 和 go.sum 需要一起提交<strong>参与版本控制</strong> 。关于 <code>go mod</code> 的详细用法，可以直接 <code>go help mod</code> 获取帮助信息，不展开。</p>
-<p>关于 module path 的内容，以及 module 与 package 之间的关系，原本是在这篇文章里接着继续写；结果发现这部分内容让字数足足翻了一番。为了避免让本文又臭又长，就另起了一篇文章，请看《<a href="https://jaycechant.info/2020/golang-1-13-module-VS-package/">golang 1.13 - module VS package</a>》。</p>
-<p>go 语言开发不是（篇幅上也不可能是）本文的话题，另起系列展开。</p>
-<h2 id="题外话"><a href="#题外话" class="headerlink" title="题外话"></a>题外话</h2><p>在写这篇文章时，留意到 gradle 的一个插件 <strong>gogradle</strong>，可以为 gradle 添加对 go 的支持。由于我没有使用过这个插件，所以不好评价；不过基于以下理由，我认为除非有什么困难只有它能解决，不然 make 足以完成绝大多数的任务，不推荐尝试：</p>
-<ul>
-<li>go 除了某些特性（如 cgo）编译时依赖某些二进制工具（如 gcc，二进制是区别于基于虚拟机的工具），基本是一个完全自给自足的语言，环境配置简单且基本一劳永逸，编译结果可以单执行文件零依赖部署，在某些情况下简直是杀手级的特性。（想想 C/C++ 以外多少语言能做到）而 gradle 是基于 groovy （一种 JVM 上的脚本语言），等于 <strong>给 go 的开发环境引入了 JVM 依赖</strong> 。即使我作为一个长期写 Java 的人，环境里一定有 JVM，仍然觉得这种依赖是别扭的。</li>
-<li>gogradle 官方文档自荐的理由，是 make 学习曲线陡峭，和 make 基于 bash 的跨平台性不好。make 和 gradle 的学习曲线见仁见智，但是由于 go 自带的 build 已经完成了构建的大多数工作（包括依赖推导和文件新旧比较），也不需要处理依赖管理，make 的 <strong>工作任务非常轻</strong> ， 不会涉及太复杂的规则编写。至于跨平台，引入 MinGW-w64 已经可以解决大多数的问题。</li>
-<li>go 1.13 自带 go modules 作为依赖管理，大方向是 <strong>淡化 GOPATH 和 vendor</strong>；而 gogradle 受 glide 启发，自带依赖管理，自称相当于 glide + make，依然使用 GOPATH 和 vendor，这 <strong>跟官方的发展方向冲突</strong> 。这可能是最关键的一点，如果你习惯了 gradle 的工作方式，有一天这种工作方式可能跟官方的最新版本不兼容。</li>
-</ul>
-<hr>
-<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;以前写过《&lt;a href=&quot;../../2018/setup-golang-env/&quot;&gt;配置 Golang 开发环境&lt;/a&gt;》（go &amp;lt; 1.13, win64）。然后 1.13 是一个重大变更，大到需要原有的依赖管理要做迁移的程度（《&lt;a href=&quot;../..//2019/golang-1-13-from-dep-to-mod/&quot;&gt;golang 1.13 - 依赖管理从 dep 到 mod 踩坑&lt;/a&gt;》）。&lt;/p&gt;
-&lt;p&gt;1.13 让原来的配置方式有了变化，撇开语言特性不谈，仅说和配置相关的，最大的变化，是 go module 的转正，和 GOPATH 和 vendor 的边缘化（1.13 仍然给你选择的余地，但是推荐选择 module，停用 GOPATH 和 vendor）。&lt;/p&gt;
-&lt;p&gt;那么如果你从 1.13 之后才刚刚开始接触 go， 那么前面两篇文章对你来说并不友好。&lt;/p&gt;
-&lt;p&gt;所以我找到了理由又水一篇。&lt;/p&gt;
     
     </summary>
     

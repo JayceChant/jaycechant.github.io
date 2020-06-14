@@ -4,8 +4,23 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/the-nine-tones-and-six-tunes-of-cantonese/</loc>
+    <lastmod>2020-06-14T15:55:39.028Z</lastmod>
+    <data>
+        <display>
+        <title>粤语（广州话）的九声六调</title>
+        <pubTime>2020-06-12T14:05:57.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/leetcode-10-regular-expression-matching/</loc>
-    <lastmod>2020-06-07T10:41:29.937Z</lastmod>
+    <lastmod>2020-06-09T07:00:20.883Z</lastmod>
     <data>
         <display>
         <title>LeetCode 题解： Regular Expression Matching</title>
@@ -17,6 +32,31 @@
          
          
            
+             
+              <breadCrumb title="刷题" url="https://jaycechant.info/categories/%E5%88%B7%E9%A2%98/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2020/leetcode-4-median-of-two-sorted-arrays/</loc>
+    <lastmod>2020-06-09T07:00:02.919Z</lastmod>
+    <data>
+        <display>
+        <title>LeetCode 4: Median of Two Sorted Arrays</title>
+        <pubTime>2020-05-26T07:27:12.000Z</pubTime>
+        
+        <tag>LeetCode</tag>
+         
+        <tag>Algorithm</tag>
+         
+         
+           
+             
+              <breadCrumb title="刷题" url="https://jaycechant.info/categories/%E5%88%B7%E9%A2%98/"/>
+          
         </display>
     </data>
     </url>
@@ -31,25 +71,6 @@
         <pubTime>2020-06-03T03:05:16.000Z</pubTime>
         
         <tag>TDD</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2020/leetcode-4-median-of-two-sorted-arrays/</loc>
-    <lastmod>2020-05-26T16:26:54.204Z</lastmod>
-    <data>
-        <display>
-        <title>LeetCode 4: Median of Two Sorted Arrays</title>
-        <pubTime>2020-05-26T07:27:12.000Z</pubTime>
-        
-        <tag>LeetCode</tag>
-         
-        <tag>Algorithm</tag>
          
          
            
@@ -137,9 +158,9 @@
         <title>跟黄执中学观念传递：简单、意外、具体</title>
         <pubTime>2020-05-12T09:16:34.000Z</pubTime>
         
-        <tag>写作</tag>
-         
         <tag>语言表达</tag>
+         
+        <tag>写作</tag>
          
          
            
@@ -269,10 +290,6 @@
         <title>镜像清单</title>
         <pubTime>2016-12-31T02:29:12.000Z</pubTime>
         
-        <tag>Android</tag>
-         
-        <tag>Jenkins</tag>
-         
         <tag>pip</tag>
          
         <tag>Ubuntu</tag>
@@ -284,6 +301,10 @@
         <tag>npm</tag>
          
         <tag>maven</tag>
+         
+        <tag>Android</tag>
+         
+        <tag>Jenkins</tag>
          
          
            
@@ -338,9 +359,9 @@
         
         <tag>how-to</tag>
          
-        <tag>Markdown</tag>
-         
         <tag>nodePPT</tag>
+         
+        <tag>Markdown</tag>
          
          
            
@@ -519,9 +540,9 @@
         
         <tag>golang</tag>
          
-        <tag>dep</tag>
-         
         <tag>glide</tag>
+         
+        <tag>dep</tag>
          
          
            
@@ -692,9 +713,9 @@
         <title>用 Syncthing 备份的技巧</title>
         <pubTime>2016-08-28T07:57:03.000Z</pubTime>
         
-        <tag>Syncthing</tag>
-         
         <tag>skill</tag>
+         
+        <tag>Syncthing</tag>
          
         <tag>dropbox</tag>
          
@@ -734,11 +755,11 @@
         <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
         <pubTime>2017-01-20T06:44:31.000Z</pubTime>
         
+        <tag>trouble</tag>
+         
         <tag>Jenkins</tag>
          
         <tag>Java</tag>
-         
-        <tag>trouble</tag>
          
         <tag>Tomcat</tag>
          
@@ -854,9 +875,9 @@
         <title>Windows 下 Python 2x 和 3x 版本共存</title>
         <pubTime>2012-04-11T11:46:00.000Z</pubTime>
         
-        <tag>Python</tag>
-         
         <tag>unfinished</tag>
+         
+        <tag>Python</tag>
          
          
            
@@ -873,11 +894,11 @@
         <title>在 Windows 搭建Python多版本环境</title>
         <pubTime>2016-07-12T07:21:27.000Z</pubTime>
         
-        <tag>Python</tag>
-         
         <tag>unfinished</tag>
          
         <tag>trouble</tag>
+         
+        <tag>Python</tag>
          
         <tag>pip</tag>
          
@@ -940,11 +961,11 @@
         <title>Hello Octopress</title>
         <pubTime>2012-04-11T10:28:00.000Z</pubTime>
         
-        <tag>how-to</tag>
-         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
+         
+        <tag>how-to</tag>
          
         <tag>unfinished</tag>
          
@@ -966,9 +987,9 @@
         <title>Jenkins JavaMail 配置：JCE 及其他</title>
         <pubTime>2017-01-11T07:02:31.000Z</pubTime>
         
-        <tag>Jenkins</tag>
-         
         <tag>trouble</tag>
+         
+        <tag>Jenkins</tag>
          
         <tag>JavaMail</tag>
          
@@ -1012,9 +1033,9 @@
         <title>升级 pip 时的一个坑</title>
         <pubTime>2016-12-29T02:50:03.000Z</pubTime>
         
-        <tag>Python</tag>
-         
         <tag>trouble</tag>
+         
+        <tag>Python</tag>
          
         <tag>pip</tag>
          
@@ -1033,13 +1054,13 @@
         <title>博客迁移到了Hexo（附折腾记录）</title>
         <pubTime>2016-06-27T07:46:12.000Z</pubTime>
         
-        <tag>git</tag>
-         
         <tag>blog</tag>
+         
+        <tag>hexo</tag>
          
         <tag>node.js</tag>
          
-        <tag>hexo</tag>
+        <tag>git</tag>
          
         <tag>trouble</tag>
          
@@ -1093,9 +1114,9 @@
         <title>刷OJ的技巧</title>
         <pubTime>2016-12-09T01:35:03.000Z</pubTime>
         
-        <tag>skill</tag>
-         
         <tag>OJ</tag>
+         
+        <tag>skill</tag>
          
          
            

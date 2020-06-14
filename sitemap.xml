@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2020/the-nine-tones-and-six-tunes-of-cantonese/</loc>
+    
+    <lastmod>2020-06-14T15:55:39.028Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/leetcode-10-regular-expression-matching/</loc>
     
-    <lastmod>2020-06-07T10:41:29.937Z</lastmod>
+    <lastmod>2020-06-09T07:00:20.883Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/2020/leetcode-4-median-of-two-sorted-arrays/</loc>
+    
+    <lastmod>2020-06-09T07:00:02.919Z</lastmod>
     
   </url>
   
@@ -12,13 +26,6 @@
     <loc>https://jaycechant.info/2020/rapidly-generate-unit-tests-in-vs-code/</loc>
     
     <lastmod>2020-06-03T14:56:05.497Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jaycechant.info/2020/leetcode-4-median-of-two-sorted-arrays/</loc>
-    
-    <lastmod>2020-05-26T16:26:54.204Z</lastmod>
     
   </url>
   
