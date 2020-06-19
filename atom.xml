@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaycechant.info/"/>
-  <updated>2020-06-14T15:55:39.028Z</updated>
+  <updated>2020-06-19T15:50:26.697Z</updated>
   <id>https://jaycechant.info/</id>
   
   <author>
@@ -16,15 +16,198 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>LeetCode 解题： 合并 K 个有序链表</title>
+    <link href="https://jaycechant.info/2020/leetcode-23-merge-k-sorted-lists/"/>
+    <id>https://jaycechant.info/2020/leetcode-23-merge-k-sorted-lists/</id>
+    <published>2020-06-18T06:52:25.000Z</published>
+    <updated>2020-06-19T15:50:26.697Z</updated>
+    
+    <content type="html"><![CDATA[<p>下一题 Hard。23 号，合并 K 个有序链表。</p>
+<a id="more"></a>
+<p>英文：<a href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" rel="external">https://leetcode.com/problems/merge-k-sorted-lists/</a></p>
+<p>中文：<a href="https://leetcode-cn.com/problems/merge-k-sorted-lists/" target="_blank" rel="external">https://leetcode-cn.com/problems/merge-k-sorted-lists/</a></p>
+<p>不同解法涉及多个知识点，要优化也有很多细节可以调。只求 accept 的话，比较水，最好把不同做法都试试。</p>
+<p>之前已经讲过链表基本操作，这次又遇到链表，就只讲算法部分，数据结构细节略过。</p>
+<h2 id="理解题意"><a href="#理解题意" class="headerlink" title="理解题意"></a>理解题意</h2><h3 id="一句话概括"><a href="#一句话概括" class="headerlink" title="一句话概括"></a>一句话概括</h3><p>给定 k 个 <strong>有序</strong> 链表，合并成一个。</p>
+<blockquote>
+<p>这个环节是强调一定要先概括题意。特别是长篇大论讲故事的题。这题原题也就一句话，但按惯例还是给一句。</p>
+</blockquote>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>见测试用例</p>
+<h3 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h3><p>没有给出。</p>
+<p>但我们可以注意到，既然没有给约束条件，也就是要考虑各种意义的空值。</p>
+<p>另外，为了后续讨论方便，假定所有链表的总节点数为 N。</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>惯例先贴测试代码，通过写测试代码体现对题目的理解。</p>
+<blockquote>
+<p>《<a href="https://jaycechant.info/2020/rapidly-generate-unit-tests-in-vs-code/">如何快速生成单元测试</a>》</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"fmt"</span></div><div class="line">	<span class="string">"strings"</span></div><div class="line">	<span class="string">"testing"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">var</span> _ fmt.Stringer = (*ListNode)(<span class="literal">nil</span>)</div><div class="line"></div><div class="line"><span class="comment">// 实现 Stringer 接口方便对比结果</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *ListNode)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123;</div><div class="line">	sb := strings.Builder&#123;&#125;</div><div class="line">	<span class="keyword">for</span> l != <span class="literal">nil</span> &#123;</div><div class="line">		<span class="comment">// 为了代码简洁，不处理多余的 '-&gt;'</span></div><div class="line">		sb.WriteString(fmt.Sprintf(<span class="string">"%d-&gt;"</span>, l.Val))</div><div class="line">		l = l.Next</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> sb.String()</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 待测函数会修改链表，所以要每次从数组重新生成 链表</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">listsFromSlices</span><span class="params">(aa [][]<span class="keyword">int</span>)</span> []*<span class="title">ListNode</span></span> &#123;</div><div class="line">	ll := <span class="built_in">make</span>([]*ListNode, <span class="number">0</span>, <span class="built_in">len</span>(aa))</div><div class="line">	head := <span class="built_in">new</span>(ListNode)</div><div class="line">	<span class="keyword">for</span> _, a := <span class="keyword">range</span> aa &#123;</div><div class="line">		head.Next = <span class="literal">nil</span> <span class="comment">// 避免空数组没有覆盖</span></div><div class="line">		tail := head</div><div class="line">		<span class="keyword">for</span> _, v := <span class="keyword">range</span> a &#123;</div><div class="line">			tail.Next = &amp;ListNode&#123;Val: v&#125;</div><div class="line">			tail = tail.Next</div><div class="line">		&#125;</div><div class="line">		ll = <span class="built_in">append</span>(ll, head.Next)</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> ll</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> tests = []<span class="keyword">struct</span> &#123;</div><div class="line">	name  <span class="keyword">string</span></div><div class="line">	cases [][]<span class="keyword">int</span></div><div class="line">	want  <span class="keyword">string</span></div><div class="line">&#125;&#123;</div><div class="line">	&#123;</div><div class="line">		name:  <span class="string">"0"</span>,</div><div class="line">		cases: [][]<span class="keyword">int</span>&#123;&#125;,</div><div class="line">		want:  <span class="string">""</span>,</div><div class="line">	&#125;,</div><div class="line">	&#123;</div><div class="line">		name: <span class="string">"00"</span>,</div><div class="line">		cases: [][]<span class="keyword">int</span>&#123;</div><div class="line">			&#123;&#125;,</div><div class="line">		&#125;,</div><div class="line">		want: <span class="string">""</span>,</div><div class="line">	&#125;,</div><div class="line">	&#123;</div><div class="line">		name: <span class="string">"1"</span>,</div><div class="line">		cases: [][]<span class="keyword">int</span>&#123;</div><div class="line">			&#123;<span class="number">1</span>, <span class="number">4</span>, <span class="number">5</span>&#125;,</div><div class="line">			&#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>&#125;,</div><div class="line">			&#123;<span class="number">2</span>, <span class="number">6</span>&#125;,</div><div class="line">		&#125;,</div><div class="line">		want: <span class="string">"1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4-&gt;5-&gt;6-&gt;"</span>,</div><div class="line">	&#125;,</div><div class="line">	<span class="comment">// 篇幅关系，省略更多测试数据</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Test_mergeKLists</span><span class="params">(t *testing.T)</span></span> &#123;</div><div class="line">	<span class="keyword">for</span> _, tt := <span class="keyword">range</span> tests &#123;</div><div class="line">		t.Run(tt.name, <span class="function"><span class="keyword">func</span><span class="params">(t *testing.T)</span></span> &#123;</div><div class="line">			<span class="comment">// 链表每次要重新生成</span></div><div class="line">			<span class="keyword">if</span> got := mergeKLists(listsFromSlices(tt.cases)); got.String() != tt.want &#123;</div><div class="line">				t.Errorf(<span class="string">"mergeKLists() = %s, want %s"</span>, got, tt.want)</div><div class="line">			&#125;</div><div class="line">		&#125;)</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="分治"><a href="#分治" class="headerlink" title="分治"></a>分治</h2><p>如果不必考虑效率，那么这道题只要会 <strong>链表的基本操作</strong> ，就可以做。</p>
+<h3 id="依次合并"><a href="#依次合并" class="headerlink" title="依次合并"></a>依次合并</h3><p>举例说，我们有 8 个有序链表，分别编号 1 ~ 8。合并 8 个链表的代码不好写；何况 k 不是一个固定的值，写出了合并 8 个链表的代码，k 还可以是 9、10、100、1000。</p>
+<p>但合并两个链表很容易，两两合并，总会合并到一个：</p>
+<ol>
+<li>取出排在前面的两个链表，一开始是 1 和 2；</li>
+<li>合并这两个链表；</li>
+<li>方便起见，合并后的链表还叫 1，链表 2 已经被 1 包含了，排在最前面的链表是 1 和 3，回到步骤 1)；</li>
+<li>以此类推，重复步骤 1) ~ 3)，直到只剩下链表 1。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">1  2  3  4  5  6  7  8</div><div class="line">│  │  │  │  │  │  │  │</div><div class="line">├──┘  │  │  │  │  │  │</div><div class="line">├─────┘  │  │  │  │  │</div><div class="line">├────────┘  │  │  │  │</div><div class="line">├───────────┘  │  │  │</div><div class="line">├──────────────┘  │  │</div><div class="line">├─────────────────┘  │</div><div class="line">├────────────────────┘</div><div class="line">1</div></pre></td></tr></table></figure>
+<p>这就是分治法。<strong>分而治之（Divide and Conquer）</strong> 。</p>
+<p>当我们</p>
+<ul>
+<li>遇到一个很难解决的问题（合并 k 个链表），</li>
+<li>这个问题可以分解成 多个 / 多层 子问题，并且子问题的解可以组合成原问题的解，</li>
+<li>最小的子问题很容易解决（合并两个链表），</li>
+<li>子问题结构相似，解法相近（合并）。</li>
+</ul>
+<p>就可以考虑分治法。</p>
+<p>这种写法非常简单，就不贴代码了。需要提醒的是，因为链表 1 越来越长，对链表 1 进行遍历和修改需要的操作越来越多。此时可以将 <strong>合并（merge）成新链表</strong> ，改为其中一个链表 <strong>原地插入（insert）</strong> 另一个（最好是短链表的节点插入长链表） ，减少不必要的修改操作。</p>
+<h4 id="复杂度"><a href="#复杂度" class="headerlink" title="复杂度"></a>复杂度</h4><p>已知链表数为 k，总节点数为 N。最坏的情况下，第一个链表的长度为 N - k + 1，后续每个链表都只有一个节点，而且该节点比前面所有节点都大（换言之，每次都要比较到最后，才能找到插入位置）。</p>
+<p>第一次合并，遍历了 N - k + 2 个节点，往后每次增加一个，总共合并 k 次。易得，时间复杂度为 O（kN），空间复杂度为常数 O(1) 。</p>
+<h3 id="哈夫曼合并"><a href="#哈夫曼合并" class="headerlink" title="哈夫曼合并"></a>哈夫曼合并</h3><p>前面的做法，效率不太高，原因是越来越长的链表 1 偏偏参加了最多次合并（一个不落全参与了），导致总的遍历和操作节点数很高。考虑不同情况：</p>
+<ul>
+<li>链表长度平均的情况下，链表 1 也会越来越长；</li>
+<li>最坏情况下，链表 1 一开始就最长，效率就更糟糕；</li>
+<li>仅当链表长度差距较大，而且从短到长排列时，这种做法效率比较高。</li>
+</ul>
+<p>我们一般考虑最坏情况（大 O 分析）；如果最坏情况概率很低和影响不大则考虑平均情况。明显两种情况表现都不佳。</p>
+<p>尝试将最坏情况转化成最优情况：</p>
+<ol>
+<li>取出长度最短的两个链表；</li>
+<li>合并这两个链表，并将合并后的链表放回；</li>
+<li>重复步骤 1) 2) 直到只剩下一个链表。</li>
+</ol>
+<p>实际上这就是构造了一个 <strong>以链表长度为权值的哈夫曼树</strong> 。（篇幅关系，哈夫曼树不在此展开。）哈夫曼树具有带权路径最短的性质，而合并开销正是跟链表长度相关，毫无疑问，光看合并开销这样是最优的。</p>
+<p>然而构造哈夫曼树，需要额外的开销：</p>
+<ul>
+<li><p>链表并不能直接获取长度，需要 O(N) 时间复杂度遍历所有节点；</p>
+</li>
+<li><p>链表之间并非按长度排列，需要排序；考虑到合并之后的链表还得重新加入排序，优先队列是最佳选择，时间复杂度 O(k log(k) ) ，空间复杂度 O(k)。</p>
+</li>
+</ul>
+<p>通过这个 O(N + k log(k) ) 的操作之后，所有比 <strong>链表初始长度相等</strong> 坏的情况，都能通过让短的先合并来优化。换言之，长度均分成了最坏情况。这种情况下，链表两两合并，每个初始链表参与合并的次数一致，均为 log(k)；每次将 N 个节点遍历一遍（详见下一小节）。时间复杂度为 O(N log(k))。</p>
+<p>总的时间复杂度为 O(N + (N+k) log(k)) ，空间复杂度 O(k)。</p>
+<p>这种做法花费了额外的时间和空间开销，大大增加了代码的复杂性，优化的效果却依赖数据的特殊性：数据分布越不均匀，效果越好。在我看来，这属于典型的 <strong>过早优化</strong> 。为不确定的优化效果，破坏代码的易读性和可维护性，工程上是非常不明智的；即使在比赛里，调试这种代码也很浪费时间。因为不推荐，不贴代码。</p>
+<p>当然，这种做法并非不能用。实际应用中发现大部分数据都分布非常不均匀，对性能很敏感，profile 之后发现这里确实成为了瓶颈，可以考虑。</p>
+<h3 id="两两合并"><a href="#两两合并" class="headerlink" title="两两合并"></a>两两合并</h3><p>相比之下，不需要特殊的处理，直接分组两两合并，很容易就能 O(N log(k)) 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">1   2   3   4   5   6   7   8</div><div class="line">│   │   │   │   │   │   │   │</div><div class="line">└─┬─┘   └─┬─┘   └─┬─┘   └─┬─┘</div><div class="line">  └───┬───┘       └───┬───┘</div><div class="line">      └───────┬───────┘</div></pre></td></tr></table></figure>
+<p>每一轮两两分组，每个链表都与同组的链表合并一次，所有 N 个节点都被遍历一次。一共 log(k) 轮。所以很容易得到 O(N log(k)) 。跟前面的做法不一样的是，抹掉了不同情况的差异，都是一样的时间复杂度。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">mergeKLists</span><span class="params">(lists []*ListNode)</span> *<span class="title">ListNode</span></span> &#123;</div><div class="line">	k := <span class="built_in">len</span>(lists)</div><div class="line">	<span class="keyword">if</span> k == <span class="number">0</span> &#123;</div><div class="line">		<span class="keyword">return</span> <span class="literal">nil</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// 空白伪头结点，避免判空处理</span></div><div class="line">	head := <span class="built_in">new</span>(ListNode)</div><div class="line">	<span class="comment">// 合并步长从 1 开始不断翻倍</span></div><div class="line">	<span class="keyword">for</span> step := <span class="number">1</span>; step &lt; k; &#123;</div><div class="line">		<span class="comment">// 分组宽度是步长的两倍</span></div><div class="line">		width := step * <span class="number">2</span></div><div class="line">		<span class="keyword">for</span> i := <span class="number">0</span>; i+step &lt; k; i += width &#123;</div><div class="line">			<span class="comment">// func merge(list1 *ListNode, list2 *ListNode) 实际开发中这部分应该抽取子函数</span></div><div class="line">			head.Next = lists[i]</div><div class="line">			list2 := lists[i+step]</div><div class="line">			tail := head</div><div class="line">			<span class="keyword">for</span> tail.Next != <span class="literal">nil</span> &amp;&amp; list2 != <span class="literal">nil</span> &#123;</div><div class="line">				<span class="keyword">if</span> list2.Val &lt;= tail.Next.Val &#123;</div><div class="line">					tail.Next, list2.Next, list2 = list2, tail.Next, list2.Next</div><div class="line">				&#125;</div><div class="line">				tail = tail.Next</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">if</span> list2 != <span class="literal">nil</span> &#123;</div><div class="line">				tail.Next = list2</div><div class="line">			&#125;</div><div class="line">			<span class="comment">// 第一个节点可能是来自 list2，合并结果一定要赋值回去</span></div><div class="line">			lists[i] = head.Next</div><div class="line">			<span class="comment">// func merge() end</span></div><div class="line">		&#125;</div><div class="line">		step = width</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> lists[<span class="number">0</span>]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到，即使同为分治法，不同分割子问题的策略，对效率的影响非常大。</p>
+<h2 id="优先队列"><a href="#优先队列" class="headerlink" title="优先队列"></a>优先队列</h2><p>通过调整合并链表的顺序，可以优化效率。但毕竟是先后合并，总有一些节点需要反复参与合并，导致反复遍历。能不能把所有节点只访问一遍就合并完呢？</p>
+<p>可以的。只要 k 个链表同时合并，不断取 k 个链表头里最小的元素放到新链表，等遍历完也就合并完了。</p>
+<p>不过两个节点比较一次就得出最小，k 个头节点则需要排个序:</p>
+<ul>
+<li><p>花费 O(k log(k)) 的时间得到 k 个头结点组成的有序序列。</p>
+<p>  但这只得出一个最小节点。只有 k 个里最小节点确定是最小的，第二个节点开始就不确定的了，剩下还没加入排序的节点里，有可能存在更小的节点。</p>
+</li>
+<li><p>接下来，还要从最小节点所在的链表补充新的头节点加入排序。这次只需 O(log(k)) 时间找到新加入节点的位置，就能再得到一个最小节点。（<strong>有序序列里查找要用二分法</strong>）</p>
+</li>
+<li><p>如此重复 N - k + 1 次，就把所有节点变成新的有序链表了。</p>
+</li>
+</ul>
+<p>时间复杂度是 O(k log(k) + (N - k) log(k)) 。也就是 O(N log(k)) 。相对应地，需要一直维护大小为 k 的有序序列，额外空间复杂度是 O(k)。</p>
+<p>稍微解释一下，为什么每次只能确定 k 个节点里的最小是全局最小，接下来需要对应的链表再加入一个节点，才能再确定一个最小节点。这个问题，反应过来了很简单，但会有人一下子反应不过来。</p>
+<p><img src="../../images/leetcode-23-k-heads.svg" alt=""></p>
+<p>看图就非常清楚了。</p>
+<p>第一轮毫无疑问。因为各个链表都是有序的，链表头就是链表内最小的，不确定的只是链表之间的情况，所以链表头里面的最小，就是最小里的最小。</p>
+<p>但第二轮开始就产生疑问了：</p>
+<ol>
+<li><p>为什么不能继续取最小，而要加入一个新节点？</p>
+<p> 例子里如果不加新节点继续取最小，就是 3，但实际上最小是 2。必须将之前最小节点的下一个节点加入排序。</p>
+</li>
+<li><p>为什么只需要加最小节点的下一个节点？</p>
+<p> 很简单，因为其他链表的链表头（最小）都已经参与排序了，这些链表剩下的节点里，不会有比 <strong>已排序里的最小</strong> 更小的节点了。也就是说，这些节点加进来，除了让序列变长，不会改变结果。但是刚取走了最小节点的链表不一样，有可能连续几个节点比其他链表头小。</p>
+</li>
+</ol>
+<p>其实更简单的解释就是：每一轮的最小，都要再当前的所有链表头里产生。看图就秒懂了。</p>
+<h3 id="优先队列-和-二叉堆"><a href="#优先队列-和-二叉堆" class="headerlink" title="优先队列 和 二叉堆"></a>优先队列 和 二叉堆</h3><p>不过上面的过程太理想化了。落实到代码会发现，往 k 节点的有序序列里加入新节点时，确实可以通过 二分法 快速找到 插入点。但还得插入啊！如果用数组实现，最坏情况下，插入点在开头，需要花费 O(k) 时间把所有节点往后挪。</p>
+<p>这时有两种办法保持 O(log(k)) 复杂度：</p>
+<ul>
+<li>这 k 个节点的排序也用链表。为了避免覆盖节点原来的信息，只能创建新的节点类型，Val 值指向原来的节点。换言之，这个 k 大小的链表变成了 <em>链表的链表</em> 。</li>
+<li>使用优先队列。</li>
+</ul>
+<p>第一种比较琐碎，我选优先队列。（其实是为了 cue 知识点，哈哈哈）</p>
+<p>大家可能会同时听说过 <strong>优先队列 Priority Queue</strong> 和 <strong>二叉堆 Binary Heap</strong> ，它们之间是什么关系呢？</p>
+<ul>
+<li><p>优先队列是抽象的数据类型。它只定义需要支持的操作，并不限定具体的实现。在多数语言里，它就是一个 Interface。一般而言，优先队列需要支持以下操作：</p>
+<ul>
+<li>插入：插入带优先级的元素；</li>
+<li>取出队头：获得队列里优先级最高的元素（队头），并从队列中删除；</li>
+<li><p>查看队头：读取队头元素，但不做修改。</p>
+<p>优先队列有多种实现，二叉堆只是最经典的一种选择。如果不考虑效率，也可以用一个普通数组来实现：插入时直接追加到数组最后（O(1)），取出时花 O(n) 时间查找并移动元素。</p>
+</li>
+</ul>
+</li>
+<li><p>二叉堆则是具体的数据结构实现。</p>
+<ul>
+<li>二叉堆本质上是一个 <strong>完全二叉树</strong> ，只是利用 完全二叉树 『每层全满，只有最后一层最右边可能存在空缺』的特点，使用数组来 <strong>连续存储</strong> ，简化操作。</li>
+</ul>
+</li>
+<li><p>堆的定义，是父节点比所有子节点都要小（或大）的树，换言之堆顶则是最小（或最大）的元素。如果用优先级作为比较内容，堆就可以作为优先队列的一个实现。</p>
+<ul>
+<li>堆只限制了 父节点 和 子节点 的大小关系，子节点之间的关系并不确定。换言之，堆处于 <strong>部分有序</strong> 的状态，从这个状态变成完全有序，或者插入新元素后重新变回堆状态，时间开销都比较低。</li>
+</ul>
+</li>
+</ul>
+<p>对 k 个元素的二叉堆，插入和取出元素（并恢复堆）的时间复杂度均为 O(log(k))。从头构建一个 k 元素的二叉堆，最直观的做法是连续 k 次插入元素，复杂度为 O(k log(k))；或者从最后一层开始调整子树，一定到堆顶，直接使大小为 k 的数组堆化，每个元素访问一次，复杂度为 O(k)。</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p>go 有内置的堆实现 <code>container/heap</code> ，用法见官方文档。为了演示，还是实现一个最简单的（仅仅满足做题需要的）二叉堆。需要注意的是，凡是会修改堆本身的操作，都要用指针作为 receiver。</p>
+<blockquote>
+<p>为了只实现必要的操作，以及避免函数调用开销干扰效率的比较，以下堆的实现尽量只实现了必要部分，并且没有抽取公共函数。在实际开发中，这是不可取的。不是效率瓶颈的代码，应该以 可读性 和 DRY 优先。</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> myHeap []*ListNode</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(hp *myHeap)</span> <span class="title">push</span><span class="params">(node *ListNode)</span></span> &#123;</div><div class="line">	child := <span class="built_in">len</span>(*hp)</div><div class="line">	*hp = <span class="built_in">append</span>(*hp, node)</div><div class="line">	h := *hp</div><div class="line">	<span class="comment">// bubble up</span></div><div class="line">	<span class="keyword">for</span> child &gt; <span class="number">0</span> &#123;</div><div class="line">		parent := (child - <span class="number">1</span>) / <span class="number">2</span></div><div class="line">		<span class="keyword">if</span> h[parent].Val &lt;= h[child].Val &#123;</div><div class="line">			<span class="keyword">break</span></div><div class="line">		&#125;</div><div class="line">		h[parent], h[child] = h[child], h[parent]</div><div class="line">		child = parent</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(hp *myHeap)</span> <span class="title">pop</span><span class="params">()</span> *<span class="title">ListNode</span></span> &#123;</div><div class="line">	h := *hp</div><div class="line">	top := h[<span class="number">0</span>]</div><div class="line">	k := <span class="built_in">len</span>(h)</div><div class="line">	h[<span class="number">0</span>] = h[k<span class="number">-1</span>]</div><div class="line">	<span class="comment">// bubble down</span></div><div class="line">	parent := <span class="number">0</span></div><div class="line">	<span class="keyword">for</span> &#123;</div><div class="line">		child := parent*<span class="number">2</span> + <span class="number">1</span></div><div class="line">		<span class="keyword">if</span> child &gt;= k &#123;</div><div class="line">			<span class="keyword">break</span></div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> child+<span class="number">1</span> &lt; k &amp;&amp; h[child].Val &gt; h[child+<span class="number">1</span>].Val &#123;</div><div class="line">			child++</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> h[parent].Val &lt;= h[child].Val &#123;</div><div class="line">			<span class="keyword">break</span></div><div class="line">		&#125;</div><div class="line">		h[parent], h[child] = h[child], h[parent]</div><div class="line">		parent = child</div><div class="line">	&#125;</div><div class="line">	h[k<span class="number">-1</span>] = <span class="literal">nil</span> <span class="comment">// 避免内存泄漏</span></div><div class="line">	*hp = h[:k<span class="number">-1</span>]</div><div class="line">	<span class="keyword">return</span> top</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">mergeKLists</span><span class="params">(lists []*ListNode)</span> *<span class="title">ListNode</span></span> &#123;</div><div class="line">	h := <span class="built_in">make</span>(myHeap, <span class="number">0</span>)</div><div class="line">	<span class="keyword">for</span> _, l := <span class="keyword">range</span> lists &#123;</div><div class="line">		<span class="keyword">if</span> l != <span class="literal">nil</span> &#123;</div><div class="line">			h.push(l)</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// 空白伪头结点，避免判空处理</span></div><div class="line">	head := <span class="built_in">new</span>(ListNode)</div><div class="line">	tail := head</div><div class="line">	<span class="keyword">for</span> <span class="built_in">len</span>(h) != <span class="number">0</span> &#123;</div><div class="line">		tail.Next = h.pop()</div><div class="line">		tail = tail.Next</div><div class="line">		<span class="keyword">if</span> tail.Next != <span class="literal">nil</span> &#123;</div><div class="line">			h.push(tail.Next)</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> head.Next</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果理解了堆的定义，留意下标的计算，那么 push 和 pop 的代码就不难理解。关键是 上滤（bubble-up，又叫 sift-up） 和 下滤（bubble-down，又叫 sift-down）部分。</p>
+<p>特别提醒，下滤前需要先将最后一个元素挪到堆顶，然后将这个元素作为 <strong>bubble</strong> 执行下滤，而不是对着堆顶删除之后的空穴下滤。因为空穴下滤时，无法确定两个子节点哪边较小会上浮，最后很大概率空穴会下滤到最后一层的随机位置而不是最后，破坏完全二叉树的特性。多年不写凭印象直接上手，结果就犯了这个错误。</p>
+<p>只实现 push 和 pop 比较方便，却不是效率最高的实现。首先初始化堆调用了 k 次 push，背后是 k 次上滤，总共花费 O(k log(k)) 时间，实际上可以将 k 个元素都添加后做一次遍历调整，花费 O(k) 即可。然后是每次先 pop 后 push，背后是一次下滤+上滤，实际上如果直接将新元素覆盖堆顶，一次下滤即可。这样写，复杂度阶没有变化，但是操作堆的时间能大概减半。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> myHeap []*ListNode</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(h myHeap)</span> <span class="title">build</span><span class="params">()</span></span> &#123;</div><div class="line">	k := <span class="built_in">len</span>(h)</div><div class="line">	<span class="keyword">for</span> parent := k/<span class="number">2</span> - <span class="number">1</span>; parent &gt;= <span class="number">0</span>; parent-- &#123;</div><div class="line">		child := parent*<span class="number">2</span> + <span class="number">1</span></div><div class="line">		<span class="keyword">if</span> child+<span class="number">1</span> &lt; k &amp;&amp; h[child].Val &gt; h[child+<span class="number">1</span>].Val &#123;</div><div class="line">			child++</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> h[parent].Val &lt;= h[child].Val &#123;</div><div class="line">			<span class="keyword">continue</span></div><div class="line">		&#125;</div><div class="line">		h[parent], h[child] = h[child], h[parent]</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(h myHeap)</span> <span class="title">top</span><span class="params">()</span> *<span class="title">ListNode</span></span> &#123;</div><div class="line">	<span class="keyword">return</span> h[<span class="number">0</span>]</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(h myHeap)</span> <span class="title">update</span><span class="params">(i <span class="keyword">int</span>, node *ListNode)</span></span> &#123;</div><div class="line">	h[i] = node</div><div class="line">	k := <span class="built_in">len</span>(h)</div><div class="line">	<span class="keyword">for</span> &#123;</div><div class="line">		child := i*<span class="number">2</span> + <span class="number">1</span></div><div class="line">		<span class="keyword">if</span> child &gt;= k &#123;</div><div class="line">			<span class="keyword">break</span></div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> child+<span class="number">1</span> &lt; k &amp;&amp; h[child].Val &gt; h[child+<span class="number">1</span>].Val &#123;</div><div class="line">			child++</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> h[i].Val &lt;= h[child].Val &#123;</div><div class="line">			<span class="keyword">break</span></div><div class="line">		&#125;</div><div class="line">		h[i], h[child] = h[child], h[i]</div><div class="line">		i = child</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(hp *myHeap)</span> <span class="title">remove</span><span class="params">(i <span class="keyword">int</span>)</span></span> &#123;</div><div class="line">	h := *hp</div><div class="line">	k := <span class="built_in">len</span>(h)</div><div class="line">	h[i] = h[k<span class="number">-1</span>]</div><div class="line">	<span class="comment">// bubble down</span></div><div class="line">	<span class="keyword">for</span> &#123;</div><div class="line">		child := i*<span class="number">2</span> + <span class="number">1</span></div><div class="line">		<span class="keyword">if</span> child &gt;= k &#123;</div><div class="line">			<span class="keyword">break</span></div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> child+<span class="number">1</span> &lt; k &amp;&amp; h[child].Val &gt; h[child+<span class="number">1</span>].Val &#123;</div><div class="line">			child++</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span> h[i].Val &lt;= h[child].Val &#123;</div><div class="line">			<span class="keyword">break</span></div><div class="line">		&#125;</div><div class="line">		h[i], h[child] = h[child], h[i]</div><div class="line">		i = child</div><div class="line">	&#125;</div><div class="line">	h[k<span class="number">-1</span>] = <span class="literal">nil</span></div><div class="line">	*hp = h[:k<span class="number">-1</span>]</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">mergeKLists</span><span class="params">(lists []*ListNode)</span> *<span class="title">ListNode</span></span> &#123;</div><div class="line">	h := <span class="built_in">make</span>(myHeap, <span class="number">0</span>)</div><div class="line">	<span class="keyword">for</span> _, l := <span class="keyword">range</span> lists &#123;</div><div class="line">		<span class="keyword">if</span> l != <span class="literal">nil</span> &#123;</div><div class="line">			h = <span class="built_in">append</span>(h, l)</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 先添加完 k 个元素再一次性调整</span></div><div class="line">	h.build()</div><div class="line"></div><div class="line">	head := <span class="built_in">new</span>(ListNode)</div><div class="line">	tail := head</div><div class="line">	<span class="keyword">for</span> <span class="built_in">len</span>(h) != <span class="number">0</span> &#123;</div><div class="line">		tail.Next = h.top()</div><div class="line">		tail = tail.Next</div><div class="line">		<span class="keyword">if</span> tail.Next != <span class="literal">nil</span> &#123;</div><div class="line">            <span class="comment">// 还有节点就更新堆顶后下滤</span></div><div class="line">			h.update(<span class="number">0</span>, tail.Next)</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">// 否则删除堆顶然后下滤</span></div><div class="line">			h.remove(<span class="number">0</span>)</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> head.Next</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="基准测试"><a href="#基准测试" class="headerlink" title="基准测试"></a>基准测试</h2><p>理论上，贴出来的三份代码，时间复杂度都是 O(N log(k))，在 N 趋向无穷时，低阶的常数和系数无关紧要。然后 N 并不真的趋向无穷，这些低阶的数也有意义。</p>
+<p>我们直接跑一下基准测试。</p>
+<blockquote>
+<p>由于合并会修改链表，所以测试输入的链表每次都要重新生成，这一定程度上增加了额外开销，模糊了对比。为此，在开头加入了只生成测试数据什么都不干的基准测试作为对比。</p>
+<p>测试数据除了几组数据量很小的边界条件以外，加入了两组较大的测试数据：</p>
+<ol>
+<li>100 组数据，最短一组长度只有 1，最长的长度为 100，长度分布比较随机。</li>
+<li>100 组数据，第一组为 100 个 1，余下 99 组长度均为 1，数字从 2 一直到 100。</li>
+</ol>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">// 只生成数据，不做任何操作，作为对比基线</div><div class="line">Benchmark_listsFromSlices-8                        62496             16898 ns/op            8504 B/op        421 allocs/op</div><div class="line">// 逐个链表并入链表 1，文中没有贴出代码</div><div class="line">Benchmark_mergeKListsInsert-8                      19866             60610 ns/op            8504 B/op        421 allocs/op</div><div class="line">// 两两分组合并法，文中第一份代码</div><div class="line">Benchmark_mergeKListsInsertDAC-8                   56334             21267 ns/op            8504 B/op        421 allocs/op</div><div class="line">// 二叉堆（只用 push, pop），文中第二份代码</div><div class="line">Benchmark_mergeKListsWithHeapPushPop-8             38336             31147 ns/op           12640 B/op        440 allocs/op</div><div class="line">// 二叉堆（调用了更精细的 build, update, remove），文中第三份代码</div><div class="line">Benchmark_mergeKListsWithHeapUpdateRemove-8        47240             25255 ns/op           12640 B/op        440 allocs/op</div><div class="line">// 直接使用 go 内置的堆，文中没有贴出代码，调用逻辑和第三份代码一致</div><div class="line">Benchmark_mergeKListsWithBuiltinHeap-8             29774             40205 ns/op           12800 B/op        445 allocs/op</div><div class="line">PASS</div><div class="line">ok      leetcode        9.621s</div></pre></td></tr></table></figure>
+<p>结果一目了然：</p>
+<ul>
+<li>两两分组合并最快，而且差距相当明显。而且这个实现还很清晰简单，内存使用也少。首选。</li>
+<li>其次是自己实现的堆的精细版本，跟只用 push 和 pop 相比拉开了一定差距。</li>
+<li>内置的堆毕竟是要做到通用的公共库，性能比较差。但实际开发中为了避免自己实现的耗时和差错，需要用到堆时，推荐优先使用内置库。确实成为性能瓶颈再考虑优化。</li>
+</ul>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;下一题 Hard。23 号，合并 K 个有序链表。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="刷题" scheme="https://jaycechant.info/categories/%E5%88%B7%E9%A2%98/"/>
+    
+    
+      <category term="LeetCode" scheme="https://jaycechant.info/tags/LeetCode/"/>
+    
+      <category term="Algorithm" scheme="https://jaycechant.info/tags/Algorithm/"/>
+    
+  </entry>
+  
+  <entry>
     <title>粤语（广州话）的九声六调</title>
     <link href="https://jaycechant.info/2020/the-nine-tones-and-six-tunes-of-cantonese/"/>
     <id>https://jaycechant.info/2020/the-nine-tones-and-six-tunes-of-cantonese/</id>
     <published>2020-06-12T14:05:57.000Z</published>
-    <updated>2020-06-14T15:55:39.028Z</updated>
+    <updated>2020-06-14T17:53:01.625Z</updated>
     
     <content type="html"><![CDATA[<p>学汉语，其中一道坎就是声调。只会北方官话的人学声调更多的南方方言，如粤语，也面临类似的困难。</p>
 <a id="more"></a>
 <p>多数西方语言属于印欧语系，没有声调的概念。音调的变化影响句子的语气（所以叫语调 intonation），不影响单词的含义。汉语的北方官话只有四个声调，而多数南方方言则保留了更多声调。像广州话，有九声六调。</p>
+<blockquote>
+<p>如果你不想看声调背后的历史渊源，只想直接学粤语声调，可以只阅读 <strong>五度标记法</strong> 和 <strong>九声六调</strong> 两个章节。但个人认为，了解这些有助于理解和记忆。</p>
+</blockquote>
 <h2 id="辨音"><a href="#辨音" class="headerlink" title="辨音"></a>辨音</h2><p>语言区别意义的最小声音单位，术语叫音位。一个音位允许多种不同发音，语言使用者心理上把它们当做同一发音，甚至完全没有察觉有什么不同。母语里不区分的音，或者直接没有的音，过了学语言的关键期，甚至是成年之后再来学，就比较难区分。</p>
 <p>这种例子可以举很多：</p>
 <ul>
@@ -37,7 +220,6 @@
 <p>无论如何，关键在于辨别不同的音，包括听觉上区分不同的音，和区分不同音的发音位置和技巧。<strong>能辨别的音，充分练习后基本上就能发出来。</strong> 先天条件的差异，可能会让部分人更难发出特定的音，但不至于彻底无法发出。一般人遇到的困难，更多是从未发过的音，受母语相近音的路径依赖干扰，以及练习不够。这就好像身体素质差、没有经过训练、有错误的手势会影响打篮球投篮命中，但极少人生理上就无法投篮。</p>
 <p>这时如果学过发音规则和技巧，我认为对辨别相近音和矫正发音是有帮助的。只是这些知识只能减轻负担，不能代替努力；多听多说，特别是听自己说然后校正，是必经之路。所以懂很多语言知识但是不努力，跟很努力但没学过相关知识相比，反倒是后者比较有可能成。</p>
 <p>今天先整理粤语九声六调的内容。后续再尝试整理粤语拼音和正字的内容。</p>
-<p>如果你不想看声调背后的历史渊源，只是想直接学，可以只阅读 <strong>五度标记法</strong> 和 <strong>九声六调</strong> 两个章节。但对我而言，了解这些有助于理解和记忆。</p>
 <h2 id="五度标记法"><a href="#五度标记法" class="headerlink" title="五度标记法"></a>五度标记法</h2><p>声调，是指附着在音节上的 抑扬（音调、音高变化）和 顿挫（辅音韵尾的停顿变化）。</p>
 <p>先说音高。</p>
 <p>可能由于印欧语系很少使用声调，现在国际通用的音高调值标记的办法，是我国语言学家赵元任发明的 <strong>五度制调值标记法</strong>，已经成为国际音标标准的一部分。</p>
@@ -358,6 +540,8 @@
       &lt;p&gt;学汉语，其中一道坎就是声调。只会北方官话的人学声调更多的南方方言，如粤语，也面临类似的困难。&lt;/p&gt;
     
     </summary>
+    
+      <category term="粤语" scheme="https://jaycechant.info/categories/%E7%B2%A4%E8%AF%AD/"/>
     
     
   </entry>
@@ -2688,217 +2872,6 @@
     
     
       <category term="file-system" scheme="https://jaycechant.info/tags/file-system/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>golang 1.13 - module VS package</title>
-    <link href="https://jaycechant.info/2020/golang-1-13-module-VS-package/"/>
-    <id>https://jaycechant.info/2020/golang-1-13-module-VS-package/</id>
-    <published>2020-01-20T08:50:37.000Z</published>
-    <updated>2020-01-22T10:10:38.811Z</updated>
-    
-    <content type="html"><![CDATA[<p>在写 《<a href="https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/">配置 1.13+ 的 golang 环境</a>》时，花了大量篇幅解释 module 的概念，还有 module 与 package 之间的联系。眼看字数翻了一番，干脆把这部分另起一篇。</p>
-<a id="more"></a>
-<h2 id="module-与-package"><a href="#module-与-package" class="headerlink" title="module 与 package"></a>module 与 package</h2><h3 id="0x0-module-不是-package"><a href="#0x0-module-不是-package" class="headerlink" title="0x0 module 不是 package"></a>0x0 module 不是 package</h3><p>是的，他们不是同一个概念！！module（模块）是新引入的概念，一个 module 是 零到多个 package（包）的组合，不要把他们混为一谈。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>package</th>
-<th>module</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>本质</strong></td>
-<td>一个目录下所有 go 源码的集合（不包括子目录，那是另一个 package）</td>
-<td>同一个根目录下所有包的集合（包括子目录）</td>
-</tr>
-<tr>
-<td><strong>共享</strong></td>
-<td>代码 <strong>共享命名空间（包名）</strong>，包内可以 <strong>直接互相调用</strong>（包括小写开头的 unexported members）</td>
-<td>同一个 module 下的 package <strong>共享 module path 作为 package path 的前缀</strong>，module 内可以 <strong>直接互相 import</strong></td>
-</tr>
-<tr>
-<td><strong>单位</strong></td>
-<td>（代码开头）<strong>import 的单位</strong></td>
-<td>（go.mod）<strong>require 的单位</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>package</strong>  具体体现为一个目录下所有 go 源码的集合（不包括子目录，那是另一个 package），它们 <strong>共享命名空间（包名）</strong>，包内可以 <strong>直接互相调用</strong>（包括小写开头的 unexported members）。package 是 <strong>import 的单位</strong> ，import 语句写在每一个 go 源码文件的开头。<br>包名跟目录名 <strong>可以一样也可以不一样</strong>。虽然允许不一样，但是大家习惯性认为目录就是包名；为了避免大家还要去查包名， <strong>没什么特别理由建议保持一致</strong>。<br>例如，<code>import path/to/pkg_dir</code> 中的 pkg_dir 是目录名，<code>package pkg</code> 和 <code>pkg.MyFunc()</code> 里的 pkg 是包名。</p>
-<p><strong>module</strong> 则是同一个根目录下所有包的集合（包括子目录），它们 <strong>共享 module path 作为 package path 的前缀</strong>，module 内可以 <strong>直接互相 import</strong>。module 是 <strong>require 的单位</strong> ，require 语句在 go.mod 里。</p>
-<h3 id="0x1-GOPATH-vendor-时代"><a href="#0x1-GOPATH-vendor-时代" class="headerlink" title="0x1 GOPATH + vendor 时代"></a>0x1 GOPATH + vendor 时代</h3><blockquote>
-<p>这段解释 GOPATH 的机制，是为了对比，加深理解。</p>
-<p>如果你不想了解已经被抛弃的 GOPATH ，可以直接跳过看 0x2 部分。</p>
-</blockquote>
-<p>在依赖 GOPATH 的时候，import 的查找范围如下：</p>
-<ol>
-<li><code>$GOROOT/pkg</code> 查找 <strong>内置包</strong></li>
-<li><del>查找 <strong>相对路径</strong> 的包</del></li>
-<li>项目根目录下的 vendor 目录查找 <strong>第三方包</strong></li>
-<li><code>$GOPATH/src</code> 查找下载的 <strong>第三方包</strong> 和 <strong>本地包</strong>，如果不存在，尝试 <code>go get</code></li>
-</ol>
-<p>重点解释 2 和 4。</p>
-<h4 id="相对路径-import？别用！"><a href="#相对路径-import？别用！" class="headerlink" title="相对路径 import？别用！"></a>相对路径 import？别用！</h4><p>假定有项目 A ，底下有两个包，分别为 A/alpha 和 A/beta。</p>
-<p>为了方便，A/alpha 包使用相对路径引入 A/beta：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"../beta"</span></div></pre></td></tr></table></figure>
-<p>如果 A 不在 GOPATH 里开发，换言之 A 不会被别的项目引用，那么是可以正常编译执行的。</p>
-<p>可是如果 A 在 GOPATH 里开发，那么编译时会报错：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">can<span class="string">'t load package: local import "../beta" in non-local package</span></div></pre></td></tr></table></figure>
-<p>这是因为 go 使用全局递归 import，来确保每个用到的包都只 import 一次。（题外话，也因此，go 不允许循环 import，会死循环。）</p>
-<p>假定有另一个项目 B，底下的 main 包引入了 A/alpha，那么就会触发以下 import 顺序：</p>
-<ul>
-<li>import “A/alpha”，递归 import “A/alpha” import 的包<ul>
-<li>import “../beta”，（到这里会出错，因为 B 项目下找不到 “../beta”）</li>
-</ul>
-</li>
-<li>运行 “A/alpha” 的 init()，然后 import 完成</li>
-</ul>
-<p>如果你觉得解释太啰嗦，记住 <strong>别用相对路径</strong> 就完了。</p>
-<h4 id="一切靠-GOPATH"><a href="#一切靠-GOPATH" class="headerlink" title="一切靠 GOPATH"></a>一切靠 GOPATH</h4><p>既然相对路径会有各种问题，那么本地包的导入，就只剩下第 4 种 - GOPATH 一条路了。</p>
-<p>这就导致了包管理高度依赖 GOPATH：</p>
-<ul>
-<li>为了本地开发的包 <strong>能被其它包引用</strong>，开发得在 GOPATH 下进行。</li>
-<li>不仅引用其他项目包要经 GOPATH，<strong>连项目内的包互相引用</strong> ，也得经过 GOPATH。（实际上这时不存在 <strong>项目</strong> 的概念，即使共享一个项目根目录，还是不同的包。）</li>
-<li>项目目录不能改名，一改，项目内外的引用全得改。（事实上，如果你要把项目托管到源码仓库，或者更换托管地址，项目目录是一定会改的。）</li>
-</ul>
-<p>这么打个比方，李明 爸爸叫 李雷，妈妈叫 韩梅梅，他们一家住 广东省广州市黄埔区。但是很奇怪，他们家互相称呼都得叫全名，而且是带地址那种。譬如 妈妈 喊老伴和儿子吃饭，就得喊『广东省 / 广州市 / 黄埔区 / VK花园10-204 / 李雷』和『广东省 / 广州市 / 黄埔区 / VK花园10-204 / 李明』。更诡异的是，如果他们过年回老家了，譬如说 长沙，然后妈妈忘记了改称呼，还按前面叫，明明都在一屋（项目）里，但他们俩都不知道在喊自己了。</p>
-<p>根本原因，在于 import 中只有全局，没有本地（项目 / 模块）概念。全局以下就直接是包，包和包之间没有联系，哪怕我们在一个项目里，目录相邻。</p>
-<p>如果你写过 Java，对比一下就发现，Java 的 classpath 默认为 <strong>当前目录</strong>；这个当前目录，是以执行 javac 的位置算的，其实就是项目的根目录。所以同一个项目下的包，用<strong>相对根目录的路径</strong> 就能 import，不管项目整体放哪、项目目录有没有改名。</p>
-<h3 id="0x2-引入-module"><a href="#0x2-引入-module" class="headerlink" title="0x2 引入 module"></a>0x2 引入 module</h3><p>module 模式设为 on，背后主要是两个变化：<strong>引入 module （和 module path），放弃 GOPATH （和 vendor）</strong> 。</p>
-<p>这个 module 就是介于 global 和 package 之间的概念，是 一系列的 package 集合。这个概念让在一个 module 里的 package 们产生了联系：整体管理， 互相可见。</p>
-<h4 id="module-path-和-package-path"><a href="#module-path-和-package-path" class="headerlink" title="module path 和 package path"></a>module path 和 package path</h4><p>package path 具体来说，就是 import 后面那串路径；module path 则对应 require。</p>
-<p>在使用上，package path 似乎没有任何变化，其实它的组成有了重要的变化：</p>
-<h5 id="GOPATH-模式"><a href="#GOPATH-模式" class="headerlink" title="GOPATH 模式"></a>GOPATH 模式</h5><p>从 <code>$GOPATH/src</code> 起完整的路径。  </p>
-<p>例如 <code>$GOPATH/src/github.com/jay/mymod/midware/router</code> 的 package path 是 <code>github.com/jay/mymod/midware/router</code> ，其它包（包括同一个项目<code>github.com/jay/mymod</code> 下的其它包）需要 import 这个路径。  </p>
-<p>路径上的 <strong>任何变化</strong> 都要体现在 import 路径里，如果移出 GOPATH 则 <strong>直接找不到</strong> 。（是的，明明引用的包就在旁边目录都找不到。）</p>
-<h5 id="module-模式"><a href="#module-模式" class="headerlink" title="module 模式"></a>module 模式</h5><p>module path + module 内的相对路径。（如果 package 在 module 根目录，也就是跟 go.mod 一个目录，当且仅当这种情况 module path 等于 package path。）  </p>
-<p>例如 module path 是 <code>github.com/jay/mymod</code> ，module 内的 <code>midware/router</code>  的 package path 是 <code>github.com/jay/mymod/midware/router</code> ，其它包（包括同一个module <code>github.com/jay/mymod</code> 下的其它包）需要 import 这个路径。  </p>
-<p>是不是感觉其实没啥差别，只是把路径截成了两段，把前面那段叫 module path。[苦笑]</p>
-<p>差别在于：</p>
-<ul>
-<li>module path 是一个在 go.mod 内的声明，<strong>不需要是真实的路径</strong>。你的 module 可以放在任何地方开发，不需要放在 GOPATH 地下，路径里也不须包含  <code>github.com/jay/mymod</code> ！</li>
-<li>基于这点，只要 go.mod 声明不改，<strong>挪位置，根目录重名，都不影响</strong> module 内 package 互相引用！</li>
-</ul>
-<h4 id="module-间引用"><a href="#module-间引用" class="headerlink" title="module 间引用"></a>module 间引用</h4><p>等等，这些便利都只是 module 内而已，那 module 之间的引用呢？</p>
-<p>再来对比一下：</p>
-<h5 id="GOPATH-模式-1"><a href="#GOPATH-模式-1" class="headerlink" title="GOPATH 模式"></a>GOPATH 模式</h5><p><strong>项目托管地址、本地存放路径、import 路径</strong> （的开头） 三者一致。  </p>
-<p>仍然以上面的项目为例，三个都是 <code>github.com/jay/mymod</code> 。<br>具体到 托管地址是 <code>https://github.com/jay/mymod</code> ，<br>本地存放地址（无论手动新建项目，还是 go get 自动放）是 <code>$GOPATH/src/github.com/jay/mymod</code> ，<br>import 则是 <code>import &quot;github.com/jay/mymod/midware/router&quot;</code> （mymod 下面其中一个 package）。</p>
-<h5 id="module-模式-1"><a href="#module-模式-1" class="headerlink" title="module 模式"></a>module 模式</h5><p>在上述三者基础上，加上 go.mod 声明的 module path 一致。   </p>
-<p>也就是在 module 初始化时，执行 <code>go mod init github.com/jay/mymod</code> ，生成的 go.mod 里第一行就是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">module github.com/jay/mymod</div></pre></td></tr></table></figure>
-<p>托管地址、import 路径都跟 GOPATH 一样。差别是本地存放路径：<code>$HOME/go/pkg/mod/github.com/jay/mymod</code> 。（<code>$HOME/go/pkg/mod</code> 叫 mod cache 目录）</p>
-<p><br></p>
-<p>看了这个对比，module 模式多了一个 go.mod 的声明要保持一致，存放路径还变长了，是不是又感觉根本没简化，还变复杂了。[苦笑]x2</p>
-<p>关键在于，go.mod 里提供了一个关键字 <code>replace</code>。</p>
-<h4 id="go-mod-里的-replace"><a href="#go-mod-里的-replace" class="headerlink" title="go.mod 里的 replace"></a>go.mod 里的 replace</h4><p>我们来设想一下 <strong>开发的不同阶段</strong> ：</p>
-<ol>
-<li><p>前期，<strong>一个人开发原型</strong> 。只有 module 内引用，爱放哪放哪。</p>
-</li>
-<li><p>继续前期，原型 <strong>新增了一个 mymod2</strong> ，而且 <strong>引用原来的 mymod</strong> ，有了 module 间引用，此时你有 <strong>两个选择</strong>：</p>
-<ol>
-<li><p><strong>继续随便放</strong> ，譬如 <code>~/mymod/</code> ，然后在 mymod2 根目录执行 <code>go mod edit -replace=github.com/jay/mymod@v=~/mymod@v</code> ，<code>@v</code> 是可选的。  </p>
-<p> <code>go mod edit -replace=github.com/jay/mymod=~/mymod</code> 就是所有版本都替换。你也可以指定版本如 <code>@v1.0.1</code> 。</p>
-</li>
-<li><p>把 mymod 按照 module path  <strong>托管到对应地址</strong> ，mymod2 就会从托管服务下载 mymod 自动存放到 <code>$HOME/go/pkg/mod/github.com/jay/mymod@vX.Y.Z</code> 。下载过程是自动的，存放位置自动跟 “托管地址+版本” 映射，并不需要人工干预。  </p>
-<p> <strong>需要注意</strong> 的是，mymod2 引用的是托管的代码，<code>~/mymod/</code> 下的最新修改如果没有push 到托管，是访问不到的。  </p>
-<p> 如果 mymod2 后续也要发布或者跟其他开发者协作，<strong>建议一开始就选择这种方式</strong> 提供引用。否则按 2.1 处理，mymod2 在别人的环境无法获取 mymod 的依赖。</p>
-</li>
-</ol>
-</li>
-<li><p>中期，<strong>其他开发者加入</strong> 。为了其他开发者可以正常地访问依赖，需要把所有用到的 module 按 module path 放到托管服务上 。（同 2.2）</p>
-<p> 托管服务可以是公共的，也可以是私有的。如果是私有的，需要配置 ssh 以达到免密访问。（ssh 配置不展开。）</p>
-<p> 考虑到迟早需要发布到托管，最好初始化时就考虑 <strong>把托管地址作为 module path</strong> 。</p>
-</li>
-<li><p>后期，<strong>持续开发和维护</strong>。也许是 公共转私有（或者反过来，开源），又或者项目改名，或者某个公共托管撂挑子不干了——总之，有些 module 挪位置了。譬如说 <code>https://github.com/jay/mymod</code> 挪到 <code>https://bitbucket.com/jay/mymod</code>。  </p>
-<p> 这时 replace 再次发挥作用，在所有引用这个 module 的 module 的根目录执行 <code>go mod edit -replace=github.com/jay/mymod=bitbucket.com/jay/mymod</code> ，那些 import 语句就不用一个一个修改了。  （原理同 2.1 ，只是映射的是 托管地址，不是本地，所以这个修改写入 go.mod 并提交之后， <strong>对其他开发者也能生效</strong> 。）</p>
-<p> 不过 mymod 本身，除非你只挪托管不修改 go.mod 的 module path 声明（意味着 mymod 只作为依赖存在，自身没有 main 包需要编译执行），否则 mymod 内部的 import 语句还是得改为新的 module path。</p>
-</li>
-</ol>
-<p><strong>需要注意</strong> 的是，replace <strong>只对当前 module 直接引用的依赖起作用</strong> ，对于间接引用不起作用。如果 mod1 引用 mod2，然后 mod2 引用 mod3；当 mod3 改动地址时，在 mod1 里 replace mod3 的地址，只会对 mod1 直接引用 mod3 起作用； mod2 对 mod3 的引用必须在 mod2 里改。</p>
-<p>如果 mod2 是第三方的 module，而它引用的同样是第三方的 mod3 挪了位置之后，mod2 没有及时更新，那么可能你只能 fork 一个 mod2 自行修改了。</p>
-<p>这个问题据说可以通过 <strong>自建 goproxy</strong> 来指定重定向解决。我还没到需要用到的时候，将来踩了自建 goproxy 的坑再回来写。</p>
-<h3 id="0x3-semver-语义化版本"><a href="#0x3-semver-语义化版本" class="headerlink" title="0x3 semver 语义化版本"></a>0x3 semver 语义化版本</h3><p>要理解 go modules  的运作，还有一个是不得不提的，就是 Semantic Version - 语义化版本，缩写 semver。</p>
-<p>关于 semver 是什么，请看 《<a href="https://semver.org/lang/zh-CN/" target="_blank" rel="external">语义化版本 2.0</a>》。</p>
-<p>详细的解释，大家自己看官方文档，这里只强调格式：主版本号.次版本号.修订号</p>
-<ol>
-<li>主版本号：当你做了 <strong>不兼容</strong> 的 API 修改 (<strong>breaking changes</strong>)，</li>
-<li>次版本号：当你做了 <strong>向下兼容</strong> 的功能性新增 (<strong>compatible features</strong>)，</li>
-<li>修订号：当你做了 <strong>向下兼容的问题修正</strong> (<strong>compatible hotfixs</strong>)。</li>
-</ol>
-<p>譬如说当前版本号是 v1.2.3 ，在此基础上：</p>
-<ul>
-<li>fix 了个 bug，没有影响兼容性，v1.2.4</li>
-<li>新增 / 改善了功能，依然没有影响兼容性，v1.3.0</li>
-<li>任何影响兼容性的修改，无论是 fix bug （这 bug 得多严重），还是 API 签名（名字 or 参数）改动，或者干脆的删掉了 deprecated API，反正调用方会出错，必须跟着修改，v2.0.0</li>
-</ul>
-<p>一个特例是，主版本号为 0 的版本，被认为是初步开发的 <strong>不稳定版本</strong> ，可以不遵循兼容性的原则。</p>
-<p>理解了这些，下面的一些做法就比较好理解了。</p>
-<h4 id="导入兼容性原则"><a href="#导入兼容性原则" class="headerlink" title="导入兼容性原则"></a>导入兼容性原则</h4><p>一个 module 一定是 <strong>向下兼容</strong> 的。（又叫向后兼容 backwards compatible，指 newer 的版本兼容 older 的版本）反过来说，如果不兼容，会被视作 <strong>不同的 module</strong> 。</p>
-<p>具体操作上，就是 2 以上的主版本号，会加入 module path，使得 <strong>module 声明、导入路径（包括 require 和 import）、缓存路径</strong> 都发生变化，从而被识别为不同的 module。唯独不变的是 托管地址，靠 tag 就可以区分，没有必要每个主版本新建一个项目。还是以 <code>github.com/jay/mymod</code> 为例：</p>
-<table>
-<thead>
-<tr>
-<th><strong>主版本号</strong></th>
-<th>0 或 1</th>
-<th>2 （3 或以上以此类推）</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>module 声明</strong></td>
-<td>module github.com/jay/mymod</td>
-<td>module github.com/jay/mymod/v2</td>
-</tr>
-<tr>
-<td><strong>require 列表</strong></td>
-<td>github.com/jay/mymod v1.0.1</td>
-<td>github.com/jay/mymod/v2 v2.0.2</td>
-</tr>
-<tr>
-<td><strong>import 语句</strong></td>
-<td>import “github.com/jay/mymod/midware/router”</td>
-<td>import “github.com/jay/mymod/v2/midware/router”</td>
-</tr>
-</tbody>
-</table>
-<h4 id="选择最新版本"><a href="#选择最新版本" class="headerlink" title="选择最新版本"></a>选择最新版本</h4><p>在同一个主版本下，如果在添加依赖时你没有指定版本（也就是你没有手动 <code>go get github.com/jay/mymod@v1.0.1</code> ，或者只是指定了大版本 <code>go get github.com/jay/mymod@v1</code> 没有指定次版本），那么第一次获取依赖时，go 会自动 <strong>获取最新的版本</strong> 并将版本信息写入 go.mod。</p>
-<p>在这之后，除非你手动更新，否则 go 会一直使用 go.mod 记录的版本，不会自动更新。</p>
-<h4 id="最小版本选择"><a href="#最小版本选择" class="headerlink" title="最小版本选择"></a>最小版本选择</h4><p>依赖包括 <strong>直接依赖 和 间接依赖</strong>。mod1 依赖了 mod2，然后 mod2 又依赖了 mod3， mod2 是直接依赖， mod3 是间接依赖。间接依赖在 go.mod 里以 <code>//indirect</code> 结尾。</p>
-<p>执行 <code>go mod graph</code> 可以输出所有 module 之间的依赖关系。如果项目稍大，内容会很长，长到超出 bash / cmd 的缓冲那种，建议重定向一个文件再搜索。或者 <code>go mod why &lt;package path&gt;</code> 查询某个 package 被谁依赖。</p>
-<p>因为有 直接依赖 和 间接依赖，而且对某个 module 的间接依赖可能不止一处，就有可能出现依赖的版本不一致。这种不一致又分两种情况：</p>
-<ul>
-<li><p>主版本号不同：这个好办，参见上一个小节，主版本号不同直接被认为是不同 module，你依赖你的，我依赖我的，并行不悖。</p>
-</li>
-<li><p>主版本号相同：选择所有依赖里，<strong>最大的版本号</strong>。  </p>
-<p>  例如 同时依赖 v1.0.1、v1.0.2、v1.1.3，那么选择 v1.1.3。因为同一个主版本下是向下兼容的，依赖 v1.0.1 和 v1.0.2 的代码，调用 v1.1.3 也是可以的；反过来说，v1.1.3 里可能增加了新功能，依赖它的地方再去调用老版本，很有可能会报错。  </p>
-</li>
-</ul>
-<h4 id="伪版本"><a href="#伪版本" class="headerlink" title="伪版本"></a>伪版本</h4><p>go module 允许通过 commit-hash 指定版本 （可以通过 hash 前缀指定，有规定最小长度，但我忘了，这是不推荐的做法），但在获取时会自动跟 tag 比对，一旦命中会自动转换成 semver。</p>
-<p>如果 module 完全没有打 tag，或者指定的 hash 不命中 tag，go 会生成一个伪版本号来记录，格式是 <code>vX.0.0-yyyymmddhhmmss-12位hash</code>。</p>
-<h4 id="incompatible"><a href="#incompatible" class="headerlink" title="+incompatible"></a>+incompatible</h4><p>在 go.mod 里可以看见有些依赖后面带着一个 <code>+incompatible</code> 。这个标记的意思是，依赖的版本在 2 以上，但是这个 module 自身没有使用 module 模式（也就是根目录没有 go.mod），所以无法通过在路径添加版本来区分主版本。</p>
-<p>更多版本选择的原理，请参考 《<a href="https://research.swtch.com/vgo-mvs" target="_blank" rel="external">Minimal Version Selection</a>》。</p>
-<h2 id="延伸：可重现构建"><a href="#延伸：可重现构建" class="headerlink" title="延伸：可重现构建"></a>延伸：可重现构建</h2><p>Java 从 ant、Maven 到 gradle，Python distutils、setuptools 到 pip，js 的 npm 和 yarn，go 经历了 vgo、glide、dep 到 内置 modules，再加上一系列 VCS 和 托管服务（目前是 git 和 github 统一了江湖），各种构建物仓库。</p>
-<p>大家做了那么多工作，设计这么复杂的机制，本质上都是为了一个目的：<strong>构建过程可重复，构建产物可重现</strong> 。</p>
-<p>在软件个人英雄主义的时代，这不成问题的，代码是大牛一个人开发的，构建所需要的代码和工具，都在大牛的电脑上。稍往后，多几个人加入，也是在一个公司、一个研究机构里，ftp 共享一下就完事了，最多搭建一个内部的 VCS 服务。</p>
-<p>但是在软件开发网络大协作的年代，这就变成了一个工程难题。分布在世界各地，素未谋面的一群人一起开发，很多问题就会涌现。特别是开源的年代，即使是小公司的项目，一个学生的作业，也极少会从零开始开发，你不可避免地会引用其他人的工作成果。</p>
-<p>哪怕只是和别人合作过一个简单的项目，你都大概率遇到过『你的代码在我这里 编译不过 / 运行报错。』『不可能，我本地一点问题都没有，是测试过才提交的。』这种对话。</p>
-<p>上述那么多的 工具 和 机制，是为了保证分散各处的开发者（可能还有测试、运维团队），能够做到共享 <strong>一致的环境、一致的配置、一致的代码版本，一致的依赖，一致的构建脚本，重现一致的构建过程，得到一致的构建产物</strong> 。</p>
-<p>话题很大，不是三言两语能够说清的，就到此为止。提那么一下，是希望帮助理解，为什么把事情搞得那么复杂。</p>
-<hr>
-<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在写 《&lt;a href=&quot;https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/&quot;&gt;配置 1.13+ 的 golang 环境&lt;/a&gt;》时，花了大量篇幅解释 module 的概念，还有 module 与 package 之间的联系。眼看字数翻了一番，干脆把这部分另起一篇。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
     
   </entry>
   
