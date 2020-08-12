@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaycechant.info/"/>
-  <updated>2020-06-21T15:53:35.827Z</updated>
+  <updated>2020-08-12T09:21:58.819Z</updated>
   <id>https://jaycechant.info/</id>
   
   <author>
@@ -14,6 +14,149 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>LeetCode 解题：统计全 1 子矩阵</title>
+    <link href="https://jaycechant.info/2020/leetcode-1504-count-submatrices/"/>
+    <id>https://jaycechant.info/2020/leetcode-1504-count-submatrices/</id>
+    <published>2020-07-10T13:05:25.000Z</published>
+    <updated>2020-08-12T09:21:58.819Z</updated>
+    
+    <content type="html"><![CDATA[<p>上周末试着参加了一下 LeetCode 的周赛。</p>
+<a id="more"></a>
+<blockquote>
+<p>文章是 7/10 写的，所以这里指的是 7/5 的周赛</p>
+</blockquote>
+<p>90 分钟，总共四题，分别一题简单，两题中等，一题困难。在我看来，第 1、2 题都算简单，第 3 题的中等我很多年前做过；只有第 4 题最优解要用到比较少见的算法，不过还是有网友暴力解通过。</p>
+<p>就是这样的难度，第 2 题一开始没反应过来，先做后面，然后在第 3 题耗费了太多时间（约 1H），留给 2 、4 的时间都不太够，最后只 AC  1、3。相比之下，最快的参加者 17 分钟全部 AC。自尊心受到暴击，只能用刚刚恢复刷题，太生疏给自己台阶。做的时候感觉很顺畅，回头一看时间，都不知道怎么跑掉的。是中年人反应迟钝了吗？</p>
+<p>不管怎样，3、4 题还是值得说一下的。今天先讲第 3 题，对应 1504 号。</p>
+<p>英文：<a href="https://leetcode.com/problems/count-submatrices-with-all-ones/" target="_blank" rel="external">https://leetcode.com/problems/count-submatrices-with-all-ones/</a></p>
+<p>中文：<a href="https://leetcode-cn.com/problems/count-submatrices-with-all-ones/" target="_blank" rel="external">https://leetcode-cn.com/problems/count-submatrices-with-all-ones/</a></p>
+<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><h3 id="一句话概括"><a href="#一句话概括" class="headerlink" title="一句话概括"></a>一句话概括</h3><p>给定由 0, 1 组成的矩阵，<strong>求 元素全是 1 的子矩阵</strong> 的数量。</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">输入：</div><div class="line">1,0,1</div><div class="line">1,1,0</div><div class="line">1,1,0</div><div class="line"></div><div class="line">输出：13</div><div class="line"></div><div class="line">解释：</div><div class="line">有 6 个 1x1 的矩形。</div><div class="line">有 2 个 1x2 的矩形。</div><div class="line">有 3 个 2x1 的矩形。</div><div class="line">有 1 个 2x2 的矩形。</div><div class="line">有 1 个 3x1 的矩形。</div><div class="line">矩形数目总共 = 6 + 2 + 3 + 1 + 1 = 13</div></pre></td></tr></table></figure>
+<p>更多例子看测试用例</p>
+<h3 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h3><ul>
+<li>行列最小 1，最大 150</li>
+<li>矩阵元素只有 0 和 1</li>
+</ul>
+<p>为了后续方便讨论，约定行数为 R，列数为 C。</p>
+<h2 id="测试代码先行"><a href="#测试代码先行" class="headerlink" title="测试代码先行"></a>测试代码先行</h2><blockquote>
+<p>《<a href="../rapidly-generate-unit-tests-in-vs-code/">如何快速生成单元测试</a>》</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"testing"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Test_numSubmat</span><span class="params">(t *testing.T)</span></span> &#123;</div><div class="line">	tests := []<span class="keyword">struct</span> &#123;</div><div class="line">		name <span class="keyword">string</span></div><div class="line">		mat  [][]<span class="keyword">int</span></div><div class="line">		want <span class="keyword">int</span></div><div class="line">	&#125;&#123;</div><div class="line">		&#123;</div><div class="line">			name: <span class="string">"min0"</span>,</div><div class="line">			mat: [][]<span class="keyword">int</span>&#123;</div><div class="line">				&#123;<span class="number">0</span>&#125;,</div><div class="line">			&#125;,</div><div class="line">			want: <span class="number">0</span>,</div><div class="line">		&#125;,</div><div class="line">		&#123;</div><div class="line">			name: <span class="string">"min1"</span>,</div><div class="line">			mat: [][]<span class="keyword">int</span>&#123;</div><div class="line">				&#123;<span class="number">1</span>&#125;,</div><div class="line">			&#125;,</div><div class="line">			want: <span class="number">1</span>,</div><div class="line">		&#125;,</div><div class="line">		&#123;</div><div class="line">			name: <span class="string">"1"</span>,</div><div class="line">			mat: [][]<span class="keyword">int</span>&#123;</div><div class="line">				&#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>&#125;,</div><div class="line">				&#123;<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>&#125;,</div><div class="line">				&#123;<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>&#125;,</div><div class="line">			&#125;,</div><div class="line">			want: <span class="number">13</span>,</div><div class="line">		&#125;,</div><div class="line">		&#123;</div><div class="line">			name: <span class="string">"2"</span>,</div><div class="line">			mat: [][]<span class="keyword">int</span>&#123;</div><div class="line">				&#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>&#125;,</div><div class="line">				&#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>&#125;,</div><div class="line">				&#123;<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>&#125;,</div><div class="line">			&#125;,</div><div class="line">			want: <span class="number">24</span>,</div><div class="line">		&#125;,</div><div class="line">		&#123;</div><div class="line">			name: <span class="string">"3"</span>,</div><div class="line">			mat: [][]<span class="keyword">int</span>&#123;</div><div class="line">				&#123;<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>&#125;,</div><div class="line">			&#125;,</div><div class="line">			want: <span class="number">21</span>,</div><div class="line">		&#125;,</div><div class="line">		&#123;</div><div class="line">			name: <span class="string">"4"</span>,</div><div class="line">			mat: [][]<span class="keyword">int</span>&#123;</div><div class="line">				&#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>&#125;,</div><div class="line">				&#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>&#125;,</div><div class="line">				&#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>&#125;,</div><div class="line">			&#125;,</div><div class="line">			want: <span class="number">5</span>,</div><div class="line">		&#125;,</div><div class="line">        <span class="comment">// 现在 LeetCode 周赛一次错误提交只罚时 5 分钟，代价不算大</span></div><div class="line">        <span class="comment">// 简单添加一些能马上想到的 case 即可，折腾超过 5 分钟不值</span></div><div class="line">        <span class="comment">// 能通过简单的 case 可以先提交一次，不行再针对强化</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">for</span> _, tt := <span class="keyword">range</span> tests &#123;</div><div class="line">		t.Run(tt.name, <span class="function"><span class="keyword">func</span><span class="params">(t *testing.T)</span></span> &#123;</div><div class="line">			<span class="keyword">if</span> got := numSubmat(tt.mat); got != tt.want &#123;</div><div class="line">				t.Errorf(<span class="string">"numSubmat() = %v, want %v"</span>, got, tt.want)</div><div class="line">			&#125;</div><div class="line">		&#125;)</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><p>暴力做法非常简单，一句话带过：首先 O(RC) 遍历左上角选点，然后 O(RC) 遍历右下角选点，再用 O(RC) 判断选定的矩阵是否全 1，<strong>时间复杂度为 O((RC)^3)</strong> ，空间复杂度 O(1)。（提醒：R 是行数，C 是列数）也许数据弱的话能 AC（我没试），比赛时间不够也许可以蒙一下，但没有讨论价值。</p>
+<p>这道题明显有大量重复子问题，稍有经验都应该马上往动态规划上靠。关于动态规划的基础常识，可以先看之前的文章：《<a href="../leetcode-10-regular-expression-matching/">LeetCode 题解： Regular Expression Matching</a>》，以后考虑围绕基础知识点写一些文章。</p>
+<p>想到 DP 容易，难点是定义子问题，状态如何转移。多年前那次和这次，都第一时间知道是 DP 的题，仍然耗费不少时间想具体的状态转移方程。（虽然做过，相似的矩阵题太多，过了一阵才认出来，又花了一点时间回想有哪些方案。）</p>
+<h3 id="思考方向"><a href="#思考方向" class="headerlink" title="思考方向"></a>思考方向</h3><p>最明显的重复运算，是对候选矩阵做全 1 判断。能否记录某些中间状态，根据少数点是否为 1， 结合这些中间状态得到下一个状态，避免前面判断过的 位置 再来一遍？</p>
+<p>根据以往做 DP 的经验，一般是 <code>dp[r][c]</code> 代表到 r 行 c 列为止的某个结果。例如，我们定义两个矩阵 <code>width[r][c]</code> 和 <code>height[r][c]</code> 代表以 (r, c) 为右下角的矩阵的最大宽度和最大高度，从左上到右下运算。有没有可能从前面的状态，推算出以(r, c) 为右下角的极大矩阵呢？</p>
+<p><img src="../../images/leetcode1504/leetcode1504-try-dp.svg" alt=""></p>
+<blockquote>
+<p>绿色表示已经处理过的点，白色表示待处理的点。下同。</p>
+</blockquote>
+<p>很难。我们找极大矩阵，是因为知道极大矩阵的大小，就很容易计算它有多少个子矩阵。但极大矩阵可以有很多个，光凭最大宽度和最大高度两个信息，无法计算出这么多个极大矩阵。那还要记录多少信息才够？</p>
+<p><img src="../../images/leetcode1504/leetcode1504-extreme-matrix.svg" alt=""></p>
+<blockquote>
+<p>极大矩阵是指，这个矩阵在边界上碰到了 0，没办法变得更大了。但它不一定是最大的矩阵。</p>
+<p>记录最大宽和最大高之所以很难用得上，是因为它们很可能不是在同一个矩阵上记录的，也很难用来计算那么多个极大矩阵。</p>
+</blockquote>
+<p>换一个角度看为什么这么难。假定可以用 O(1) 完成状态转移，计算出 (r, c) 点为右下角的所有极大矩阵，由于右下角只有 O(RC) 种情况，换言之时间复杂度从 O((RC)^3) 降到了 O(RC)，优化幅度非常大 。但多个极大矩阵真的能用 O(1) 时间就计算出来吗？要借用哪些中间结果？</p>
+<p>事实上，这个方向是可行的。但我们先从简单一点的开始。</p>
+<h2 id="压缩-DP"><a href="#压缩-DP" class="headerlink" title="压缩 + DP"></a>压缩 + DP</h2><p>二维的情况复杂，是因为长宽有多种组合；如果长宽不能同时达到最大，就会产生大量极大矩阵。</p>
+<p>那就 <strong>从一维开始找规律</strong> 。</p>
+<h3 id="一维问题：全-1-子段数"><a href="#一维问题：全-1-子段数" class="headerlink" title="一维问题：全 1 子段数"></a>一维问题：全 1 子段数</h3><p><img src="../../images/leetcode1504/leetcode1504-1d-dp.svg" alt=""></p>
+<p>一维的情况，问题简化成『统计全 1 子段数』，其中任意长度不为 0 的连续区间 ，都是子段（interval）。假定数组长度为 N，Brute-Force 的做法是，O(N) 选左端点，O(N) 选右端点，O(N) 判断是否全 1，时间复杂度 O(N^3)。</p>
+<p>这时用 DP，状态转移方程很好写。假定有一维数组 A，里面同样是 0 或 1。定义 L[i] 为 以第 i 个元素为右边界的子段的最大长度（换言之，连续多少个 1），很容易得到</p>
+<p>$$<br>\left{<br>\begin{array}{lr}<br>L<em>i = L</em>{i-1} + 1, &amp; (A_i = 1)\<br>L_i = 0 &amp; (A_i = 0)<br>\end{array}<br>\right.<br>$$</p>
+<p>大白话就是，<strong>遇到 1，最大长度加 1；遇到 0，长度清零</strong> 。</p>
+<p>再定义 C[i] 为到 第 i 个元素为止，累计的的字段数，状态转移方程为</p>
+<p>$$<br>\left{<br>\begin{array}{lr}<br>C<em>i = C</em>{i-1} + L_i, &amp; (A_i = 1)\<br>C<em>i = C</em>{i-1} &amp; (A_i = 0)<br>\end{array}<br>\right.<br>$$</p>
+<p>大白话就是，遇到 1，就增加『当前子段最大长度 L[i] 这么多个子段数』；遇到 0，统计数字不变。为什么是 L[i] ？因为 <strong>以 A[i] 为右端点的子段刚好是 L[i] 个，分别为长度为 1、长度为 2、长度为 … 长度为 L[i] </strong> 。</p>
+<p>DP 跟 BF 相比，省略了重复运算，但思维不严谨的话，很容易出现重复或者遗漏。我们来确认一下，是否每个左端点和右端点的组合都包含了一次：对于右端点，每个 A[i] = 1 ，都访问且只访问了一次；在确定右端点之后，每个和右端点连续（中间没有 0）的左端点都刚好统计了一次（L[i] 个）。</p>
+<p>对于每个元素 A[i]，分别需要常数时间计算 L[i] 和 C[i] ，时间复杂度为 O(N)。由于 L 和 C 都只和当前元素和前一个状态相关，只需保留最后一个状态，没有必要保存数组，空间复杂度为 O(1)。</p>
+<p>代码非常简单</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">numInterval</span><span class="params">(A []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">	length := <span class="number">0</span></div><div class="line">	count := <span class="number">0</span></div><div class="line">	<span class="keyword">for</span> _, elem := <span class="keyword">range</span> A &#123;</div><div class="line">		<span class="keyword">if</span> elem == <span class="number">1</span> &#123;</div><div class="line">			length++</div><div class="line">			count += length</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			length = <span class="number">0</span></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> count</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="二维问题：压缩成一维"><a href="#二维问题：压缩成一维" class="headerlink" title="二维问题：压缩成一维"></a>二维问题：压缩成一维</h3><p>一维的情况简单，我还是尽量详细地讲，因为这是理解接下来内容的基础。</p>
+<p>对于高度为 2 的矩阵，求全 1 子矩阵数。这些子矩阵，高度要么为 1，要么为 2。<strong>对于高度为 1 的子矩阵，情况退回到 一维，分别对每一行应用一维的算法即可</strong> 。而对于高度为 2 的子矩阵，可以『压缩』成高度为 1，再应用一维的算法。</p>
+<p><img src="../../images/leetcode1504/leetcode1504-2d-to-1d.svg" alt=""></p>
+<p><strong>以此类推，任意高度的子矩阵，也可以压缩成一行处理</strong> 。而且，<strong>R 行压缩成一行，并不需要每次从头开始压缩；只需要在前 R - 1 行的结果上，再合并一行</strong> 。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">numSubmat</span><span class="params">(mat [][]<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">	count := <span class="number">0</span></div><div class="line">	rowNum := <span class="built_in">len</span>(mat)</div><div class="line">	colNum := <span class="built_in">len</span>(mat[<span class="number">0</span>])</div><div class="line"></div><div class="line">	<span class="comment">// 压缩的结果只需要保留一行进行运算</span></div><div class="line">	<span class="comment">// 用 bool 值保存节省空间</span></div><div class="line">	mymat := <span class="built_in">make</span>([]<span class="keyword">bool</span>, colNum)</div><div class="line"></div><div class="line">	<span class="comment">// 遍历开始压缩的行数</span></div><div class="line">	<span class="keyword">for</span> rowSt := <span class="number">0</span>; rowSt &lt; rowNum; rowSt++ &#123;</div><div class="line">		<span class="keyword">for</span> col := <span class="number">0</span>; col &lt; colNum; col++ &#123;</div><div class="line">			mymat[col] = <span class="literal">true</span></div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 遍历结束的行数</span></div><div class="line">		<span class="keyword">for</span> rowEd := rowSt; rowEd &lt; rowNum; rowEd++ &#123;</div><div class="line">			length := <span class="number">0</span></div><div class="line">			<span class="keyword">for</span> col := <span class="number">0</span>; col &lt; colNum; col++ &#123;</div><div class="line">				<span class="keyword">if</span> mat[rowEd][col] == <span class="number">0</span> &#123;</div><div class="line">					<span class="comment">// 同一列上任意一行为0，这个位置就断开了</span></div><div class="line">					mymat[col] = <span class="literal">false</span></div><div class="line">				&#125;</div><div class="line">				<span class="comment">// 压缩后，应用一维的算法</span></div><div class="line">				<span class="keyword">if</span> mymat[col] &#123;</div><div class="line">					length++</div><div class="line">					count += length</div><div class="line">				&#125; <span class="keyword">else</span> &#123;</div><div class="line">					length = <span class="number">0</span></div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> count</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>O(R) 遍历开始行，O(R) 遍历结束行，O(C) 的时间压缩每一行并应用一维的算法，时间复杂度为 O(R^2 * C)。只用了一行的额外空间保存压缩行，空间复杂度为 O(C)。由于 R 比 C 遍历多了一层，如果行数比列数大得多，可以将行列交换运算。代码比较麻烦，不再展开。</p>
+<p>回到正确性的问题，是否不重不漏？横向在一维时已经讨论过了。纵向，O(R^2) 把所有开始行和结束行的组合都遍历了。换言之，所有的左上角和右下角的组合，都刚好地访问了一遍。</p>
+<h2 id="单调栈-DP"><a href="#单调栈-DP" class="headerlink" title="单调栈 + DP"></a>单调栈 + DP</h2><p>上述解法已经相当优秀，将六次方的 BF 解法，降了 3 个阶。（这里为了方便讨论，把 R、C 看做相近的数量级，都当成 N 处理，相当于从 O(N^6) 降到了 O(N^3) 时间复杂度）</p>
+<p>当年第一次遇到这道题，我甚至都没能一下子想到这种办法，想通时已经不够时间实现和调试。还是事后同事 Lucy 跟我们讲了思路。之后很长一段时间，没有再细想，把这当成最优解。</p>
+<p>直到这次，顺便逛了一下讨论区，居然发现还能 O(RC) ！？</p>
+<blockquote>
+<p>以下解法并非我的原创，而是看了 LeetCode 美国站讨论区后，根据网友提供的思路，重新实现和用自己的话解释一遍。主要为了分享和加深理解。</p>
+<p>平时做的答案，其核心思想，其实也是学来的（主要是大学算法课）。毕竟常见，不需要特别声明。</p>
+<p>这次的解法比较绕，不敢掠美，特此声明。</p>
+</blockquote>
+<h3 id="子问题：分割极大矩阵"><a href="#子问题：分割极大矩阵" class="headerlink" title="子问题：分割极大矩阵"></a>子问题：分割极大矩阵</h3><p>我们回到一开始想到用 动态规划 时提出的问题：『<strong>能不能遍历为 1 的点作为右下角，结合少量中间状态，算出新的中间状态，并逐渐推导出答案？</strong>』</p>
+<p>这个问题难在子问题和中间状态的定义。怎么定义，中间状态定义多少个，才能应付最多时跟 R、C 同量级的极大矩阵？</p>
+<p>我们把问题简化，先不想怎么判断和划分，假定已经找到了一个 r 行 c 列的极大全 1 矩阵，里面有多少个 <strong>包含右下角的点</strong> 的子矩阵？</p>
+<p>答：r x c 个。</p>
+<p><img src="../../images/leetcode1504/leetcode1504-submat-with-same-right-bottom-point.svg" alt=""></p>
+<p>包含右下角（最后一行结束），子矩阵高度（开始行）有 r 种可能；包含右下角（最后一列结束），矩阵宽度（开始列）有 c 种可能。组成起来有 r x c 种 子矩阵。换言之，<strong>只要找到以当前点为右下角的极大子矩阵，就能直接算出以此为右下角的全部子矩阵数量</strong> 。</p>
+<p><img src="../../images/leetcode1504/leetcode1504-extreme-matrix-2.svg" alt=""></p>
+<p>难点在于极大子矩阵根本不止一个，叠在一起可能是锯齿状的，也可能是驼峰状的，极难记录和统计。不过只要用递归分治的思想划分一下子问题，难点就变简单了。</p>
+<p><img src="../../images/leetcode1504/leetcode1504-extreme-matrix-3.svg" alt=""></p>
+<p>我们定义 C[i][j] 为 『以点 (i, j) 为右下角的子矩阵数量』。mat[i][j] 为 0 时，这个点不能构成任何子矩阵，所以只讨论为 1 的情况。如图所示，以第一个白色点 (4, 5) 为右下角的极大子矩阵，一共有 3 种宽高组合（1x6, 2x4, 4x2），它们重叠在一起，构成了一个不规则的形状。将其纵向划分成 3 个互不重叠的 3 个矩阵 X, Y, Z。（不一定是 3 个，实际可能更多，最多时可以分成每列一个）</p>
+<p>那么 C[4][5] 就等于 X （包含右下角）的子矩阵数（4x2），加上 C[4][3]。之所以这样算，是因为所有以 (4, 3) 为右下角的子矩阵，都可以列数加 2 ，变成以 (4, 5) 为右下角。通过这样划分子问题，<strong>无论有多少个极大子矩阵，我们只需要计算包含当前右下角最右（同时也是最高）的一个极大子矩阵，再引用之前的子问题即可</strong> 。</p>
+<p>为什么最右的极大子矩阵一定是最高的呢？因为子矩阵的高度无法超过右下角所在列的高度。上图中 列4 的高度为 5 （蓝色的(0, 4)点），但是这个点无法跟右下角构成矩阵。</p>
+<h3 id="引入-高度记录-和-高度栈"><a href="#引入-高度记录-和-高度栈" class="headerlink" title="引入 高度记录 和 高度栈"></a>引入 高度记录 和 高度栈</h3><p>不过问题还没解决：</p>
+<ul>
+<li>如何知道最右的极大子矩阵的宽高？（4 和 2 怎么得到）</li>
+<li>如何知道上一个子问题是哪个？（怎么得知要引用 (4, 3) 的子问题） </li>
+</ul>
+<p>后面这个问题好回答，要引用的子问题，就是当前子问题减掉当前极大子矩阵宽度（2）的子问题。问题变成了：<strong>当前极大子矩阵的宽高如何获取</strong> 。</p>
+<p>为此，引入两个记录：</p>
+<ul>
+<li>高度记录 h[i][j] ，记录每列到当前点的最大高度（连续 1 的个数）。</li>
+<li>每行的高度栈，记录单调递增的高度序列。</li>
+</ul>
+<p>先说高度记录，计算方法跟上一个解法的最大长度一样，只是变成纵向。有了它，极大子矩阵的宽高都能获得：高，就是当前列的高度（例子中为 4）；宽则稍复杂一点，需要找到左边第一个比当前列低的列（例子中为 列 3），两列之间宽度就是极大子矩阵的宽度（5 - 3 = 2）。</p>
+<p>如果不考虑时间复杂度，高度记录就足以解决问题。但是每次都要搜索左边的高度记录，导致每行的复杂度为 O(C^2) ，乘以行数后整体为 O(R*C^2)，则跟第一种解法相比并无改进。所以引入高度栈，维护一个严格单调递增的高度序列。每当拿到新一列的高度，先将栈里大于等于当前列的高度出栈，剩下的栈顶的列，就是左边第一个比当前列低的列。完成之后将当前列进栈，继续下一步。</p>
+<blockquote>
+<p>实际实践中，栈里一般储存列号，方便计算宽度，高度根据列号到 高度数组查询。</p>
+</blockquote>
+<p><img src="../../images/leetcode1504/leetcode1504-height-stack.svg" alt=""></p>
+<p>由于高度一旦下降，之前更高的列就无法与后续的点构成矩阵，所以出栈的高度再也不会用到。每个列都只会进栈一次，也（最多）只会出栈一次，遍历一行的时间复杂度就降低到了 O(C)。</p>
+<p>如果这部分感觉有点迷糊，跟其它难点混在一起难以理解，可以先尝试做 LeetCode 84 ，在一维的情况下，把高度栈搞懂。</p>
+<p>上代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">numSubmat</span><span class="params">(mat [][]<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">	count := <span class="number">0</span></div><div class="line">	rowNum := <span class="built_in">len</span>(mat)</div><div class="line">	colNum := <span class="built_in">len</span>(mat[<span class="number">0</span>])</div><div class="line"></div><div class="line">	<span class="comment">// 高度记录只用到最后一行，保留一行即可</span></div><div class="line">	heights := <span class="built_in">make</span>([]<span class="keyword">int</span>, colNum)</div><div class="line">	<span class="comment">// DP 解，以当前点为右下角的子矩阵数，同样只用到最后一行，只保留一行</span></div><div class="line">	dpCount := <span class="built_in">make</span>([]<span class="keyword">int</span>, colNum)</div><div class="line">	<span class="comment">// 高度栈，注意保存的是列号，列高还得到 heights 取</span></div><div class="line">	hStack := newStack()</div><div class="line">	<span class="comment">// 行循环</span></div><div class="line">	<span class="keyword">for</span> row := <span class="number">0</span>; row &lt; rowNum; row++ &#123;</div><div class="line">		<span class="comment">// 只有一个高度栈循环利用，每行开始前摇清空</span></div><div class="line">		hStack.clear()</div><div class="line"></div><div class="line">		<span class="comment">// 列循环</span></div><div class="line">		<span class="keyword">for</span> col := <span class="number">0</span>; col &lt; colNum; col++ &#123;</div><div class="line">			<span class="comment">// 计算当前列高度</span></div><div class="line">			<span class="keyword">if</span> mat[row][col] == <span class="number">1</span> &#123;</div><div class="line">				heights[col]++</div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				heights[col] = <span class="number">0</span></div><div class="line">			&#125;</div><div class="line"></div><div class="line">			<span class="comment">// 将栈里高度 大于等于当前列 的列出栈</span></div><div class="line">			<span class="keyword">for</span> hStack.size() &gt; <span class="number">0</span> &amp;&amp; heights[hStack.top()] &gt;= heights[col] &#123;</div><div class="line">				hStack.pop()</div><div class="line">			&#125;</div><div class="line"></div><div class="line"></div><div class="line">			<span class="keyword">if</span> hStack.size() == <span class="number">0</span> &#123;</div><div class="line">				<span class="comment">// 一直到最左，没有列比当前列 低，宽度直接为 列号 + 1 （列号从 0 开始）</span></div><div class="line">				dpCount[col] = heights[col] * (col + <span class="number">1</span>)</div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				<span class="comment">// 找到左边第一个比当前列低的列，宽度为列号的差，并加上该列的子矩阵数</span></div><div class="line">				preCol := hStack.top()</div><div class="line">				dpCount[col] = dpCount[preCol] + heights[col]*(col-preCol)</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			<span class="comment">// 当前列进栈</span></div><div class="line">			hStack.push(col)</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="comment">// 结束本行前，将本行结果累计，下一循环就会被覆盖</span></div><div class="line">		<span class="keyword">for</span> col := <span class="number">0</span>; col &lt; colNum; col++ &#123;</div><div class="line">			count += dpCount[col]</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> count</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 基于切片自行实现了一个简单的栈</span></div><div class="line"><span class="keyword">type</span> stack <span class="keyword">struct</span> &#123;</div><div class="line">	data []<span class="keyword">int</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">newStack</span><span class="params">()</span> *<span class="title">stack</span></span>      &#123; <span class="keyword">return</span> &amp;stack&#123;data: <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>)&#125; &#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *stack)</span> <span class="title">size</span><span class="params">()</span> <span class="title">int</span></span>  &#123; <span class="keyword">return</span> <span class="built_in">len</span>(s.data) &#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *stack)</span> <span class="title">push</span><span class="params">(v <span class="keyword">int</span>)</span></span> &#123; s.data = <span class="built_in">append</span>(s.data, v) &#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *stack)</span> <span class="title">top</span><span class="params">()</span> <span class="title">int</span></span>   &#123; <span class="keyword">return</span> s.data[<span class="built_in">len</span>(s.data)<span class="number">-1</span>] &#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *stack)</span> <span class="title">pop</span><span class="params">()</span></span>       &#123; s.data = s.data[:<span class="built_in">len</span>(s.data)<span class="number">-1</span>] &#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *stack)</span> <span class="title">clear</span><span class="params">()</span></span>     &#123; s.data = s.data[:<span class="number">0</span>] &#125;</div></pre></td></tr></table></figure>
+<p>正确性</p>
+<ul>
+<li>不重：右下角不同的子矩阵肯定不是同一个子矩阵。</li>
+<li>不漏：每一个点都作为右下角遍历了一次，每次把以该点为右下角的子矩阵都计算在内。</li>
+</ul>
+<p>复杂度</p>
+<ul>
+<li><p>时间复杂度：最外层每行遍历一次，内层同时做两件事：</p>
+<ul>
+<li>每个点作为右下角计算一次，计算过程为常数；</li>
+<li><p>每个列下标都进栈一次，最多出栈一次。（如果一直单调递增就不出栈）；</p>
+<p>整体的复杂度为 O(RC)。</p>
+</li>
+</ul>
+</li>
+<li><p>空间复杂度：常数组辅助变量，每组变量大小为 C；单调栈也最多进栈 C 个列下标，复杂度为 O(C)。</p>
+</li>
+</ul>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;上周末试着参加了一下 LeetCode 的周赛。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="刷题" scheme="https://jaycechant.info/categories/%E5%88%B7%E9%A2%98/"/>
+    
+    
+      <category term="动态规划" scheme="https://jaycechant.info/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"/>
+    
+  </entry>
   
   <entry>
     <title>聊聊儿童安全座椅</title>
@@ -329,9 +472,9 @@
       <category term="刷题" scheme="https://jaycechant.info/categories/%E5%88%B7%E9%A2%98/"/>
     
     
-      <category term="Algorithm" scheme="https://jaycechant.info/tags/Algorithm/"/>
-    
       <category term="LeetCode" scheme="https://jaycechant.info/tags/LeetCode/"/>
+    
+      <category term="Algorithm" scheme="https://jaycechant.info/tags/Algorithm/"/>
     
   </entry>
   
@@ -857,9 +1000,9 @@
       <category term="刷题" scheme="https://jaycechant.info/categories/%E5%88%B7%E9%A2%98/"/>
     
     
-      <category term="Algorithm" scheme="https://jaycechant.info/tags/Algorithm/"/>
-    
       <category term="LeetCode" scheme="https://jaycechant.info/tags/LeetCode/"/>
+    
+      <category term="Algorithm" scheme="https://jaycechant.info/tags/Algorithm/"/>
     
   </entry>
   
@@ -1085,9 +1228,9 @@
       <category term="刷题" scheme="https://jaycechant.info/categories/%E5%88%B7%E9%A2%98/"/>
     
     
-      <category term="Algorithm" scheme="https://jaycechant.info/tags/Algorithm/"/>
-    
       <category term="LeetCode" scheme="https://jaycechant.info/tags/LeetCode/"/>
+    
+      <category term="Algorithm" scheme="https://jaycechant.info/tags/Algorithm/"/>
     
   </entry>
   
@@ -2775,128 +2918,6 @@
     
     
       <category term="flutter" scheme="https://jaycechant.info/tags/flutter/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>配置 1.13+ 的 golang 环境（Windows 篇）</title>
-    <link href="https://jaycechant.info/2020/golang-1-13-env-for-win/"/>
-    <id>https://jaycechant.info/2020/golang-1-13-env-for-win/</id>
-    <published>2020-03-10T15:07:44.000Z</published>
-    <updated>2020-03-11T07:53:39.897Z</updated>
-    
-    <content type="html"><![CDATA[<p>前段时间为 go 1.13 写了 <a href="../setup-golang-env-for-1-13-and-above/">《配置 1.13+ 的 golang 环境》</a> （注：现在go 1.14 都发布了），以区别于 1.9 还在用 GOPATH 时写的  <a href="../../setup-golang-env/">《配置 Golang 开发环境》</a> 。考虑到后者写了 Win 环境下的配置，于是前者就写一下 Linux 环境。</p>
-<p>当下这个时间点，当然参考 1.13+ 那篇。可是在 Windows 配置怎么办？那就把文中系统相关的操作（主要是环境变量）换成 Win 的对应操作。两篇文章，分别涉及到了 “&lt; 1.13 &amp; Win” 和 “1.13+ &amp; Linux”，看完举一反三，应该新旧版本两个系统平台，都会配置了。</p>
-<p>结果今晚让朋友看着新教程（1.13+）配置 Win 下 go 1.13+ 环境，证明我还是太天真：这些配置教程的目标读者很可能根本没有跨平台的经验，一个 Linux 的操作在 Windows 下对应着什么，他们完全没有概念 [摊手]。</p>
-<p>一气之下，只好再发一篇。注意，这篇 <strong>没有任何新内容</strong>，纯粹是旧文的重新组合！（Windows &amp; go 1.13+）</p>
-<a id="more"></a>
-<p>不是我想水好吧，我也是被某些人气的。[摊手]</p>
-<p>反正入门教程就不能对读者有期待，不然达不到 <strong>扔给 朋友 / 学生 之后不用管</strong> 的效果。本文遇到大段引用我其他文章的，不再只给链接，直接把内容贴过来，方便你们不用跳转，也方便我不用解释 [白眼]。</p>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>重申，这篇讲 Windows 环境下，go 1.13 以上版本的配置。当下最新的是 1.14，但是配置方法没有变化。</p>
-<h3 id="0x00-下载安装"><a href="#0x00-下载安装" class="headerlink" title="0x00 下载安装"></a>0x00 下载安装</h3><p><del>找下载链接请到官网 golang.org/dl ，如果国内不能访问</del>，请直接到国内的官方镜像站 golang.google.cn/dl 。</p>
-<p>找到 Windows 的安装包，名字大概是 <code>go1.14.windows-amd64.msi</code> 。后续新版本出来，版本号会变大。如果你的操作系统是 32 位，就把 <code>amd64</code> 换成 <code>386</code> 。找到符合的链接，下载。</p>
-<p>下载完了之后安装，安装路径随你的习惯。建议尽量短，不带空格和中文。个人习惯放到 <code>D:\Dev\go</code> 下。</p>
-<h3 id="0x01-系统环境变量"><a href="#0x01-系统环境变量" class="headerlink" title="0x01 系统环境变量"></a>0x01 系统环境变量</h3><p>然后将可执行文件加入系统路径。</p>
-<p>如果你对 Windows 下添加系统环境变量毫无概念，建议你先搜索一下 <strong>带图的教程</strong>，毕竟 Win7 和 Win10 还有点不同。已经耐着性子水这篇，不想把这种东西展开讲。</p>
-<ul>
-<li><p>先添加 <code>GOROOT</code>。检查环境变量里是否已经存在 <code>GOROOT</code>，没有就新建，值填上一步的安装路径。以我的为例，就是 <code>D:\Dev\go</code>。先设置 <code>GOROOT</code> ，后面引用，方便以后改安装位置时只改这里，不用到处修改。</p>
-</li>
-<li><p>再添加 <code>Path</code> 。<code>Path</code> 变量是原本就存在的。</p>
-<ul>
-<li>Win10 下 <code>Path</code> 是个列表，新建两项，分别填 <code>%GOROOT%\bin</code> 和 <code>%USERPROFILE%\go\bin</code>。</li>
-<li>Win7 等只有一个 Path 值的，修改，在最后面追加 <code>;%GOROOT%\bin;%USERPROFILE%\go\bin</code> </li>
-</ul>
-</li>
-</ul>
-<p>注意涉及的标点都是英文半角符号。设置完一步步确认就好。</p>
-<h4 id="确认"><a href="#确认" class="headerlink" title="确认"></a>确认</h4><p>惯例地检查一下是否配置正确</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">go version</div><div class="line">go version go1.14 windows/amd64</div></pre></td></tr></table></figure>
-<p>如果不能正确执行 <code>go version</code> ，把当前版本输出，请回头检查哪里出错。</p>
-<p>跟老版本不同的是，只要把 go 本身的可执行路径 和 go bin 的安装路径加入 Path 就可以了，剩下的 go env 自行管理了。</p>
-<h3 id="0x02-go-env"><a href="#0x02-go-env" class="headerlink" title="0x02 go env"></a>0x02 go env</h3><p>执行 <code>go env</code>，就会看到 go 内置的环境变量，以及部分默认值。</p>
-<p>大家看自己的输出，我的已经改过，不是默认值，就不贴了。</p>
-<p><code>go env -w key=value</code>  这样的形式，是将 key 变量修改成 value 这个值。</p>
-<h4 id="必改"><a href="#必改" class="headerlink" title="必改"></a>必改</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">go env -w GO111MODULE=on</div><div class="line">go env -w GOPROXY=https://goproxy.cn,direct</div></pre></td></tr></table></figure>
-<p><strong>GO111MODULE</strong> : </p>
-<ul>
-<li>auto : 自 1.11 实验性加入之后就是默认值。auto 意味着由工具链自动判断是否启用 go modules。在 1.13 以前的启用条件是『项目根目录有 go.mod 且项目不在 GOPATH 内』，1.13+ 去掉了 『不在 GOPATH 内的限制』，也就是只要有 go.mod 就会启用。</li>
-<li>on : 如果你觉得上面这段话太长懒得看，或者害怕以后启用条件还会变，那么 1.13 已经准备好全面启用 go modules，直接设为 on 就好了。设为 on 之后无条件启用 go modules。</li>
-<li>off :  关闭 go modules，回到 GOPATH 时代。</li>
-</ul>
-<p><strong>GOPROXY</strong> :</p>
-<p>国内环境必备，原因你懂的。甚至可以说这是新版本为中国开发者做出的最大改进之一也不为过。在 dep 的时代是靠自建的代理熬过来的，那么不会代理的朋友就很麻烦了。改用镜像就友好太多了。</p>
-<p>目前国内最早最好的代理是 七牛云提供的 <code>https://goproxy.cn</code> 。如果团队内部还有搭建私有代理，可以用 <code>,</code> 隔开，go 会依次尝试。最后记得加上 <code>direct</code> ，让镜像上找不到的依赖回源查找。（包括但不限于 镜像还没同步，私有仓库 等情况）</p>
-<p>目前自建代理的开源方案貌似有以下几个。由于我暂时没有自建代理的需要，没有实测，请自行对比选择。</p>
-<ul>
-<li><a href="https://github.com/goproxyio/goproxy" target="_blank" rel="external">https://github.com/goproxyio/goproxy</a></li>
-<li><a href="https://github.com/gomods/athens" target="_blank" rel="external">https://github.com/gomods/athens</a></li>
-<li><a href="https://github.com/goproxy/goproxy" target="_blank" rel="external">https://github.com/goproxy/goproxy</a></li>
-</ul>
-<h4 id="推荐改"><a href="#推荐改" class="headerlink" title="推荐改"></a>推荐改</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">go env -w GOBIN=%USERPROFILE%/go/bin</div></pre></td></tr></table></figure>
-<p><strong>GOBIN</strong> 如果没有设置，默认值为 <code>%GOPATH%/bin</code> ，是通过 <code>go get</code> 或 <code>go install</code> 安装的可执行文件的存放目录。不设并不影响使用，但考虑到 GOPATH 正在被边缘化，未来不知道哪个版本就取消了，所以建议还是单独设置一下比较好。我为了保持使用习惯，设置了跟默认相同的目录（因为 GOPATH 默认值是 <code>%USERPROFILE%/go</code>），区别只是这个值不依赖 GOPATH 的值。</p>
-<p>值得 <strong>提醒</strong> 的是，这个目录也需要加入系统 PATH ，并且我已经在 系统环境变量 里加入（最后一个），如果你根据自己的习惯修改了 GOBIN 的位置，那么 0x01 里的配置也得相应修改。</p>
-<p>更多的变量，推荐参考 《<a href="https://mp.weixin.qq.com/s/AsdCDodxZFxs2SkhSwOvpg" target="_blank" rel="external">干货满满的 Go Modules 和 goproxy.cn</a>》。</p>
-<h4 id="确认-1"><a href="#确认-1" class="headerlink" title="确认"></a>确认</h4><p>到这里之后，建议安装任意一个 go 开发的工具测试 GOBIN 是否正确配置。这很重要，后续需要安装各种 go 编写的工具，并且需要在命令行调用。VSCode 的 go 插件，就依赖大量这样的工具。</p>
-<p>如果在这里配置好了，VSCode 会自动安装到正确的地方，自动后台调用，你是几乎无感知的。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">go get -u github.com/go-bindata/go-bindata/...</div><div class="line"><span class="comment"># 留意安装过程是否有报错</span></div><div class="line">go-bindata --help</div><div class="line"><span class="comment"># 如果安装好了，执行目录也加入了 Path，这里应该输出帮助信息</span></div><div class="line">Usage: go-bindata [options] &lt;input directories&gt;</div><div class="line">...</div><div class="line"><span class="comment"># 或者看版本信息</span></div><div class="line">go-bindata -version</div></pre></td></tr></table></figure>
-<h3 id="0x03-cgo-和-build-tool"><a href="#0x03-cgo-和-build-tool" class="headerlink" title="0x03 cgo 和 build tool"></a>0x03 cgo 和 build tool</h3><p>go 语言的 cgo 特性允许 C 语言 和 go 语言互调，达到 <strong>复用已有的 C/C++ 庞大代码资源</strong> 的目的；又或者用 C 编写程序的一部分以达到某些 底层语言才能达到的目标。而要使用 cgo 特性，就需要有 C/C++ 的构建工具链 <strong>gcc</strong> 。</p>
-<p>另一方面，随着项目规模变大，你会逐渐需要一个 <strong>构建工具</strong> （build tools）帮你管理构建细节，就像 ant / maven / gradle 之于 Java。由于 go 本身的构建比较简单（或者说 go 的构建规则比较清晰，自带的 build 命令够用），又有了现成的依赖管理（之前的 vgo / glide / dep，现在官方的 go modules），官方并没有一个专用的构建工具。这部分，因为依赖管理已有，管理额外的构建细节， <strong>Makefile (make) 足矣</strong> 。</p>
-<p>gcc 和 make 在多数 Linux 发行版是自带的，你可以通过  <code>gcc -v</code> 和 <code>make -v</code> 来确认安装的版本。即使没有，视乎不同的包管理器，也就是一两句命令的事。Windows 下稍微麻烦一些，要安装 MinGW-w64 。注意必须是 <strong>MinGW-w64</strong> 。MinGW 不兼容 64 位系统，同时长期不更新；而 w64 可以同时兼容 32 和 64 位。</p>
-<h4 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h4><p>下载：<a href="https://sourceforge.net/projects/mingw-w64/" target="_blank" rel="external">https://sourceforge.net/projects/mingw-w64/</a></p>
-<p>下载得到的是安装器，在选择版本后，会自动下载对应版本并安装。建议不要改动任何选项，只需要确保 Architecture 对应你的计算机即可（Win64 选 x86_64）。</p>
-<p>安装路径依然没有强制要求，无中文和空格，尽量短即可。参考：<code>D:\Dev\mingw-w64</code> 。</p>
-<h4 id="创建-make-的软链接"><a href="#创建-make-的软链接" class="headerlink" title="创建 make 的软链接"></a>创建 make 的软链接</h4><p>安装完后进入 安装目录的 bin 目录，可以看到大量的工具，其中有 <code>gcc.exe</code>  和 <code>mingw32-make.exe</code> ，没有 <code>make.exe</code> 。其实 <code>mingw32-make.exe</code> 就是，但是用这个名字调用太长，也不利于其他工具用默认的名字调用，所以我们要创建一个名字叫 <code>make.exe</code> 的软链。</p>
-<p>首先用管理员权限打开 cmd （右键菜单 &gt; 用管理员权限打开），然后按如下操作：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 请修改路径对应你的安装目录</span></div><div class="line">C:\Windows\system32&gt;cd /d D:\Dev\mingw-w64\bin</div><div class="line"></div><div class="line">D:\Dev\mingw-w64\bin&gt;mklink make.exe mingw32-make.exe</div><div class="line">为 make.exe &lt;&lt;===&gt;&gt; mingw32-make.exe 创建的符号链接</div></pre></td></tr></table></figure>
-<p><strong>建议创建软链之后就关掉管理员权限的 cmd，避免因权限过高造成不可恢复的误操作。后续操作在普通权限下执行即可。</strong></p>
-<p>完成后你会看到 bin 目录下多了一个 <code>make.exe</code> 文件，然后执行 <code>dir make.exe</code> ，会看到</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">D:\Dev\mingw-w64\bin&gt;dir make.exe</div><div class="line"><span class="number">2018</span>/<span class="number">10</span>/<span class="number">04</span>  <span class="number">18</span>:<span class="number">17</span>    &lt;SYMLINK&gt;      make.exe [mingw32-make.exe]</div></pre></td></tr></table></figure>
-<h4 id="Path-环境变量"><a href="#Path-环境变量" class="headerlink" title="Path 环境变量"></a>Path 环境变量</h4><p>跟 Go 安装类似的， MinGW-w64 的 bin 目录也要追加到 Path 变量的最后，详细可以参考 Go 的 系统环境变量部分。以我的设置为例，追加的是 <code>;D:\Dev\mingw-w64\bin</code> 。</p>
-<p><strong>特别强调：mingw-w64 下面还有一套 mingw32，如果是 64 位系统，添加到 PATH 的是根目录的 bin，不是 mingw32 下面的！！</strong></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mingw-w64</div><div class="line">├── bin <span class="comment"># 64位系统认准这个！！</span></div><div class="line">├── mingw32</div><div class="line">│   ├── bin <span class="comment"># 32位系统才选这个</span></div><div class="line">......</div></pre></td></tr></table></figure>
-<h4 id="确认-2"><a href="#确认-2" class="headerlink" title="确认"></a>确认</h4><figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">gcc --version</div><div class="line"><span class="comment"># 正常会输出 gcc 的版本，64位：x86_64, 32位：i686; 注意区分</span></div><div class="line">make -v</div><div class="line"><span class="comment"># 能调用就行，不需要留意位数</span></div></pre></td></tr></table></figure>
-<h3 id="0x04-安装-VCS"><a href="#0x04-安装-VCS" class="headerlink" title="0x04 安装 VCS"></a>0x04 安装 VCS</h3><p>在使用 go get 命令之前，需要安装依赖托管服务对应的 VCS （Version Control System）。go get 会根据依赖所托管的网站反馈的信息，调用对应的工具 （git / hg / svn）拉取依赖。</p>
-<p>就我的个人实践而言，绝大多数的第三方依赖都是基于 git 发布的（或者说直接就是放在 github 上），所以 <strong>直接安装 git 就好</strong> ，后面遇到基于其他工具的依赖，再安装不迟。</p>
-<p>由于 git 本身就是一个大话题，基本的安装使用教程不难搜到，有时间时会另起文章讨论，这里只是提醒安装，不再展开。</p>
-<h3 id="0x05-开始一个项目"><a href="#0x05-开始一个项目" class="headerlink" title="0x05 开始一个项目"></a>0x05 开始一个项目</h3><p>终于把环境都配置好了，然后就可以开始第一个 go 的项目了。由于 go modules 不再依赖 GOPATH，所以项目可以放在任何地方——这个 『任何』，是指可以不是 GOPATH ，但是要是习惯了，继续放在 <code>%GOPATH%/src</code> 也没问题。</p>
-<p>好了，不管放在哪，现在新建一个项目的根目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir demo</div><div class="line"><span class="built_in">cd</span> demo</div></pre></td></tr></table></figure>
-<p>然后执行 <code>go mod init &lt;module_path&gt;</code> ，生成 go.mod ，这个项目就算初始化完了，接下来就该敲代码了。随着开发的进行，还会自动生成 go.sum 文件，记录依赖的校验信息。注意 go.sum <strong>不是 lock 文件</strong> ，重现构建的信息已经包含在 go.mod 里，go.sum <strong>属于 checksum 文件</strong> ，用来 <strong>确保下载的依赖没有被篡改</strong> 。 go.mod 和 go.sum 需要一起提交<strong>参与版本控制</strong> 。关于 <code>go mod</code> 的详细用法，可以直接 <code>go help mod</code> 获取帮助信息，不展开。</p>
-<p>关于 module path 的内容，以及 module 与 package 之间的关系，篇幅所限，另有一篇文章详细解释，请看《<a href="https://jaycechant.info/2020/golang-1-13-module-VS-package/">golang 1.13 - module VS package</a>》。</p>
-<p>go 语法和开发，限于篇幅，也不是本文内容，后续可能需要开一个系列展开。</p>
-<h3 id="0x06-IDE-推荐"><a href="#0x06-IDE-推荐" class="headerlink" title="0x06 IDE 推荐"></a>0x06 IDE 推荐</h3><h4 id="LiteIDE"><a href="#LiteIDE" class="headerlink" title="LiteIDE"></a>LiteIDE</h4><p>下载：<a href="https://github.com/visualfc/liteide/releases" target="_blank" rel="external">https://github.com/visualfc/liteide/releases</a> ，根据操作系统选择对应的下载</p>
-<p>专门为 go 设计的 IDE，简单够用。</p>
-<p>亮点：</p>
-<ul>
-<li>多套环境变量、编译参数的配置，方便交叉编译</li>
-<li>支持直接搜索官方库的文档</li>
-</ul>
-<p>跟下面的 IDE 比，功能不算强，因为不能扩展插件。但是胜在简洁，没有多余功能干扰。</p>
-<p>推荐初学者从它开始，熟悉 go 的工作流程。</p>
-<h4 id="VSCode"><a href="#VSCode" class="headerlink" title="VSCode"></a>VSCode</h4><p>声名在外，不得不说真香。不同语言的开发，我都逐渐转移到这里了。</p>
-<p>因为太过有名，地址和配置都不用写了，一搜一大堆。</p>
-<p>默认是不支持 go 的。胜在有个强大的插件生态，装个插件就支持了。</p>
-<p>优点：强大的插件生态，通过增加插件和个性化配置，可以不断变得更好用。</p>
-<p>缺点：毕竟不是原生支持，初学者上来就安装配置插件，容易一开始就搞晕。而且因为不是专门开发 go，多余的功能会造成干扰。</p>
-<h4 id="GoLand"><a href="#GoLand" class="headerlink" title="GoLand"></a>GoLand</h4><p>IntellJ 出品，本质上是 IDEA 的一个特化版本。</p>
-<p>口碑很好，但是因为收费，然后 VSCode 已经够用，我没有用过。</p>
-<p>如果你觉得好用，请购买授权。如果你觉得贵，那么免费本身就有很好的选择。</p>
-<p>身为开发者却白Piao软件，而且还不是非用不可的软件，实在是不光彩的行为。希望你不会被甲方白Piao。</p>
-<hr>
-<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;前段时间为 go 1.13 写了 &lt;a href=&quot;../setup-golang-env-for-1-13-and-above/&quot;&gt;《配置 1.13+ 的 golang 环境》&lt;/a&gt; （注：现在go 1.14 都发布了），以区别于 1.9 还在用 GOPATH 时写的  &lt;a href=&quot;../../setup-golang-env/&quot;&gt;《配置 Golang 开发环境》&lt;/a&gt; 。考虑到后者写了 Win 环境下的配置，于是前者就写一下 Linux 环境。&lt;/p&gt;
-&lt;p&gt;当下这个时间点，当然参考 1.13+ 那篇。可是在 Windows 配置怎么办？那就把文中系统相关的操作（主要是环境变量）换成 Win 的对应操作。两篇文章，分别涉及到了 “&amp;lt; 1.13 &amp;amp; Win” 和 “1.13+ &amp;amp; Linux”，看完举一反三，应该新旧版本两个系统平台，都会配置了。&lt;/p&gt;
-&lt;p&gt;结果今晚让朋友看着新教程（1.13+）配置 Win 下 go 1.13+ 环境，证明我还是太天真：这些配置教程的目标读者很可能根本没有跨平台的经验，一个 Linux 的操作在 Windows 下对应着什么，他们完全没有概念 [摊手]。&lt;/p&gt;
-&lt;p&gt;一气之下，只好再发一篇。注意，这篇 &lt;strong&gt;没有任何新内容&lt;/strong&gt;，纯粹是旧文的重新组合！（Windows &amp;amp; go 1.13+）&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
     
   </entry>
   
