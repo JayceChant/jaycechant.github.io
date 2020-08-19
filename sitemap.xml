@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2020/review-why-should-you-learn-go/</loc>
+    
+    <lastmod>2020-08-19T15:48:41.370Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/2020/golang-in-action-day-1/</loc>
+    
+    <lastmod>2020-08-19T15:46:41.751Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/leetcode-1504-count-submatrices/</loc>
     
     <lastmod>2020-08-12T09:21:58.819Z</lastmod>
@@ -61,13 +75,6 @@
     <loc>https://jaycechant.info/2020/cognitive-tunnel-and-2-step-note-taking/</loc>
     
     <lastmod>2020-05-20T18:00:47.233Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jaycechant.info/2020/review-why-should-you-learn-go/</loc>
-    
-    <lastmod>2020-05-18T05:00:18.598Z</lastmod>
     
   </url>
   

@@ -4,6 +4,45 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/review-why-should-you-learn-go/</loc>
+    <lastmod>2020-08-19T15:48:41.370Z</lastmod>
+    <data>
+        <display>
+        <title>评论：为什么你应该学 Go ？</title>
+        <pubTime>2020-05-17T04:48:48.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
+        <tag>review</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2020/golang-in-action-day-1/</loc>
+    <lastmod>2020-08-19T15:46:41.751Z</lastmod>
+    <data>
+        <display>
+        <title>Go 语言实战（1）： 初识</title>
+        <pubTime>2020-08-18T04:15:12.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
+         
+           
+             
+              <breadCrumb title="Go 语言实战" url="https://jaycechant.info/categories/Go-%E8%AF%AD%E8%A8%80%E5%AE%9E%E6%88%98/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/leetcode-1504-count-submatrices/</loc>
     <lastmod>2020-08-12T09:21:58.819Z</lastmod>
     <data>
@@ -163,23 +202,6 @@
         <pubTime>2020-05-18T14:52:00.000Z</pubTime>
         
         <tag>写作</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2020/review-why-should-you-learn-go/</loc>
-    <lastmod>2020-05-18T05:00:18.598Z</lastmod>
-    <data>
-        <display>
-        <title>评论：为什么你应该学 Go ？</title>
-        <pubTime>2020-05-17T04:48:48.000Z</pubTime>
-        
-        <tag>review</tag>
          
          
            
@@ -419,9 +441,9 @@
         
         <tag>how-to</tag>
          
-        <tag>nodePPT</tag>
-         
         <tag>Markdown</tag>
+         
+        <tag>nodePPT</tag>
          
          
            
@@ -956,9 +978,9 @@
         
         <tag>unfinished</tag>
          
-        <tag>trouble</tag>
-         
         <tag>Python</tag>
+         
+        <tag>trouble</tag>
          
         <tag>pip</tag>
          
@@ -1093,9 +1115,9 @@
         <title>升级 pip 时的一个坑</title>
         <pubTime>2016-12-29T02:50:03.000Z</pubTime>
         
-        <tag>trouble</tag>
-         
         <tag>Python</tag>
+         
+        <tag>trouble</tag>
          
         <tag>pip</tag>
          
