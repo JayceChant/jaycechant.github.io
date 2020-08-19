@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaycechant.info/"/>
-  <updated>2020-08-19T15:46:41.751Z</updated>
+  <updated>2020-08-19T15:57:09.840Z</updated>
   <id>https://jaycechant.info/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://jaycechant.info/2020/golang-in-action-day-1/"/>
     <id>https://jaycechant.info/2020/golang-in-action-day-1/</id>
     <published>2020-08-18T04:15:12.000Z</published>
-    <updated>2020-08-19T15:46:41.751Z</updated>
+    <updated>2020-08-19T15:57:09.840Z</updated>
     
     <content type="html"><![CDATA[<p>前几年接触到 Go ，使用一段时间之后就发现这就是我需要的语言。作为一个诞生了只有 10 年的语言，Go 的上升趋势非常之快，尤其受到 web 后端开发者的欢迎。</p>
 <a id="more"></a>
@@ -69,12 +69,12 @@
 </ul>
 <p>借网上两张图来说明（来源：<a href="https://medium.com/@kevalpatel2106/why-should-you-learn-go-f607681fad65）" target="_blank" rel="external">https://medium.com/@kevalpatel2106/why-should-you-learn-go-f607681fad65）</a></p>
 <p>这篇文章我也做了简单的评论，请看《<a href="https://jaycechant.info/2020/review-why-should-you-learn-go/">为什么你应该学 Go？</a>》</p>
-<p><img src="../images/fast-for-human-vs-fast-for-computer.png" alt=""></p>
+<p><img src="../../images/fast-for-human-vs-fast-for-computer.png" alt=""></p>
 <blockquote>
 <p>Go 寻求对人友好和对机器友好的平衡。</p>
 </blockquote>
 <p>Go 诞生得晚，所以对于并发的支持可以从一开始就考虑在内。协程（coroutine）和 CSP 等理论虽然很早就有，但是在早些年还不够流行。现在像 Java 也通过一些第三方库引入了对 协程 和 CSP 模型的支持，但这种支持肯定不如语言内置支持来得简洁有效。</p>
-<p><img src="../images/concurrency-vs-beautiful-code.png" alt=""></p>
+<p><img src="../../images/concurrency-vs-beautiful-code.png" alt=""></p>
 <blockquote>
 <p>Go 内置 goroutine（go 协程） 和 CSP （Communicating Sequential Processes 通信顺序进程）支持，帮助写出既直观又高效的并发代码。</p>
 <p>左下角的语言在诞生之初就没有考虑并发的问题。</p>
@@ -147,7 +147,7 @@
 <p>每个包允许有零到多个 init 函数。它们会在包被第一次导入时，常量、变量初始化之后被调用。<strong>同包的多个 init 函数会按照某种顺序依次执行。官方没有对顺序作出任何保证，最好当作乱序执行，程序逻辑不要依赖执行顺序。</strong></p>
 <p>整个程序的初始化顺序从加载 main 包开始，然后递归加载导入的包。</p>
 <p>在被加载的包内部，先完成所有依赖包的加载和初始化（如果是加载过的包，则跳过初始化），然后初始化当前包的常量、变量，执行所有 init 函数。</p>
-<p><img src="../images/go-starter-package-init.svg" alt=""></p>
+<p><img src="../../images/go-starter-package-init.svg" alt=""></p>
 <blockquote>
 <p>main 包 import pkg2 时，pkg2 已经完成了初始化，直接导入即可</p>
 </blockquote>
