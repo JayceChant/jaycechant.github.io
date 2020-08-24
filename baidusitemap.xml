@@ -4,6 +4,23 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/</loc>
+    <lastmod>2020-08-24T17:21:12.327Z</lastmod>
+    <data>
+        <display>
+        <title>翻译：服务于软件工程的语言设计（Rob Pike 2012 年关于 Go 设计原则的演讲）</title>
+        <pubTime>2020-08-23T11:09:37.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/golang-in-action-day-1/</loc>
     <lastmod>2020-08-20T15:32:30.259Z</lastmod>
     <data>
@@ -372,21 +389,21 @@
         <title>镜像清单</title>
         <pubTime>2016-12-31T02:29:12.000Z</pubTime>
         
+        <tag>Android</tag>
+         
+        <tag>Jenkins</tag>
+         
         <tag>pip</tag>
          
-        <tag>mirror</tag>
-         
         <tag>Ubuntu</tag>
+         
+        <tag>mirror</tag>
          
         <tag>aliyun</tag>
          
         <tag>npm</tag>
          
         <tag>maven</tag>
-         
-        <tag>Android</tag>
-         
-        <tag>Jenkins</tag>
          
          
            
@@ -658,9 +675,9 @@
         <title>golang 预置 json 包的值覆盖测试</title>
         <pubTime>2019-05-19T16:45:38.000Z</pubTime>
         
-        <tag>json</tag>
-         
         <tag>golang</tag>
+         
+        <tag>json</tag>
          
          
            
@@ -795,9 +812,9 @@
         <title>用 Syncthing 备份的技巧</title>
         <pubTime>2016-08-28T07:57:03.000Z</pubTime>
         
-        <tag>skill</tag>
-         
         <tag>Syncthing</tag>
+         
+        <tag>skill</tag>
          
         <tag>dropbox</tag>
          
@@ -837,11 +854,11 @@
         <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
         <pubTime>2017-01-20T06:44:31.000Z</pubTime>
         
-        <tag>trouble</tag>
-         
         <tag>Jenkins</tag>
          
         <tag>Java</tag>
+         
+        <tag>trouble</tag>
          
         <tag>Tomcat</tag>
          
@@ -957,9 +974,9 @@
         <title>Windows 下 Python 2x 和 3x 版本共存</title>
         <pubTime>2012-04-11T11:46:00.000Z</pubTime>
         
-        <tag>unfinished</tag>
-         
         <tag>Python</tag>
+         
+        <tag>unfinished</tag>
          
          
            
@@ -976,36 +993,15 @@
         <title>在 Windows 搭建Python多版本环境</title>
         <pubTime>2016-07-12T07:21:27.000Z</pubTime>
         
-        <tag>unfinished</tag>
-         
         <tag>Python</tag>
+         
+        <tag>unfinished</tag>
          
         <tag>trouble</tag>
          
         <tag>pip</tag>
          
         <tag>virtualenv</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>解题报告 —— 从水题开一个头</title>
-        <pubTime>2016-11-08T09:40:20.000Z</pubTime>
-        
-        <tag>algorithm</tag>
-         
-        <tag>practice</tag>
-         
-        <tag>solution-report</tag>
          
          
            
@@ -1036,6 +1032,27 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>解题报告 —— 从水题开一个头</title>
+        <pubTime>2016-11-08T09:40:20.000Z</pubTime>
+        
+        <tag>algorithm</tag>
+         
+        <tag>practice</tag>
+         
+        <tag>solution-report</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2012/hello-octopress/</loc>
     <lastmod>2017-01-25T04:21:21.968Z</lastmod>
     <data>
@@ -1043,11 +1060,11 @@
         <title>Hello Octopress</title>
         <pubTime>2012-04-11T10:28:00.000Z</pubTime>
         
+        <tag>how-to</tag>
+         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
-         
-        <tag>how-to</tag>
          
         <tag>unfinished</tag>
          
@@ -1069,9 +1086,9 @@
         <title>Jenkins JavaMail 配置：JCE 及其他</title>
         <pubTime>2017-01-11T07:02:31.000Z</pubTime>
         
-        <tag>trouble</tag>
-         
         <tag>Jenkins</tag>
+         
+        <tag>trouble</tag>
          
         <tag>JavaMail</tag>
          
@@ -1136,13 +1153,13 @@
         <title>博客迁移到了Hexo（附折腾记录）</title>
         <pubTime>2016-06-27T07:46:12.000Z</pubTime>
         
-        <tag>blog</tag>
+        <tag>git</tag>
          
-        <tag>hexo</tag>
+        <tag>blog</tag>
          
         <tag>node.js</tag>
          
-        <tag>git</tag>
+        <tag>hexo</tag>
          
         <tag>trouble</tag>
          
@@ -1196,9 +1213,9 @@
         <title>刷OJ的技巧</title>
         <pubTime>2016-12-09T01:35:03.000Z</pubTime>
         
-        <tag>OJ</tag>
-         
         <tag>skill</tag>
+         
+        <tag>OJ</tag>
          
          
            

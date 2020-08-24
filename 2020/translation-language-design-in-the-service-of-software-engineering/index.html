@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>翻译：服务于软件工程的语言设计（Rob Pike 2012 年关于 Go 设计原则的演讲） | 存档Save&amp;Load</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解还是不够深入，写得辞不达意。干脆偷个懒，把 Rob Pike 在 8 年前的演讲翻译过来。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="翻译：服务于软件工程的语言设计（Rob Pike 2012 年关于 Go 设计原则的演讲）">
+<meta property="og:url" content="https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/index.html">
+<meta property="og:site_name" content="存档Save&Load">
+<meta property="og:description" content="最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解还是不够深入，写得辞不达意。干脆偷个懒，把 Rob Pike 在 8 年前的演讲翻译过来。">
+<meta property="og:updated_time" content="2020-08-24T17:21:12.327Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="翻译：服务于软件工程的语言设计（Rob Pike 2012 年关于 Go 设计原则的演讲）">
+<meta name="twitter:description" content="最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解还是不够深入，写得辞不达意。干脆偷个懒，把 Rob Pike 在 8 年前的演讲翻译过来。">
+  
+    <link rel="alternative" href="/atom.xml" title="存档Save&amp;Load" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+</head>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">存档Save&amp;Load</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">存档意味着放下包袱，搞砸了不过回来读档</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/list">List</a>
+        
+          <a class="main-nav-link" href="https://github.com/JayceChant">Github</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/sitemap.xml">Sitemap</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="" accept-charset="utf-8" class="search-form">
+          <input id="searchtext" type="search" name="q" maxlength="20" class="search-form-input" placeholder="Search" onkeypress="if(event.keyCode==13){document.getElementById('searchsub').click();return false;}">
+          <input id="searchsub" type="submit" value="" class="search-form-submit" onclick="window.open('https://global.bing.com/search?&amp;q=site:jaycechant.info '+document.getElementById('searchtext').value, '_blank')">
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-translation-language-design-in-the-service-of-software-engineering" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/translation-language-design-in-the-service-of-software-engineering/" class="article-date">
+  <time datetime="2020-08-23T11:09:37.000Z" itemprop="datePublished">2020-08-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      翻译：服务于软件工程的语言设计（Rob Pike 2012 年关于 Go 设计原则的演讲）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解还是不够深入，写得辞不达意。干脆偷个懒，把 Rob Pike 在 8 年前的演讲翻译过来。</p>
+</blockquote>
+<a id="more"></a>
+<p>原文地址：<a href="https://talks.golang.org/2012/splash.article" target="_blank" rel="external">https://talks.golang.org/2012/splash.article</a></p>
+<blockquote>
+<p>Rob Pike：Unix 小组成员，参与了 Plan 9 计划，1992 年和 Ken Thompson 共同开发了 UTF-8。他和 Ken Thompson 也是 Go 语言最早期的设计者。</p>
+<p>为了符合中文的阅读习惯，在（尽量）不影响原意的前提下，一些句子（特别是长从句）的语序作了调整，个别不符合中文表达习惯的表述做了删减或者补充。文中的加粗也是我个人划的重点。水平所限，不排除译文有（计算机）专业和英语理解上的错误。翻译过程有借助 辞典 和 DeepL 翻译器作为参考。</p>
+</blockquote>
+<h2 id="1-摘要"><a href="#1-摘要" class="headerlink" title="1. 摘要"></a>1. 摘要</h2><blockquote>
+<p>这是 Rob Pike 2012 年 10 月 25 日在 亚利桑那州 图森市 举行的 SPLASH 2012 会议上发表的主题演讲的修订版。</p>
+</blockquote>
+<p>我们在 Google 开发软件基础设施时遇到一些问题，针对这些问题，Go 语言在 2007 年末被构想出来。今天的计算环境与正在使用的语言（主要是 C++、Java 和 Python）的创建环境几乎毫无关系。多核处理器、网络系统、大规模计算集群和网络编程模型所带来的问题，人们只是用权宜之计绕开（being worked around），而不是正面解决（addressed head-on）。另外，（软件的）规模也发生了变化：今天的服务器程序由数千万行代码组成，需要成百上千的程序员共同协作，并且每天都在更新。更糟糕的是，即使是在大型编译集群上，构建（build）时间也会延长到几分钟，甚至几小时。</p>
+<p><strong>设计和开发 Go 就是为了在这种环境下提高工作效率。</strong> Go 的设计考虑因素，除了众所周知的像 内置并发 和 垃圾收集，还包括 严格的依赖管理、软件架构在系统增长时的适应性，以及跨组件的健壮性。</p>
+<p>本文将解释在构建一个高效的、编译型的、轻量级的、使人愉悦的编程语言的过程中，如何解决这些问题。举例 和 解释 来自 Google 实际遇到的问题。</p>
+<h2 id="2-简介"><a href="#2-简介" class="headerlink" title="2. 简介"></a>2. 简介</h2><p>Go 是 Google 开发的一种编译型、支持并发、带垃圾回收、静态类型的语言。它是一个开源项目：Google 导入公共代码库，而不是相反。</p>
+<p>Go 运行效率高、可伸缩性强，而且工作效率也高。有些程序员觉得用它干活很有趣；有些则觉得它缺乏想象力，甚至很无聊。在本文中，我们将解释为什么这些观点并不矛盾。<strong>Go 是为解决 Google 在软件开发中面临的问题而设计的，这导致 Go 并不是一门在研究领域有突破性的语言；尽管如此它仍是大型软件项目工程化的优秀工具。</strong>（译者注：这是 8 年前的演讲。Go 初期确实是为了解决 Google 内部的问题而诞生的。但如今已经是诞生的第 11 个年头，Go 早已被寄予更多的期待。它要解决的问题没变，只是不再局限于 Google 的内部场景。）</p>
+<h2 id="3-Go-在-Google"><a href="#3-Go-在-Google" class="headerlink" title="3. Go 在 Google"></a>3. Go 在 Google</h2><p>Google 设计 Go 用来帮助解决 Google 自己的问题，而 Google 的问题很 <strong>大</strong>。</p>
+<p>硬件大，软件也大。软件有好几百万行，服务器大部分用 C++，剩余的部分大量使用 Java 和 Python。成千上万的工程师在代码上工作，这些代码位于一个包含了所有软件的单棵大树的『头部』，所以树的各个层次一天到晚都有重要变更。使用大型的、定制的分布式构建系统使这种规模的开发变得可行，但它仍然很大。</p>
+<p>当然，所有这些软件都运行在无数（zillions）台机器上，这些机器被看作数量不多的独立的、互相联网的计算集群。</p>
+<p>简而言之，Google 的开发规模很大，速度可能很慢，而且经常显得很笨拙。但它是有效的。</p>
+<p>Go 项目的目标，是消除 Google 软件开发中的缓慢和笨拙，从而使开发过程更加高效和获得更强的可伸缩性。<strong>这个语言是由编写、阅读、调试和维护大型软件系统的人设计的，也是为这些人设计的。</strong></p>
+<p>因此，Go 的目的不是要做编程语言设计的研究，而是要改善语言设计者及其同事的工作环境。Go 考虑的更多是软件工程的问题，而不是编程语言方面的科研。换句话说，<strong>它围绕的是『服务于软件工程的语言设计』</strong>。</p>
+<p>但是，一门语言如何对软件工程有所帮助呢？本文剩下的内容就是对这个问题的回答。</p>
+<h2 id="4-痛点"><a href="#4-痛点" class="headerlink" title="4. 痛点"></a>4. 痛点</h2><p>在 Go 刚推出时，有人声称，它缺少现代语言所必需的某些特性或方法论。缺少这些的 Go 能有什么价值？我们的回答是，Go 所具备的某些特性，可以解决严重困扰大规模软件开发的一些问题。这些问题包括</p>
+<ul>
+<li><p>构建速度慢</p>
+</li>
+<li><p>失控的依赖关系</p>
+</li>
+<li><p>每个程序员使用相同语言的不同子集</p>
+</li>
+<li><p>程序难以理解（代码难以阅读，文档不完善等）</p>
+</li>
+<li><p>重复劳动</p>
+</li>
+<li><p>更新代价大</p>
+</li>
+<li><p>版本偏斜（version skew）</p>
+</li>
+<li><p>难以编写自动化工具</p>
+</li>
+<li><p>跨语言构建</p>
+</li>
+</ul>
+<p>一门语言的单个特性并不能解决这些问题。这需要有软件工程的大局观（larger view），所以在 Go 的设计中，我们试图把重点放在解决这些问题上。</p>
+<p>作为一个简单而且独立的例子，我们来看一下程序结构的表示方式。一些观察者反对 Go 用花括号（<code>{...}</code>）来表示类似于 C 的块状结构，他们更喜欢用 Python 或 Haskell 风格的空格来缩进。然而，我们见过太多由跨语言构建引起的构建和测试失败：嵌入到另一种语言中的 Python 代码段（例如通过 SWIG 调用），会因为周围代码缩进的变化而被意外地破坏，而且非常难以察觉。因此，我们的观点是，虽然空格缩进对于小程序来说是不错的选择，但它并不具有大程序所需要的可伸缩性；而且代码库越大，异构性越强，就会带来越多的麻烦。<strong>为了安全和可靠，最好还是放弃这点便利</strong>，所以 Go 使用花括号表示的代码块。</p>
+<h2 id="5-C-和-C-中的依赖关系"><a href="#5-C-和-C-中的依赖关系" class="headerlink" title="5. C 和 C++ 中的依赖关系"></a>5. C 和 C++ 中的依赖关系</h2><p>更能实质性地说明上面提到的可伸缩性和其他问题的，是包依赖关系的处理。我们从回顾 C 和 C++ 如何处理依赖关系开始讨论。</p>
+<p>最早于 1989 年标准化的 ANSI C 在标准头文件中推广了 <code>#ifndef</code> 『防护（guards）』的概念。这个做法现在已经是无处不在，就是每个头文件都要用一个条件编译语句（clause）包裹起来，这样做就算这个头文件被多次包含（include）也不会出错。例如，Unix 头文件 <code>&lt;sys/stat.h&gt;</code> 的结构是这样的：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 大段的版权和许可证声明 */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _SYS_STAT_H_</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _SYS_STAT_H_</span></div><div class="line"><span class="comment">/* 类型和其他定义 */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
+<p>这样做的目的，是让 C 语言预处理器在第二次以及后续读到该文件时，忽略被包裹的内容。符号<code>_SYS_STAT_H_</code> 在第一次读取文件时被定义，避免（guards）了后续的调用。</p>
+<p>这样设计有一些好处，最重要的是每个头文件可以安全地 <code>#include</code> 它所有的依赖，即使其他头文件也包含这些依赖，都不会有问题。如果遵循这个规则，并且按字母顺序排列 <code>#include</code> 语句，可以写出有条理的代码。</p>
+<p><strong>但它的可伸缩性非常差。</strong></p>
+<p>1984 年，有人发现编译 ps.c（Unix ps 命令的源码）时，整个预处理过程会遇到 37 次 <code>#include &lt;sys/stat.h&gt;</code> 。<strong>尽管后面 36 次头文件的内容都会被忽略，但大多数 C 语言的实现每次都会打开文件、读取文件、完整扫描内容，一连串动作下来，一共 37 次。</strong> 这样做非常不聪明，但是 C 预处理器需要处理非常复杂的宏语义，使它只能这样实现。</p>
+<p>这对软件造成的影响是， C 程序中 <code>#include</code> 语句会不断累积。添加 <code>#include</code> 语句不会破坏程序，却很难知道什么时候不再需要它们。删除一条 <code>#include</code> 后再编译一次也检查不出来，因为可能另一条 <code>#include</code> 本身就包含你刚刚删除的那条  <code>#include</code>。</p>
+<p>从技术的角度讲，没必要弄成这样子。意识到使用 <code>#ifndef</code> 防护的长期问题，Plan 9 库的设计者们采取了一种不同的、非 ANSI 标准的做法。在 Plan 9 中，头文件禁止包含更多的 <code>#include</code> 语句；所有的 <code>#include</code> 都要放在顶层 C 文件中。当然，这需要一些纪律：程序员需要按照正确的顺序、准确地列出必要的依赖关系；但文档可以帮上忙，而且在实践中效果非常好。这样做的结果是，无论一个 C 源文件有多少依赖，在编译该文件时，每个 <code>#include</code> 文件都只会被读取一次。而且，只要把 <code>#include</code> 语句先删掉就能很容易地看出来它是否必要：当且仅当删除的依赖不是必要时，编辑后的程序才能通过编译。</p>
+<p>Plan 9 做法最重要的结果是编译速度更快：编译所需的 I/O 量比使用带有 <code>#ifndef</code> 防护的库时大大减少。</p>
+<p>但在 Plan 9 之外，『防护』法仍是 C 和 C++ 的公认做法。事实上，<strong>C++ 在更细的粒度上使用同样的做法还加剧了这个问题</strong> 。按照惯例，C++ 程序的结构通常是每个类有一个头文件，也可能是一小组的相关类有一个头文件，这种分组方式比像 <code>&lt;stdio.h&gt;</code> 这样的头文件要小得多。因此，它的依赖树要复杂得多，反映的不是库之间的依赖关系，而是完整的类型层次结构。此外，C++ 头文件通常包含真正的代码——类型、方法和模板声明——而不仅仅是一般 C 头文件中常见的简单常量和函数签名。因此，C++ 不仅向编译器推送了更多的信息，而且推送的内容更难编译，编译器的每次调用都必须重新处理这些信息。在构建一个大型的 C++ 二进制文件时，编译器可能要成千上万次地处理头文件 <code>&lt;string&gt;</code> 去学会如何表示一个字符串。（据记录，1984 年左右，Tom Cargill 就提到，使用 C 预处理器进行依赖性管理将是 C++ 的长期负担，应该加以解决。）</p>
+<p>在 Google，构建一个 C++ 二进制文件，打开和读取不同的头文件可以达到数百个，次数可以达到数万次。2007 年，Google 的构建工程师对 Google 的一个主要二进制文件的编译进行了检测。这个二进制文件包含了大约两千个源文件，如果简单地连在一起，总共有 4.2 MB。在所有  <code>#include</code> 语句被展开后，超过 8 GB 内容被送到编译器的输入端，也就是源码里的每个字节膨胀了 2000 倍。</p>
+<p>另一个数据是，2003 年，Google 的构建系统从单一的 Makefile 转变为每个目录都有 Makefile 的设计，有了更好的管理，更明确的依赖关系。仅仅是因为有了更精确的依赖关系记录，一个典型的二进制文件在文件大小上就缩减了 40%。即便如此，C++ （或 C 语言）的特性使得自动验证这些依赖关系是难以实现的，直到今天，我们对 Google 的大型 C++ 二进制文件的依赖要求仍然没有一个准确的把握。</p>
+<p>依赖关系失控和规模太大的后果是，在单台计算机上构建 Google 服务器的二进制文件变得不切实际，一个大型的分布式编译系统应运而生。有了这个加了很多机器、很多缓存、很多复杂的东西的系统（构建系统本身就是一个大程序），Google 的构建总算可以进行，虽然还是很麻烦。</p>
+<p>即使采用分布式构建系统，Google 的一次大型构建仍然需要很长时间。前面提到 2007 年的那个二进制程序使用上一版的分布式构建系统花了 45 分钟；同一程序今天的版本花了 27 分钟，当然这期间程序和它的依赖关系也还在增长。<strong>扩大构建系统的工程投入，只能勉强比它所构建的软件的增长速度领先一点。</strong></p>
+<h2 id="6-走进-Go"><a href="#6-走进-Go" class="headerlink" title="6. 走进 Go"></a>6. 走进 Go</h2><p>当构建速度很慢时，就有了时间去思考。Go 有那么一个起源传说（origin myth），声称 Go 正是在其中一次 45 分钟的构建过程中被构思出来的。设计一门新的语言，使它适合编写像 Web 服务器这样的大型 Google 程序，同时考虑到软件工程的因素，可以提高 Google 程序员的生活质量。人们相信这个目标值得一试。</p>
+<p>虽然到目前为止的讨论都集中在依赖关系上，但还有许多其他问题需要注意。一门语言要想在上述背景下取得成功，主要的考虑因素是：</p>
+<ul>
+<li>它必须适应大规模开发。能在有大量依赖关系、大量程序员团队一起协作的大型程序项目上很好地工作。</li>
+<li>它必须是大家熟悉的，大致上类似于 C 语言的。在 Google 工作的程序员处于职业生涯的早期，对过程式编程语言（procedural languages），尤其是来自 C 家族的语言最熟悉。要想让程序员在新语言中快速提高工作效率，意味着语言不能太激进。</li>
+<li>它必须是现代的。C、C++ 以及 Java 的某些方面都相当老旧，是在多核机器、网络 和 Web 应用开发 出现之前设计的。新的做法可以更好地适应现代世界的一些特点，比如内置的并发支持。</li>
+</ul>
+<p>那么，在这样的背景下，让我们从软件工程的角度来看看 Go 的设计。</p>
+<h2 id="7-Go-的依赖关系"><a href="#7-Go-的依赖关系" class="headerlink" title="7. Go 的依赖关系"></a>7. Go 的依赖关系</h2><p>既然我们已经详细了解过 C 和 C++ 中的依赖关系，那么我们可以从 Go 如何处理依赖关系开始。依赖关系是由语言在语法和语义上定义的。它们是明确的、清晰的和『可计算』的，也就是说，很容易写工具来分析。</p>
+<p>Go 的语法是，在 <code>package</code> 语句（下一节的主题）之后，每个源文件可以有一个或多个导入语句，由 <code>import</code> 关键字和一个字符串常量组成，标识要导入到当前源文件（且只限当前源文件）的包：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"encoding/json"</span></div></pre></td></tr></table></figure>
+<p>让 Go 可以做到规模化、依赖智能化的第一步，是语言将 <strong>未使用的依赖</strong> （unused dependencies）定义为编译期错误（注意不是警告，是错误）。如果源文件导入了一个它不用的包，程序就不会通过编译。这保证了任何 Go 程序构建中的依赖关系树都是精确的，没有多余的边。另一边又保证了在构建程序时不会有多余的代码被编译，从而最大限度地减少了编译时间。</p>
+<p>第二步是在编译器的实现上，更进一步保证效率。假设一个有三个包的 Go 程序，依赖关系如下：</p>
+<ul>
+<li>包 <code>A</code> 导入了 包 <code>B</code>;</li>
+<li>包 <code>B</code> 导入了 包 <code>C</code>;</li>
+<li>包 <code>A</code> 没有导入 包 <code>C</code> 。</li>
+</ul>
+<p>这意味着包 A 只是在引用包 B 的过程中，间接地引用了包 C；换句话说，尽管 A 引用的来自 B 的某些代码引用了 C，但在 A 的源码中没有直接涉及来自 C 的标识符。例如，包 A 可能会引用一个在 B 中定义的结构体类型，该结构体有一个字段的类型是在 C 中定义的，但 A 本身并不直接引用 C 中的类型。一个更好理解的例子是，A 导入了一个格式化的 I/O 包 B，B 使用了 C 提供的缓冲 I/O 实现，但 A 本身并没有调用缓冲 I/O。</p>
+<p>要构建这个程序，首先 C 被编译；被依赖的包必须在依赖它们的包之前构建。然后，B 被编译；最后 A 被编译，然后就可以链接程序。</p>
+<p>在 A 被编译时，编译器读取的是 B 的目标文件而不是源代码。B 的目标文件包含了编译器在 A 的源代码中执行 <code>import &quot;B&quot;</code> 语句所需的所有类型信息。这些信息包括 B 的调用方（clients）在编译时需要的任何关于 C 的信息。换句话说，当 B 被编译时，生成的目标文件包含了 B 所有公共接口所需的依赖关系的类型信息。</p>
+<p>这种设计的一个重要的效果，就是 <strong>当编译器执行一条 <code>import</code> 语句时，只会打开一个文件</strong> ，那就是导入语句中的字符串所标识的目标文件。这让人不由得想起 Plan 9 C（相对于 ANSI C）的依赖管理方法，但实际上编译器在编译 Go 源文件的时候就会写入头文件。考虑到导入时读取的数据只是『导出（exported）』数据，而不是一般的程序源代码，这个过程比 Plan 9 C 更自动，甚至更高效。这对整体编译时间的影响可能是巨大的，还能随着代码库的增长很好地扩展。与 C 和 C++ 的 『include 文件里还有 include』的模式相比，生成依赖图（dependency graph）并编译的时间可以指数级地减少。</p>
+<p>值得一提的是，这种通用的依赖管理方法并不是独创的，其思想可以追溯到 20 世纪 70 年代，流传于 Modula-2 和 Ada 等语言中。在 C 语言家族中，Java 也有这种方法的元素。</p>
+<p>为了使编译更有效率，目标文件的内容是经过编排的，导出数据就在文件的开头，所以编译器只要读到导出数据的结尾就可以结束，不需要读取整个文件。</p>
+<p>这种依赖管理方法是 Go 编译比 C 或 C++ 快的一个最大原因。另一个因素是 Go 把导出数据放在目标文件中，作为对比有些语言需要作者手写或编译器生成包含这些信息的另外的文件。这就需要打开两倍数量的文件。在 Go 中，导入一个包只需要打开一个文件。另外，单文件的方式意味着导出数据（类似 C / C++ 中的头文件）相对于目标文件来说，永远不会过时。</p>
+<p>为了严谨起见，我们测量了一个用 Go 编写的大型 Google 程序的编译情况，看看源代码的扇出量与前面做的 C++ 分析相比如何。（译者注：这里指第五节提到的 C++ 头文件展开后的内容量和源代码的比值，为 2000 倍。）我们发现大约是 40 倍，比 C++ 好了 50 倍（同时也更简单，因此处理速度更快），但还是比我们预期的大。这有两个原因。首先，我们发现了一个 bug：Go 编译器在导出部分生成了大量不需要的数据。其次，导出数据使用的是一种冗长的编码，还有改进的余地。我们有计划解决这些问题。（译者注：Go 在 2012 年 3 月才发布了 1.0 版本，到现在已经过去了 8 年多，到了 1.15 。这中间 Go 团队投入了大量时间在 编译器、运行时 和 工具链的优化上，这两个问题应该已经得到了很大的改善，甚至可能已经彻底解决。）</p>
+<p>尽管如此，减少到五十分之一，就足以把几分钟变成几秒钟，把茶歇时间变成交互式构建。</p>
+<p>Go 依赖图的另一个特点是它没有依赖环。<strong>语言定义了依赖中不能有循环导入</strong>，编译器和链接器都会检查确保不存在循环依赖。虽然循环导入偶尔有用，但它在规模上会带来严重的问题。循环导入要求编译器一次性处理更多的源文件，这就减缓了增量构建的速度。<strong>更重要的是，根据我们的经验，如果允许这样的导入，最终会把大片的源码树，纠缠成难以独立管理的大块头，使二进制文件膨胀，并使初始化、测试、重构、发布和其他软件开发任务变得复杂。</strong></p>
+<p>缺少循环导入偶尔会造成烦恼，但却能保持依赖树的干净，迫使包之间有明确的边界。就像 Go 中的许多设计决策一样，它迫使程序员更早地考虑一个更大范围的问题（在这里，这个问题是包的边界），这些问题如果留到以后，可能永远不会得到令人满意的解决。</p>
+<p>Go 设计标准库的过程中，花费了大量精力在控制依赖关系上。<strong>如果只是需要一个函数，拷贝一点代码可能比直接拉来一个大代码库强。</strong>（如果出现新的核心依赖关系，系统构建中的测试就会报告问题。）依赖关系清晰胜过代码重用。实践中的一个例子是，（底层的）<code>net</code> 包有自己的 整型 到 小数 的转换程序，以避免依赖更大的、依赖关系更复杂的格式化 I/O 包。另一个例子是字符串转换包 <code>strconv</code> 有一个私有的 『可打印』字符定义的实现，而不是引入大块头的 Unicode 字符类表；<code>strconv</code> 通过包的测试来确保符合 Unicode 标准。</p>
+<h2 id="8-包"><a href="#8-包" class="headerlink" title="8. 包"></a>8. 包</h2><p>Go 的包系统设计，将库、命名空间、模块的一些特性结合在一起，变成一个统一的结构。</p>
+<p>每一个 Go 源文件，例如 <code>&quot;encoding/json/json.go&quot;</code>，都会以一个 <code>package</code> 语句开始，像这样：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> json</div></pre></td></tr></table></figure>
+<p>其中 <code>json</code> 是 『包名』，一个简单的标识符。包名通常是简明扼要的。</p>
+<p>要使用一个包，导入语句中的包路径标识了要导入的文件。『路径』的含义并未在语言中指定，但在实践中，按照惯例，它是源包在代码库中的目录路径，以斜杠 <code>/</code> 分隔，像：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"encoding/json"</span></div></pre></td></tr></table></figure>
+<p>然后，在导入的源文件（importing，调用方）里引用时，用包名（区别于路径）来修饰（qualify）被导入（imported）包的包中成员。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dec = json.NewDecoder(reader)</div></pre></td></tr></table></figure>
+<p>这种设计清晰明确。<code>Name</code> 对比 <code>pkg.Name</code> ，人们总是可以从语法中判断出一个名字是否来自本地包。(这一点后面会有更多的介绍。)</p>
+<p>在我们的例子中，包的路径是 <code>&quot;encoding/json&quot;</code>，而包名是 <code>json</code>。在标准仓库之外，惯例是将项目或公司名称放在命名空间的根部：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"google/base/go/log"</span></div></pre></td></tr></table></figure>
+<p>重要的是要认识到包的路径是唯一的，但对包名却没有这样的要求。路径必须唯一地标识要导入的包，而包名只是一个约定，让包的调用方可以引用它的内容。包名不需要是唯一的，可以在每个导入（importing）的源文件中，通过在导入语句中提供一个本地标识符来重命名。下面两个导入都引用了包名为 <code>log</code> 的包，但要在同一个源文件中导入它们，必须（在本地）重命名其中一个包。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"log"</span> <span class="comment">// 标准包</span></div><div class="line"><span class="keyword">import</span> googlelog <span class="string">"google/base/go/log"</span> <span class="comment">// Google专用包</span></div></pre></td></tr></table></figure>
+<p>每个公司可能都有自己的 <code>log</code> 包，没有必要让包名独一无二。恰恰相反：Go 的风格建议保持包名短小精悍、清晰明确，而不是担心重名。</p>
+<p>还有一个例子：在 Google 的代码库中，有很多个 <code>server</code> 包。</p>
+<h2 id="9-远程包"><a href="#9-远程包" class="headerlink" title="9. 远程包"></a>9. 远程包</h2><p>Go 包系统的一个重要特性是，包的路径一般可以是任意的字符串，可以用它标识托管代码库的站点 URL ，以此来引用远程代码库。</p>
+<p>下面是使用 <code>github</code> 上的 <code>doozer</code> 包的方法。<code>go get</code> 命令使用 <code>go</code> 构建工具从站点获取仓库并安装它。一旦安装完毕，它就可以像其他普通的包一样被导入和使用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ go get github.com/4ad/doozer // 获取包的 Shell 命令</div></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"github.com/4ad/doozer"</span> <span class="comment">// Doozer 调用方的 import 语句</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> client doozer.Conn         <span class="comment">// 调用方对包的引用</span></div></pre></td></tr></table></figure>
+<p>值得注意的是，<code>go get</code> 命令以递归的方式下载依赖，正是因为依赖关系是显式的所以才可以这样实现。另外，区别于其它语言使用的集中式包注册，导入路径的命名空间分配依赖于 URL，这使得包的命名是去中心化的，因而是可伸缩的。</p>
+<blockquote>
+<p>原文共 19 节，未完待续……</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/" data-id="cke8sf9kv006jvkxl3fz8jqvv" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/#disqus_thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/golang/">golang</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/golang-in-action-day-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">Go 语言实战（1）： 初识</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Go-语言实战/">Go 语言实战</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/刷题/">刷题</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/科普/">科普</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/粤语/">粤语</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Algorithm/" style="font-size: 13.33px;">Algorithm</a> <a href="/tags/Anaconda/" style="font-size: 10px;">Anaconda</a> <a href="/tags/Android/" style="font-size: 11.67px;">Android</a> <a href="/tags/Android-sdk/" style="font-size: 10px;">Android-sdk</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/DNS/" style="font-size: 10px;">DNS</a> <a href="/tags/JCE/" style="font-size: 10px;">JCE</a> <a href="/tags/Java/" style="font-size: 11.67px;">Java</a> <a href="/tags/JavaMail/" style="font-size: 10px;">JavaMail</a> <a href="/tags/Jenkins/" style="font-size: 16.67px;">Jenkins</a> <a href="/tags/LeetCode/" style="font-size: 15px;">LeetCode</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 13.33px;">Markdown</a> <a href="/tags/Mathjax/" style="font-size: 10px;">Mathjax</a> <a href="/tags/OJ/" style="font-size: 10px;">OJ</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/OpenGrok/" style="font-size: 10px;">OpenGrok</a> <a href="/tags/Python/" style="font-size: 16.67px;">Python</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Syncthing/" style="font-size: 10px;">Syncthing</a> <a href="/tags/TDD/" style="font-size: 10px;">TDD</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/algorithm/" style="font-size: 11.67px;">algorithm</a> <a href="/tags/aliyun/" style="font-size: 10px;">aliyun</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/byobu/" style="font-size: 11.67px;">byobu</a> <a href="/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/tags/dep/" style="font-size: 11.67px;">dep</a> <a href="/tags/document/" style="font-size: 10px;">document</a> <a href="/tags/dropbox/" style="font-size: 10px;">dropbox</a> <a href="/tags/file-system/" style="font-size: 10px;">file-system</a> <a href="/tags/flutter/" style="font-size: 10px;">flutter</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/glide/" style="font-size: 10px;">glide</a> <a href="/tags/golang/" style="font-size: 20px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/how-to/" style="font-size: 16.67px;">how-to</a> <a href="/tags/jpg/" style="font-size: 10px;">jpg</a> <a href="/tags/json/" style="font-size: 11.67px;">json</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mirror/" style="font-size: 10px;">mirror</a> <a href="/tags/netdisk/" style="font-size: 10px;">netdisk</a> <a href="/tags/node-js/" style="font-size: 11.67px;">node.js</a> <a href="/tags/nodePPT/" style="font-size: 11.67px;">nodePPT</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/pgyer/" style="font-size: 10px;">pgyer</a> <a href="/tags/pip/" style="font-size: 15px;">pip</a> <a href="/tags/png/" style="font-size: 10px;">png</a> <a href="/tags/practice/" style="font-size: 11.67px;">practice</a> <a href="/tags/presentation/" style="font-size: 11.67px;">presentation</a> <a href="/tags/review/" style="font-size: 10px;">review</a> <a href="/tags/screen/" style="font-size: 11.67px;">screen</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/skill/" style="font-size: 13.33px;">skill</a> <a href="/tags/smtp/" style="font-size: 10px;">smtp</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/solution-report/" style="font-size: 10px;">solution-report</a> <a href="/tags/supervisor/" style="font-size: 10px;">supervisor</a> <a href="/tags/thought/" style="font-size: 10px;">thought</a> <a href="/tags/trouble/" style="font-size: 18.33px;">trouble</a> <a href="/tags/unfinished/" style="font-size: 13.33px;">unfinished</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftp/" style="font-size: 10px;">vsftp</a> <a href="/tags/why/" style="font-size: 11.67px;">why</a> <a href="/tags/写作/" style="font-size: 13.33px;">写作</a> <a href="/tags/动态规划/" style="font-size: 10px;">动态规划</a> <a href="/tags/安全/" style="font-size: 10px;">安全</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/语言表达/" style="font-size: 10px;">语言表达</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/translation-language-design-in-the-service-of-software-engineering/">翻译：服务于软件工程的语言设计（Rob Pike 2012 年关于 Go 设计原则的演讲）</a>
+          </li>
+        
+          <li>
+            <a href="/2020/golang-in-action-day-1/">Go 语言实战（1）： 初识</a>
+          </li>
+        
+          <li>
+            <a href="/2020/leetcode-1504-count-submatrices/">LeetCode 解题：统计全 1 子矩阵</a>
+          </li>
+        
+          <li>
+            <a href="/2020/about-child-restraint-system/">聊聊儿童安全座椅</a>
+          </li>
+        
+          <li>
+            <a href="/2020/leetcode-23-merge-k-sorted-lists/">LeetCode 解题： 合并 K 个有序链表</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://hexo.io/zh-cn/" target="_blank">Hexo主页</a>
+          </li>
+        
+          <li>
+            <a href="https://hexo.io/zh-cn/docs/" target="_blank">Hexo文档</a>
+          </li>
+        
+          <li>
+            <a href="https://github.com/xiangming/landscape-plus" target="_blank">landscape-plus项目主页</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jayce Sigit Chant<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/list" class="mobile-nav-link">List</a>
+  
+    <a href="https://github.com/JayceChant" class="mobile-nav-link">Github</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/sitemap.xml" class="mobile-nav-link">Sitemap</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+<script>
+  var disqus_shortname = 'jaycetb';
+  
+  var disqus_url = 'https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+                processEscapes: true
+                    
+}
+  
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                  
+}
+    
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                            all[i].SourceElement().parentNode.className += ' has-jax';
+                                    
+            }
+                
+        });
+</script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
