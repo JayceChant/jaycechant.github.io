@@ -4,18 +4,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>翻译：服务于软件工程的语言设计（Rob Pike 2012 年关于 Go 设计原则的演讲） | 存档Save&amp;Load</title>
+  <title>Go 在 Google：服务于软件工程的语言设计（翻译） | 存档Save&amp;Load</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解还是不够深入，写得辞不达意。干脆偷个懒，把 Rob Pike 在 8 年前的演讲翻译过来。">
+  <meta name="description" content="最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解得还是不够深入，写得辞不达意。然后找到了 Rob Pike 在 8 年前的演讲稿，拜读学习之后，想推荐给我的读者作为学习资料。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="翻译：服务于软件工程的语言设计（Rob Pike 2012 年关于 Go 设计原则的演讲）">
+<meta property="og:title" content="Go 在 Google：服务于软件工程的语言设计（翻译）">
 <meta property="og:url" content="https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/index.html">
 <meta property="og:site_name" content="存档Save&Load">
-<meta property="og:description" content="最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解还是不够深入，写得辞不达意。干脆偷个懒，把 Rob Pike 在 8 年前的演讲翻译过来。">
-<meta property="og:updated_time" content="2020-08-27T15:05:18.515Z">
+<meta property="og:description" content="最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解得还是不够深入，写得辞不达意。然后找到了 Rob Pike 在 8 年前的演讲稿，拜读学习之后，想推荐给我的读者作为学习资料。">
+<meta property="og:updated_time" content="2020-08-28T20:43:46.985Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="翻译：服务于软件工程的语言设计（Rob Pike 2012 年关于 Go 设计原则的演讲）">
-<meta name="twitter:description" content="最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解还是不够深入，写得辞不达意。干脆偷个懒，把 Rob Pike 在 8 年前的演讲翻译过来。">
+<meta name="twitter:title" content="Go 在 Google：服务于软件工程的语言设计（翻译）">
+<meta name="twitter:description" content="最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解得还是不够深入，写得辞不达意。然后找到了 Rob Pike 在 8 年前的演讲稿，拜读学习之后，想推荐给我的读者作为学习资料。">
   
     <link rel="alternative" href="/atom.xml" title="存档Save&amp;Load" type="application/atom+xml">
   
@@ -91,7 +91,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      翻译：服务于软件工程的语言设计（Rob Pike 2012 年关于 Go 设计原则的演讲）
+      Go 在 Google：服务于软件工程的语言设计（翻译）
     </h1>
   
 
@@ -100,14 +100,21 @@
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解还是不够深入，写得辞不达意。干脆偷个懒，把 Rob Pike 在 8 年前的演讲翻译过来。</p>
+<p>最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解得还是不够深入，写得辞不达意。然后找到了 Rob Pike 在 8 年前的演讲稿，拜读学习之后，想推荐给我的读者作为学习资料。</p>
 </blockquote>
 <a id="more"></a>
-<p>原文地址：<a href="https://talks.golang.org/2012/splash.article" target="_blank" rel="external">https://talks.golang.org/2012/splash.article</a></p>
-<p>作者：Rob Pike，译者：Jayce Chant</p>
+<blockquote>
+<p>结果在中文互联网只找到了 OSCHINA 上 13 年的众包翻译，再也没找到其他翻译版本。这个版本，不同译者，以及同一译者的不同段落，翻译水平差异极大：个别地方翻译得非常传神，更多时候是忠实的术语翻译，偶有生硬直译和机翻的感觉，同时也能找到一些明显的理解错误和低级的笔误。</p>
+<p>总的来说，如果对 Go、C 家族语言 以及 并发、垃圾回收等 涉及的主题有一定了解，翻译的瑕疵不影响理解。译文翻译于 13 年，很早，应该对中文世界早期 Go 的推广起了一定的作用，向这些译者致谢。但是如果是刚接触编程或者 Go 语言的初学者，个别错误可能会让人看得云里雾里。</p>
+<p>所以我不自量力地尝试自己翻译一遍。首先是试图提供一个质量稍微高一点点的版本（不一定能成功），其次也是希望通过这样再深入学习一遍。</p>
+<p>为了符合中文的阅读习惯，在（尽量）不影响原意的前提下，一些句子（特别是长从句）的语序作了调整，个别不符合中文表达习惯的表述做了删减或者补充。文中的加粗也是我个人划的重点。水平所限，译文在（计算机）专业上和英语理解上不可避免地会有理解偏差乃至错误，存疑的地方请结合原文理解。翻译过程有借助 辞典 和 DeepL 翻译器作为参考，个别表述有借鉴 OSCHINA 版译文。</p>
+</blockquote>
+<p>原文：<strong>Go at Google: Language Design in the Service of Software Engineering</strong></p>
+<p>地址：<a href="https://talks.golang.org/2012/splash.article" target="_blank" rel="external">https://talks.golang.org/2012/splash.article</a></p>
+<p>作者：Rob Pike</p>
+<p>翻译：Jayce Chant（博客：jaycechant.info，公众号ID： jayceio）</p>
 <blockquote>
 <p>Rob Pike：Unix 小组成员，参与了 Plan 9 计划，1992 年和 Ken Thompson 共同开发了 UTF-8。他和 Ken Thompson 也是 Go 语言最早期的设计者。</p>
-<p>为了符合中文的阅读习惯，在（尽量）不影响原意的前提下，一些句子（特别是长从句）的语序作了调整，个别不符合中文表达习惯的表述做了删减或者补充。文中的加粗也是我个人划的重点。水平所限，不排除译文有（计算机）专业和英语理解上的错误。翻译过程有借助 辞典 和 DeepL 翻译器作为参考。</p>
 </blockquote>
 <h2 id="1-摘要"><a href="#1-摘要" class="headerlink" title="1. 摘要"></a>1. 摘要</h2><blockquote>
 <p>这是 Rob Pike 2012 年 10 月 25 日在 亚利桑那州 图森市 举行的 SPLASH 2012 会议上发表的主题演讲稿的修订版。</p>
@@ -357,9 +364,87 @@
 <p>译者注：Go 1.3 以前使用 mark-and-sweep 回收器，整个过程需要 STW（stop the world），对于内存的申请和释放量比较大和频繁的程序而言，回收造成的停顿会比较明显。</p>
 <p>后续的版本逐渐分离标记和清理过程，引入三色标记法，还有引入混合写屏障。总的趋势是将 GC 分散成多个可以（跟程序执行）并发的过程，将不得不 STW 的阶段和时间压缩到最小（通常小于 1ms），跟演讲发表时相比已经有了很大的改善。</p>
 </blockquote>
-<hr>
+<h2 id="15-组合，而不是继承"><a href="#15-组合，而不是继承" class="headerlink" title="15. 组合，而不是继承"></a>15. 组合，而不是继承</h2><p>Go 采用了一种不同寻常的面向对象编程方法，它允许在任何类型上添加方法，而不仅仅是类；但没有任何形式的基于类型的继承，比如子类。这意味着没有类型层次体系（type hierarchy）。这是一个有意的设计选择。虽然类型体系已经被用来构建了很多成功的软件，但我们认为这个模型已经被过度使用，应该退一步。</p>
+<p>取而代之的是 Go 的接口，这个想法在其他地方已经被详细讨论过了（例如参见<a href="research.swtch.com/interfaces">research.swtch.com/interfaces</a>），但这里还是做一个简单的总结。</p>
+<p>在 Go 里面，一个接口 <strong>仅仅</strong> 是一组方法的集合。例如，这里是标准库中 <code>Hash</code> 接口的定义：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> Hash <span class="keyword">interface</span> &#123;</div><div class="line">    Write(p []<span class="keyword">byte</span>) (n <span class="keyword">int</span>, err error)</div><div class="line">    Sum(b []<span class="keyword">byte</span>) []<span class="keyword">byte</span></div><div class="line">    Reset()</div><div class="line">    Size() <span class="keyword">int</span></div><div class="line">    BlockSize() <span class="keyword">int</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>所有实现这些方法的数据类型都隐式地满足这个接口，没有 <code>implements</code> 声明。尽管如此，是否满足接口是在编译期静态检查的，所以接口是类型安全的。</p>
+<p>一个类型通常会满足许多接口，每个接口对应于其方法的一个子集。例如，任何满足 <code>Hash</code> 接口的类型也会满足 <code>Writer</code> 接口：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> Writer <span class="keyword">interface</span> &#123;</div><div class="line">    Write(p []<span class="keyword">byte</span>) (n <span class="keyword">int</span>, err error)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这种接口满足的流动性鼓励了一种不同的软件构造方法。但在解释这个之前，我们应该先解释一下为什么 Go 没有子类。</p>
+<p>面向对象编程提供了一个强大的洞见：<strong>数据的行为可以独立于数据的表示进行泛化（generalized）。</strong> 当行为（方法集）是固定的时候，这个模型的效果最好，但是一旦你对一个类型进行了子类化，并添加了一个方法，行为就不再相同。相反地如果行为集是固定的，就好像 Go 静态定义的接口那样，行为的统一性使得数据和程序可以统一、正交、安全地组合。</p>
+<p>一个极端的例子是 Plan 9 内核，所有的系统数据项都实现了完全相同的接口，即由 14 个方法定义的文件系统 API。这种统一性允许的对象组合水平，即使在今天也极少能在其它系统上看到。这样的例子比比皆是。这里还有一个：一个系统可以将 TCP 协议栈导入（import，这是 Plan 9 的术语）到一台没有 TCP 甚至没有以太网（Ethernet）的计算机上，然后通过这个网络连接到一台 CPU 架构不同的机器上，导入它的 <code>/proc</code> 树，并运行一个本地调试器对远程进程进行断点调试。这种操作在 Plan 9 上简直稀松平常，根本没有任何特别之处。做这种事情的能力完全来自它的设计，不需要特殊的安排（而且都是用普通 C 语言代码完成的）。</p>
+<p>我们认为，这种组合式的系统构造风格已经被那些推崇按类型体系设计的语言所忽视。<strong>类型体系会造就脆弱易碎的代码。</strong> 体系结构必须在早期设计，通常是作为设计程序的第一步，而一旦程序写好就很难改动早期的决定。<strong>因此，该模型鼓励早期的过度设计，程序员试图预测软件可能需要的每一种使用方式，增加多个类型和抽象层，仅仅为了以防万一。这是本末倒置的做法。系统各个部分的交互方式应该随着系统的发展去适配，而不是在一开始就固定下来。</strong></p>
+<p>因此，Go 鼓励组合而不是继承，使用简单的、通常只有一个方法的接口来定义琐碎的行为，作为组件之间干净、可理解的边界。</p>
+<p>上面提到的 <code>Writer</code> 接口，它被定义在 <code>io</code> 包里：任何有 <code>Write</code> 方法的类型，只要有以下这个方法签名，就可以和补充的 <code>Reader</code> 接口一起工作：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> Reader <span class="keyword">interface</span> &#123;</div><div class="line">    Read(p []<span class="keyword">byte</span>) (n <span class="keyword">int</span>, err error)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这两个互补的方法可以类型安全地跟丰富的行为进行连接（chaining），就像通用的 Unix 管道（pipes）一样。文件、缓冲区、网络、加密器、压缩器、图像编码器等都可以连接在一起。格式化 I/O 子程序 <code>Fprintf</code> 采用一个 <code>io.Writer</code> 接口作为参数，而不是像在 C 语言里那样采用 <code>FILE*</code> 。格式化输出程序并不了解内容是写到了哪里，它可能是一个图像编码器，背后又输出给一个压缩器，压缩器又输出给一个加密器，加密器又输出给一个网络连接。</p>
+<p>接口组合是一种不同的编程风格，习惯了类型层次体系的人需要调整思路才能适应，但这样可以获得设计的适应性，这是通过类型体系很难实现的。</p>
+<p>还要注意的是，消除类型层次结构也消除了一种形式的依赖层次结构。接口的满足允许程序有机地生长，而不需要预先确定的合约。而且它是一种线性的增长形式，对一个接口的改变只影响该接口的直接用户，不需要再更新子树。缺乏 <code>implements</code> 声明会让一些人感到不安，但它能让程序自然、优雅、安全地生长。</p>
+<p>Go 的接口对程序设计有重大影响。其中一个地方是用接口作为参数的函数的使用。这些不是方法，而是函数。一些例子应该可以说明它们的力量。<code>ReadAll</code> 返回一个字节切片（数组），包含了所有可以从 <code>io.Reader</code> 接口读取的数据：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">ReadAll</span><span class="params">(r io.Reader)</span> <span class="params">([]<span class="keyword">byte</span>, error)</span></span></div></pre></td></tr></table></figure>
+<p>封装器（指接受一个接口参数并返回一个接口的函数）的使用也很普遍。下面是一些原型。 <code>LoggingReader</code> 记录传入的 <code>Reader</code> 的每个 <code>Read</code> 调用。 <code>LimitingReader</code> 在读取 <code>n</code> 个字节后停止。 <code>ErrorInjector</code> 通过模拟 I/O errors 来辅助测试。我们还能找到更多例子。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">LoggingReader</span><span class="params">(r io.Reader)</span> <span class="title">io</span>.<span class="title">Reader</span></span></div><div class="line"><span class="title">func</span> <span class="title">LimitingReader</span><span class="params">(r io.Reader, n <span class="keyword">int64</span>)</span> <span class="title">io</span>.<span class="title">Reader</span></div><div class="line"><span class="title">func</span> <span class="title">ErrorInjector</span><span class="params">(r io.Reader)</span> <span class="title">io</span>.<span class="title">Reader</span></div></pre></td></tr></table></figure>
+<p>这些设计与分层的、子类型继承的方法完全不同，它们是更松散的（甚至是临时的）、有机的、解耦的、独立的，因此是可弹性伸缩的。</p>
+<h2 id="16-错误处理"><a href="#16-错误处理" class="headerlink" title="16. 错误处理"></a>16. 错误处理</h2><p>Go 没有传统意义上的异常机制，也就是说，没有与错误处理相关的控制结构。（Go确实提供了处理异常情况（例如除零异常）的机制。一对名为 <code>panic</code> 和 <code>recover</code> 的内置函数允许程序员处理类似的情况。然而，这些函数是故意设计得不好用，也很少使用，而且没有像 Java 库使用异常那样集成到代码库中。）</p>
+<p>错误处理的关键语言特性是一个预先定义的接口类型 <code>error</code> ，它代表了一个有 <code>Error</code> 方法可以返回字符串的值：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> error <span class="keyword">interface</span> &#123;</div><div class="line">    Error() <span class="keyword">string</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码库使用 <code>error</code> 类型来返回错误的描述。结合函数多值返回的能力，很容易将计算结果与错误值（如果有）一起返回。例如，Go 里等价于 C 的 <code>getchar</code> 的函数不会在遇到 <code>EOF</code> 时返回一个超出范围的值，也不会抛出一个异常；它只是在字符旁返回一个 <code>error</code> 值， <code>nil error</code> 值表示成功。下面是缓冲 I/O 包的 <code>bufio.Reader</code> 接口类型的 <code>ReadByte</code> 方法的签名：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *Reader)</span> <span class="title">ReadByte</span><span class="params">()</span> <span class="params">(c <span class="keyword">byte</span>, err error)</span></span></div></pre></td></tr></table></figure>
+<p>这是一个简单清晰的设计，很容易理解。错误只是值，程序用它们来计算，就像用任意其他类型的值来计算一样。</p>
+<p>在 Go 中不加入异常是一个刻意的选择。虽然有很多批评者不同意这个决定，但有几个原因让我们相信它可以让软件变得更好。</p>
+<p>首先，计算机程序中的错误并不是真的『异常』（nothing truly exceptional，译者注：也可以翻译成：没有什么特别，平平无奇，这里翻译成异常，是为了跟 exception 的中文术语对应）。例如，无法打开一个文件是一个常见的问题，不值得使用特殊的语言结构； <code>if</code> 和 <code>return</code> 就可以了：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">f, err := os.Open(fileName)</div><div class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">    <span class="keyword">return</span> err</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>另外，如果使用特殊的控制结构，错误处理会扭曲（distorts）程序处理错误的控制流（control flow）。Java 风格的 <code>try-catch-finally</code> 块跟多个重叠的控制流互相交错，而这些控制流本身的交互就很复杂。虽然相比之下，Go 使代码在检查错误时更加啰嗦，但显式的设计使控制流保持了直截了当——字面意思。</p>
+<p>毫无疑问，由此产生的代码可能会更长，但这种代码的清晰和简单可以弥补它的啰嗦。<strong>明确的错误检查迫使程序员在错误出现时考虑并处理它们。</strong> 异常使人们太容易忽略它们而不是处理它们，将责任传递到调用栈，直到为时已晚，无法很好地修复问题或诊断问题。</p>
+<h2 id="17-工具"><a href="#17-工具" class="headerlink" title="17. 工具"></a>17. 工具</h2><p>软件工程需要工具。每一种语言都是在一个有其他语言和大量工具的环境中运行，这些工具用来编译、编辑、调试、性能分析、测试和运行程序。</p>
+<p>Go 的语法、包系统、命名惯例和其他特性在设计时就已经将工具易于编写考虑在内，库里面包括了 Go 的词法分析器、解析器和类型检查器。</p>
+<p>控制 Go 程序的工具非常容易编写，以至于这样的工具现在已经有很多，有些工具对软件工程产生了很有趣的后果。</p>
+<p>其中最著名的是 <code>gofmt</code> ，Go 的源代码格式化工具。从项目一开始，我们就打算用机器来格式化 Go 程序代码，从而消除程序员之间争论的一整个问题分类：该如何排版代码？ <code>gofmt</code> 运行在我们编写的所有 Go 程序上，大多数开源社区也在使用它。它是作为代码仓库的『提交前（presubmit）』检查来运行的，以确保所有检入（check-in）的 Go 程序的格式都是一样的。</p>
+<p><code>gofmt</code> 经常被用户推崇为 Go 最好的特性之一，尽管它根本不是 Go 语言的一部分。 <code>gofmt</code> 的存在和使用意味着，从一开始，社区里看到的代码总是按照 <code>gofmt</code> 的格式，所以 Go 程序有一个现在大家都很熟悉的统一风格。统一的表现形式使得代码更容易阅读，因此工作起来也更快。不用花时间格式化代码，时间就可以节省下来干别的。 <code>gofmt</code> 还影响了可伸缩性：既然所有的代码看起来都是一样的，团队就更容易一起合作，也更容易使用其他人的代码。</p>
+<p><code>gofmt</code> 还使另一类我们之前没有清晰预见到的工具得以实现。 <code>gofmt</code> 的工作原理是解析源代码，并从解析树本身重新格式化。这使得在格式化之前可以编辑解析树，于是一套自动重构工具应运而生。这些工具很容易编写，由于它们直接在解析树上工作，所以语义丰富，可以自动生成规范格式化的代码。</p>
+<p>第一个例子是 <code>gofmt</code> 本身的 <code>-r</code> （rewrite）标志参数，它使用简单的模式匹配语言来实现表达式级别的重写。比如有一天，我们为切片表达式的右侧引入了一个默认值：它本身长度。只需一条命令，整个 Go 源代码树就被更新为使用这个默认值。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gofmt -r <span class="string">'a[b:len(a)] -&gt; a[b:]'</span></div></pre></td></tr></table></figure>
+<p>这个转换的一个关键点是，因为输入和输出都是规范格式，所以对源代码所做的唯一改变是语义上的改变。</p>
+<p>一个类似但更复杂的处理是，当 Go 语言里以换行结束的语句，不再需要分号作为终止符时， <code>gofmt</code> 可以用来更新源码树。</p>
+<p>另一个重要的工具是 <code>gofix</code>，它可以运行用 Go 本身编写的『源码树重写模块（tree-rewriting modules）』，因此能够进行更高级的重构。 <code>gofix</code> 工具让我们在 Go 1 发布之前对 API 和 语言特性 进行了全面的修改，包括修改 map 删除条目的语法，为操作时间值引入全新的 API ，等等。随着这些变化的推出，用户只需要运行简单的命令就能更新他们的所有代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gofix</div></pre></td></tr></table></figure>
+<p>请注意，这些工具允许我们，在旧代码仍然可以正常工作的前提下，更新代码。因此，Go 的代码仓库很容易随着库的演化保持更新。旧的 API 可以快速自动地被废弃，因此只需要维护一个版本的 API。例如，我们最近改变了 Go 的协议缓冲区实现，改为使用 “getter” 函数，而之前的接口并没有这些函数。我们在 Google 所有 Go 代码上运行 <code>gofix</code> 来更新所有使用协议缓冲区的程序，现在只有一个版本的 API 在使用。在 Google 的代码库规模下，对 C++ 或 Java 库进行类似的全面修改几乎是不可能实现的。</p>
+<p>标准 Go 库里的解析包，让其他一些工具也得以实现。例如 <code>go</code> 工具，它可以管理程序的构建，包括从远程代码仓库获取包；<code>godoc</code> 文档提取器，是一个验证 API 兼容性合约是否随着库的更新而得到维护的程序；等等。</p>
+<p>虽然像这样的工具在语言设计中很少被提及，但它们是语言生态系统中不可缺少的一部分，事实上，Go 在设计时就考虑到了工具的问题，这对语言、库和社区的发展都有巨大的影响。</p>
+<h2 id="18-结论"><a href="#18-结论" class="headerlink" title="18. 结论"></a>18. 结论</h2><p>Go 在 Google 内部用得越来越多。</p>
+<p>一些面向用户的大型服务都在使用它，包括 <code>youtube.com</code> 和 <code>dl.google.com</code> （提供 Chrome、Android 和其他下载的下载服务器），以及我们自己的 <code>golang.org</code> 。当然也有很多小的服务，大多是使用 Google App Engine 对 Go 的原生支持构建的。</p>
+<p>很多其他公司也在使用 Go；这个名单很长，但其中比较著名的有几个是：</p>
+<ul>
+<li>BBC Worldwide</li>
+<li>Canonical</li>
+<li>Heroku</li>
+<li>Nokia</li>
+<li>SoundCloud</li>
+</ul>
+<p>看来，Go 正在实现它的目标。不过，现在宣布成功还为时过早。我们还没有足够的经验，尤其是在大型程序（数百万行代码那种）方面的经验，去断言我们成功创造了一门弹性可伸缩的语言。尽管所有的指标都是正面的。</p>
+<p>在较小的范围内，一些小事情还不够好，可能会在 Go 以后的版本（Go 2？）里微调。例如，变量声明语法的形式太多，程序员很容易被非 nil 接口里面的 nil 值的行为搞糊涂，还有很多库和接口的细节可以再进行一轮设计。</p>
+<p>不过值得注意的是， <code>gofix</code> 和 <code>gofmt</code> 在 Go 1 的前期给了我们修复许多其他问题的机会。正因为有这些工具，Go 在今天得以更接近它的设计者的期待，而这些工具本身也是由于语言的设计才得以实现。</p>
+<p>不过，不是所有事情都已经确定。我们还在学习中（但语言目前是冻结的）。</p>
+<p>Go 语言的一个主要的弱点，是它的实现仍需努力改进。编译器生成的代码，尤其是运行时的性能应该更好，这方面的工作还在继续。目前已经取得了一些进展；事实上，一些基准测试显示，与 2012 年初发布的第一版 Go 相比，目前的开发版性能已经翻了一番。</p>
+<h2 id="19-小结"><a href="#19-小结" class="headerlink" title="19. 小结"></a>19. 小结</h2><p>软件工程指导了 Go 的设计。与大多数通用编程语言相比，Go 的设计是为了解决我们在构建大型服务器软件时接触到的一系列软件工程问题。这么一说，这可能会让 Go 听起来相当沉闷和工业化，但事实上，在整个设计过程中，对清晰、简单和可组合性的关注反而导致了一门工作效率高且有趣的语言，许多程序员都觉得它表达力强而且功能强大。</p>
+<p>造就这个结果的特性包括：</p>
+<ul>
+<li>清晰的依赖关系</li>
+<li>清晰的语法</li>
+<li>清晰的语义</li>
+<li>组合而非继承</li>
+<li>编程模型提供的简单性（垃圾回收、并发）</li>
+<li>易用的工具（<code>go</code> 工具、<code>gofmt</code> 、 <code>godoc</code> 、 <code>gofix</code> ）</li>
+</ul>
+<p>如果你还没有尝试过 Go，我们建议你去尝试：</p>
+<p><a href="http://golang.org" target="_blank" rel="external">http://golang.org</a></p>
 <blockquote>
-<p>原文共 19 节，未完待续……</p>
+<p>译者小结：</p>
+<p>一万八千多字，终于翻译完了。</p>
+<p>一开始我没有留意原文的字数，以为最多花两个夜晚，就能翻译完。实际上，如果不涉及那么多专业概念，没有那么多上下文省略和带歧义的表述，这个长度两晚是没问题的。</p>
+<p>可本文就是有很多地方，需要有相关的背景知识，无法单纯从原文确定作者的准确意思。没办法，有歧义又了解不够的地方，只好查资料、翻源码，猜测原作者最大可能想表达什么。所以导致翻译进度又慢又累。而即使这样，如开头所说，仍然无法避免会有理解偏差和错误。</p>
+<p>这样一来，对之前的译文就变得更加宽容了。笔误和排版混乱仍然不应该。但那些在我看来像是显而易见的错误，也许只是刚好落入了我的知识范围；我的译文里，可能也有落在我的知识盲区最后只好瞎蒙的地方，成为别人眼里的低级错误。</p>
 </blockquote>
 
       
@@ -437,7 +522,7 @@
       <ul>
         
           <li>
-            <a href="/2020/translation-language-design-in-the-service-of-software-engineering/">翻译：服务于软件工程的语言设计（Rob Pike 2012 年关于 Go 设计原则的演讲）</a>
+            <a href="/2020/translation-language-design-in-the-service-of-software-engineering/">Go 在 Google：服务于软件工程的语言设计（翻译）</a>
           </li>
         
           <li>
