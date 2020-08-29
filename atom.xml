@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaycechant.info/"/>
-  <updated>2020-08-28T20:43:46.985Z</updated>
+  <updated>2020-08-29T15:43:31.422Z</updated>
   <id>https://jaycechant.info/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/"/>
     <id>https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/</id>
     <published>2020-08-23T11:09:37.000Z</published>
-    <updated>2020-08-28T20:43:46.985Z</updated>
+    <updated>2020-08-29T15:43:31.422Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解得还是不够深入，写得辞不达意。然后找到了 Rob Pike 在 8 年前的演讲稿，拜读学习之后，想推荐给我的读者作为学习资料。</p>
@@ -46,14 +46,17 @@
 <p><strong>设计和开发 Go 就是为了在这种环境下提高工作效率。</strong> Go 设计的考虑因素，除了众所周知的像 内置并发 和 垃圾回收，还包括 严格的依赖管理、软件架构在系统增长时的适应性，以及跨组件的健壮性。</p>
 <p>本文将解释在构建一个高效的、编译型的、轻量级的、使人愉悦的编程语言的过程中，如何解决这些问题。例子 和 解释 都来自 Google 实际遇到的问题。</p>
 <h2 id="2-简介"><a href="#2-简介" class="headerlink" title="2. 简介"></a>2. 简介</h2><p>Go 是 Google 开发的一种编译型、支持并发、带垃圾回收、静态类型的语言。它是一个开源项目：Google 从公共代码库导入代码，而不是反过来。</p>
-<p>Go 运行效率高、可伸缩性强，而且工作效率也高。有些程序员觉得用它干活很有趣；有些则觉得它缺乏想象力，甚至很无聊。在本文中，我们将解释为什么这些观点并不矛盾。<strong>Go 是为解决 Google 在软件开发中面临的问题而设计的，这导致 Go 并不是一门在研究领域有突破性的语言；尽管如此它仍是大型软件项目工程化的优秀工具。</strong>（译者注：这是 8 年前的演讲。Go 初期确实是为了解决 Google 内部的问题而诞生的。但如今已经是诞生的第 11 个年头，Go 早已被寄予更多的期待。它要解决的问题没变，只是不再局限于 Google 的内部场景。）</p>
+<p>Go 运行效率高、可伸缩性强，而且工作效率也高。有些程序员觉得用它干活很有趣；有些则觉得它缺乏想象力，甚至很无聊。在本文中，我们将解释为什么这些观点并不矛盾。<strong>Go 是为解决 Google 在软件开发中面临的问题而设计的，这导致 Go 并不是一门在研究领域有突破性的语言；尽管如此它仍是大型软件项目工程化的优秀工具。</strong></p>
+<blockquote>
+<p>译者注：这是 8 年前的演讲。Go 初期确实是为了解决 Google 内部的问题而诞生的。但如今已经是诞生的第 11 个年头，Go 早已被寄予更多的期待。它要解决的问题没变，只是不再局限于 Google 的内部场景。</p>
+</blockquote>
 <h2 id="3-Go-在-Google"><a href="#3-Go-在-Google" class="headerlink" title="3. Go 在 Google"></a>3. Go 在 Google</h2><p>Google 设计 Go 用来帮助解决 Google 自己的问题，而 Google 的问题很 <strong>大</strong>。</p>
 <p>硬件大，软件也大。软件有好几百万行，服务器大部分用 C++，剩余的部分大量使用 Java 和 Python。成千上万的工程师在代码上工作，这些代码位于一个包含了所有软件的单棵大树的『头部』，所以树的各个层次一天到晚都有重要变更。使用大型的、定制的分布式构建系统使这种规模的开发变得可行，但它仍然很大。</p>
 <p>当然，所有这些软件都运行在无数（zillions）台机器上，这些机器被看作数量不多的独立的、互相联网的计算集群。</p>
 <p>简而言之，Google 的开发规模很大，速度可能很慢，而且经常显得很笨拙。但它是有效的。</p>
 <p>Go 项目的目标，是消除 Google 软件开发中的缓慢和笨拙，从而使开发过程更加高效和获得更强的可伸缩性。<strong>这个语言是由编写、阅读、调试和维护大型软件系统的人设计的，也是为这些人设计的。</strong></p>
 <p>因此，Go 的目的不是要做编程语言设计的研究，而是要改善语言设计者及其同事的工作环境。Go 考虑的更多是软件工程的问题，而不是编程语言方面的科研。换句话说，<strong>它围绕的是『服务于软件工程的语言设计』</strong>。</p>
-<p>但是，一门语言如何对软件工程有所帮助呢？本文剩下的内容就是对这个问题的回答。</p>
+<p>但是，一门语言如何对软件工程有所助益呢？本文剩下的内容就是对这个问题的回答。</p>
 <h2 id="4-痛点"><a href="#4-痛点" class="headerlink" title="4. 痛点"></a>4. 痛点</h2><p>在 Go 刚推出时，有人声称，它缺少现代语言所必需的某些特性或方法论。缺少这些的 Go 能有什么价值呢？我们的回答是，Go 所具备的某些特性，可以解决严重困扰大规模软件开发的一些问题。这些问题包括</p>
 <ul>
 <li><p>构建速度慢</p>
@@ -85,7 +88,7 @@
 <p><strong>但它的可伸缩性非常差。</strong></p>
 <p>1984 年，有人发现编译 ps.c（Unix ps 命令的源码）时，整个预处理过程会遇到 37 次 <code>#include &lt;sys/stat.h&gt;</code> 。<strong>尽管后面 36 次头文件的内容都会被忽略，但大多数 C 语言的实现每次都会打开文件、读取文件、完整扫描内容，一连串动作下来，一共 37 次。</strong> 这样做非常不聪明，但是 C 预处理器需要处理非常复杂的宏语义，使它只能这样实现。</p>
 <p>这对软件造成的影响是， C 程序里 <code>#include</code> 语句会不断累积。添加 <code>#include</code> 语句不会破坏程序，却很难知道什么时候不再需要它们。删除一条 <code>#include</code> 后再编译一次也检查不出来，因为可能另一条 <code>#include</code> 本身就包含你刚刚删除的那条  <code>#include</code>。</p>
-<p>从技术的角度讲，没必要弄成这样子。意识到使用 <code>#ifndef</code> 防护的长期问题，Plan 9 库的设计者们采取了一种不同的、非 ANSI 标准的做法。在 Plan 9 里，头文件禁止包含更多的 <code>#include</code> 语句；所有的 <code>#include</code> 都要放在顶层 C 文件里。当然，这需要一些纪律：程序员需要按照正确的顺序、准确地列出必要的依赖关系；但文档可以帮上忙，而且在实践中效果非常好。这样做的结果是，无论一个 C 源文件有多少依赖，在编译该文件时，每个 <code>#include</code> 文件都只会被读取一次。而且，只要把 <code>#include</code> 语句先删掉就能很容易地看出来它是否必要：当且仅当删除的依赖不是必要时，编辑后的程序才能通过编译。</p>
+<p>从技术的角度讲，没必要弄成这样子。意识到使用 <code>#ifndef</code> 防护的长期问题，Plan 9 库的设计者们采取了一种不同的、非 ANSI 标准的做法。在 Plan 9 里，头文件禁止包含更多的 <code>#include</code> 语句；所有的 <code>#include</code> 都要放在顶层 C 文件里。当然，这需要一些纪律：程序员需要按照正确的顺序、准确地列出必要的依赖关系；但文档可以帮上忙，而且在实践中效果非常好。这样做的结果是，无论一个 C 源文件有多少依赖，在编译该文件时，每个 <code>#include</code> 文件都只会被读取一次。而且，只要把 <code>#include</code> 语句先删掉就能很容易地看出来它是否必要：当且仅当删除的依赖不是必要的依赖时，编辑后的程序才能通过编译。</p>
 <p>Plan 9 做法最重要的结果是编译速度更快：编译所需的 I/O 量比使用带有 <code>#ifndef</code> 防护的库时大大减少。</p>
 <p>但在 Plan 9 之外，『防护』法仍是 C 和 C++ 的公认做法。事实上，<strong>C++ 在更细的粒度上使用同样的做法还加剧了这个问题</strong> 。按照惯例，C++ 程序的结构通常是每个类有一个头文件，也可能是一小组的相关类有一个头文件，这种分组方式比像 <code>&lt;stdio.h&gt;</code> 这样的头文件要小得多。因此，它的依赖树要复杂得多，反映的不是库之间的依赖关系，而是完整的类型层次结构。此外，C++ 头文件通常包含真正的代码——类型、方法和模板声明——而不仅仅是一般 C 头文件里常见的简单常量和函数签名。因此，C++ 不仅向编译器推送了更多的信息，而且推送的内容更难编译，编译器的每次调用都必须重新处理这些信息。在构建一个大型的 C++ 二进制文件时，编译器可能要成千上万次地处理头文件 <code>&lt;string&gt;</code> 去学会如何表示一个字符串。（据记录，1984 年左右，Tom Cargill 就提到，使用 C 预处理器进行依赖管理将是 C++ 的长期负担，应该加以解决。）</p>
 <p>在 Google，构建一个 C++ 二进制文件，打开和读取不同的头文件可以达到数百个，次数可以达到数万次。2007 年，Google 的构建工程师对 Google 的一个主要二进制文件的编译进行了检测。这个二进制文件包含了大约两千个源文件，如果简单地连在一起，总共有 4.2 MB。在所有  <code>#include</code> 语句被展开后，超过 8 GB 内容被送到编译器的输入端，也就是源码里的每个字节膨胀了 2000 倍。</p>
@@ -97,7 +100,7 @@
 <ul>
 <li>它必须适应大规模开发。能在有大量依赖关系、大量程序员团队一起协作的大型程序项目上很好地工作。</li>
 <li>它必须是大家熟悉的，大致上类似于 C 语言的。在 Google 工作的程序员处于职业生涯的早期，对过程式编程语言（procedural languages），尤其是来自 C 家族的语言最熟悉。要想让程序员在新语言中快速提高工作效率，意味着语言不能太激进。</li>
-<li>它必须是现代的。C、C++ 以及 Java 的某些方面都相当老旧，是在多核机器、网络 和 Web 应用开发 出现之前设计的。新的做法可以更好地适应现代世界的一些特点，比如内置的并发支持。</li>
+<li>它必须是现代的。C、C++ 以及 Java 的某些方面都相当老旧，是在多核机器、网络 和 web 应用开发 出现之前设计的。新的做法可以更好地适应现代世界的一些特点，比如内置的并发支持。</li>
 </ul>
 <p>那么，在这样的背景下，让我们从软件工程的角度来看看 Go 的设计。</p>
 <h2 id="7-Go-的依赖关系"><a href="#7-Go-的依赖关系" class="headerlink" title="7. Go 的依赖关系"></a>7. Go 的依赖关系</h2><p>既然我们已经详细了解过 C 和 C++ 中的依赖关系，那么我们可以从 Go 如何处理依赖关系开始。依赖关系是由语言在语法和语义上定义的。它们是明确的、清晰的和『可计算』的，也就是说，很容易写工具来分析。</p>
@@ -106,61 +109,63 @@
 <p>让 Go 可以做到规模化、依赖智能化的第一步，是语言将 <strong>未使用的依赖</strong> （unused dependencies）定义为编译期错误（注意不是警告，是错误）。如果源文件导入了一个它不用的包，程序就不会通过编译。这保证了任何 Go 程序构建中的依赖关系树都是精确的，没有多余的边。另一边又保证了在构建程序时不会有多余的代码被编译，从而最大限度地减少了编译时间。</p>
 <p>第二步是在编译器的实现上，更进一步保证效率。假设一个有三个包的 Go 程序，依赖关系如下：</p>
 <ul>
-<li>包 <code>A</code> 导入了 包 <code>B</code>;</li>
-<li>包 <code>B</code> 导入了 包 <code>C</code>;</li>
-<li>包 <code>A</code> 没有导入 包 <code>C</code> 。</li>
+<li><code>A</code> 包导入了 <code>B</code> 包;</li>
+<li><code>B</code> 包导入了 <code>C</code> 包;</li>
+<li><code>A</code> 包没有导入 <code>C</code> 包。</li>
 </ul>
-<p>这意味着包 A 只是在引用包 B 的过程中，间接地引用了包 C；换句话说，尽管 A 引用的来自 B 的某些代码引用了 C，但在 A 的源码里没有直接涉及来自 C 的标识符。例如，包 A 可能会引用一个在 B 里面定义的结构体类型，该结构体有一个字段的类型是在 C 里定义的，但 A 本身并不直接引用 C 里面的类型。一个更好理解的例子是，A 导入了一个格式化的 I/O 包 B，B 使用了 C 提供的缓冲 I/O 实现，但 A 本身并没有调用缓冲 I/O。</p>
+<p>这意味着 A 包只是在引用 B 包的过程中，间接地引用了 C 包；换句话说，尽管 A 引用的来自 B 的某些代码引用了 C，但在 A 的源码里没有直接涉及来自 C 的标识符。例如， A 包可能会引用一个在 B 里面定义的结构体类型，该结构体有一个字段的类型是在 C 里定义的，但 A 本身并不直接引用 C 里面的类型。一个更具体的例子是，A 导入了一个格式化 I/O 包 B，B 使用了 C 提供的缓冲 I/O 实现，但 A 本身并没有调用缓冲 I/O。</p>
 <p>要构建这个程序，首先 C 被编译；被依赖的包必须在依赖它们的包之前构建。然后，B 被编译；最后 A 被编译，然后就可以链接程序。</p>
 <p>在 A 被编译时，编译器读取的是 B 的目标文件而不是源代码。B 的目标文件包含了编译器在 A 的源代码里执行 <code>import &quot;B&quot;</code> 语句所需的所有类型信息。这些信息包括 B 的调用方（clients）在编译时需要的任何关于 C 的信息。换句话说，当 B 被编译时，生成的目标文件包含了 B 所有公共接口所需的依赖关系的类型信息。</p>
-<p>这种设计的一个重要的效果，就是 <strong>当编译器执行一条 <code>import</code> 语句时，只会打开一个文件</strong> ，那就是导入语句里的字符串所标识的目标文件。这让人不由得想起 Plan 9 C（相对于 ANSI C）的依赖管理方法，但实际上编译器在编译 Go 源文件的时候就会写入头文件。考虑到导入时读取的数据只是『导出（exported）』数据，而不是一般的程序源代码，这个过程比 Plan 9 C 更自动，甚至更高效。这对整体编译时间的影响可能是巨大的，还能随着代码库的增长很好地扩展。与 C 和 C++ 的 『include 文件里还有 include』的模式相比，生成依赖图（dependency graph）并编译的时间可以指数级地减少。</p>
+<p>这种设计的一个重要的效果，就是 <strong>当编译器执行一条 <code>import</code> 语句时，只会打开一个文件</strong> ，那就是导入语句里的字符串所标识的目标文件。这让人不由得想起 Plan 9 C（相对于 ANSI C）的依赖管理方法，但实际上编译器在编译 Go 源文件的时候就会写入头文件。考虑到导入时读取的数据只是『导出的（exported）』数据，而不是一般的程序源代码，这个过程比 Plan 9 C 更自动，甚至更高效。这对整体编译时间可以造成巨大的影响，还能随着代码库的增长弹性地伸缩。与 C 和 C++ 的 『include 文件里还有 include』的模式相比，生成依赖图（dependency graph）并编译的时间可以指数级地减少。</p>
 <p>值得一提的是，这种通用的依赖管理方法并不是独创的，其思想可以追溯到 20 世纪 70 年代，流传于 Modula-2 和 Ada 等语言中。在 C 语言家族中，Java 也有这种方法的元素。</p>
 <p>为了使编译更有效率，目标文件的内容是经过编排的，导出数据就在文件的开头，所以编译器只要读到导出数据的结尾就可以结束，不需要读取整个文件。</p>
 <p>这种依赖管理方法是 Go 编译比 C 或 C++ 快的一个最大原因。另一个因素是 Go 把导出数据放在目标文件里，作为对比有些语言需要作者手写或编译器生成包含这些信息的另外的文件。这就需要打开两倍数量的文件。在 Go 里，导入一个包只需要打开一个文件。另外，单文件的方式意味着导出数据（类似 C / C++ 里的头文件）相对于目标文件来说，永远不会过时。</p>
-<p>为了严谨起见，我们测量了一个用 Go 编写的大型 Google 程序的编译情况，看看源代码的扇出量与前面做的 C++ 分析相比如何。（译者注：这里指第五节提到的 C++ 头文件展开后的内容量和源代码的比值，为 2000 倍。）我们发现大约是 40 倍，比 C++ 好了 50 倍（同时也更简单，因此处理速度更快），但还是比我们预期的大。这有两个原因。首先，我们发现了一个 bug：Go 编译器在导出部分生成了大量不需要的数据。其次，导出数据使用的是一种冗长的编码，还有改进的余地。我们有计划解决这些问题。（译者注：Go 在 2012 年 3 月才发布了 1.0 版本，到现在已经过去了 8 年多，到了 1.15 。这中间 Go 团队投入了大量时间在 编译器、运行时 和 工具链的优化上，这两个问题应该已经得到了很大的改善，甚至可能已经彻底解决。）</p>
+<p>为了做一个对比，我们测量了一个用 Go 编写的大型 Google 程序的编译情况，看看源代码的扇出量与前面做的 C++ 分析相比如何。（译者注：这里指第五节提到的 C++ 头文件展开后的内容量和源代码的比值，为 2000 倍。）我们发现大约是 40 倍，比 C++ 好了 50 倍（同时也更简单，因此处理速度更快），但还是比我们预期的大。这有两个原因。首先，我们发现了一个 bug：Go 编译器在导出部分生成了大量不需要的数据。其次，导出数据使用的是一种冗长的编码，还有改进的余地。我们已经计划解决这些问题。（译者注：Go 在 2012 年 3 月才发布了 1.0 版本，到现在已经过去了 8 年多，到了 1.15 。这中间 Go 团队投入了大量时间在 编译器、运行时 和 工具链的优化上，这两个问题应该已经得到了很大的改善，甚至可能已经彻底解决。）</p>
 <p>尽管如此，减少到五十分之一，就足以把几分钟变成几秒钟，把茶歇时间变成交互式构建。</p>
-<p>Go 依赖图的另一个特点是它没有依赖环。<strong>语言定义了依赖中不能有循环导入</strong>，编译器和链接器都会检查确保不存在循环依赖。虽然循环导入偶尔有用，但它在规模上会带来严重的问题。循环导入要求编译器一次性处理更多的源文件，这就减缓了增量构建的速度。<strong>更重要的是，根据我们的经验，如果允许这样的导入，最终会把大片的源码树，纠缠成难以独立管理的大块头，使二进制文件膨胀，并使初始化、测试、重构、发布和其他软件开发任务变得复杂。</strong></p>
-<p>缺少循环导入偶尔会造成烦恼，但却能保持依赖树的干净，迫使包之间有明确的边界。就像 Go 里的许多设计决策一样，它迫使程序员更早地考虑一个更大范围的问题（在这里，这个问题是包的边界），这些问题如果留到以后，可能永远不会得到令人满意的解决。</p>
-<p>Go 设计标准库的过程中，花费了大量精力在控制依赖关系上。<strong>如果只是需要一个函数，拷贝一点代码可能比直接拉来一个大代码库强。</strong>（如果出现新的核心依赖关系，系统构建中的测试就会报告问题。）依赖关系清晰胜过代码重用。实践中的一个例子是，（底层的）<code>net</code> 包有自己的 整型 到 小数 的转换程序，以避免依赖更大的、依赖关系更复杂的格式化 I/O 包。另一个例子是字符串转换包 <code>strconv</code> 有一个私有的 『可打印』字符定义的实现，而不是引入大块头的 Unicode 字符类表；<code>strconv</code> 通过包的测试来确保符合 Unicode 标准。</p>
+<p>Go 依赖图的另一个特点是它没有依赖环。<strong>语言定义了依赖中不能有循环导入</strong>，编译器和链接器都会检查确保不存在循环依赖。虽然循环导入偶尔有用，但它在规模上会带来严重的问题。循环导入要求编译器一次性处理更多的源文件，这就减缓了增量构建的速度。<strong>更重要的是，根据我们的经验，如果允许这样的导入，最终会把大片的源码树，纠缠成难以独立管理的几大块，使二进制文件膨胀，并使初始化、测试、重构、发布和其他软件开发任务变得复杂。</strong></p>
+<p>缺少循环导入偶尔会造成烦恼，但却能保持依赖树的干净，迫使包之间有明确的边界。<strong>就像 Go 里的许多设计决策一样，它迫使程序员更早地考虑一个更大范围的问题（在这里，这个问题是包的边界），这些问题如果留到以后，可能永远不会得到令人满意的解决。</strong></p>
+<p>Go 设计标准库的过程中，花费了大量精力在控制依赖关系上。<strong>如果只是需要一个函数，拷贝一点代码可能比直接拉来一个大库强。</strong>（如果出现新的核心依赖关系，系统构建中的测试就会报告问题。）依赖关系清晰胜过代码重用。实践中的一个例子是，（底层的）<code>net</code> 包有自己的 整型 到 小数 的转换程序，以避免依赖更大的、依赖关系更复杂的格式化 I/O 包。另一个例子是字符串转换包 <code>strconv</code> 有一个私有的 『可打印』字符定义的实现，而不是引入大块头的 Unicode 字符类表；<code>strconv</code> 通过包的测试来确保符合 Unicode 标准。</p>
 <h2 id="8-包"><a href="#8-包" class="headerlink" title="8. 包"></a>8. 包</h2><p>Go 的包系统设计，将库、命名空间、模块的一些特性结合在一起，变成一个统一的结构。</p>
 <blockquote>
-<p>译者注：2012 年 Go 1.0 ，包管理使用的还是最简单的 GOPATH 模式。之后这种基于 Google 单一代码库的设计造成了各种不便，第三方包管理工具百花齐放。2015 年 Go 1.5 引入 Vendor 机制，到后面发现还是没有解决问题。第三方工具 dep 一度最有希望转正，结果 2018 年官方推出 vgo （后改名 Go Modules）统一了机制，到 2020 年的 1.14 正式宣布 Go Modules “ready for production”。</p>
-<p>现在 Go 的包管理已经有了很多变化，最主要的是引入了 module 的概念。下面的内容，请从理解设计思路的角度看待，不能直接当做使用教学。</p>
+<p>译者注：2012 年 Go 1.0 ，包管理使用的还是最简单的 GOPATH 模式。之后这种基于 Google 单一代码库的设计造成了各种不便，第三方包管理工具百花齐放。2015 年 Go 1.5 引入 Vendor 机制，到后面发现还是没有解决问题。第三方工具 dep 一度最有希望转正，结果 2018 年官方推出 vgo （后改名 Go Modules 并入 <code>go</code> 工具链）统一了机制，到 2020 年的 1.14 正式宣布 Go Modules “ready for production”。</p>
+<p>跟 20102 相比，现在 Go 的包管理已经有了很多变化，最主要的是引入了 module 的概念。</p>
 </blockquote>
 <p>每一个 Go 源文件，例如 <code>&quot;encoding/json/json.go&quot;</code>，都会以一个 <code>package</code> 语句开始，像这样：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> json</div></pre></td></tr></table></figure>
 <p>其中 <code>json</code> 是 『包名』，一个简单的标识符。包名通常是简明扼要的。</p>
 <p>要使用一个包，导入语句里的包路径标识了要导入的文件。『路径』的含义并未在语言中指定，但在实践中，按照惯例，它是源包在代码库里的目录路径，以斜杠 <code>/</code> 分隔，像：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"encoding/json"</span></div></pre></td></tr></table></figure>
-<p>然后，在导入的源文件（importing，调用方）里引用时，用包名（区别于路径）来修饰（qualify）被导入（imported）包的包中成员。</p>
+<p>然后，在导入的源文件（importing，调用方）里引用时，用包名（区别于路径）来修饰（qualify）被导入（imported）包的包中成员：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dec = json.NewDecoder(reader)</div></pre></td></tr></table></figure>
 <p>这种设计清晰明确。<code>Name</code> 对比 <code>pkg.Name</code> ，人们总是可以从语法中判断出一个名字是否来自本地包。（这一点后面会有更多的介绍。）</p>
 <p>在我们的例子中，包的路径是 <code>&quot;encoding/json&quot;</code>，而包名是 <code>json</code>。在标准仓库之外，惯例是将项目或公司名称放在命名空间的根部：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"google/base/go/log"</span></div></pre></td></tr></table></figure>
 <p>重要的是要认识到包的路径是唯一的，但对包名却没有这样的要求。路径必须唯一地标识要导入的包，而包名只是一个约定，让包的调用方可以引用它的内容。包名不需要是唯一的，可以在每个导入（importing）的源文件里，通过在导入语句中提供一个本地标识符来重命名。下面两个导入都引用了包名为 <code>log</code> 的包，但要在同一个源文件里导入它们，必须（在本地）重命名其中一个包。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"log"</span> <span class="comment">// 标准包</span></div><div class="line"><span class="keyword">import</span> googlelog <span class="string">"google/base/go/log"</span> <span class="comment">// Google专用包</span></div></pre></td></tr></table></figure>
-<p>每个公司可能都有自己的 <code>log</code> 包，没有必要让包名独一无二。恰恰相反：Go 的风格建议保持包名短小精悍、清晰明确，而不是担心重名。</p>
+<p>每个公司可能都有自己的 <code>log</code> 包，没有必要让包名独一无二。恰恰相反：<strong>Go 的风格建议保持包名短小精悍、清晰明确，而不是担心重名</strong> 。</p>
 <p>还有一个例子：在 Google 的代码库里，有很多个 <code>server</code> 包。</p>
-<h2 id="9-远程包"><a href="#9-远程包" class="headerlink" title="9. 远程包"></a>9. 远程包</h2><p>Go 包系统的一个重要特性是，包的路径一般可以是任意的字符串，可以用它标识托管代码库的站点 URL ，以此来引用远程代码库。</p>
+<h2 id="9-远程包"><a href="#9-远程包" class="headerlink" title="9. 远程包"></a>9. 远程包</h2><p>Go 包系统的一个重要特性是，包的路径一般可以是任意字符串，可以用它标识托管代码仓库的站点 URL ，以此来引用远程代码库。</p>
 <p>下面是使用 <code>github</code> 上的 <code>doozer</code> 包的方法。<code>go get</code> 命令使用 <code>go</code> 构建工具从站点获取仓库并安装它。一旦安装完毕，它就可以像其他普通的包一样被导入和使用。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ go get github.com/4ad/doozer // 获取包的 Shell 命令</div></pre></td></tr></table></figure>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"github.com/4ad/doozer"</span> <span class="comment">// Doozer 调用方的 import 语句</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> client doozer.Conn         <span class="comment">// 调用方对包的引用</span></div></pre></td></tr></table></figure>
 <p>值得注意的是，<code>go get</code> 命令以递归的方式下载依赖，正是因为依赖关系是显式的所以才可以这样实现。另外，区别于其它语言使用的集中式包注册，Go 导入路径的命名空间分配依赖于 URL，这使得包的命名是去中心化的，因而是可扩展的。</p>
 <h2 id="10-语法"><a href="#10-语法" class="headerlink" title="10. 语法"></a>10. 语法</h2><p>语法就是一门编程语言的用户界面。<strong>尽管语法对语义影响有限，而语义很可能才是语言更重要的组成部分，但语法决定了语言的可读性，继而决定了语言的清晰度。</strong>同时，语法对工具链而言至关重要：如果一门语言难以解析，就很难为其编写自动化工具。</p>
-<p>因此，Go 在设计时就考虑了语言的清晰度和工具链，并且拥有简洁的语法。与 C 家族的其他语言相比，它的语法规模不大，只有 25 个关键字（C99 有 37 个；C++11 有84 个；而且这两个数字还在继续增加）。更重要的是，语法很规范，所以很容易解析（应该说大多数规范；也有个别怪异的语法我们本可以改善结果发现得太晚）。与 C 和 Java，尤其是 C++ 不同，Go 可以在没有类型信息或符号表的情况下进行解析；不需要类型相关的上下文。语法容易推导，工具自然就容易编写。</p>
+<p>因此，Go 在设计时就考虑了语言的清晰度和工具链，并且拥有简洁的语法。与 C 家族的其他语言相比，它的语法规模不大，只有 25 个关键字（C99 有 37 个；C++11 有 84 个；而且这两个数字还在继续增加）。更重要的是，语法很规范，所以很容易解析（应该说大多数规范；也有个别怪异的语法我们本可以改善结果发现得太晚）。与 C 和 Java，尤其是 C++ 不同，Go 可以在没有类型信息或符号表的情况下进行解析；不需要类型相关的上下文。语法容易推导，工具自然就容易编写。</p>
 <p>Go 语法里有一个细节会让 C 程序员感到惊讶，那就是声明语法更接近 Pascal 而不是 C。声明的名称出现在类型之前，并且使用了更多关键字（译者注：指 <code>var</code> 和 <code>type</code>关键字）：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fn <span class="function"><span class="keyword">func</span><span class="params">([]<span class="keyword">int</span>)</span> <span class="title">int</span></span></div><div class="line"><span class="title">type</span> <span class="title">T</span> <span class="title">struct</span> &#123; a, b <span class="keyword">int</span> &#125;</div></pre></td></tr></table></figure>
 <p>对比 C 语言</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> (*fn)(<span class="keyword">int</span>[]);</div><div class="line"><span class="keyword">struct</span> T &#123; <span class="keyword">int</span> a, b; &#125;</div></pre></td></tr></table></figure>
 <p>无论对人还是对计算机来说，由关键字引入的声明都更容易解析，而且使用 <strong>类型语法</strong> 而不是 C 那样的 <strong>表达式语法</strong> ，对解析有很大的帮助：它增加了语法，但消除了歧义。你还有另外一个选择：对于初始化声明，可以丢弃 <code>var</code> 关键字，直接从表达式中推断变量的类型。这两个声明是等价的；第二个声明更短也更地道：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf *bytes.Buffer = bytes.NewBuffer(x) <span class="comment">// 显示指定类型</span></div><div class="line">buf := bytes.NewBuffer(x)                  <span class="comment">// 类型推断</span></div></pre></td></tr></table></figure>
-<p>在 <a href="golang.org/s/decl-syntax">golang.org/s/decl-syntax</a> 有一篇博客文章，详细介绍了 Go 的声明语法，以及为什么它与 C 语言如此不同。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf *bytes.Buffer = bytes.NewBuffer(x) <span class="comment">// 显式指定类型</span></div><div class="line">buf := bytes.NewBuffer(x)                  <span class="comment">// 类型推断</span></div></pre></td></tr></table></figure>
+<p>在 <a href="https://golang.org/s/decl-syntax" target="_blank" rel="external">golang.org/s/decl-syntax</a> 有一篇博客文章，详细介绍了 Go 的声明语法，以及为什么它与 C 语言如此不同。</p>
 <p>对于简单的函数来说，函数语法是很直接的。这个例子声明了函数 <code>Abs</code>，它接受一个类型为 <code>T</code> 的变量 <code>x</code>，并返回一个 <code>float64</code> 的值：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Abs</span><span class="params">(x T)</span> <span class="title">float64</span></span></div><div class="line"></div><div class="line">// 译者补充调用示例:</div><div class="line">// 假定已经初始化了一个变量 <span class="title">t</span>，类型为 <span class="title">T</span>，下同</div><div class="line"><span class="title">absT</span> := <span class="title">Abs</span><span class="params">(t)</span></div></pre></td></tr></table></figure>
 <p>方法（method）只是有一个特殊参数的函数，这个特殊参数就是它的接收者（receiver），可以通过点号 <code>.</code> 传递给函数。方法声明的语法将接收者放在函数名前面的括号里。下面是同一个函数，现在定义成 <code>T</code> 类型的方法：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(x T)</span> <span class="title">Abs</span><span class="params">()</span> <span class="title">float64</span></span></div><div class="line"></div><div class="line">// 译者补充调用示例:</div><div class="line"><span class="title">absT</span> := <span class="title">t</span>.<span class="title">Abs</span><span class="params">()</span></div></pre></td></tr></table></figure>
 <p>而这里是一个函数变量（闭包），参数类型为 <code>T</code>；Go 有一等函数（first-class function）和闭包：</p>
-<p>（译者注：一等函数是指函数可以作为普通变量，可以作为其他函数的参数和返回值；区别于 Java 只有类是一等公民，其他语言成分必须作为类的成员。）</p>
+<blockquote>
+<p>译者注：一等函数是指函数可以作为普通变量，可以作为其他函数的参数和返回值；作为对比， Java 只有类是一等公民，其他语言成分必须作为类的成员。</p>
+</blockquote>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">negAbs := <span class="function"><span class="keyword">func</span><span class="params">(x T)</span> <span class="title">float64</span></span> &#123; <span class="keyword">return</span> -Abs(x) &#125;</div><div class="line"></div><div class="line"><span class="comment">// 译者补充调用示例:</span></div><div class="line">negT := negAbs(t)</div></pre></td></tr></table></figure>
 <p>最后，在 Go 里函数可以返回多个值。常见的做法是将函数结果和错误值作为一对返回，就像这样：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">ReadByte</span><span class="params">()</span> <span class="params">(c <span class="keyword">byte</span>, err error)</span></span></div><div class="line"></div><div class="line"><span class="title">c</span>, <span class="title">err</span> := <span class="title">ReadByte</span><span class="params">()</span></div><div class="line"><span class="title">if</span> <span class="title">err</span> != <span class="title">nil</span> &#123; ... &#125;</div></pre></td></tr></table></figure>
@@ -183,11 +188,11 @@
 <li>函数（跟其它语言一样）</li>
 <li>代码块（跟其它语言一样）</li>
 </ul>
-<p>没有什么命名空间（name space）作用域、类（class）作用域或者其它结构的作用域。在 Go 里，名称只来自很少的地方，而且所有名称都遵循相同的作用域层次：在源码的任意位置，一个标识符只表示一个语言对象，和它的用法无关。（唯一的例外是语句标签、<code>break</code> 语句的目标等；它们总是具有函数作用域。）</p>
+<p>没有什么命名空间（name space）作用域、类（class）作用域或者其它结构的作用域。在 Go 里，名称只来自很少的地方，而且所有名称都遵循相同的作用域层次：在源码的任意位置，一个标识符只表示一个语言对象，和它的用法无关。（唯一的例外是语句标签 （用作 <code>break</code> 等语句的目标）；它们总是具有函数作用域。）</p>
 <p>这使代码更清晰。例如，请注意到方法声明了一个显式的接收者（explicit receiver），访问该类型的字段和方法必须用到它。没有隐式的（implicit） <code>this</code> 。也就是说，我们总是写：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rcvr.Field</div></pre></td></tr></table></figure>
 <p>（其中 <code>rcvr</code> 是给接收者变量随便起的名称）所以在词法上（lexically），该类型的所有元素，总是绑定到一个接收者类型的值上。类似地，对于导入的名称，包的限定符总是存在；人们写的是 <code>io.Reader</code> 而不是 <code>Reader</code> 。这样不仅清楚，而且释放了标识符 <code>Reader</code> 作为一个有用的名称，可以在任何包中使用。事实上，在标准库中有多个导出的标识符都叫 <code>Reader</code>，类似的还有很多 <code>Printf</code>，但具体引用了哪一个永远不会弄混。</p>
-<p>最后，这些规则结合在一起，保证了除了顶层的预定义名称如 <code>int</code> 之外，每个名称（点号 <code>.</code> 前的第一部分）总是在当前包中声明。</p>
+<p>最后，这些规则结合在一起，保证除了顶层的预定义名称如 <code>int</code> 之外，每个名称（点号 <code>.</code> 前的第一部分）总是在当前包中声明。</p>
 <p>简而言之，名称总是本地的（local）。在 C、C++ 或 Java 里，名称 <code>y</code> 可以指向任何东西。在 Go 里，<code>y</code> （甚至大写的 <code>Y</code> ）总是在包内定义，而 <code>x.Y</code> 的解释很清楚：在本地找到<code>x</code> ，<code>Y</code> 就在里面。</p>
 <p>这些规则为可伸缩性提供了很重要的特性，因为它们保证了在一个包里添加导出的名称永远不会破坏这个包的调用方。<strong>命名规则解耦了包，提供了可伸缩性、清晰度和健壮性。</strong></p>
 <p>关于命名还有一个方面需要提及：方法查找总是只按名称，而不是按方法的签名（类型）。换句话说，一个类型永远不可能有两个同名的方法。给定一个方法 <code>x.M</code> ，永远只有一个 <code>M</code> 与 <code>x</code> 关联。同样，这使得只给定名称就能很容易地识别引用了哪个方法。这也使得方法调用的实现变得简单。</p>
@@ -237,9 +242,9 @@
 <li>垃圾回收</li>
 <li>接口类型</li>
 <li>反射</li>
-<li>类型判断</li>
+<li>类型判断（type switches）</li>
 </ul>
-<p>下面的章节主要从软件工程的角度简要讨论 Go 中的两个主题：并发 和 垃圾回收。关于语言语义和用途的完整讨论，请参见 <a href="golang.org">golang.org</a> 网站上的更多资料。</p>
+<p>下面的章节主要从软件工程的角度简要讨论 Go 中的两个主题：并发 和 垃圾回收。关于语言语义和用途的完整讨论，请参见 <a href="https://golang.org" target="_blank" rel="external">golang.org</a> 网站上的更多资料。</p>
 <h2 id="13-并发"><a href="#13-并发" class="headerlink" title="13. 并发"></a>13. 并发</h2><p>web 服务器运行在多核机器上，并有大量的调用方，这可以称之为一个典型的 Google 程序；而并发对于这种现代计算环境非常重要。C++ 或 Java 都不是特别适合这类软件，它们在语言层面上缺乏足够的并发支持。</p>
 <p>Go 有作为一等公民的通道（channel），实现了 CSP （译者注：Communicating Sequential Processes，通信顺序进程）的一个变种。选择 CSP 的部分原因是熟悉（我们其中一个人曾经研究过某种基于 CSP 思想的前辈语言），同时也是因为 CSP 很容易被添加到过程化编程模型中，而无需对模型进行深入的修改。也就是说，<strong>给定一个类似于 C 的语言，CSP 基本就能够以正交的方式添加到语言中，提供额外的表达能力，而不限制该语言的其他用途。</strong> 总之，语言的其他部分可以保持『普通』。</p>
 <p><strong>这个方法就是，将独立执行的函数，与其他普通的过程式代码结合。</strong></p>
@@ -255,7 +260,7 @@
 <p>从我们对 Go 和 并发编程 的新手程序员的有限了解来看，这是一种实用的做法。程序员享受着并发支持给网络软件带来的简单性，而简单性产生了健壮性。</p>
 <blockquote>
 <p>译者在网上看到一种说法：『Java 里多种同步方法、各种 Lock、并发调度等一系列复杂的功能在 Golang 里 <strong>都不存在</strong>，只靠 goroutine 和 channel 去处理并发。』，这种说法是错的。</p>
-<p>如上面所说，CSP 模型是基本以正交的方式添加到 C 家族的过程式编程模型里的，增加了新的、简洁的表达方式，但并没有限制原本的做法。</p>
+<p>如上面所说，CSP 模型是以基本正交的方式添加到 C 家族的过程式编程模型里的，增加了新的、简洁的表达方式，但并没有限制原本的做法。</p>
 <p>Go 常用的并发控制的工具，除了内置的消息通道 <code>chan</code> （CSP 模型），还有：</p>
 <ul>
 <li><code>sync</code> 包提供的同步原语（其中包括互斥锁和读写互斥锁 <code>sync.Mutex</code> 和 <code>sync.RWMutex</code>，还有其它三个原语 <code>sync.WaitGroup</code> ， <code>sync.Once</code> 和 <code>sync.Cond</code> 。实际上你去看 <code>chan</code> 的源码，也是基于 runtime 内部的 <code>mutex</code> 实现的）；</li>
@@ -265,7 +270,7 @@
 <p>可以看到，在 C 家族里常见的并发控制方式，基本都有提供，只是不再像 Java 那样以关键字的方式，而是以内置包的方式提供。</p>
 <p>Go 把 CSP 模型实现并把支持上升到内置类型和关键字的层面，却并没有强迫程序员必须使用这个模型。</p>
 </blockquote>
-<h2 id="14-垃圾回收"><a href="#14-垃圾回收" class="headerlink" title="14. 垃圾回收"></a>14. 垃圾回收</h2><p>对于一门系统级编程语言来说，垃圾回收可能是一个有争议的特性，然而我们只花了很少时间就决定 Go 将是一门带垃圾回收的语言。Go 没有显式的内存释放操作：已分配内存返回内存池的唯一途径就是垃圾回收器。</p>
+<h2 id="14-垃圾回收"><a href="#14-垃圾回收" class="headerlink" title="14. 垃圾回收"></a>14. 垃圾回收</h2><p>对于一门系统级编程语言来说，垃圾回收可能是一个有争议的特性，然而我们只花了很少时间就决定 Go 将是一门带垃圾回收的语言。Go 没有显式的内存释放操作：已分配的内存返回内存池的唯一途径就是垃圾回收器。</p>
 <p>这是一个很容易做出的决定，因为内存管理对一门语言的实际工作方式有着深远的影响。在 C 和 C++ 中，编程时太多的精力都花在了内存的分配和释放上。这样的设计倾向于暴露本可以隐藏得很好的内存管理细节；但反过来说，对内存管理的过多顾虑又限制了内存的使用。相比之下，垃圾回收使得编程接口更清晰明确（garbage collection makes interfaces easier to specify）。</p>
 <p>此外，在支持并发的面向对象语言中，自动内存管理几乎是必不可少的，因为当一块内存的所有权在并发执行中来回传递时，管理起来是很棘手的。<strong>将行为和资源管理分开是很重要的。</strong></p>
 <p>一旦有了垃圾回收，语言使用起来就容易多了。</p>
@@ -274,21 +279,21 @@
 <p>关键的一点是，<strong>Go 为程序员提供了工具，可以通过控制数据结构的布局来限制内存分配</strong> 。假设有一个简单的数据结构的类型定义，它包含一个字节型（数组）的缓冲区：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> X <span class="keyword">struct</span> &#123;</div><div class="line">    a, b, c <span class="keyword">int</span></div><div class="line">    buf [<span class="number">256</span>]<span class="keyword">byte</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>在 Java 里，<code>buf</code> 字段需要第二次内存分配，对它的访问也需要第二层的间接访问。但在 Go 里面，缓冲区和包含它的结构体一起被分配在一个内存块中，不需要任何间接分配和访问。对于系统编程来说，这种设计可以获得更好的性能，同时减少回收器需要管理的内存块数量。在规模化的情况下，它可以带来显著的差异。</p>
-<p>举个更直接的例子，在 Go 里面，提供二阶内存分配器（second-order allocators）是很容易和高效的，例如一个 arena 内存分配器可以一口气分配一大组的结构体，并用一个空闲链表（free list）将它们连接起来。像这样要反复使用很多小结构体的库，只要做适当的提前安排，就可以不产生垃圾，还能保持高效和快速响应。</p>
+<p>举个更直接的例子，在 Go 里面，提供二阶内存分配器（second-order allocators）是很容易和很高效的，例如一个 arena 内存分配器可以一口气分配一大组的结构体，并用一个空闲链表（free list）将它们连接起来。像这样要反复使用很多小结构体的库，只要做适当的提前安排，就可以不产生垃圾，还能保持高效和快速响应。</p>
 <blockquote>
-<p>译者注：arena 是 Go 里面用来分配内存的连续虚拟地址区域，堆中分配的内存都来自这一区域，可以近似地看作堆。Go 有自主内存管理策略（基于 Thread-Caching Malloc 的基础上改进），会一次性向系统预申请一大块内存，并将空闲内存用 free list 连在一起。分配内存时会按照一定策略，根据大小优先从 free list 获取内存；如果对象销毁，则把内存归还 free list。只有空闲内存不够才会向系统申请新的内存，只有空闲内存特别多才会向系统释放内存，减少内存申请和释放的系统调用。</p>
+<p>译者注：arena 是 Go 里面用来分配内存的连续虚拟地址区域，堆中分配的内存都来自这一区域，可以近似地看作堆。Go 有自主内存管理策略（基于 Thread-Caching Malloc 改进），会一次性向系统预申请一大块内存，并将空闲内存用 free list 连在一起。分配内存时会按照一定策略，根据大小优先从 free list 获取内存；如果对象销毁，则把内存归还 free list。只有空闲内存不够才会向系统申请新的内存，只有空闲内存特别多才会向系统释放内存，减少内存申请和释放的系统调用。</p>
 <p>这部分内容根据 Go 实现的改进可能会发生变化，请参考最新的文章，或者直接查看源码。 <code>https://github.com/golang/go/blob/master/src/runtime/malloc.go</code></p>
 </blockquote>
 <p>虽然 Go 是一种带垃圾回收的语言，但是一个资深的程序员可以通过减少施加给回收器的压力，来提高性能。（另外，Go 安装时还附带了很多好用的工具，可以用来分析程序运行时的动态内存性能。）</p>
-<p>为了给程序员提供这种灵活性，Go 必须支持指向堆上分配对象的指针，我们称之为<strong>内部指针</strong>。上面例子中的 <code>X.buf</code> 字段就存在于结构体内部，但获取这个内部字段的地址是合法的，例如将这个地址传递给一个 I/O 子程序。在 Java 以及很多支持垃圾回收的语言里，构造这样的内部指针是不可能，但在 Go 里面，这是很自然的做法。这个设计点会影响到可以使用哪些回收算法，并且可能会增加算法的实现难度，但是经过仔细考虑，我们决定有必要允许使用内部指针，因为这对程序员有好处，并且能够减少垃圾回收器的压力（尽管这样可能会让垃圾回收器更难实现）。到目前为止，我们将类似的 Go 和 Java 程序进行对比的经验表明，使用内部指针可以对总的 arena 大小、执行延迟 和 回收时间产生显著影响。</p>
+<p>为了给程序员提供这种灵活性，Go 必须支持指向堆上分配对象的指针，我们称之为<strong>内部指针</strong>（interior pointers）。上面例子中的 <code>X.buf</code> 字段就存在于结构体内部，但获取这个内部字段的地址是合法的，例如将这个地址传递给一个 I/O 子程序。在 Java 以及很多支持垃圾回收的语言里，构造这样的内部指针是不可能，但在 Go 里面，这是很自然的做法。这个设计点会影响到可以使用哪些回收算法，并且可能会增加算法的实现难度，但是经过仔细考虑，我们决定有必要允许使用内部指针，因为这对程序员有好处，并且能够减少垃圾回收器的压力（尽管这样可能会让垃圾回收器更难实现）。到目前为止，我们将类似的 Go 和 Java 程序进行对比的经验表明，使用内部指针可以对总的 arena 大小、执行延迟 和 回收时间产生显著影响。</p>
 <p>总而言之，Go 支持垃圾回收，但给程序员提供了一些工具来控制回收开销。</p>
 <p>垃圾回收器仍然是一个活跃的开发领域。目前的设计是一个并行的标记并清理（mark-and-sweep）回收器，仍然有机会改进它的性能甚至设计。（语言规范并没有规定回收器必须要使用任何特定实现。） 不过，如果程序员注意更巧妙地使用内存，目前的实现已经可以在生产环境工作得很好。</p>
 <blockquote>
 <p>译者注：Go 1.3 以前使用 mark-and-sweep 回收器，整个过程需要 STW（stop the world），对于内存的申请和释放量比较大和频繁的程序而言，回收造成的停顿会比较明显。</p>
 <p>后续的版本逐渐分离标记和清理过程，引入三色标记法，还有引入混合写屏障。总的趋势是将 GC 分散成多个可以（跟程序执行）并发的过程，将不得不 STW 的阶段和时间压缩到最小（通常小于 1ms），跟演讲发表时相比已经有了很大的改善。</p>
 </blockquote>
-<h2 id="15-组合，而不是继承"><a href="#15-组合，而不是继承" class="headerlink" title="15. 组合，而不是继承"></a>15. 组合，而不是继承</h2><p>Go 采用了一种不同寻常的面向对象编程方法，它允许在任何类型上添加方法，而不仅仅是类；但没有任何形式的基于类型的继承，比如子类。这意味着没有类型层次体系（type hierarchy）。这是一个有意的设计选择。虽然类型体系已经被用来构建了很多成功的软件，但我们认为这个模型已经被过度使用，应该退一步。</p>
-<p>取而代之的是 Go 的接口，这个想法在其他地方已经被详细讨论过了（例如参见<a href="research.swtch.com/interfaces">research.swtch.com/interfaces</a>），但这里还是做一个简单的总结。</p>
+<h2 id="15-组合，而不是继承"><a href="#15-组合，而不是继承" class="headerlink" title="15. 组合，而不是继承"></a>15. 组合，而不是继承</h2><p>Go 采用了一种不同寻常的面向对象编程方法，它允许在任何类型上添加方法，而不仅仅是类；但没有任何形式的基于类型的继承，比如子类。这意味着没有类型层次体系（type hierarchy）。这是一个有意的设计选择。虽然类型体系已经被用来构建了很多成功的软件，但我们认为这个模型已经被过度使用，应该后退一步。</p>
+<p>取而代之的是 Go 的接口，这个想法在其他地方已经被详细讨论过了（例如参见<a href="https://research.swtch.com/interfaces" target="_blank" rel="external">research.swtch.com/interfaces</a>），但这里还是做一个简单的总结。</p>
 <p>在 Go 里面，一个接口 <strong>仅仅</strong> 是一组方法的集合。例如，这里是标准库中 <code>Hash</code> 接口的定义：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> Hash <span class="keyword">interface</span> &#123;</div><div class="line">    Write(p []<span class="keyword">byte</span>) (n <span class="keyword">int</span>, err error)</div><div class="line">    Sum(b []<span class="keyword">byte</span>) []<span class="keyword">byte</span></div><div class="line">    Reset()</div><div class="line">    Size() <span class="keyword">int</span></div><div class="line">    BlockSize() <span class="keyword">int</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>所有实现这些方法的数据类型都隐式地满足这个接口，没有 <code>implements</code> 声明。尽管如此，是否满足接口是在编译期静态检查的，所以接口是类型安全的。</p>
@@ -297,7 +302,7 @@
 <p>这种接口满足的流动性鼓励了一种不同的软件构造方法。但在解释这个之前，我们应该先解释一下为什么 Go 没有子类。</p>
 <p>面向对象编程提供了一个强大的洞见：<strong>数据的行为可以独立于数据的表示进行泛化（generalized）。</strong> 当行为（方法集）是固定的时候，这个模型的效果最好，但是一旦你对一个类型进行了子类化，并添加了一个方法，行为就不再相同。相反地如果行为集是固定的，就好像 Go 静态定义的接口那样，行为的统一性使得数据和程序可以统一、正交、安全地组合。</p>
 <p>一个极端的例子是 Plan 9 内核，所有的系统数据项都实现了完全相同的接口，即由 14 个方法定义的文件系统 API。这种统一性允许的对象组合水平，即使在今天也极少能在其它系统上看到。这样的例子比比皆是。这里还有一个：一个系统可以将 TCP 协议栈导入（import，这是 Plan 9 的术语）到一台没有 TCP 甚至没有以太网（Ethernet）的计算机上，然后通过这个网络连接到一台 CPU 架构不同的机器上，导入它的 <code>/proc</code> 树，并运行一个本地调试器对远程进程进行断点调试。这种操作在 Plan 9 上简直稀松平常，根本没有任何特别之处。做这种事情的能力完全来自它的设计，不需要特殊的安排（而且都是用普通 C 语言代码完成的）。</p>
-<p>我们认为，这种组合式的系统构造风格已经被那些推崇按类型体系设计的语言所忽视。<strong>类型体系会造就脆弱易碎的代码。</strong> 体系结构必须在早期设计，通常是作为设计程序的第一步，而一旦程序写好就很难改动早期的决定。<strong>因此，该模型鼓励早期的过度设计，程序员试图预测软件可能需要的每一种使用方式，增加多个类型和抽象层，仅仅为了以防万一。这是本末倒置的做法。系统各个部分的交互方式应该随着系统的发展去适配，而不是在一开始就固定下来。</strong></p>
+<p>我们认为，这种组合式的系统构造风格已经被那些推崇按类型体系设计的语言所忽视。<strong>类型体系会造就脆弱易碎的代码。</strong> 体系结构必须在早期设计，通常是作为设计程序的第一步，而一旦程序写好就很难改动早期的决定。<strong>因此，该模型鼓励在早期做过度设计，程序员试图预测软件可能需要的每一种使用方式，增加多个类型和抽象层，仅仅为了以防万一。这是本末倒置的做法。系统各个部分的交互方式应该随着系统的发展去适配，而不是在一开始就固定下来。</strong></p>
 <p>因此，Go 鼓励组合而不是继承，使用简单的、通常只有一个方法的接口来定义琐碎的行为，作为组件之间干净、可理解的边界。</p>
 <p>上面提到的 <code>Writer</code> 接口，它被定义在 <code>io</code> 包里：任何有 <code>Write</code> 方法的类型，只要有以下这个方法签名，就可以和补充的 <code>Reader</code> 接口一起工作：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> Reader <span class="keyword">interface</span> &#123;</div><div class="line">    Read(p []<span class="keyword">byte</span>) (n <span class="keyword">int</span>, err error)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -309,35 +314,41 @@
 <p>封装器（指接受一个接口参数并返回一个接口的函数）的使用也很普遍。下面是一些原型。 <code>LoggingReader</code> 记录传入的 <code>Reader</code> 的每个 <code>Read</code> 调用。 <code>LimitingReader</code> 在读取 <code>n</code> 个字节后停止。 <code>ErrorInjector</code> 通过模拟 I/O errors 来辅助测试。我们还能找到更多例子。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">LoggingReader</span><span class="params">(r io.Reader)</span> <span class="title">io</span>.<span class="title">Reader</span></span></div><div class="line"><span class="title">func</span> <span class="title">LimitingReader</span><span class="params">(r io.Reader, n <span class="keyword">int64</span>)</span> <span class="title">io</span>.<span class="title">Reader</span></div><div class="line"><span class="title">func</span> <span class="title">ErrorInjector</span><span class="params">(r io.Reader)</span> <span class="title">io</span>.<span class="title">Reader</span></div></pre></td></tr></table></figure>
 <p>这些设计与分层的、子类型继承的方法完全不同，它们是更松散的（甚至是临时的）、有机的、解耦的、独立的，因此是可弹性伸缩的。</p>
-<h2 id="16-错误处理"><a href="#16-错误处理" class="headerlink" title="16. 错误处理"></a>16. 错误处理</h2><p>Go 没有传统意义上的异常机制，也就是说，没有与错误处理相关的控制结构。（Go确实提供了处理异常情况（例如除零异常）的机制。一对名为 <code>panic</code> 和 <code>recover</code> 的内置函数允许程序员处理类似的情况。然而，这些函数是故意设计得不好用，也很少使用，而且没有像 Java 库使用异常那样集成到代码库中。）</p>
+<h2 id="16-错误处理"><a href="#16-错误处理" class="headerlink" title="16. 错误处理"></a>16. 错误处理</h2><p>Go 没有传统意义上的异常机制，也就是说，没有与错误处理相关的控制结构。（Go 确实提供了处理异常情况（例如除零异常）的机制。一对名为 <code>panic</code> 和 <code>recover</code> 的内置函数允许程序员处理类似的情况。然而，这些函数是故意设计得不好用，也很少使用，而且没有像 Java 库使用异常那样集成到代码库中。）</p>
 <p>错误处理的关键语言特性是一个预先定义的接口类型 <code>error</code> ，它代表了一个有 <code>Error</code> 方法可以返回字符串的值：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> error <span class="keyword">interface</span> &#123;</div><div class="line">    Error() <span class="keyword">string</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>代码库使用 <code>error</code> 类型来返回错误的描述。结合函数多值返回的能力，很容易将计算结果与错误值（如果有）一起返回。例如，Go 里等价于 C 的 <code>getchar</code> 的函数不会在遇到 <code>EOF</code> 时返回一个超出范围的值，也不会抛出一个异常；它只是在字符旁返回一个 <code>error</code> 值， <code>nil error</code> 值表示成功。下面是缓冲 I/O 包的 <code>bufio.Reader</code> 接口类型的 <code>ReadByte</code> 方法的签名：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *Reader)</span> <span class="title">ReadByte</span><span class="params">()</span> <span class="params">(c <span class="keyword">byte</span>, err error)</span></span></div></pre></td></tr></table></figure>
 <p>这是一个简单清晰的设计，很容易理解。错误只是值，程序用它们来计算，就像用任意其他类型的值来计算一样。</p>
 <p>在 Go 中不加入异常是一个刻意的选择。虽然有很多批评者不同意这个决定，但有几个原因让我们相信它可以让软件变得更好。</p>
-<p>首先，计算机程序中的错误并不是真的『异常』（nothing truly exceptional，译者注：也可以翻译成：没有什么特别，平平无奇，这里翻译成异常，是为了跟 exception 的中文术语对应）。例如，无法打开一个文件是一个常见的问题，不值得使用特殊的语言结构； <code>if</code> 和 <code>return</code> 就可以了：</p>
+<p>首先，计算机程序中的错误并不是真的『异常』（nothing truly exceptional，译者注：也可以翻译成：没有什么特别，平平无奇，这里翻译成异常，是为了跟 exception 的中文术语对应）。例如，无法打开文件是一个常见的问题，不值得使用特殊的语言结构； <code>if</code> 和 <code>return</code> 就可以了：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">f, err := os.Open(fileName)</div><div class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">    <span class="keyword">return</span> err</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>另外，如果使用特殊的控制结构，错误处理会扭曲（distorts）程序处理错误的控制流（control flow）。Java 风格的 <code>try-catch-finally</code> 块跟多个重叠的控制流互相交错，而这些控制流本身的交互就很复杂。虽然相比之下，Go 使代码在检查错误时更加啰嗦，但显式的设计使控制流保持了直截了当——字面意思。</p>
-<p>毫无疑问，由此产生的代码可能会更长，但这种代码的清晰和简单可以弥补它的啰嗦。<strong>明确的错误检查迫使程序员在错误出现时考虑并处理它们。</strong> 异常使人们太容易忽略它们而不是处理它们，将责任传递到调用栈，直到为时已晚，无法很好地修复问题或诊断问题。</p>
+<p>另外，如果使用特殊的控制结构，错误处理会扭曲（distorts）程序处理错误的控制流（control flow）。Java 风格的 <code>try-catch-finally</code> 块跟多个重叠的控制流互相交错，而这些控制流本身的交互就很复杂。相比之下，虽然 Go 使代码在检查错误时更加啰嗦，但显式的设计使控制流保持了真正的（literally）简单直接。</p>
+<p>毫无疑问，由此产生的代码可能会更长，但这种代码的清晰和简单可以弥补它的啰嗦。<strong>明确的错误检查迫使程序员在错误出现时就考虑并处理它们。</strong> 异常太容易让人们忽略而不是处理它们，将责任推给调用栈，直到为时已晚，无法很好地修复乃至诊断问题。</p>
 <h2 id="17-工具"><a href="#17-工具" class="headerlink" title="17. 工具"></a>17. 工具</h2><p>软件工程需要工具。每一种语言都是在一个有其他语言和大量工具的环境中运行，这些工具用来编译、编辑、调试、性能分析、测试和运行程序。</p>
 <p>Go 的语法、包系统、命名惯例和其他特性在设计时就已经将工具易于编写考虑在内，库里面包括了 Go 的词法分析器、解析器和类型检查器。</p>
-<p>控制 Go 程序的工具非常容易编写，以至于这样的工具现在已经有很多，有些工具对软件工程产生了很有趣的后果。</p>
-<p>其中最著名的是 <code>gofmt</code> ，Go 的源代码格式化工具。从项目一开始，我们就打算用机器来格式化 Go 程序代码，从而消除程序员之间争论的一整个问题分类：该如何排版代码？ <code>gofmt</code> 运行在我们编写的所有 Go 程序上，大多数开源社区也在使用它。它是作为代码仓库的『提交前（presubmit）』检查来运行的，以确保所有检入（check-in）的 Go 程序的格式都是一样的。</p>
-<p><code>gofmt</code> 经常被用户推崇为 Go 最好的特性之一，尽管它根本不是 Go 语言的一部分。 <code>gofmt</code> 的存在和使用意味着，从一开始，社区里看到的代码总是按照 <code>gofmt</code> 的格式，所以 Go 程序有一个现在大家都很熟悉的统一风格。统一的表现形式使得代码更容易阅读，因此工作起来也更快。不用花时间格式化代码，时间就可以节省下来干别的。 <code>gofmt</code> 还影响了可伸缩性：既然所有的代码看起来都是一样的，团队就更容易一起合作，也更容易使用其他人的代码。</p>
+<p>控制 Go 程序的工具非常容易编写，以至于这样的工具现在已经有很多，有些工具对软件工程产生了很有趣的影响。</p>
+<p>其中最著名的是 <code>gofmt</code> ，Go 的源代码格式化工具。从项目一开始，我们就打算用机器来格式化 Go 程序代码，从而消除程序员之间争论的一整个问题分类：该如何排版代码？ <code>gofmt</code> 运行在我们编写的所有 Go 程序上，大多数开源社区也在用它。它是作为代码仓库的『提交前（presubmit）』检查来运行的，以确保所有检入（check-in）的 Go 程序格式都是一样的。</p>
+<p><code>gofmt</code> 经常被用户推崇为 Go 最好的特性之一，尽管它根本不是 Go 语言的一部分。 <code>gofmt</code> 的存在和使用意味着，从一开始，社区里看到的代码总是按照 <code>gofmt</code> 的格式，所以 Go 程序有一个现在大家都很熟悉的统一风格。统一的表现形式使得代码更容易阅读，因此工作起来也更快。不用花时间格式化代码，时间就可以节省下来干别的。 <code>gofmt</code> 还影响了可伸缩性：<strong>既然所有的代码看起来都是一样的，团队就更容易一起合作，也更容易使用其他人的代码</strong>。</p>
+<blockquote>
+<p>译者注：</p>
+<p>这个功能虽然看起来不起眼，但在实际的团队开发中其实是很实用的。在使用别的没有统一风格的语言时，总是要为统一团队的代码风格付出额外的精力（尤其是有新成员加入时）。</p>
+<p>我们要么给团队制定统一的风格规范，并落实到每个人（最好使用格式化插件并应用相同的配置）；要么忍受代码里同时存在好几种风格穿插，影响阅读。</p>
+<p>更糟糕的情况是，几个人都启用了格式化插件，却应用了不同的配置，先后修改同一份代码，提交时就很容易出现大量差异乃至冲突，实际上仅仅是代码风格的差异。这些无关紧要的差异如果不小心提交到仓库，真正重要的修改就将被淹没其中，干扰我们日后查看历史分析问题。</p>
+</blockquote>
 <p><code>gofmt</code> 还使另一类我们之前没有清晰预见到的工具得以实现。 <code>gofmt</code> 的工作原理是解析源代码，并从解析树本身重新格式化。这使得在格式化之前可以编辑解析树，于是一套自动重构工具应运而生。这些工具很容易编写，由于它们直接在解析树上工作，所以语义丰富，可以自动生成规范格式化的代码。</p>
-<p>第一个例子是 <code>gofmt</code> 本身的 <code>-r</code> （rewrite）标志参数，它使用简单的模式匹配语言来实现表达式级别的重写。比如有一天，我们为切片表达式的右侧引入了一个默认值：它本身长度。只需一条命令，整个 Go 源代码树就被更新为使用这个默认值。</p>
+<p>第一个例子是 <code>gofmt</code> 本身的 <code>-r</code> （rewrite）标志参数，它使用简单的模式匹配语言来实现表达式级别的重写。比如有一天，我们为切片表达式的右侧引入了一个默认值：切片本身的长度。只需一条命令，整个 Go 源代码树就被更新为使用这个默认值：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gofmt -r <span class="string">'a[b:len(a)] -&gt; a[b:]'</span></div></pre></td></tr></table></figure>
 <p>这个转换的一个关键点是，因为输入和输出都是规范格式，所以对源代码所做的唯一改变是语义上的改变。</p>
 <p>一个类似但更复杂的处理是，当 Go 语言里以换行结束的语句，不再需要分号作为终止符时， <code>gofmt</code> 可以用来更新源码树。</p>
 <p>另一个重要的工具是 <code>gofix</code>，它可以运行用 Go 本身编写的『源码树重写模块（tree-rewriting modules）』，因此能够进行更高级的重构。 <code>gofix</code> 工具让我们在 Go 1 发布之前对 API 和 语言特性 进行了全面的修改，包括修改 map 删除条目的语法，为操作时间值引入全新的 API ，等等。随着这些变化的推出，用户只需要运行简单的命令就能更新他们的所有代码：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gofix</div></pre></td></tr></table></figure>
 <p>请注意，这些工具允许我们，在旧代码仍然可以正常工作的前提下，更新代码。因此，Go 的代码仓库很容易随着库的演化保持更新。旧的 API 可以快速自动地被废弃，因此只需要维护一个版本的 API。例如，我们最近改变了 Go 的协议缓冲区实现，改为使用 “getter” 函数，而之前的接口并没有这些函数。我们在 Google 所有 Go 代码上运行 <code>gofix</code> 来更新所有使用协议缓冲区的程序，现在只有一个版本的 API 在使用。在 Google 的代码库规模下，对 C++ 或 Java 库进行类似的全面修改几乎是不可能实现的。</p>
-<p>标准 Go 库里的解析包，让其他一些工具也得以实现。例如 <code>go</code> 工具，它可以管理程序的构建，包括从远程代码仓库获取包；<code>godoc</code> 文档提取器，是一个验证 API 兼容性合约是否随着库的更新而得到维护的程序；等等。</p>
+<p>Go 标准库里的解析包，让其他一些工具也得以实现。例如 <code>go</code> 工具，它可以管理程序的构建，包括从远程代码仓库获取包；<code>godoc</code> 文档提取器，是一个验证 API 兼容性合约是否随着库的更新而得到维护的程序；等等。</p>
 <p>虽然像这样的工具在语言设计中很少被提及，但它们是语言生态系统中不可缺少的一部分，事实上，Go 在设计时就考虑到了工具的问题，这对语言、库和社区的发展都有巨大的影响。</p>
 <h2 id="18-结论"><a href="#18-结论" class="headerlink" title="18. 结论"></a>18. 结论</h2><p>Go 在 Google 内部用得越来越多。</p>
 <p>一些面向用户的大型服务都在使用它，包括 <code>youtube.com</code> 和 <code>dl.google.com</code> （提供 Chrome、Android 和其他下载的下载服务器），以及我们自己的 <code>golang.org</code> 。当然也有很多小的服务，大多是使用 Google App Engine 对 Go 的原生支持构建的。</p>
-<p>很多其他公司也在使用 Go；这个名单很长，但其中比较著名的有几个是：</p>
+<p>很多其他公司也在使用 Go；这个名单很长，但其中比较著名的几个是：</p>
 <ul>
 <li>BBC Worldwide</li>
 <li>Canonical</li>
@@ -345,12 +356,15 @@
 <li>Nokia</li>
 <li>SoundCloud</li>
 </ul>
-<p>看来，Go 正在实现它的目标。不过，现在宣布成功还为时过早。我们还没有足够的经验，尤其是在大型程序（数百万行代码那种）方面的经验，去断言我们成功创造了一门弹性可伸缩的语言。尽管所有的指标都是正面的。</p>
-<p>在较小的范围内，一些小事情还不够好，可能会在 Go 以后的版本（Go 2？）里微调。例如，变量声明语法的形式太多，程序员很容易被非 nil 接口里面的 nil 值的行为搞糊涂，还有很多库和接口的细节可以再进行一轮设计。</p>
+<p>看来，Go 正在实现它的目标。不过，现在宣布成功还为时过早。我们还没有足够的经验，尤其是在大型程序（数百万行代码那种）方面的经验，去断言我们已经成功创造了一门弹性可伸缩的语言。尽管所有的指标都是正面的。</p>
+<p>在较小的范围内，一些小事情还不够好，可能会在 Go 以后的版本里微调（Go 2？）。例如，变量声明语法的形式太多，程序员很容易被非 nil 接口里面的 nil 值的行为搞糊涂，还有很多库和接口的细节可以再进行一轮设计。</p>
 <p>不过值得注意的是， <code>gofix</code> 和 <code>gofmt</code> 在 Go 1 的前期给了我们修复许多其他问题的机会。正因为有这些工具，Go 在今天得以更接近它的设计者的期待，而这些工具本身也是由于语言的设计才得以实现。</p>
-<p>不过，不是所有事情都已经确定。我们还在学习中（但语言目前是冻结的）。</p>
-<p>Go 语言的一个主要的弱点，是它的实现仍需努力改进。编译器生成的代码，尤其是运行时的性能应该更好，这方面的工作还在继续。目前已经取得了一些进展；事实上，一些基准测试显示，与 2012 年初发布的第一版 Go 相比，目前的开发版性能已经翻了一番。</p>
-<h2 id="19-小结"><a href="#19-小结" class="headerlink" title="19. 小结"></a>19. 小结</h2><p>软件工程指导了 Go 的设计。与大多数通用编程语言相比，Go 的设计是为了解决我们在构建大型服务器软件时接触到的一系列软件工程问题。这么一说，这可能会让 Go 听起来相当沉闷和工业化，但事实上，在整个设计过程中，对清晰、简单和可组合性的关注反而导致了一门工作效率高且有趣的语言，许多程序员都觉得它表达力强而且功能强大。</p>
+<p>不过，不是所有事情都已经确定。我们还在学习中（但语言暂时是冻结的）。</p>
+<blockquote>
+<p>译者注：根据译者的理解，这里的语言冻结，应该是指为了兑现 Go 1 backwards compatibility 的承诺，Go 1.x 的 API 已经基本固定，后续只会新增特性和对现有特性做兼容的微调，更多是在底层实现上做改进。破坏兼容性的修改，只能等到 Go 2。</p>
+</blockquote>
+<p>Go 语言的一个主要的弱点，是它的实现仍需努力改进。编译器生成的代码，尤其是运行时的性能应该更好，这方面的工作还在继续。目前已经取得了一些进展；事实上，一些基准测试显示，与 2012 年初发布的第一版 Go 相比，当前开发版的性能已经翻了一番。</p>
+<h2 id="19-小结"><a href="#19-小结" class="headerlink" title="19. 小结"></a>19. 小结</h2><p>软件工程指导了 Go 的设计。与大多数通用编程语言相比，Go 的设计是为了解决我们在构建大型服务器软件时接触到的一系列软件工程问题。这么一说，这可能会让 Go 听起来相当沉闷和工业化，但事实上，在整个设计过程中，对清晰、简单和可组合性的关注反而导致了一门工作效率高且有趣的语言，很多程序员都觉得它表达力强而且功能强大。</p>
 <p>造就这个结果的特性包括：</p>
 <ul>
 <li>清晰的依赖关系</li>
@@ -365,9 +379,10 @@
 <blockquote>
 <p>译者小结：</p>
 <p>一万八千多字，终于翻译完了。</p>
-<p>一开始我没有留意原文的字数，以为最多花两个夜晚，就能翻译完。实际上，如果不涉及那么多专业概念，没有那么多上下文省略和带歧义的表述，这个长度两晚是没问题的。</p>
+<p>一开始我没有留意原文的字数，以为最多花两个晚上，就能翻译完。实际上，如果不涉及那么多专业概念，没有那么多上下文省略和带歧义的表述，这个长度两晚也是可以勉强完成的。</p>
 <p>可本文就是有很多地方，需要有相关的背景知识，无法单纯从原文确定作者的准确意思。没办法，有歧义又了解不够的地方，只好查资料、翻源码，猜测原作者最大可能想表达什么。所以导致翻译进度又慢又累。而即使这样，如开头所说，仍然无法避免会有理解偏差和错误。</p>
-<p>这样一来，对之前的译文就变得更加宽容了。笔误和排版混乱仍然不应该。但那些在我看来像是显而易见的错误，也许只是刚好落入了我的知识范围；我的译文里，可能也有落在我的知识盲区最后只好瞎蒙的地方，成为别人眼里的低级错误。</p>
+<p>这样一来，对之前的译文就变得更加宽容了。笔误和排版混乱仍然不应该。但那些在我看来像是显而易见的错误，也许只是刚好落入了我的知识范围；而我的译文里，可能也有落在我知识盲区最后只好瞎蒙的地方，成为别人眼里的低级错误。</p>
+<p>欢迎留言指出错误，或者提出你不同的见解。</p>
 </blockquote>
 ]]></content>
     
