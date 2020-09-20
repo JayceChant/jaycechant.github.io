@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/index.html">
 <meta property="og:site_name" content="存档Save&Load">
 <meta property="og:description" content="最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解得还是不够深入，写得辞不达意。然后找到了 Rob Pike 在 8 年前的演讲稿，拜读学习之后，想推荐给我的读者作为学习资料。">
-<meta property="og:updated_time" content="2020-08-29T15:43:31.422Z">
+<meta property="og:updated_time" content="2020-08-30T03:14:05.397Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go 在 Google：服务于软件工程的语言设计（翻译）">
 <meta name="twitter:description" content="最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解得还是不够深入，写得辞不达意。然后找到了 Rob Pike 在 8 年前的演讲稿，拜读学习之后，想推荐给我的读者作为学习资料。">
@@ -136,24 +136,15 @@
 <p>但是，一门语言如何对软件工程有所助益呢？本文剩下的内容就是对这个问题的回答。</p>
 <h2 id="4-痛点"><a href="#4-痛点" class="headerlink" title="4. 痛点"></a>4. 痛点</h2><p>在 Go 刚推出时，有人声称，它缺少现代语言所必需的某些特性或方法论。缺少这些的 Go 能有什么价值呢？我们的回答是，Go 所具备的某些特性，可以解决严重困扰大规模软件开发的一些问题。这些问题包括</p>
 <ul>
-<li><p>构建速度慢</p>
-</li>
-<li><p>失控的依赖关系</p>
-</li>
-<li><p>每个程序员使用相同语言的不同子集</p>
-</li>
-<li><p>程序难以理解（代码难以阅读，文档不完善等）</p>
-</li>
-<li><p>重复劳动</p>
-</li>
-<li><p>更新代价大</p>
-</li>
-<li><p>版本偏斜（version skew）</p>
-</li>
-<li><p>难以编写自动化工具</p>
-</li>
-<li><p>跨语言构建</p>
-</li>
+<li>构建速度慢</li>
+<li>失控的依赖关系</li>
+<li>每个程序员使用相同语言的不同子集</li>
+<li>程序难以理解（代码难以阅读，文档不完善等）</li>
+<li>重复劳动</li>
+<li>更新代价大</li>
+<li>版本偏斜（version skew）</li>
+<li>难以编写自动化工具</li>
+<li>跨语言构建</li>
 </ul>
 <p>一门语言的单个特性并不能解决这些问题。这需要有软件工程的大局观（larger view），所以在 Go 的设计中，我们试图把重点放在解决这些问题上。</p>
 <p>作为一个简单而且独立的例子，我们来看一下程序结构的表示方式。一些观察者反对 Go 用花括号（<code>{...}</code>）来表示类似于 C 的块状结构，他们更喜欢用 Python 或 Haskell 风格的空格来缩进。然而，我们见过太多由跨语言构建引起的构建和测试失败：嵌入到另一种语言里的 Python 代码段（例如通过 SWIG 调用），会因为周围代码缩进的变化而被意外地破坏，而且非常难以察觉。因此，我们的观点是，虽然空格缩进对于小程序来说是不错的选择，但它并不具有大程序所需要的可伸缩性；而且代码库越大，异构性越强，就会带来越多的麻烦。<strong>为了安全和可靠，最好还是放弃这点便利</strong>，所以 Go 使用花括号表示的代码块。</p>
@@ -186,9 +177,9 @@
 <p>让 Go 可以做到规模化、依赖智能化的第一步，是语言将 <strong>未使用的依赖</strong> （unused dependencies）定义为编译期错误（注意不是警告，是错误）。如果源文件导入了一个它不用的包，程序就不会通过编译。这保证了任何 Go 程序构建中的依赖关系树都是精确的，没有多余的边。另一边又保证了在构建程序时不会有多余的代码被编译，从而最大限度地减少了编译时间。</p>
 <p>第二步是在编译器的实现上，更进一步保证效率。假设一个有三个包的 Go 程序，依赖关系如下：</p>
 <ul>
-<li><code>A</code> 包导入了 <code>B</code> 包;</li>
-<li><code>B</code> 包导入了 <code>C</code> 包;</li>
-<li><code>A</code> 包没有导入 <code>C</code> 包。</li>
+<li><code>A</code> 包导入了 <code>B</code> 包</li>
+<li><code>B</code> 包导入了 <code>C</code> 包</li>
+<li><code>A</code> 包没有导入 <code>C</code> 包</li>
 </ul>
 <p>这意味着 A 包只是在引用 B 包的过程中，间接地引用了 C 包；换句话说，尽管 A 引用的来自 B 的某些代码引用了 C，但在 A 的源码里没有直接涉及来自 C 的标识符。例如， A 包可能会引用一个在 B 里面定义的结构体类型，该结构体有一个字段的类型是在 C 里定义的，但 A 本身并不直接引用 C 里面的类型。一个更具体的例子是，A 导入了一个格式化 I/O 包 B，B 使用了 C 提供的缓冲 I/O 实现，但 A 本身并没有调用缓冲 I/O。</p>
 <p>要构建这个程序，首先 C 被编译；被依赖的包必须在依赖它们的包之前构建。然后，B 被编译；最后 A 被编译，然后就可以链接程序。</p>
@@ -281,22 +272,14 @@
 <h2 id="12-语义"><a href="#12-语义" class="headerlink" title="12. 语义"></a>12. 语义</h2><p>Go 语句的语义一般跟 C 语言类似。它是一种带有指针等特性的、编译型、静态类型的过程式语言。设计上，习惯 C 族语言的程序员应该会感到熟悉。在推出一门新语言时，目标受众能够快速学会它是很重要的；将 Go 植根于 C 家族有助于确保年轻程序员能很容易学会 Go（他们大多数都知道 Java、JavaScript，也许还有 C）。</p>
 <p>尽管如此，Go 对 C 的语义还是做了很多小的改变，主要是出于健壮性的考虑。这些变化包括：</p>
 <ul>
-<li><p>没有指针运算</p>
-</li>
-<li><p>没有隐式数字转换</p>
-</li>
-<li><p>总是检查数组边界</p>
-</li>
-<li><p>没有类型别名（声明 <code>type X int</code> 之后， <code>X</code> 和 <code>int</code> 是不同的类型，而不是别名）</p>
-</li>
-<li><p><code>++</code> 和 <code>--</code> 是语句（statements）而不是表达式（expressions）</p>
-</li>
-<li><p>赋值不是表达式</p>
-</li>
-<li><p>对栈上变量取址是合法的（甚至是被鼓励的）</p>
-</li>
-<li><p>其它</p>
-</li>
+<li>没有指针运算</li>
+<li>没有隐式数字转换</li>
+<li>总是检查数组边界</li>
+<li>没有类型别名（声明 <code>type X int</code> 之后， <code>X</code> 和 <code>int</code> 是不同的类型，而不是别名）</li>
+<li><code>++</code> 和 <code>--</code> 是语句（statements）而不是表达式（expressions）</li>
+<li>赋值不是表达式</li>
+<li>对栈上变量取址是合法的（甚至是被鼓励的）</li>
+<li>其它</li>
 </ul>
 <blockquote>
 <p>译者注：</p>
@@ -452,7 +435,7 @@
 <li>易用的工具（<code>go</code> 工具、<code>gofmt</code> 、 <code>godoc</code> 、 <code>gofix</code> ）</li>
 </ul>
 <p>如果你还没有尝试过 Go，我们建议你去尝试：</p>
-<p><a href="http://golang.org" target="_blank" rel="external">http://golang.org</a></p>
+<p><a href="https://golang.org" target="_blank" rel="external">https://golang.org</a></p>
 <blockquote>
 <p>译者小结：</p>
 <p>一万八千多字，终于翻译完了。</p>
@@ -466,7 +449,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/" data-id="cke8sf9kv006jvkxl3fz8jqvv" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/" data-id="ckfayfaqu00b8asxlqvnny9qm" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -481,6 +464,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2020/golang-in-action-day-2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          Go 语言实战（2）： 常量与变量
+        
+      </div>
+    </a>
   
   
     <a href="/2020/golang-in-action-day-1/" id="article-nav-older" class="article-nav-link-wrap">
@@ -507,7 +499,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Go-语言实战/">Go 语言实战</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/刷题/">刷题</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/科普/">科普</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/粤语/">粤语</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Go-语言实战/">Go 语言实战</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/刷题/">刷题</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/科普/">科普</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/粤语/">粤语</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -525,7 +517,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -535,6 +527,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/golang-in-action-day-2/">Go 语言实战（2）： 常量与变量</a>
+          </li>
         
           <li>
             <a href="/2020/translation-language-design-in-the-service-of-software-engineering/">Go 在 Google：服务于软件工程的语言设计（翻译）</a>
@@ -550,10 +546,6 @@
         
           <li>
             <a href="/2020/about-child-restraint-system/">聊聊儿童安全座椅</a>
-          </li>
-        
-          <li>
-            <a href="/2020/leetcode-23-merge-k-sorted-lists/">LeetCode 解题： 合并 K 个有序链表</a>
           </li>
         
       </ul>

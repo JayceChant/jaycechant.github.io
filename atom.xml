@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaycechant.info/"/>
-  <updated>2020-08-29T15:43:31.422Z</updated>
+  <updated>2020-09-20T10:23:43.015Z</updated>
   <id>https://jaycechant.info/</id>
   
   <author>
@@ -16,11 +16,369 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Go 语言实战（2）： 常量与变量</title>
+    <link href="https://jaycechant.info/2020/golang-in-action-day-2/"/>
+    <id>https://jaycechant.info/2020/golang-in-action-day-2/</id>
+    <published>2020-08-30T04:15:12.000Z</published>
+    <updated>2020-09-20T10:23:43.015Z</updated>
+    
+    <content type="html"><![CDATA[<p>上一篇《<a href="../golang-in-action-day-1/">Go 语言实战（1）： 初识</a>》开了头，今天我们接着打卡。</p>
+<a id="more"></a>
+<blockquote>
+<p>注意，文中出现的大多数代码都只是关键片段，如果想尝试运行，需要补充程序的必要成分。关于一个完整 Go 程序的结构，请看第一期的内容。</p>
+</blockquote>
+<h2 id="Go-的定位"><a href="#Go-的定位" class="headerlink" title="Go 的定位"></a>Go 的定位</h2><p>接着上一期，这期还是先介绍一些概念性的话题。</p>
+<p>如果用一句话来描述，Go 的定位就是 <del>保留 C 语言的简洁性和执行效率的前提下，重新设计放下历史包袱，增加现代特性，表达力和易用性向 Python 等现代语言靠拢</del> <strong>服务于软件工程的语言设计</strong>。（划掉的是我啰嗦又辞不达意的总结，加粗的是 Rob Pike 2012 年一个演讲的主题。）</p>
+<p>我在写这一段时，发现无论如何都很难概括好。然后我就放弃了自己概括，改为学习大佬讲话了。我还把这个演讲翻译了分享给大家：</p>
+<p><a href="../translation-language-design-in-the-service-of-software-engineering/">Go 在 Google：服务于软件工程的语言设计（翻译）</a></p>
+<p>我个人看这篇文章的感受是受益匪浅。Rob 在 8 年前 Go 1 时提到的内容，8 年后仍然有效。8 年里 Go 的语言设计只是在保持兼容的基础上做了微调，更多的投入，是在运行时和工具链的改进上。他们从一开始就知道要做什么，怎么到达。作为对比，很多语言流行后的主要用途跟当年创造的目的大相径庭：一开始的目标没有达成，却意外收获了一个新阵地，然后被新的状况推着前进。</p>
+<p>而这几个从 贝尔实验室 干到 Google ，参与过创造 Unix、Plan 9、UTF-8 再到 Go 的老大爷（Ken 今年 77 岁，Rob 也 64 岁了），四五十年的开发生涯，清楚地知道在工程实践中，什么是重要的。</p>
+<h2 id="语法与风格"><a href="#语法与风格" class="headerlink" title="语法与风格"></a>语法与风格</h2><p>Go 的语法大致是类似 C 语言的，有 C 族语言经验的话，很容易习惯，没有也不难学。这里只是提几个比较特别的点。这些语言风格和惯例的内容，一开始就要接触到，又很难归入哪个话题，先留个印象，后续如果涉及到会再次说明。</p>
+<h3 id="命名在前的声明"><a href="#命名在前的声明" class="headerlink" title="命名在前的声明"></a>命名在前的声明</h3><p>这可能是最显眼的差别。Go 里面所有的声明，都是统一的 <code>关键字 命名 定义内容</code> 这样的顺序。Rob 称这样的语法为『类型语法（type syntax）』，而是 C 的语法是『表达式语法（expression syntax）』。</p>
+<p>Go 的例子：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 常量</span></div><div class="line"><span class="comment">// 声明是 = 前面部分。常量必须在声明同时绑定值，否则编译器会报 'missing constant value'</span></div><div class="line"><span class="keyword">const</span> Pi <span class="keyword">float64</span> = <span class="number">3.14</span></div><div class="line"></div><div class="line"><span class="comment">// 变量</span></div><div class="line"><span class="comment">// 变量可以只声明，此时变量的值为对应类型的零值。</span></div><div class="line"><span class="keyword">var</span> Name <span class="keyword">string</span></div><div class="line"><span class="keyword">var</span> array [<span class="number">10</span>]<span class="keyword">int</span></div><div class="line"><span class="keyword">var</span> iPtr *<span class="keyword">int</span></div><div class="line"></div><div class="line"><span class="comment">// 类型</span></div><div class="line"><span class="keyword">type</span> NewInt <span class="keyword">int</span></div><div class="line"><span class="keyword">type</span> Goods <span class="keyword">struct</span> &#123;</div><div class="line">    <span class="comment">// 结构体内部也是名称在前</span></div><div class="line">    <span class="comment">// 只是外面已经有了 struct &#123;&#125;，不需要再给关键字了</span></div><div class="line">    Count <span class="keyword">int</span></div><div class="line">    Price <span class="keyword">float64</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 函数</span></div><div class="line"><span class="comment">// func 可以当做关键字</span></div><div class="line"><span class="comment">// 只是名称 FuncA 和 函数体定义之间没有空格隔开而已</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Add</span><span class="params">(a, b <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">    <span class="keyword">return</span> a + b</div><div class="line">&#125;</div><div class="line"><span class="comment">// func 也可以当做类型</span></div><div class="line"><span class="keyword">var</span> mul <span class="function"><span class="keyword">func</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span><span class="title">int</span> = <span class="title">func</span><span class="params">(a, b <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">    <span class="keyword">return</span> a * b</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 甚至连 import 语句都满足这个规则</span></div><div class="line"><span class="comment">// 当然，多数情况下，用默认包名即可，不需要给包命名，所以中间的命名可以省略</span></div><div class="line"><span class="keyword">import</span> mylog <span class="string">"example.com/lib/log"</span></div><div class="line"><span class="comment">// 没有指定名称，就是用它原来的包名，一般为路径最后一级目录，即 log</span></div><div class="line"><span class="keyword">import</span> <span class="string">"another.com/different/log"</span></div></pre></td></tr></table></figure>
+<p>阅读代码时，经历一个『是什么——什么名字——具体内容』理解的过程，还是很自然的。关键是，不同的声明都很统一，不需要切换思维模式。用 Rob 的话说，无论对人对计算机来说，都好解析。</p>
+<p>C 的表达式语法，大部分情况下不过不失，但是考虑上数组和指针，情况就变得脑筋急转弯起来：</p>
+<p>（如果你没有接触过 C 族语言，以下对比可以先跳过）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 常量</span></div><div class="line"><span class="keyword">const</span> <span class="keyword">float</span> PI = <span class="number">3.14</span>;</div><div class="line"></div><div class="line"><span class="comment">// 变量（等于是因为变量最常用，比其他声明少一个关键字）</span></div><div class="line"><span class="keyword">int</span> val;</div><div class="line"><span class="keyword">int</span> <span class="built_in">array</span>[<span class="number">10</span>];</div><div class="line"><span class="keyword">int</span> *iPtr</div><div class="line"></div><div class="line"><span class="comment">// 结构体</span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</div><div class="line">    <span class="keyword">int</span> count;</div><div class="line">    <span class="keyword">float</span> price;</div><div class="line">&#125; Goods;</div></pre></td></tr></table></figure>
+<p>C 是很多人接触计算机的第一门语言，不知道你初学时是否有过跟我类似的困惑：</p>
+<p><code>array[10]</code> 的类型是 <code>int</code> ，这我知道了，数组在哪？是 <code>array[10]</code> 还是 <code>array</code> ？</p>
+<p>同样 <code>*iPtr</code> 的类型也是 <code>int</code> ，但 <code>*iPtr</code> 是什么东西？指针在哪里？</p>
+<p>表达式语法试图通过告诉我们『变量引用时指向什么』，来让我们知道『这是个什么变量』；下标引用得到 <code>int</code> ，就是 int 数组，这有点跳跃；声明的数字是大小而不是下标，容易产生 <code>array[10]</code> 是 <code>int</code>  那 0 到 9 呢的疑惑；最主要的问题，还是 <code>array[10]</code> 视觉上连在一起，需要特意去识别，这在复杂的函数指针上就更严重了。这是个历史遗留问题，这么多年我们早已习惯，但不代表这就不糟糕。</p>
+<p>相比之下，<code>var array [10]int</code> 和 <code>var iPtr *int</code> 就直接多了，起码变量名一眼可见，没有粘连；类型也很好理解，<code>[10]int</code> 10 个 int 的数组，<code>*int</code> 指向 int 的指针。</p>
+<p>好比向别人介绍一款他没见过的食物，正常情况应该是『它的名字叫饺子（array），馅料是猪肉末（[10]int）』；没有人会上来就『饺子馅（array[10]）是猪肉末（int）』，对方会疑惑，这个食物叫 饺子馅？</p>
+<h3 id="首字母大小写控制可见性"><a href="#首字母大小写控制可见性" class="headerlink" title="首字母大小写控制可见性"></a>首字母大小写控制可见性</h3><p>Go 没有常见的 <code>public</code> 和 <code>private</code> 关键字，而是 <strong>靠名称首字母的大小写来控制可见性</strong>。因为代码组织的单位是包（package），包内都是可见的，区别在于是否能被包外面访问。</p>
+<p>首字母大写的名称像 <code>Name</code> 称为导出（exported）标识符，包外可以访问，相当于 public；除此以外的情况，像 <code>name</code> 或者 <code>_name</code> 对包外都不可见，相当于 private。这条规则对所有标识符，包括常量、变量、类型、函数、方法、字段 …… 统统有效。你只要看一眼名字，就能知道是否可以被包外访问，不需要再查看声明。</p>
+<p>唯一的例外是内置类型，像 <code>int</code> 、<code>float64</code>  、<code>string</code> 、 <code>map</code> 都是未导出标识符，但却可以全局访问，甚至连导入（import）都不用。</p>
+<p>Go 支持下划线命名（又叫蛇形命名 snake case，像 <code>snake_case</code>），但不推荐。按惯例除模块名和包名以外，推荐所有标识符都是用驼峰式命名（camel case，像 <code>CamelCase</code> 或者 <code>camelCase</code>），包括常量。</p>
+<h3 id="格式化工具-gofmt"><a href="#格式化工具-gofmt" class="headerlink" title="格式化工具 gofmt"></a>格式化工具 gofmt</h3><p>大多数 IDE 会在保存时自动执行。如果你习惯使用记事本，手动执行一下也不难。<code>gofmt</code> 会把合法的 Go 代码格式化为统一的规范。它多管闲事到，缩进是 Tab 而不是空格，左花括号 <code>{</code> 不用换行，哪些地方有空格哪些没有，代码块之间要不要空行空多少行 …… 都管。</p>
+<p>不要以为只是自带了一个工具这么简单。因为自带了，所以大家都有，不用额外安装第三方和产生不同的规范（即使有第三方，也是考虑兼容官方规范之后再增强）；因为有官方规范，所以大家不用争论那种风格好；提交时不会产生因为格式不同产生的差异和冲突 …… 等等。</p>
+<p>请务必把这个功能用上。要么打开 IDE 的自动格式化，要么记得手动执行一下。</p>
+<h3 id="省略"><a href="#省略" class="headerlink" title="省略"></a>省略</h3><p>Go 总是以清晰明确为第一目标，让人易读无歧义，让机器好解析编译快。所以 Go 不一味追求表达力强，甚至有点逆潮流地刻意区分一些语句和表达式，以避免某些单行长表达式的写法。</p>
+<p>既然反正都是要换行的，分号就给省掉了。</p>
+<p>而上面提到的声明格式，其实有省略的余地。</p>
+<p>第一个是类型推断：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 省略了类型，根据字面量推断</span></div><div class="line"><span class="keyword">const</span> Pi = <span class="number">3.14</span></div><div class="line"><span class="keyword">var</span> Name = <span class="string">"Golang"</span></div><div class="line"></div><div class="line"><span class="comment">// 其中变量还能进一步省略 var 关键字，改用变量短声明 := （不能用于全局变量）</span></div><div class="line"><span class="comment">// 以下 i 自动推断为 int 型，f 为 float64 型</span></div><div class="line">i := <span class="number">0</span></div><div class="line">f := <span class="number">0.0</span></div></pre></td></tr></table></figure>
+<p>第二个是集中声明：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"io"</span></div><div class="line">    <span class="string">"log"</span></div><div class="line">    <span class="string">"os"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">const</span> (</div><div class="line">    Pi = <span class="number">3.1415</span></div><div class="line">    prefix = <span class="string">"go:"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">var</span> (</div><div class="line">    Name <span class="keyword">string</span></div><div class="line">    array [<span class="number">10</span>]<span class="keyword">int</span></div><div class="line">    iPtr *<span class="keyword">int</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">type</span> (</div><div class="line">    <span class="comment">// ...</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="comment">// 除了 func，都可以集中声明</span></div></pre></td></tr></table></figure>
+<p>集中声明除了节省敲几个关键字的时间，更重要的是让同类声明放在一起，更有条理。</p>
+<h2 id="常量-与-变量"><a href="#常量-与-变量" class="headerlink" title="常量 与 变量"></a>常量 与 变量</h2><p>啰嗦一番之后，这里正式进入本期的主题。内容较多，如果通读有压力，可以跳着看留个印象，遇到问题回来翻阅。</p>
+<p>在下一期的数据类型之前，先讲常量 和 变量。我们从 值（value）说起。</p>
+<p>计算机科学中，值是指『无法进一步求值的表达式（expression）』。像 <code>1 + 3</code> 这个式子，可以进一步求值得到 <code>4</code>，但是 4 已经无法进一步简化，那么 4 就是一个值，是 <code>1 + 3</code> 这个表达式（还有 <code>2 + 2</code> 、 <code>5 - 1</code> …… 还有 <code>4</code> 本身）的值。简单一点理解，可以认为本质上就是一个 数。</p>
+<p>当需要用到一个值，就需要表示、储存和引用它，涉及到三种量（quantity）：字面量、常量、变量。</p>
+<h3 id="1-常量"><a href="#1-常量" class="headerlink" title="1. 常量"></a>1. 常量</h3><p>广义上的常量包括 字面量。</p>
+<p>字面量又被称作 <strong>无名常量（unnamed constant）或 字面常量 （literal constant）</strong>。与之对应，一般所说的常量因为关联了标识符，又被称作 <strong>有名常量（named constant）</strong>。</p>
+<p>字面量 和 常量 在很多语言里，底层实现都类似甚至一致，都是 编译期确定、储存在静态只读数据区、值不能修改，而且很多使用场景，两者都能互相替代。</p>
+<p>但是，多数语言（包括 Go）只支持基本类型的（有名）常量，所以严格来说，字面量 和 常量 不能等同。派生类型想表示一个固定的值，只能使用字面量，或者用变量的同时对修改加以限制。</p>
+<h4 id="1-1-字面量"><a href="#1-1-字面量" class="headerlink" title="1.1 字面量"></a>1.1 字面量</h4><p><strong>字面量（literal）是源码中对一个固定值的表示</strong>。换言之，它的值，如字面所示。</p>
+<p>几乎所有类型都有对应的字面量表示方法。基本类型的字面量举例：</p>
+<ul>
+<li>整型数（int）： <code>1</code> ， <code>2</code> ， <code>100</code> ， <code>1000</code> ， <code>0b101</code> （二进制 5）， <code>0xff</code> （十六进制 255）；</li>
+<li>浮点数（float）： <code>1.0</code> ，<code>1.1</code> ，<code>1e4</code> （科学记数法 10000）；</li>
+<li>字符（byte）：<code>&#39;a&#39;</code> ， <code>&#39;B&#39;</code> ；</li>
+<li>字符串（string）：<code>&quot;字符串被双引号包围&quot;</code> ，还有一种反引号（<code>Esc</code> 键下方的键）包裹的字符串；</li>
+<li>……</li>
+</ul>
+<p>需要注意的是，<code>bool</code> 没有字面量，在其它语言被定义为字面量的 <code>true</code> 和 <code>false</code> ， 在 Go 是内置的 <code>bool</code> 型的（有名）常量。</p>
+<p>对于派生类型，字面量的表示是在类型后面加花括号 <code>{}</code> ，并在花括号内指定成员的值（如有），未指定的成员则为零值。例如 <code>a := [4]int{7}</code> 得到这样一个数组 <code>{7, 0, 0, 0}</code> 。具体到介绍具体类型时讨论。</p>
+<p>在实际使用上，那些可以在编译期确定的值，像编译期求值的 表达式 和 内置函数返回值，也可以近似看作字面量（无名常量），因为编译器会求值并用得到的值替换它们。</p>
+<h4 id="1-2-常量"><a href="#1-2-常量" class="headerlink" title="1.2 常量"></a>1.2 常量</h4><p>常量（constant，关键字 <code>const</code>）则是<strong>编译期就确定命名，在程序运行中不能被修改的值</strong>。</p>
+<p>因为需要在编译期就确定值，常量必须在声明时就指定它的值，而且只能是<strong>引用 字面量 或其它 常量 的表达式 或 内置函数的返回值 </strong> ；编译器会对表达式或内置函数求值，原来的表达式或函数不再保留：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> (</div><div class="line">    Pi        = <span class="number">3.14</span> <span class="comment">// 字面量</span></div><div class="line">    R         = <span class="number">1</span>&lt;&lt;<span class="number">2</span> <span class="comment">// 引用了字面量的表达式，等价于 R = 4</span></div><div class="line">    Area      = Pi * R * R <span class="comment">// 引用了其它常量的表达式，等价于 Area = 50.24</span></div><div class="line">    Name      = <span class="string">"Rob"</span> + <span class="string">" "</span> + <span class="string">"Pike"</span> <span class="comment">// 字符串字面量的连接表达式，等价于 Name = "Rob Pike"</span></div><div class="line">    NameLen   = <span class="built_in">len</span>(Name) <span class="comment">// 引用常量的内置函数返回值，等价于 NameLen = 8</span></div><div class="line">    ComplexA  = <span class="number">2</span> + <span class="number">3i</span> <span class="comment">// 复数字面量</span></div><div class="line">    RealA     = <span class="built_in">real</span>(ComplexA) <span class="comment">// 内置函数求实部，等价于 RealA = 2.0 （real 返回的是浮点数）</span></div><div class="line">    ImagA     = <span class="built_in">imag</span>(ComplexA) <span class="comment">// 内置函数求虚部，等价于 ImagA = 3.0</span></div><div class="line"></div><div class="line">    AreaSqrt  = math.Sqrt(Area) <span class="comment">// 报错！ math.Sqrt() 不是语言内置的函数</span></div><div class="line">    Perimeter = Pi * Diameter <span class="comment">// 报错！Diameter 是变量，编译时无法确定值</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">var</span> (</div><div class="line">    Diameter <span class="keyword">int</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// Go 支持局部声明的常量</span></div><div class="line">    <span class="comment">// 局部声明只是限定了有效作用域（这个例子里，main 函数以外无法引用 local）</span></div><div class="line">    <span class="comment">// 局部常量依然满足常量的所有特征，在编译期就确定值并且不再修改</span></div><div class="line">    <span class="keyword">const</span> local = <span class="number">42</span></div><div class="line">    <span class="comment">// ....</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如上所述，常量可以看作给字面量绑定了一个名称，后续用名称引用。</p>
+<p>实际上，在程序里使用 <code>Pi</code> （声明为 <code>const Pi = 3.14</code>）和直接使用字面量 <code>3.14</code> 的效果是完全一样的。两种做法 在 Go 里，甚至连生成的汇编代码都几乎一样，常量名实际上只在代码里起作用，编译后都是替换成直接访问存放在 SRODATA （即 static read-only data，静态只读数据）区的值。</p>
+<p>既然效果一样，为什么需要常量呢？一般基于以下两个理由：</p>
+<ul>
+<li><p>通过命名提高可读性：命名可以描述一个值的用途，提供值以外的信息，提高代码的可读性。</p>
+<p>  试想在一个程序里，既需要用到 π 的近似值 3.14，然后刚好另外有一个常数也是 3.14 （例如，计算材料时，某种标准石膏柱的体积是 3.14 立方米）。那么如果都直接使用字面量 <code>3.14</code> ，编码中就需要额外的精力去区分 <code>3.14</code> 究竟是指哪一个。而如果改用标识符 <code>Pi</code> 和 <code>Volume</code> ，就非常明确了。</p>
+<p>  这种光看字面量无法识别含义的值，称为魔数（Magic Number），是开发中需要避免的。</p>
+</li>
+<li><p>命名还能提高代码的可维护性：命名常量只需要修改声明处的值，就能改变所有引用的值。</p>
+<p>  还是 3.14 的例子。如果后面石膏柱的体积改变了，变为 10。那么我们就要把所有含义为石膏柱体积的 <code>3.14</code> 改为 <code>10</code> ；与此同时，π 的值当然没有变，含义为 π 的 <code>3.14</code> 必须保持不变。又或者 π 的值需要提高精度到 <code>3.141593</code> ，保持另一个常数不变。 当这两个值在代码中被大量引用时，即使有搜索功能的辅助，要正确地把值改过来，既不遗漏也不错改，也是一件吃力不讨好的差事。</p>
+<p>  如果使用了常量，就只需要修改常量声明处的值即可。</p>
+</li>
+</ul>
+<p>反过来说，如果一个字面量满足以下至少一点，就应该考虑定义为常量：</p>
+<ul>
+<li>不能光从字面量和使用上下文看出含义（即魔数）；</li>
+<li>相同含义的字面量在代码中多处反复出现。</li>
+</ul>
+<p><strong>再次提醒注意的是，在 Go 里面常量（的底层实现）只能为 基本类型</strong> （即 布尔型、数字类型、字符串类型 3 类，后面会讲到）， 不可以是各种派生类型。</p>
+<h5 id="1-2-1-自动补全"><a href="#1-2-1-自动补全" class="headerlink" title="1.2.1 自动补全"></a>1.2.1 自动补全</h5><p>对于集中声明的常量，编译器允许省略标识符以外的内容，省略的部分自动补全为上一行的内容。注意，要自动补全， <strong>常量</strong> 和 <strong>集中声明</strong> （共用一个 <code>const</code> 关键字）这两个条件缺一不可。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> (</div><div class="line">    a <span class="keyword">int64</span> = <span class="number">1</span></div><div class="line">    b <span class="comment">// 自动补全 int64 = 1，注意，连类型信息也补全了</span></div><div class="line">    c <span class="comment">// 仍然 int64 = 1</span></div><div class="line">    </div><div class="line">    d <span class="comment">// 空行后补全仍然有效</span></div><div class="line">    </div><div class="line">    s, t = <span class="string">"类型推断"</span>, <span class="string">"字符串"</span></div><div class="line">    u, v <span class="comment">// 自动补全</span></div><div class="line">    w, _ <span class="comment">// 因为补全为两个右值，如果要跳过需要显式提供 空标识符（下划线 '_'）</span></div><div class="line">    _, x <span class="comment">// 当然也能跳过第一个</span></div><div class="line">)</div></pre></td></tr></table></figure>
+<p>等价于</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> (</div><div class="line">    a <span class="keyword">int64</span> = <span class="number">1</span></div><div class="line">    b <span class="keyword">int64</span> = <span class="number">1</span></div><div class="line">    c <span class="keyword">int64</span> = <span class="number">1</span></div><div class="line">    </div><div class="line">    d <span class="keyword">int64</span> = <span class="number">1</span></div><div class="line">    </div><div class="line">    s, t = <span class="string">"类型推断"</span>, <span class="string">"字符串"</span></div><div class="line">    u, v = <span class="string">"类型推断"</span>, <span class="string">"字符串"</span></div><div class="line">    w, _ = <span class="string">"类型推断"</span>, <span class="string">"字符串"</span></div><div class="line">    _, x = <span class="string">"类型推断"</span>, <span class="string">"字符串"</span></div><div class="line">)</div></pre></td></tr></table></figure>
+<p>错误示范：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> a <span class="keyword">int</span> = <span class="number">10</span></div><div class="line"><span class="keyword">const</span> b <span class="comment">// 不是集中声明，报错 'missing constant value'</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> (</div><div class="line">    c = <span class="number">3.6</span></div><div class="line">    d <span class="keyword">float64</span> <span class="comment">// 只允许有标识符（命名），不能指定类型；指定了类型就不会自动补全，报错 'missing constant value'</span></div><div class="line">    </div><div class="line">    e, f = <span class="string">"允许同时声明多个不同类型"</span>, <span class="literal">true</span></div><div class="line">    g <span class="comment">// 报错！因为 true 没有标识符对应，需要空标识符显式跳过</span></div><div class="line">)</div></pre></td></tr></table></figure>
+<h5 id="1-2-2-常量计数器-iota"><a href="#1-2-2-常量计数器-iota" class="headerlink" title="1.2.2 常量计数器 iota"></a>1.2.2 常量计数器 iota</h5><p>除此之外，Go 还预定义了一个特殊的标识符 <code>iota</code> （iota 是第九个希腊字母的发音），来方便定义常量。</p>
+<p><code>iota</code> 的值的变化规律是：遇到 <code>const</code> 就归零，每遇到一行常量声明（无论是否引用 <code>iota</code>）就加一。或者换句话说，<code>iota</code> 是 <code>const</code> 声明块的声明行行号（从 0 开始）。看例子：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> (</div><div class="line">    a = <span class="literal">iota</span> <span class="comment">// 0</span></div><div class="line">    <span class="comment">// 空行、注释行不算</span></div><div class="line">    b = <span class="literal">iota</span> <span class="comment">// 1</span></div><div class="line">    c = <span class="number">999</span> <span class="comment">// 尽管没有引用 iota，iota 还是自增为 2</span></div><div class="line">    d = <span class="literal">iota</span> <span class="comment">// 3</span></div><div class="line">)</div></pre></td></tr></table></figure>
+<p>结合 自动补全，能够大大简化一些有规律的常量声明：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// A, B, C, D, E 五档评价</span></div><div class="line"><span class="comment">// A 最好加 2 分，C 不好不坏，E 最差 扣 2 分，以此类推</span></div><div class="line"><span class="keyword">const</span> (</div><div class="line">    E = <span class="literal">iota</span> - <span class="number">2</span> <span class="comment">// 0 - 2</span></div><div class="line">    D <span class="comment">// 1 - 2</span></div><div class="line">    C <span class="comment">// 2 - 2</span></div><div class="line">    B <span class="comment">// 3 - 2</span></div><div class="line">    A <span class="comment">// 4 - 2</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="comment">// 声明 一个字节上 每个比特位的掩码</span></div><div class="line"><span class="comment">// 涉及左位移操作，有兴趣可以自行查阅位操作的知识，后续有机会再展开</span></div><div class="line"><span class="keyword">const</span> (</div><div class="line">    mask0 <span class="keyword">uint8</span> = <span class="number">1</span> &lt;&lt; <span class="literal">iota</span></div><div class="line">    mask1</div><div class="line">    mask2</div><div class="line">    mask3</div><div class="line">    mask4</div><div class="line">    mask5</div><div class="line">    mask6</div><div class="line">    mask7</div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">const</span> (</div><div class="line">    a = <span class="literal">iota</span> <span class="comment">// 0</span></div><div class="line">    b <span class="comment">// 1</span></div><div class="line">    _ <span class="comment">// 可以用空标识符跳过，这里 iota 为 2</span></div><div class="line">    c <span class="comment">// 3</span></div><div class="line">    d, e = <span class="literal">iota</span>, <span class="literal">iota</span> <span class="comment">// 都是 4</span></div><div class="line">    f, g <span class="comment">// 都是 5</span></div><div class="line">)</div></pre></td></tr></table></figure>
+<p>这样声明还有一个好处：有些常量对具体的值没有要求，但是要求一组常量之间总是保持一个先后关系；用 <code>iota</code> 声明，就不需要一个一个手动输入后续的值；而当需要加入新的常量时，直接插入中间，后续的值会自动后延。</p>
+<h3 id="2-变量"><a href="#2-变量" class="headerlink" title="2. 变量"></a>2. 变量</h3><p>因为常量要在编译期确定，而且后续无法修改，所以无法保存在运行时运算得到的值，也无法在运行过程中对值进行修改。这时就需要用到变量了。</p>
+<p>变量（variable，关键字 <code>var</code>），本质上是 <strong>一个关联了标识符（命名）的储存地址，用来保存 允许运行时确定或者改变的值</strong>。稍复杂一点的程序，都很难不使用中间结果直接运算出最终结果，变量允许我们 储存、引用、修改 中间结果，把复杂的运算层层分解成简单运算，再把中间结果拼接成最终结果。所以变量是实际编程最常打交道的。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> (</div><div class="line">    <span class="comment">// 1. 仅声明，变量被初始化为类型对应的零值，这里 int 的零值为 0</span></div><div class="line">    a <span class="keyword">int</span></div><div class="line">    <span class="comment">// 2. 声明同时赋初始值</span></div><div class="line">    b <span class="keyword">float32</span> = <span class="number">3.14</span></div><div class="line">    <span class="comment">// 3. 类型推断</span></div><div class="line">    <span class="comment">// c 的类型跟 b 一致</span></div><div class="line">    c = b</div><div class="line">    <span class="comment">// d 的类型根据字面量 3.14 推断为 float64（下面讲为什么）</span></div><div class="line">    d = <span class="number">3.14</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    s := <span class="string">"局部变量可以使用 短声明"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中 Go 的局部变量还有两个常量和全局变量没有的特点：</p>
+<ul>
+<li>可以使用短声明；</li>
+<li>声明了必须使用。</li>
+</ul>
+<h4 id="2-1-短声明"><a href="#2-1-短声明" class="headerlink" title="2.1 短声明"></a>2.1 短声明</h4><p>前面在语法与风格部分有提到，可以省略常量和变量声明中的类型，让编译器根据赋值的字面量推断类型。</p>
+<p>而局部变量还能更进一步，把 <code>var</code> 关键字也省略掉，改用短声明赋值符号 <code>:=</code> （就是冒号后面紧接等号），表示声明同时赋值的语义：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 局部变量是指在函数或者代码块内部声明的变量，与之对应的是全局（包级）变量</span></div><div class="line"><span class="comment">// 只有局部变量可以使用短声明</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">myFunction</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 1. 完整声明，赋值不是必须的；如果不赋值，则初始化为零值</span></div><div class="line">    <span class="keyword">var</span> a <span class="keyword">int</span></div><div class="line">    <span class="comment">// 2. 类型推断，根据赋值推断类型</span></div><div class="line">    <span class="keyword">var</span> b = <span class="number">3.14</span></div><div class="line">    <span class="comment">// 3. 短声明，连 var 关键字也省略</span></div><div class="line">    c := <span class="string">"声明一个变量 c，同时根据赋值推断类型"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但是严格来说，短声明跟 <code>var</code> + 类型推断还是有区别：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">function2</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// var + 类型推断</span></div><div class="line">    <span class="keyword">var</span> a = <span class="number">1</span></div><div class="line">	<span class="keyword">var</span> a, b = <span class="number">2</span>, <span class="number">3</span> <span class="comment">// 报错，a 被重复声明了</span></div><div class="line">    </div><div class="line">    <span class="comment">// 短声明</span></div><div class="line">    x := <span class="number">2.78</span></div><div class="line">    x := <span class="number">3.14</span> <span class="comment">// 报错，x 被重复声明了</span></div><div class="line">    x, y := <span class="number">3.14</span>, <span class="string">"不会报错，短声明的左边只要至少声明了一个新变量即可"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>var</code> 关键字后面跟着的，都必须是新声明的变量；而短声明则意味着『至少声明了一个新变量』，不需要都是新变量。这种特性加上局部变量遮盖（shadow），容易产生一些非常难以察觉的错误，所以短声明要谨慎使用：</p>
+<ul>
+<li>引用范围很广，引用位置距离声明比较远的变量，不要用短声明；</li>
+<li>除非是用完即弃的临时变量，不要用短声明同时声明 / 赋值 多个变量。</li>
+</ul>
+<h4 id="2-2-局部变量未使用错误"><a href="#2-2-局部变量未使用错误" class="headerlink" title="2.2 局部变量未使用错误"></a>2.2 局部变量未使用错误</h4><p>Go 不允许局部变量定义了却不使用。这是一个编译错误，不是警告。常量 和 全局（包级）变量 无此限制，只有局部变量有。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">function3</span><span class="params">()</span></span> &#123;</div><div class="line">    a := <span class="number">2</span> <span class="comment">// 编译错误：'a declared but not used'</span></div><div class="line">    a = <span class="number">3</span> <span class="comment">// 赋值（写）不算，必须是引用了变量的值</span></div><div class="line">    </div><div class="line">    b := <span class="number">6.18</span></div><div class="line">    <span class="comment">// 以下任意一种都算对 b 有效使用</span></div><div class="line">    c := b <span class="comment">// 赋值给其它变量；不过这时 c 如果不用又要报错了</span></div><div class="line">    b + <span class="number">1</span> <span class="comment">// 作为表达式的一部分；不过这时 b + 1 作为一个整体 'is not used'</span></div><div class="line">    fmt.Println(b) <span class="comment">// 作为函数参数</span></div><div class="line">    _ = b <span class="comment">// 赋值给空标识符也算</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="3-作用域（scope）-与-遮盖（shadow）"><a href="#3-作用域（scope）-与-遮盖（shadow）" class="headerlink" title="3. 作用域（scope） 与 遮盖（shadow）"></a>3. 作用域（scope） 与 遮盖（shadow）</h3><p>无论 常量 还是 变量，都不允许重复声明：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> a = <span class="number">777</span></div><div class="line"><span class="keyword">const</span> a = <span class="number">888</span> <span class="comment">// 重复声明</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> b = <span class="number">3.14</span></div><div class="line"><span class="keyword">var</span> b = <span class="number">3.1415</span> <span class="comment">// 重复声明</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">function</span><span class="params">()</span></span> &#123;</div><div class="line">    c := <span class="string">"第一次声明"</span></div><div class="line">    c := <span class="string">"重复声明，报错"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但是以下代码却是合法的：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> a = <span class="number">777</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> b = <span class="number">3.14</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">function</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">const</span> a = <span class="number">888</span> <span class="comment">// 正常</span></div><div class="line">    <span class="keyword">var</span> b = <span class="number">3.1415</span> <span class="comment">// 正常</span></div><div class="line">    fmt.Println(a, b) <span class="comment">// 888 3.1415</span></div><div class="line"></div><div class="line">    c := <span class="string">"外部 c"</span></div><div class="line">    <span class="comment">// 这个 if 随便写的，纯粹为了制造一个新的代码块，switch、for 代码块也一样</span></div><div class="line">    <span class="keyword">if</span> b &gt; <span class="number">0</span> &#123;</div><div class="line">	    c := <span class="string">"if 代码块里的 c"</span></div><div class="line">        fmt.Println(c) <span class="comment">// if 代码块里的 c</span></div><div class="line">    &#125;</div><div class="line">    fmt.Println(c) <span class="comment">// 外部 c</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">otherFunc</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 外部常量 / 变量的值并没有被覆盖</span></div><div class="line">    fmt.Println(a, b) <span class="comment">// 777 3.14</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这是因为常量 / 变量有作用域。第二个例子里面，后声明的 <code>a, b, c</code> 实际上是 <strong>不同作用域下的新常量 / 变量</strong>，所以不会产生『重复声明』的错误，它们可以同时存在。</p>
+<p>而在引用的时候，会从引用位置的作用域开始往外查找，引用最近作用域的值。一旦更内层的作用域声明了新的 常量 / 变量，外部的值就无法引用到，这种情况称为 遮盖（shadow，又译作 遮挡、隐藏）。</p>
+<p>多数语言都是这样的设计。但是在 Go 里，遮盖 跟 变量短声明 放在一起，很容易产生不起眼的错误。先看正常的代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    result := <span class="number">0</span></div><div class="line">    <span class="comment">// 省略一些中间过程</span></div><div class="line">    result, success := tryPerform() <span class="comment">// 只有 success 是新声明的变量</span></div><div class="line">    <span class="keyword">if</span> !success &#123;</div><div class="line">        <span class="comment">// 失败时的处理</span></div><div class="line">    &#125;</div><div class="line">    fmt.Println(result) <span class="comment">// 42</span></div><div class="line">    <span class="comment">// 后续用 result 参与其它运算...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">tryPerform</span><span class="params">()</span> <span class="params">(<span class="keyword">int</span>, <span class="keyword">bool</span>)</span></span> &#123;</div><div class="line">    <span class="comment">// 如果执行成功，返回 运算结果 和 true</span></div><div class="line">    <span class="comment">// 否则 返回 0 和 false</span></div><div class="line">    <span class="comment">// 这里为了简化逻辑，直接返回固定值</span></div><div class="line">    <span class="keyword">return</span> <span class="number">42</span>, <span class="literal">true</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后很自然地，随着其他代码的加入， <code>main</code> 函数改成了这样（<code>tryPerform</code> 函数不变）：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    result := <span class="number">0</span></div><div class="line">    <span class="comment">// 尝试其它操作，结果保存在 result</span></div><div class="line">    <span class="comment">// result = ...</span></div><div class="line">    <span class="comment">// 这里假设 0 表示无效结果，还得继续尝试</span></div><div class="line">    <span class="keyword">if</span> result == <span class="number">0</span> &#123;</div><div class="line">	    result, success := tryPerform() <span class="comment">// 注意，两个都是新变量，result 发生了 shadow</span></div><div class="line">    	<span class="keyword">if</span> !success &#123;</div><div class="line">        	<span class="comment">// 失败时的处理</span></div><div class="line">    	&#125;</div><div class="line">        fmt.Println(result) <span class="comment">// 内层 result，42</span></div><div class="line">    &#125;</div><div class="line">    fmt.Println(result) <span class="comment">// 外层 result，还是 0</span></div><div class="line">    <span class="comment">// 后续用 result 参与其它运算都是错的</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>关键是，这个错误编译器无法检查出来，因为 <code>:=</code> 有歧义，在声明多个变量时，同时混合了 <strong>赋值</strong> 和 <strong>声明</strong> 的语义。在第一份代码中，<code>result</code> 已经存在，同时新变量 <code>success</code> 满足了短声明至少声明一个新变量的要求，所以短声明『很聪明』地理解了 <code>result</code> 只是要赋值。当因为某些修改，创建新的作用域时，在这个作用域内 <code>result</code> 还没被声明（尽管可以访问到外层的 <code>result</code>），短声明又『很聪明』地声明了新的 <code>result</code> 。</p>
+<p>这导致超出预期的行为。</p>
+<p>解决办法也很简单：<strong>大跨度（特别是跨作用域）使用的变量，不要用短声明，老老实实用 <code>var</code> 关键字</strong>。<code>var</code> 很明确地告诉我们，是新声明的变量，没有 <code>var</code> 则只是赋值。视觉上，<code>var</code> 关键字比等号前的冒号好辨认；语义上不存在歧义，编译器很容易发现错误。</p>
+<p>需要特别提醒一下的是，在代码块开头声明的变量，作用域也限于代码块内，哪怕声明位置在花括号 <code>{}</code> 以外：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">if</span> result, ok := tryPerform(); !ok &#123;</div><div class="line">        <span class="comment">// 失败处理</span></div><div class="line">        fmt.Println(result) <span class="comment">// 正常</span></div><div class="line">    &#125;</div><div class="line">    fmt.Println(result) <span class="comment">// result 未声明</span></div><div class="line">    </div><div class="line">    <span class="comment">// for 循环等代码块也一样</span></div><div class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</div><div class="line">        <span class="comment">// 循环体</span></div><div class="line">        fmt.Println(i) <span class="comment">// 正常</span></div><div class="line">    &#125;</div><div class="line">    fmt.Println(i) <span class="comment">// i 未声明</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果变量在代码块之后还需要引用，就应该在代码块之外事先声明：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// i 在 for 代码块之前声明</span></div><div class="line">    <span class="keyword">var</span> i <span class="keyword">int</span></div><div class="line"></div><div class="line">    <span class="keyword">for</span> i = <span class="number">1</span>; i &lt;= <span class="number">10</span>; i++ &#123;</div><div class="line">        <span class="comment">// 循环体</span></div><div class="line">    &#125;</div><div class="line">    fmt.Println(i) <span class="comment">// 11</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="4-类型、推断与转换"><a href="#4-类型、推断与转换" class="headerlink" title="4. 类型、推断与转换"></a>4. 类型、推断与转换</h3><p>Go 是静态强类型（static strongly typed）语言。换句话说，Go 的类型是编译期确定的（静态），而且需要显式的类型转换（强类型）。在这个基础上，Go 又引入了类型推断（隐式类型 implicity typed，但类型仍然是在编译期可以推导得到，运行时不允许修改，仍然是静态强类型），加上 常量 和 变量 的处理不一样，显得好像有点复杂。下面梳理一下。</p>
+<p>字面量、常量 和 变量 放在这里一起讲，做个对比。</p>
+<p><strong>Go 有两种意义上类型</strong> ：</p>
+<ul>
+<li><p>一个是显式的类型 <code>type</code> 。</p>
+<p>  它可以在声明时指定，也可以在赋值时推断出来。在绝大多数语境下，<strong>当我们提到『类型  type』这个术语，说的就是这个类型。没有指定类型称为无类型 <code>untyped</code></strong> 。</p>
+</li>
+<li><p>一个是编译器根据 字面量 或 表达式的值 推断得到的 <strong>常量专用类型</strong>  <code>Ctype</code> （constant type 的缩略）。</p>
+<p>  编译器源码里的注释是：</p>
+<blockquote>
+<p>Ctype describes the constant kind of an “ideal” (untyped) constant.</p>
+</blockquote>
+<p>  翻译过来就是：Ctype 描述了一个理想情况下的（无类型）常量的常量种类。</p>
+<p>  换言之，<code>Ctype</code> 是 <code>untyped</code> 常量（包括字面量）特有的，是作为没有显式 <code>type</code> 时的补充的隐式类型。一个值允许在逻辑上没有类型，也就是无类型 <code>untyped</code> ；但这个值又有储存、运算 的需要，所以编译器就给它推断一个 <code>Ctype</code> （和对应的默认 <code>type</code>）。</p>
+</li>
+</ul>
+<p>一个常量，如果显式指定了 <code>type</code>，就没有 <code>Ctype</code>  的事；如果没有指定，则根据绑定的值确定，究竟是有类型 <code>type</code> 还是无类型 <code>untyped Ctype</code>。</p>
+<p>对于绝大多数类型，这两者差别不大，只是 <code>untyped</code> 逻辑上没有类型，允许自动转换（当然还需要满足转换规则，除数字类型以外的类型，都必须底层类型一致才能转换），一般的使用没有差别：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> (</div><div class="line">    a <span class="keyword">bool</span> = <span class="literal">true</span> <span class="comment">// a 的类型是 bool；true 本身的类型是 untyped bool （后面的 bool 是 Ctype）</span></div><div class="line">    aa     = a <span class="comment">// aa 虽然没有指定类型，但跟 a 一样，类型是 bool</span></div><div class="line">    b      = <span class="literal">true</span> <span class="comment">// b 没有指定类型，类型是 untyped bool</span></div><div class="line">    bb     = b <span class="comment">// bb 和 b 都没有指定类型，类型是 untyped bool</span></div><div class="line">    </div><div class="line">    c <span class="keyword">string</span> = <span class="string">"有类型"</span> <span class="comment">// c 的类型是 string</span></div><div class="line">    d        = <span class="string">"无类型"</span> <span class="comment">// d （以及两个字符串字面量）的类型是 untyped string</span></div><div class="line">)</div></pre></td></tr></table></figure>
+<p>a  和 b（以及 aa、bb），c 和 d， 在语义上有差别，但不涉及类型转换的话，使用上完全没差别。</p>
+<p>因为不同的数字类型之间允许转换，<code>type</code> 和 <code>Ctype</code> 的差异 <strong>主要体现在数字类型上。</strong></p>
+<p>因为还没讲到，先稍微列一下数字类型：</p>
+<p><img src="../../images/golang-in-action-day2/number-type.png" alt=""></p>
+<p>其中特殊类型里，<code>byte</code> 是 一个字节的 ASCII 字符（<code>uint8</code> 的别名）， <code>rune</code> 是四个字节的 Unicode 字符（<code>int32</code> 的别名），可以归为字符类型；<code>uintptr</code> 实际上也是一个整型，只是这个数字表示一个内存地址。</p>
+<table>
+<thead>
+<tr>
+<th>大类</th>
+<th>type</th>
+<th>Ctype（默认 type / 储存宽度）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>整型</td>
+<td>uint8, int8, uint16, int16, uint32, int32, uint64, int64, uint, int, uintptr</td>
+<td>int （int）</td>
+</tr>
+<tr>
+<td>浮点数</td>
+<td>float32, float64</td>
+<td>float（float64）</td>
+</tr>
+<tr>
+<td>复数</td>
+<td>complex32, complex64</td>
+<td>complex（complex64）</td>
+</tr>
+<tr>
+<td>字符</td>
+<td>byte, rune</td>
+<td>rune（rune，即 int32）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>整型看起来很多类型，其实只是 有没有符号 和 位宽 的差别，下一期讲基本类型会讲。</p>
+</blockquote>
+<h4 id="4-1-字面量"><a href="#4-1-字面量" class="headerlink" title="4.1 字面量"></a>4.1 字面量</h4><p>字面量无法指定 <code>type</code> ，只有 <code>Ctype</code> 。</p>
+<p>数字类型可以分为四个大类（kind），每个大类下面根据表示范围又可以分为很多个类型（type）。每个大类对应一个 <code>Ctype</code> ，同时对应一种默认的 <code>type</code> 。<strong>字面量会根据表示形式，自动推断为对应的 <code>Ctype</code> ，并以默认类型储存。</strong></p>
+<h5 id="整型数"><a href="#整型数" class="headerlink" title="整型数"></a>整型数</h5><p>整型数字面量会被推断为 <code>untyped int</code> ，默认类型为 <code>int</code> （<code>int</code> 的位宽与架构相关，64 位系统为 64 位，32 位系统为 32 位）。</p>
+<p>以下字面量都被认为是整型数（二进制和八进制从 1.13 开始支持）：</p>
+<ul>
+<li>十进制整数（即没有小数部分），如 <code>159</code> 。</li>
+<li>二进制整数，为了区分以 <code>0b</code> 或 <code>0B</code> 开头（大写有效，但 <code>gofmt</code> 会自动格式化为小写，下同），如  <code>0b10011111</code> （即十进制 159）。</li>
+<li>八进制整数，以 <code>0</code> 、 <code>0o</code> 或 <code>0O</code> 开头，如 <code>0o237</code> （即十进制 159）。</li>
+<li>十六进制整数，以 <code>0x</code> 或 <code>0X</code> 开头，如  <code>0x9f</code> （即十进制 159）。</li>
+</ul>
+<h5 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h5><p>浮点数字面量会被推断为 <code>untyped float</code> ，默认类型则为 <code>float64</code> 。</p>
+<p>浮点数的字面量形式有：</p>
+<ul>
+<li><p>普通十进制小数，如 <code>15.9</code> ；整数和小数部分都可以为零，<code>1.0</code> 和 <code>0.0</code> 虽然 和 <code>1</code> 和 <code>0</code> 值是一样的，但是推断类型不同。</p>
+</li>
+<li><p>整数或者小数部分如果为零，可以省略，但不能同时省略（毕竟不能只剩下一个小数点），如 <code>.9</code> 等同于 <code>0.9</code> ， <code>1.</code> 等同于 <code>1.0</code> 。</p>
+</li>
+<li><p>科学记数法：十进制整数或符合前面两条的浮点数 + <code>e</code> / <code>E</code> + 十进制整数的指数，如 <code>1.59e2</code> 表示 $ 1.59 \times 10^2 $ 也就是 159，<code>314E-2</code> 表示 $ 314 \times 10^{-2} $ ，即 3.14 。 </p>
+</li>
+<li><p>从 1.13 开始，支持十六进制的科学记数法：十六进制的整数或小数 + <code>p</code> / <code>P</code> + 十进制整数作为指数，如 <code>15.9p7</code> 表示 $ (1 \times 16^1 + 5 \times 16^0 + 9 \times 16^{-1} ) \times 2^7 $ （即十进制的 2760）；<code>p</code> 后的指数是以 2 为底的，注意指数即使为 0 也不能省略。</p>
+<p>  这种表示法用于二进制（十六进制）小数比十进制清晰简单，像 <code>0x.01p0</code> ，对应十进制的 0.00390625；一般很少用到，了解一下即可，不展开。</p>
+</li>
+</ul>
+<h5 id="复数"><a href="#复数" class="headerlink" title="复数"></a>复数</h5><p>复数字面量会被推断为 <code>untyped complex</code> ，默认类型为 <code>complex128</code> 。</p>
+<p>复数由实部和虚部组成。实部和虚部分别都是一个整型数或者浮点数，只是虚部后面跟着一个 <code>i</code>；实部和虚部允许用不同的进制分别表示，具体规则参考整型数和浮点数部分。只是为了兼容 1.13 以前的旧代码，虚部的八进制必须以 <code>0o</code> 或 <code>0O</code> 开头， <code>0</code> 开头会被当做十进制的前导零。</p>
+<p>例如 <code>159 + 7i</code> ，实部 159，虚部 7；<code>0111 + 010i</code> 实部为 73（八进制），虚部为 10；等等。实部如果为零，可以省略；但虚部不可以省略：<code>0i</code> 会被认为是复数，<code>0</code> 和 <code>0.0</code> 则分别被认为是 整型数 和 浮点数——尽管它们都是零值，值是相等的。</p>
+<p><br></p>
+<p>从数学上讲，浮点数（小数）是复数的特例（虚部为 0）；整型数则是浮点数的特例（小数部分为 0）。但是从计算机更有效储存和运算的角度，需要把它们区分开来，一直为 0 的部分，就不必开辟储存空间。</p>
+<p>从 1.13 开始，允许在数字中间加下划线 <code>_</code> 作为分段符来提升字面量的可读性。按英文惯例每三位加一个分段符，那么 十万八千 就写作 <code>108_000</code> ；对于十六进制数，一般每两位（一个字节）作为一个分段，如 <code>0x_15_ef</code>。当然这只是惯例，也可以根据需要分段。分段符每次只能加一个，只能加在数字之间或者进制前导符和数字之间。这个实际试一下就知道了。</p>
+<h5 id="字符"><a href="#字符" class="headerlink" title="字符"></a>字符</h5><p>字符字面量会被推断为 <code>untyped rune</code> ，默认类型为 <code>rune</code>。</p>
+<p>两种字符类型只是两种整型数的别名。</p>
+<blockquote>
+<p>字符及字符串相关部分会涉及到字符编码的知识，篇幅关系，不一一展开。初学者如果觉得难以理解，可以先跳过，先使用普通字符字面量。</p>
+</blockquote>
+<p><code>byte</code> 对应 <code>uint8</code> ，储存的是 1 字节长度的 Unicode 码（相当于 Unicode 开头 ASCII 码加上 Latin-1 辅助字符部分）；</p>
+<p><code>rune</code> 对应 <code>int32</code> ，储存的是一个 4 字节长度的 Unicode 码。</p>
+<p>字符型的字面量均以单引号 <code>&#39;</code> 包裹，形式有：</p>
+<ul>
+<li><p>普通字符，如 <code>&#39;a&#39;</code> （十进制码值 97），<code>&#39;汉&#39;</code> （十进制码值 27721，十六进制 0x6c49）。</p>
+</li>
+<li><p>码值转义，又分四种情况：</p>
+<ul>
+<li><code>\</code> 后接 3 位八进制数，前导零不能省略，如 <code>&#39;\141&#39;</code> 对应十进制码值为 97，即 <code>&#39;a&#39;</code> ；<code>&#39;\041&#39;</code> 对应十进制码值 33，即 <code>&#39;!&#39;</code> ，不能写作 <code>&#39;\41&#39;</code> ；3 位八进制数最大能表示十进制的 511，但由于这种表示法用来表示 1 字节的 Unicode，大于 377  （即十进制 255）的值均无效。</li>
+<li><code>\x</code> 后接 2 位十六进制数，前导零不能省略，表示 1 字节长度的 Unicode，<code>&#39;a&#39;</code> 表示为 <code>&#39;\x61&#39;</code> 。</li>
+<li><code>\u</code> 后接 4 位十六进制数，前导零不能省略，表示 2 字节长度的 Unicode （或者说高 2 位为 0 的 4 字节 Unicode），<code>&#39;a&#39;</code> 表示为 <code>&#39;\u0061&#39;</code> ；这个范围已经可以表示大部分的常用汉字了（严格说是『中日韩统一表意文字』的 初期统一汉字 + 扩展 A 区），如 <code>&#39;汉&#39;</code> 表示为 <code>&#39;\u6C49&#39;</code> 。</li>
+<li><code>\U</code> （大写 U）后接 8 位十六进制数，前导零不能省略，表示完整 4 字节的 Unicode ，这个范围已经可以表示绝大多数的 Unicode 字符了（Unicode 标准仍在扩展中）， <code>&#39;a&#39;</code> 表示为 <code>&#39;\U00000061&#39;</code> ，<code>&#39;汉&#39;</code> 表示为 <code>&#39;\U00006C49&#39;</code> 。</li>
+</ul>
+</li>
+<li><p>如果 <code>\</code> 后面接的字符不是 数字、<code>x</code> 、<code>u</code> 或 <code>U</code> ，则被当做转义字符。转义字符实际上是常用的不可见字符的表示方式，避免记忆 Unicode 码值，常见的转义有：</p>
+<ul>
+<li><code>&#39;\b&#39;</code> 退格符（backspace），对应 <code>&#39;\x08&#39;</code> ，作用是光标往左一个字符，有些情况下意味着删除一个字符；</li>
+<li><code>&#39;\n&#39;</code> 换行符（newline），对应 <code>&#39;\x0A&#39;</code> ，作用是光标往下一行；</li>
+<li><code>&#39;\r&#39;</code> 回车符（carriage return），对应 <code>&#39;\x0D&#39;</code> ，作用是光标回到行首；</li>
+<li><p>……</p>
+<p>比较特殊的是 <code>&#39;\\&#39;</code> 和 <code>&#39;\&#39;&#39;</code> ，就表示 <code>\</code> 和 <code>&#39;</code> ，并非不可见字符；但由于单个符号有特殊含义，必须转义才能原义输出。</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>以上内容总结起来就是：数字类型的字面量，根据具体形式，会被推断为 4 种 <code>Ctype</code> ，并按范围最大的类型作为默认类型储存（整型除外，<code>int</code> 不能包含整型的最大范围）。</p>
+<h5 id="值溢出（overflow）"><a href="#值溢出（overflow）" class="headerlink" title="值溢出（overflow）"></a>值溢出（overflow）</h5><p>超出默认类型范围的值，会引起溢出错误，无法储存和使用。整型比较特殊，默认底层类型是 <code>int</code> ：在 64 位系统为 64 位有符号数，<code>1 &lt;&lt; 63</code> 到 <code>1 &lt;&lt; 64 -1</code> 之间的数可以以 <code>uint64</code> 储存；在 32 位系统为 32 位有符号数，<code>uint32</code> 、<code>int64</code> 、<code>uint64</code> 都有超出 <code>int</code> 的范围；当然如果连 <code>int64</code> （负数最大范围）和 <code>uint64</code> （正数最大范围）都超了，还是只能溢出。</p>
+<p>网上有教程说，<strong>字面量（和常量）不限范围，这种说法是错的</strong>。他们的依据是以下的代码可以正常编译运行：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> a = <span class="number">1</span> &lt;&lt; <span class="number">64</span> - <span class="number">1</span> <span class="comment">// 超出了 int 的最大值 1 &lt;&lt; 63 - 1 （64 位系统）</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 其它操作，唯独没有引用 a</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在这个例子里，如果看了生成的汇编代码就会发现，<code>i</code> 和 <code>1 &lt;&lt; 64 - 1</code> 都不见了。因为编译器很聪明地发现，<code>i</code> 没有被引用到，在编译时就把它们优化删除掉了，所以没有报错。</p>
+<p>还有这个例子也可以正常运行：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> (</div><div class="line">    a = <span class="number">1</span> &lt;&lt; <span class="number">64</span> - <span class="number">1</span> <span class="comment">// 超出了 int 的最大值 1 &lt;&lt; 63 - 1 （64 位系统）</span></div><div class="line">	b = i &gt;&gt; <span class="number">2</span> <span class="comment">// 等价于 b = 1 &lt;&lt; 62</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    fmt.Println(b)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>看了汇编结果就会知道，编译器实际上把上面的代码里的 <code>i</code> 优化掉了，<code>j</code> 绑定的值变成了 <code>4611686018427387904</code> （<code>1 &lt;&lt; 62</code>）。</p>
+<p>换言之，<strong>溢出的字面量只能存在于代码里，而且溢出值不能超出显式类型范围，不能被直接引用</strong> 。如果这个溢出的值，经过编译器求值之后发现，是一个可以优化的中间值，实际上没有被引用，编译器就不会报错；反之，如果有溢出值被引用到了，或者虽然没有直接引用溢出值，但超出了显式类型的范围，就会报 overflow：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 字面量被自动推断为 untyped int，报错 1 &lt;&lt; 64 - 1 (untyped int constant 18446744073709551615) overflows int</span></div><div class="line">    fmt.Println(<span class="number">1</span>&lt;&lt;<span class="number">64</span> - <span class="number">1</span>)</div><div class="line">    <span class="comment">// 显式转换为 uint64 后正常</span></div><div class="line">    fmt.Println(<span class="keyword">uint64</span>(<span class="number">1</span>&lt;&lt;<span class="number">64</span> - <span class="number">1</span>))</div><div class="line"></div><div class="line">    <span class="comment">// 1&lt;&lt;64 连 uint64 的范围也超出了，报错 cannot convert uint64</span></div><div class="line">    fmt.Println(<span class="keyword">uint64</span>(<span class="number">1</span>&lt;&lt;<span class="number">64</span>))</div><div class="line">    <span class="comment">// float32 又可以了</span></div><div class="line">    fmt.Println(<span class="keyword">float32</span>(<span class="number">1</span>&lt;&lt;<span class="number">64</span>))</div><div class="line"></div><div class="line">    <span class="keyword">const</span> a <span class="keyword">int8</span> = <span class="number">128</span> <span class="comment">// 报错！虽然 a 会被优化掉，但因为指定了类型，超出显式类型范围可能隐藏着错误</span></div><div class="line">    <span class="keyword">const</span> b = a / <span class="number">2</span> <span class="comment">// b 的类型也是 int8，128 / 2 = 64 可以存得下</span></div><div class="line">    fmt.Println(b)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>关于转换，在下面会提到。</p>
+<h4 id="4-2-常量"><a href="#4-2-常量" class="headerlink" title="4.2 常量"></a>4.2 常量</h4><p>（有名）常量则有可能有 <code>type</code> ，也可能无类型只有 <code>Ctype</code> 。</p>
+<p>常量在声明时：</p>
+<ul>
+<li>没有指定 <code>type</code> ，常量的类型跟绑定的值一致，前面用 <code>bool</code> 和 <code>untyped bool</code> 、<code>string</code> 和 <code>untyped string</code> 举过例子；</li>
+<li>指定了 <code>type</code> ，如果跟绑定的右值类型不一致，就涉及到转换；如果无法转换，就报错。</li>
+</ul>
+<p>常量被引用时，类型与所需类型不一致，就需要转换，这时要看常量的类型。</p>
+<h5 id="无类型（untyped）"><a href="#无类型（untyped）" class="headerlink" title="无类型（untyped）"></a>无类型（untyped）</h5><p>Go 是强类型语言，必须显式转换类型，但这仅限于类型确定 <code>typed</code> 的情况，<code>untyped</code> 会隐式转换。<strong>常量的转换跟变量不同，要求值要相等</strong>。只要一个 <code>untyped</code> 值可以以另一种类型表示，编译器会做自动的隐式转换；但转换过程中不允许有任何溢出（和因此导致的截取（truncated））；而浮点数除了溢出，还有精度丢失，浮点数之间的转换中允许精度丢失。</p>
+<p>溢出和精度丢失的差别，用一个简化的十进制字符串的例子来说明：</p>
+<p>假定我们用一个长度为 8 的字符串储存一个小数，符号和小数点不能省略，那么可以表示的最大和最小的数分别是 “+999999.” 和 “-999999.” ，比前者大就是上溢出，比后者小就是下溢出。与此同时，最小精度（非零绝对值最小）是 “+.000001” ，比这更小的值无法表示。1000000（6 个 0）要转换为 “+000000.” 保存是溢出后截取低位，0.1234567 转换为 “+.123456” 保存则是精度丢失。</p>
+<p>浮点数的二进制指数表示比这个复杂，还涉及到编码和进制转换，但溢出和精度丢失的原理是一致的。一句话总结就是，精度范围内超出是溢出，精度范围以外超出是精度丢失。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> (</div><div class="line">    <span class="comment">// 整型</span></div><div class="line">    a        = <span class="number">1.0</span> <span class="comment">// a 为 untyped float，默认类型是 float64</span></div><div class="line">    b <span class="keyword">int</span>    = a <span class="comment">// 1.0 可以无截取转换为 int 类型 1，类型自动转换</span></div><div class="line">    c <span class="keyword">int</span>    = <span class="number">1.1</span> <span class="comment">// 报错！转换到 int 类型不允许截取整数部分丢弃小数</span></div><div class="line">    d <span class="keyword">int</span>    = <span class="number">1</span> &lt;&lt; <span class="number">64</span> - <span class="number">1</span> <span class="comment">// 报错！范围上溢出</span></div><div class="line">    e <span class="keyword">uint64</span> = <span class="number">1</span> &lt;&lt; <span class="number">64</span> - <span class="number">1</span> <span class="comment">// 正常</span></div><div class="line">    </div><div class="line">    f      = <span class="number">128</span> <span class="comment">// untyped int</span></div><div class="line">    g <span class="keyword">int8</span> = f <span class="comment">// 报错！上溢出， int8 的最大值为 127，即使 g int8 = int8(f) 显式转换也不行</span></div><div class="line">    </div><div class="line">    <span class="comment">// 浮点数</span></div><div class="line">    <span class="comment">// 注: float64 的最大值是 1.797693134862315708145274237317043567981e+308</span></div><div class="line">    h <span class="keyword">float64</span> = <span class="number">1.8e308</span> <span class="comment">// 报错！上溢出</span></div><div class="line">    i         = <span class="number">1.8e308</span> <span class="comment">// 也报错！类型为 untyped float，默认类型就是 float64</span></div><div class="line">    j         = <span class="number">1.79769313486231581e+308</span> <span class="comment">// 报错！上溢出</span></div><div class="line">    k         = <span class="number">1.7976931348623158e+308</span> <span class="comment">// 正常，但是后面部分在二进制上已经超出精度范围，超出部分已丢弃， k 的值 跟 float64 的最大值一样</span></div><div class="line">)</div></pre></td></tr></table></figure>
+<p>从十进制角度看，浮点数在某一位左边就是溢出，右边就是精度丢失，会非常费解。因为实际上这些数是以二进制保存的，从二进制的角度看就会顺理成章。这里不展开，有兴趣的朋友可以自己去看 IEEE-754 的标准。</p>
+<p>一般程序不容易超出这些范围，但还是需要知道范围的存在。<code>math</code> 包有一系列常量给出了不同数字类型的最小值（MinXXX）、最大值（MaxXXX）和浮点数的最小小数（SmallestXXX）。如果涉及大数运算和对精度有特殊需求，则需要用到 <code>math/big</code> 包。</p>
+<p>理解 整型数 和 浮点数 的转换之后，复数 和 字符 也很好理解。</p>
+<p>复数的实部和虚部分别是一个浮点数，复数之间的转换可以直接参考浮点数。虚部为 0 的复数可以向浮点数自动转换，实部如果没有小数部分还能向整型转换；但是虚部不为 0 不能被截断（truncated）：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> (</div><div class="line">    a         = <span class="number">256</span> + <span class="number">0i</span> <span class="comment">// untyped complex</span></div><div class="line">    b         = a <span class="comment">// 还是 untyped complex</span></div><div class="line">    c <span class="keyword">float64</span> = a <span class="comment">// 虚部为 0，自动转换</span></div><div class="line">    d <span class="keyword">int</span>     = a <span class="comment">// 实部的小数部分也为 0，可以转换为 int</span></div><div class="line">    </div><div class="line">    e <span class="keyword">float64</span> = <span class="number">256</span> + <span class="number">1i</span> <span class="comment">// 虚部不为 0，无法截断为浮点数</span></div><div class="line">)</div></pre></td></tr></table></figure>
+<p>字符则本质上就是整型，只是字面量形式不同：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> (</div><div class="line">    <span class="comment">// 以下的自动转换都是合法的</span></div><div class="line">    a <span class="keyword">int</span>  = <span class="string">'a'</span> <span class="comment">// 97</span></div><div class="line">    b <span class="keyword">byte</span> = <span class="number">97</span> <span class="comment">// 也是 97，只是 用 %c 动词作为字符格式化会得到 a</span></div><div class="line">    </div><div class="line">    c <span class="keyword">int</span>   = <span class="string">'汉'</span> <span class="comment">// 27721</span></div><div class="line">    d <span class="keyword">rune</span>  = <span class="number">27721</span> <span class="comment">// 也是 27721，只是作为字符输出会得到 汉</span></div><div class="line">    e <span class="keyword">int16</span> = <span class="string">'汉'</span> <span class="comment">// '汉' 虽然是一个 rune（即 int32）字面量，但是 27721 没有超出 int16 的范围</span></div><div class="line">)</div></pre></td></tr></table></figure>
+<h5 id="确定类型（typed）"><a href="#确定类型（typed）" class="headerlink" title="确定类型（typed）"></a>确定类型（typed）</h5><p>自动转换限于 <code>untyped</code> ，如果一个常量已经指定了类型，那么哪怕值满足了转换条件，也必须显式转换；而且在显式转换中，值仍然要保持相等（显式转换是 <code>T(src)</code> ，T 是目标类型，src 是来源值）：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> (</div><div class="line">    a <span class="keyword">int16</span> = <span class="number">128</span> <span class="comment">// 明确给 a 指定了类型，不是 untyped int 了</span></div><div class="line">    b       = a <span class="comment">// b 的类型也是 int16</span></div><div class="line">    c <span class="keyword">int32</span> = a <span class="comment">// 报错！cannot use int16 as int32，尽管 int32 存 int16 完全存得下</span></div><div class="line">    d <span class="keyword">int32</span> = <span class="keyword">int32</span>(a) <span class="comment">// 显式转换，正常</span></div><div class="line">    e       = <span class="keyword">int32</span>(a) <span class="comment">// 反正都显式转换类型了，左边的类型声明可以省略</span></div><div class="line">    f       = <span class="keyword">int8</span>(a) <span class="comment">// 报错！显式转换也不行，int8 最大值是 127，常量不能截取值的一部分</span></div><div class="line">)</div></pre></td></tr></table></figure>
+<h4 id="4-3-变量"><a href="#4-3-变量" class="headerlink" title="4.3 变量"></a>4.3 变量</h4><p>变量一定有显式的类型 <code>type</code> ，不存在 <code>untyped</code> 的变量。</p>
+<p>变量声明时，类型可以指定，也可以推断；如果声明时没有指定 <code>type</code> ，则类型跟赋值的右值一致；如果右值是 <code>untyped</code> 常量，则类型是对应的默认类型（而不是 <code>Ctype</code> ，数字类型的默认类型分别是 <code>int</code> ，<code>float64</code>，<code>complex128</code>，<code>rune</code>）。</p>
+<p>跟常量类似，变量被引用时也会出现与需要的类型不一致，需要转换类型：</p>
+<ul>
+<li><p>由于变量一定有确定类型 （<code>typed</code>），只能是显式转换。</p>
+</li>
+<li><p>非常量（包括变量）的转换允许溢出也允许精度丢失：</p>
+<ul>
+<li>整型（包括字符型）在高位宽向低位宽类型转换时如果溢出，直接丢弃高位保留低位，如 256（二进制 100000000，8 个 0）向 <code>int8</code> 转换时，保留低 7 位（去掉一位符号位，<code>int8</code> 数字位只有 7 位），得到 0 。</li>
+<li>浮点数转整型，直接丢弃小数部分（绝对值变小）；如果得到的整型还是溢出，参考上一条继续转换；如 257.1 向 <code>int8</code> 转换，得到 1。</li>
+<li>整数或浮点数转浮点数，允许发生精度丢失，如 <code>1&lt;&lt;64 - 1</code> （18446744073709551615，最大的 <code>uint64</code>）转 <code>float32</code> 得到 <code>1.8446744e+19</code> ，73709551615 丢失。</li>
+<li><strong>非常量的复数不允许直接转换成其他数值类型</strong>，只能通过内置函数 <code>real()</code> 和 <code>imag()</code> 提取实部和虚部；复数之间转换，实部和虚部分别是一个浮点数，跟浮点数之间的转换一致，也允许精度丢失。</li>
+<li>除整型以外的转换，如果来源值溢出目标范围，结果不确定，依赖于具体的编译器实现；目前我测试的版本（1.15）是会产生无穷值（浮点数是 <code>+Inf</code>  和 <code>-Inf</code> ，复数则是具体实部或虚部是无穷）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-4-其它情况"><a href="#4-4-其它情况" class="headerlink" title="4.4 其它情况"></a>4.4 其它情况</h4><p>注意到我在提到变量的转换时，提到了『非-常量』（注意断句），而不是直接说变量。</p>
+<p>难道还存在常量和变量以外的量？是的。</p>
+<p>首先是前面提到的，可以在编译期求值的 表达式 和 内置函数的返回值，实际使用上跟字面量一致，差别是 字面量一定是 <code>untyped</code> 的，而这种值视乎具体情况，有可能是有类型的。不过 <strong>转换规则仍然跟常量一致，差别仅仅是没有标识符，算广义的常量</strong>：</p>
+<ul>
+<li><p>仅引用了字面量 / 常量的 内置函数返回值，如 <code>len(&quot;1234&quot;)</code> ，字符串 <code>&quot;1234&quot;</code> 是字面量，<code>len()</code> 是内置函数，字符串的长度在编译期就可以算出来是 4，这个值在编译的时候就会替换掉函数；但类型受函数返回值影响为 <code>int</code> ，跟 <code>4</code> 这个整型字面量的 <code>untyped int</code> 仍然有差别（有了确定类型就不能自动转换）。</p>
+<p>  相对地，如果 <code>a</code> 不是常量，那么 <code>len(a)</code> 就不能在编译期求值了；内置函数则是指不需要导入就可以调用的函数，<code>math.Abs()</code> 这样还要导入的函数不算（尽管是官方库）。</p>
+</li>
+<li><p>仅引用了字面量 / 常量的 表达式的值，如 <code>1 + 2 + 3</code> 就不必说了， <code>len(&quot;1234&quot;) + 1.1</code> 也是。</p>
+<p>  类型方面，如果表达式引用了多种类型，则会往一个统一类型转换，然后以该类型运算。范围窄的向范围广的类型转，<code>untyped</code> 往 <code>typed</code> 转；如果有多个不同的 <code>type</code> ，则需要显式转换。如果无法统一类型，就会报错。如 <code>1 + 2</code> 的类型是 <code>untyped int</code> ；<code>1 + 2.0</code> 是 <code>untyped float</code> ；<code>len(&quot;1&quot;) + 1.0</code> 是 <code>int</code> ；而 <code>len(&quot;1&quot;) + 1.1</code> 会报错，因为确定类型 <code>int</code> 无法自动转换，而 <code>1.1</code> 自动转换成 <code>int</code> 会造成截取，丢弃小数。</p>
+</li>
+</ul>
+<p>然后跟第一种情况相反，表达式或函数里出现了 <strong>非常量或者非内置函数</strong>，就无法编译期求值。它既不是常量，又没有像变量给一个内存空间，实际运行中可能会在编译器生成的临时变量或者寄存器上保存和运算。这就是前面提到的 『非-常量』。</p>
+<p>不过这里只是提一下它们的存在，转换方式其实没有超出上述的情况的组合：</p>
+<ul>
+<li><p>看类型，如果是 <code>typed</code> 就必须显式转换；<code>untyped</code> 则可以自动转换；</p>
+</li>
+<li><p>看是否常量（广义的，包括字面量），是常量就必须值相等不允许值的截取；常量以外则允许值按一定规则截取。</p>
+</li>
+</ul>
+<p>这样一组合，一共就四种情况而已，上面提到的那么多种情况都包括在内。</p>
+<p>需要注意的是，当赋值时涉及转换，转换规则按 <strong>来源值</strong> 决定，如：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> a = <span class="number">1.1</span></div><div class="line"><span class="keyword">var</span> b <span class="keyword">int</span> = a <span class="comment">// a 赋值给 b 类型不一致，涉及类型转换</span></div></pre></td></tr></table></figure>
+<p>就属于 <code>untyped float</code>  常量 转换为 <code>int</code> ：<code>untyped</code> 允许自动转换，但是常量决定了不能截断小数，会报错。</p>
+<h4 id="关于类型转换"><a href="#关于类型转换" class="headerlink" title="关于类型转换"></a>关于类型转换</h4><p>到这里，想再提一下强类型的显式转换。</p>
+<p>可以看到， <code>untyped</code> 的值允许自动转换。字面上的理解，就是『无类型』（尽管底层实现需要保存需要运算，带着一个默认类型）没有类型限制，值可表达为对应类型，就可以自动转换。</p>
+<p>那么相对地，有类型 <code>typed</code> 的值需要显式转换（程序员主动表达意图），就是一种设计上的有意为之，让类型系统承担了一部分的逻辑表达功能。</p>
+<p>因为还没讲到，解释一下自定义类型： <code>type NewInt int</code> 定义了一个自定义类型 <code>NewInt</code>，它的底层类型是 <code>int</code> ，会具有 <code>int</code> 的内置行为，并且能增加自定义行为（方法）。但是 Go 会认为它们是完全不同的两个类型，直接运算会报错，必须显式转换；当然，两个底层类型同为 <code>int</code> 的自定义类型之间也是一样。 <code>int</code> 转 <code>int8</code> 虽然都是整型，毕竟位宽不同范围不同，需要显式转换还可以理解为担心值溢出；那么 <code>int</code> 和 <code>NewInt</code> 之间的转换，就是纯粹出于行为和逻辑上的考虑。</p>
+<p>举个例子，地板、砧板 两种自定义类型，底层实现都是木板。为了简化讨论，我们姑且认为是一样的木板，并没有额外的特殊加工。即使是这样，在使用中，两者还是不能搞混。如果在弱类型环境中，不去检查木板的类型，只要能用就给你用，可能出现：『这砧板怎么有个鞋印』『这地板怎么有肉沫菜叶』这样的问题。</p>
+<p>自动转换的假设是，程序员清楚知道自己要做什么，编译器不应该干预增加工作量；显式转换的假设是，程序员有可能出错，编译器要帮忙检查类型的不匹配，这里面可能隐藏着逻辑错误。</p>
+<p>在需要快速写个脚本、刷个算法题的时候，强类型语言像自带啰嗦严谨的老管家，一旦做了不确定的事都要确认一下，写得很不爽。但如果是维护一个大型项目，在里面人工排查类型误用引起的错误，工作量可比增加一点确认大多了，最后往往还是得引入类型检查工具——等于最后还是去雇了一个管家，那为什么不一开始就让管家参与呢？老管家并不会真的干预你做事，只是需要你额外的确认；如果特殊情况，你明确表示要用地板切菜（显式转换），他也不会拦你。</p>
+<h2 id="实战练习"><a href="#实战练习" class="headerlink" title="实战练习"></a>实战练习</h2><p>大家不要被上面的篇幅吓到，感觉光 常量 和 变量 都这么复杂。这是把 原理、边界情况 和 容易犯的错误 都给罗列出来。有些内容一般使用很难涉及，留个印象日后碰到知道往哪个方向排查；有些内容看着复杂，实际操作一遍其实很直观——<strong>IDE 都会有提示，并不需要人肉 check</strong>，这里只是让你知道为什么会报错。另外，还有部分内容涉及到类型系统的知识，需要结合下一篇类型的介绍一起理解。</p>
+<p>下面给出一系列的 常量 和 变量声明，大家可以试着判断一下，哪些会报错、为什么；合法的声明具体是什么类型，值是多少。有自信的朋友可以试着人工检查一下，暂时做不到可以把代码补全之后实际运行一下：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 写出以下 常量 和 变量 的类型和值，或者哪些声明会报错</span></div><div class="line"><span class="keyword">const</span> (</div><div class="line">    A <span class="keyword">uint8</span> = B</div><div class="line">    B       = <span class="number">255</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">var</span> (</div><div class="line">    a <span class="keyword">uint64</span> = A / <span class="number">2</span></div><div class="line">    b <span class="keyword">int8</span>   = B / <span class="number">2</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    A := <span class="keyword">byte</span>(<span class="string">'0'</span>)</div><div class="line">	B := <span class="keyword">byte</span>(<span class="string">'1'</span>)</div><div class="line">	C := A - B</div><div class="line">	fmt.Println(C)</div><div class="line"></div><div class="line">	<span class="keyword">const</span> a = <span class="string">'0'</span></div><div class="line">	<span class="keyword">const</span> b = <span class="string">'1'</span></div><div class="line">	fmt.Println(<span class="keyword">byte</span>(a - b))</div><div class="line"></div><div class="line">    i := <span class="number">0x1e</span>+<span class="number">2</span></div><div class="line">	j := <span class="number">1e+2</span></div><div class="line">	<span class="keyword">for</span> i = <span class="number">0</span>; i &lt; <span class="number">1</span>; i++ &#123;</div><div class="line">		<span class="keyword">for</span> j := <span class="number">0</span>; j &lt; <span class="number">1</span>; j++ &#123;</div><div class="line">			<span class="comment">// 空循环体</span></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// 现在 i, j 分别是多少</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li>Go语言101 / 《基本类型和它们的字面量表示》 ：<a href="https://gfw.go101.org/article/basic-types-and-value-literals.html" target="_blank" rel="external">https://gfw.go101.org/article/basic-types-and-value-literals.html</a></li>
+</ul>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;上一篇《&lt;a href=&quot;../golang-in-action-day-1/&quot;&gt;Go 语言实战（1）： 初识&lt;/a&gt;》开了头，今天我们接着打卡。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Go 语言实战" scheme="https://jaycechant.info/categories/Go-%E8%AF%AD%E8%A8%80%E5%AE%9E%E6%88%98/"/>
+    
+    
+      <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Go 在 Google：服务于软件工程的语言设计（翻译）</title>
     <link href="https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/"/>
     <id>https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/</id>
     <published>2020-08-23T11:09:37.000Z</published>
-    <updated>2020-08-29T15:43:31.422Z</updated>
+    <updated>2020-08-30T03:14:05.397Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解得还是不够深入，写得辞不达意。然后找到了 Rob Pike 在 8 年前的演讲稿，拜读学习之后，想推荐给我的读者作为学习资料。</p>
@@ -59,24 +417,15 @@
 <p>但是，一门语言如何对软件工程有所助益呢？本文剩下的内容就是对这个问题的回答。</p>
 <h2 id="4-痛点"><a href="#4-痛点" class="headerlink" title="4. 痛点"></a>4. 痛点</h2><p>在 Go 刚推出时，有人声称，它缺少现代语言所必需的某些特性或方法论。缺少这些的 Go 能有什么价值呢？我们的回答是，Go 所具备的某些特性，可以解决严重困扰大规模软件开发的一些问题。这些问题包括</p>
 <ul>
-<li><p>构建速度慢</p>
-</li>
-<li><p>失控的依赖关系</p>
-</li>
-<li><p>每个程序员使用相同语言的不同子集</p>
-</li>
-<li><p>程序难以理解（代码难以阅读，文档不完善等）</p>
-</li>
-<li><p>重复劳动</p>
-</li>
-<li><p>更新代价大</p>
-</li>
-<li><p>版本偏斜（version skew）</p>
-</li>
-<li><p>难以编写自动化工具</p>
-</li>
-<li><p>跨语言构建</p>
-</li>
+<li>构建速度慢</li>
+<li>失控的依赖关系</li>
+<li>每个程序员使用相同语言的不同子集</li>
+<li>程序难以理解（代码难以阅读，文档不完善等）</li>
+<li>重复劳动</li>
+<li>更新代价大</li>
+<li>版本偏斜（version skew）</li>
+<li>难以编写自动化工具</li>
+<li>跨语言构建</li>
 </ul>
 <p>一门语言的单个特性并不能解决这些问题。这需要有软件工程的大局观（larger view），所以在 Go 的设计中，我们试图把重点放在解决这些问题上。</p>
 <p>作为一个简单而且独立的例子，我们来看一下程序结构的表示方式。一些观察者反对 Go 用花括号（<code>{...}</code>）来表示类似于 C 的块状结构，他们更喜欢用 Python 或 Haskell 风格的空格来缩进。然而，我们见过太多由跨语言构建引起的构建和测试失败：嵌入到另一种语言里的 Python 代码段（例如通过 SWIG 调用），会因为周围代码缩进的变化而被意外地破坏，而且非常难以察觉。因此，我们的观点是，虽然空格缩进对于小程序来说是不错的选择，但它并不具有大程序所需要的可伸缩性；而且代码库越大，异构性越强，就会带来越多的麻烦。<strong>为了安全和可靠，最好还是放弃这点便利</strong>，所以 Go 使用花括号表示的代码块。</p>
@@ -109,9 +458,9 @@
 <p>让 Go 可以做到规模化、依赖智能化的第一步，是语言将 <strong>未使用的依赖</strong> （unused dependencies）定义为编译期错误（注意不是警告，是错误）。如果源文件导入了一个它不用的包，程序就不会通过编译。这保证了任何 Go 程序构建中的依赖关系树都是精确的，没有多余的边。另一边又保证了在构建程序时不会有多余的代码被编译，从而最大限度地减少了编译时间。</p>
 <p>第二步是在编译器的实现上，更进一步保证效率。假设一个有三个包的 Go 程序，依赖关系如下：</p>
 <ul>
-<li><code>A</code> 包导入了 <code>B</code> 包;</li>
-<li><code>B</code> 包导入了 <code>C</code> 包;</li>
-<li><code>A</code> 包没有导入 <code>C</code> 包。</li>
+<li><code>A</code> 包导入了 <code>B</code> 包</li>
+<li><code>B</code> 包导入了 <code>C</code> 包</li>
+<li><code>A</code> 包没有导入 <code>C</code> 包</li>
 </ul>
 <p>这意味着 A 包只是在引用 B 包的过程中，间接地引用了 C 包；换句话说，尽管 A 引用的来自 B 的某些代码引用了 C，但在 A 的源码里没有直接涉及来自 C 的标识符。例如， A 包可能会引用一个在 B 里面定义的结构体类型，该结构体有一个字段的类型是在 C 里定义的，但 A 本身并不直接引用 C 里面的类型。一个更具体的例子是，A 导入了一个格式化 I/O 包 B，B 使用了 C 提供的缓冲 I/O 实现，但 A 本身并没有调用缓冲 I/O。</p>
 <p>要构建这个程序，首先 C 被编译；被依赖的包必须在依赖它们的包之前构建。然后，B 被编译；最后 A 被编译，然后就可以链接程序。</p>
@@ -204,22 +553,14 @@
 <h2 id="12-语义"><a href="#12-语义" class="headerlink" title="12. 语义"></a>12. 语义</h2><p>Go 语句的语义一般跟 C 语言类似。它是一种带有指针等特性的、编译型、静态类型的过程式语言。设计上，习惯 C 族语言的程序员应该会感到熟悉。在推出一门新语言时，目标受众能够快速学会它是很重要的；将 Go 植根于 C 家族有助于确保年轻程序员能很容易学会 Go（他们大多数都知道 Java、JavaScript，也许还有 C）。</p>
 <p>尽管如此，Go 对 C 的语义还是做了很多小的改变，主要是出于健壮性的考虑。这些变化包括：</p>
 <ul>
-<li><p>没有指针运算</p>
-</li>
-<li><p>没有隐式数字转换</p>
-</li>
-<li><p>总是检查数组边界</p>
-</li>
-<li><p>没有类型别名（声明 <code>type X int</code> 之后， <code>X</code> 和 <code>int</code> 是不同的类型，而不是别名）</p>
-</li>
-<li><p><code>++</code> 和 <code>--</code> 是语句（statements）而不是表达式（expressions）</p>
-</li>
-<li><p>赋值不是表达式</p>
-</li>
-<li><p>对栈上变量取址是合法的（甚至是被鼓励的）</p>
-</li>
-<li><p>其它</p>
-</li>
+<li>没有指针运算</li>
+<li>没有隐式数字转换</li>
+<li>总是检查数组边界</li>
+<li>没有类型别名（声明 <code>type X int</code> 之后， <code>X</code> 和 <code>int</code> 是不同的类型，而不是别名）</li>
+<li><code>++</code> 和 <code>--</code> 是语句（statements）而不是表达式（expressions）</li>
+<li>赋值不是表达式</li>
+<li>对栈上变量取址是合法的（甚至是被鼓励的）</li>
+<li>其它</li>
 </ul>
 <blockquote>
 <p>译者注：</p>
@@ -375,7 +716,7 @@
 <li>易用的工具（<code>go</code> 工具、<code>gofmt</code> 、 <code>godoc</code> 、 <code>gofix</code> ）</li>
 </ul>
 <p>如果你还没有尝试过 Go，我们建议你去尝试：</p>
-<p><a href="http://golang.org" target="_blank" rel="external">http://golang.org</a></p>
+<p><a href="https://golang.org" target="_blank" rel="external">https://golang.org</a></p>
 <blockquote>
 <p>译者小结：</p>
 <p>一万八千多字，终于翻译完了。</p>
@@ -2990,132 +3331,6 @@
     
     
       <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>渐进式图像加载</title>
-    <link href="https://jaycechant.info/2020/progressive-image-loading/"/>
-    <id>https://jaycechant.info/2020/progressive-image-loading/</id>
-    <published>2020-03-20T11:30:39.000Z</published>
-    <updated>2020-03-22T03:42:28.323Z</updated>
-    
-    <content type="html"><![CDATA[<p>网页上的图片，先加载一个模糊预览，然后逐渐变清晰，怎么实现的？</p>
-<a id="more"></a>
-<h2 id="源起"><a href="#源起" class="headerlink" title="源起"></a>源起</h2><p>之前文章多是折腾记录，宁可长篇大论，也懒得截 / 画图。前几天，发演示文档截图，一篇的配图是之前所有配图总量的 7 倍。博客托管在 Github pages，因不~明原因，访问速度越来越慢。图多 + 访问慢，居然偶尔能看到图片加载的过程 —— 就是那种等待投影幕放下来的效果，偏偏放得很慢，还卡顿。</p>
-<p><img src="../../images/basiline-jpeg-load.png" alt=""></p>
-<p>通过压缩图片大小算是初步解决。</p>
-<p>可如果访问速度进一步恶化呢？这时想起之前见过另一种加载效果，不是下放幕布，而是类似对焦，先显示一幅非常模糊的图片，然后逐渐变清晰。于是有了开头一问。</p>
-<p><img src="../../images/progressive-jpeg-load.png" alt=""></p>
-<p>直觉技术上应该不难，之前居然没想过去了解。</p>
-<h2 id="常见方案"><a href="#常见方案" class="headerlink" title="常见方案"></a>常见方案</h2><p>经过尝试不同的关键词组合，大概知道关键词应该是 ‘progressive image loading’ / 渐进式图像加载。看完网上讨论，发现可以分成两大类方案：</p>
-<ul>
-<li><p>代码方案</p>
-<p>  具体实现方式很多，web 的 app 的，自己写代码，或者调用第三方库。但基本原理是相通的：</p>
-<ol>
-<li>先加载一个很小很模糊的预览图，拉伸到目标图像大小。这样会锯齿，没关系，加个高斯模糊（或者别的模糊算法）。</li>
-<li>利用预览安抚用户的时间，把原图下载下来。</li>
-<li>两图叠加前图透明也好，图片替换也好，换的同时，将模糊渐变到 0，看到原图。</li>
-</ol>
-</li>
-<li><p>文件编码方案</p>
-<p>  查到的有 interlace gif，progressive jpeg，interlace png 三种。实际上只是格式规范选用的术语不同，效果上都是 progressive 渐进显示。</p>
-<p>  本质上是改变文件的数据块组织顺序，从原本的线性从左上到右下，变成按照某些特定的方式组织，让用户端在只下载了少量数据时，就能显示图片轮廓。然后随着下载的数据越来越多，逐渐清晰，直至显示原图。</p>
-</li>
-</ul>
-<p>代码方案显然更灵活，可以根据需要实现不同的效果。而且因为加了模糊，不会出现难看的锯齿效果。</p>
-<p>不过相对应地，代码方案开发和维护的负担也增加。如果平台支持图片格式的 progressive 特性（主要是 浏览器，暂时不考虑 app），直接改动文件显然是更省事的方案。</p>
-<p>显然我不愿意为这么小的事情在博客模版加代码，格式自带的编码方案是当前首选。代码方案留待以后有需要再试。</p>
-<h2 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h2><p>据说常见的制图工具，导出选项里都有对应的选项。png 和 gif 格式的选项是 interlace（一般翻译成交错），jpeg(jpg) 的选项则是 progressive （翻译成 渐进）。</p>
-<p>网上大家的截图证明 Photoshop 是可以的。我尝试 GIMP 2.8 是可以的。惊喜的是，常用的其中一个图片浏览器 XnView 也可以。用 XnView 打开图片，另存为 &gt; 选项 &gt; 选好格式和选项后保存。非常快捷，与之相比，特意打开一个大型的 编辑 / 设计 软件只修改文件的编码方式简直杀鸡牛刀。</p>
-<h2 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h2><p>问题又来了：怎么判断一个图片是否打开了 progressive 选项呢？</p>
-<p>答案是：<strong>不知道</strong> 。试了不同的软件打开，然后查看图片详情和元信息，没有一个地方显示是否打开了 interlace / progressive 特性。</p>
-<blockquote>
-<p>注：在文章快写完时，才发现用 XnView 打开，显示『图像信息』，在格式一栏有显示，非常地不起眼（本以为会有一个独立字段显示）。</p>
-<ul>
-<li>png 会显示 <code>Portable Network Graphics (Interlaced)</code> ，多出括号里的 Interlaced。</li>
-<li>gif 会显示 <code>Compuserve GIF (Version 89a - Interlaced)</code>，同样多了 Interlaced.</li>
-<li>jpg 文件仍然没有看到区别。</li>
-</ul>
-</blockquote>
-<p>看不出差别，意味着没法判断图片是否 progressive。正常网速下，肉眼根本无法看到加载过程。你也很难模拟一个特别卡的网络环境，去测试加载过程。</p>
-<p>后来找到一个在线测试，可以测试网页引用的图片是否 progressive：<a href="https://webpagetest.org/。输入要测试页面的地址，点击开始测试即可。有很多测试项，其中" target="_blank" rel="external">https://webpagetest.org/。输入要测试页面的地址，点击开始测试即可。有很多测试项，其中</a> Performance Review 页可以看资源的加载情况。其他测试项对优化网页也有一定的参考意义。</p>
-<p>不过，</p>
-<ol>
-<li>只支持 progressive jpg 检测。</li>
-<li>需要先把网页发布到外网访问，测试后发现不对再优化。</li>
-<li>这个测试使用了谷歌的 recaptcha 验证，很多朋友会用不了。</li>
-</ol>
-<p>就本文的目的而言，意义不大。</p>
-<h2 id="格式规范-Specifications"><a href="#格式规范-Specifications" class="headerlink" title="格式规范 Specifications"></a>格式规范 Specifications</h2><p>考虑到博客配图以图表为主，多数是有清晰边缘的色块，很少实景照片，而且 png 支持 alpha 通道，显然选择 png 格式会得到更好的显示效果，压缩率也（大概率）不会比 jpg 差。所以下面主要研究 png 的格式。</p>
-<h3 id="RFC2083"><a href="#RFC2083" class="headerlink" title="RFC2083"></a>RFC2083</h3><p>查维基可知，png 是 Portable Network Graphics 或 PNG is Not GIF 的缩写。1996 年由 IETF（Internet Engineering Task Force，互联网工程任务组）起草，并成为 W3C 建议，后成为 RFC2083。现行版本是 2003 年的国际标准 ISO 15948。</p>
-<blockquote>
-<ul>
-<li>查询 RFC ：<a href="https://www.rfc-editor.org/search/rfc_search.php，可以用关键词或者编号查询" target="_blank" rel="external">https://www.rfc-editor.org/search/rfc_search.php，可以用关键词或者编号查询</a></li>
-<li>RFC2083：<a href="https://www.rfc-editor.org/rfc/rfc2083.html" target="_blank" rel="external">https://www.rfc-editor.org/rfc/rfc2083.html</a></li>
-<li>png 官网：<a href="http://www.libpng.org/pub/png/" target="_blank" rel="external">http://www.libpng.org/pub/png/</a></li>
-<li>最新版规范：<a href="http://www.libpng.org/pub/png/spec/iso/index-object.html" target="_blank" rel="external">http://www.libpng.org/pub/png/spec/iso/index-object.html</a></li>
-</ul>
-</blockquote>
-<p>规范很长，规定了格式的定义的方方面面。没打算实现一个 encoder 或者 decoder，直接搜 interlace 部分。</p>
-<p>对比两版规范可以发现，interlace 在第一版就已经有了，而且基本没有改动。我们看最新的规范</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">8.2 Interlace methods</div><div class="line">Two interlace methods are defined in this International Standard, methods 0 and 1. Other values of interlace method are reserved for future (see 4.9: Extension and registration).</div></pre></td></tr></table></figure>
-<p>大意：定义了 0 和 1 两种交错方式（分别是关闭和打开），剩下的值为未来保留。那这个值保存在哪里呢？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">11 Chunk specifications</div><div class="line">11.1 Introduction</div><div class="line">The PNG datastream consists of a PNG signature (see 5.2: PNG signature) followed by a sequence of chunks. Each chunk has a chunk type which specifies its function. ......</div><div class="line">......</div><div class="line">11.2 Critical chunks</div><div class="line">......</div><div class="line">11.2.2 IHDR Image header</div><div class="line">The four-byte chunk type field contains the decimal values</div><div class="line"></div><div class="line">73 72 68 82 // 注：49 48 44 52，其实就是 IHDR 的 ASCII 码。为了方便后续比较，列出十六进制值，下同。</div><div class="line">The IHDR chunk shall be the first chunk in the PNG datastream. It contains:</div><div class="line"></div><div class="line">Width	4 bytes</div><div class="line">Height	4 bytes</div><div class="line">Bit depth	1 byte</div><div class="line">Colour type	1 byte</div><div class="line">Compression method	1 byte</div><div class="line">Filter method	1 byte</div><div class="line">Interlace method	1 byte</div></pre></td></tr></table></figure>
-<p>大意：一个 png 文件以 PNG 签名开头，然后是一系列数据块。第一号数据块是 IHDR（Image Header） 块，以 4 字节的 <strong>块类型</strong> 字段开头，然后是一系列字段，interlace method 是第 13 个字节。</p>
-<p>再去看这里提到的 PNG 签名：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">5.2 PNG signature</div><div class="line">The first eight bytes of a PNG datastream always contain the following (decimal) values:</div><div class="line"></div><div class="line">137 80 78 71 13 10 26 10 // 注：89 50 4E 47 0D 0A 1A 0A，其中 50 4E 47 是 PNG 的 ASCII 码。</div><div class="line"></div><div class="line">This signature indicates that the remainder of the datastream contains a single PNG image, consisting of a series of chunks beginning with an IHDR chunk and ending with an IEND chunk.</div><div class="line">5.3 Chunk layout</div><div class="line">Each chunk consists of three or four fields (see figure 5.1). The meaning of the fields is described in Table 5.1. The chunk data field may be empty.</div><div class="line">LENGTH, CHUNK TYPE, CHUNK DATA, CRC</div><div class="line">OR</div><div class="line">LENGTH(=0), CHUNK TYPE, CRC</div></pre></td></tr></table></figure>
-<p>略长挑重点：PNG 签名占据开头的 8 个字节。一个数据块则是 4 字节标数据块大小 LENGTH， 4 字节块类型，LENGTH 字节大小的数据，CRC 校验码。</p>
-<p>这些信息足够做一个小学算术：8（PNG 签名）+ 4 （块长度）+ 4（块类型字段）+ 13（块数据内字节顺序） = 29。Interlace method 字段在 第 29 个字节。而且由于前面的数据都是固定不可省略的，所以这个顺序也是固定的。</p>
-<h3 id="试验"><a href="#试验" class="headerlink" title="试验"></a>试验</h3><p>随便找了一张 png，用 XnView 生成一张 interlace 版本，分别用 十六进制编辑器打开：</p>
-<p>标准版：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">89 50 4E 47 0D 0A 1A 0A 00 00 00 0D 49 48 44 52</div><div class="line">00 00 02 00 00 00 01 72 08 03 00 00 00 B4 A4 92</div></pre></td></tr></table></figure>
-<p>交错版：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">89 50 4E 47 0D 0A 1A 0A 00 00 00 0D 49 48 44 52</div><div class="line">00 00 02 00 00 00 01 72 08 03 00 00 01 C3 A3 A2</div></pre></td></tr></table></figure>
-<ul>
-<li>开头 8 个字节：都是 <code>89 50 4E 47 0D 0A 1A 0A</code>，符合文档说明。</li>
-<li>第二部分 4 个字节：都是 <code>00 00 00 0D</code> （13），符合 IHDR 数据长度是 13。</li>
-<li>第三部分 4 个字节：<code>49 48 44 52</code>（IHDR），是块类型。</li>
-<li>第四部分 13 个字节，直接看 第 13个：符合 标准版是 <code>00</code>，交错版是 <code>01</code>。</li>
-</ul>
-<p>再试了几个文件，都符合以上规律。说明对规范的理解是正确的。那么在没有找到工具支持查看 interlace 特性时，可以直接用 十六进制编辑器打开 判断：第 29 个字节，或者像这样每行 16 个字节排版的第 2 行倒数第 4 个字节。</p>
-<h3 id="交错实现原理"><a href="#交错实现原理" class="headerlink" title="交错实现原理"></a>交错实现原理</h3><p>在文档 <code>4.5 Encoding the PNG image</code> 和 <code>8 Interlacing and pass extraction</code> 解释了 interlace 的原理。篇幅所限，就不贴原文了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">1 6 4 6 2 6 4 6</div><div class="line">7 7 7 7 7 7 7 7</div><div class="line">5 6 5 6 5 6 5 6</div><div class="line">7 7 7 7 7 7 7 7</div><div class="line">3 6 4 6 3 6 4 6</div><div class="line">7 7 7 7 7 7 7 7</div><div class="line">5 6 5 6 5 6 5 6</div><div class="line">7 7 7 7 7 7 7 7</div></pre></td></tr></table></figure>
-<p>核心其实就是这个 8x8 的顺序表。interlace 会把整个图像分割成 N 个 8x8 像素的小方块，每块上的像素按照这样的顺序编号。编码传输时，并非从左上到右下顺序进行，而是先把所有的 1 放前面，然后是所有的 2…… 以此类推。</p>
-<p>假定现在有一张 16x16 的图，也就是会按上面分成 4 块进行编号。那么传输仅仅 4 个像素（1 / 64）之后，我们就能看到一个模糊的轮廓（这个只有 4 个像素的图会拉伸到原图大小，所以锯齿会非常明显）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1 1</div><div class="line">1 1</div></pre></td></tr></table></figure>
-<p>再传 4 个像素，变成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">1 2 1 2</div><div class="line">1 2 1 2</div></pre></td></tr></table></figure>
-<p>再传 8 个像素，变成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">1 2 1 2</div><div class="line">3 3 3 3</div><div class="line">1 2 1 2</div><div class="line">3 3 3 3</div></pre></td></tr></table></figure>
-<p>以此类推。从 N 个像素开始构建一个最粗糙的缩略图（reduced image），然后每当传输的像素数量翻一番，清晰度就提高一倍，直到显示出原图。</p>
-<h3 id="其他格式"><a href="#其他格式" class="headerlink" title="其他格式"></a>其他格式</h3><p>查找文档，理解文档，试验核实，花了一些时间，和占据了颇长的篇幅。考虑到主要用 png，就懒得折腾剩下两种格式了。把文档地址贴出来，有兴趣的朋友可以自己看看。</p>
-<p>GIF Version 89a：<a href="https://www.w3.org/Graphics/GIF/spec-gif89a.txt" target="_blank" rel="external">https://www.w3.org/Graphics/GIF/spec-gif89a.txt</a></p>
-<p>JPEG 官网：<a href="https://jpeg.org/" target="_blank" rel="external">https://jpeg.org/</a></p>
-<p>大概扫了一眼，这两种格式要麻烦很多。</p>
-<p>GIF 的 interlace flag 比较靠后，前面有好几个数据块，计算偏移会麻烦些。</p>
-<p>更麻烦的是 JPEG。JPEG 实际上是一个组织名，<strong>联合图像专家组</strong>（Joint Photographic Experts Group），用作后缀时实际上是指 JFIF（JPEG File Interchange Format，JPEG 文件交换格式）。但除此之外，还有 JPEG-XT, JPEG Lossless, JPEG 2000, JPEG-XR……等等格式。虽然我知道这里面很多格式并不共享 <code>.jpeg</code> 这个后缀名，而是各自有专属的后缀。但是在全部看完他们的规范之前，还是无法确定他们跟 JPEG 的关系，以及 JPEG 从哪个版本开始支持 progressive 特性 —— 据了解第一版是不支持的，而 JFIF3 的规范文档里，也完全搜不到 interlace 或者 progressive 这些关键词。</p>
-<p>好吧，这次就先到这里吧。以后有空，或者用到 JPEG 时再回来继续。</p>
-<h2 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h2><p>其实目前对于 渐进式加载 的需要并没有那么急切。我只是惊讶于自己老早看过这种效果，居然没有想过去探究。感觉应该不复杂，想着了解一下就完了，没想到工具支持不算完善，中文互联网上的资料质量也很参差（基本是互相参考，抄来抄去连排版都不改）。</p>
-<p>后面直接去读官方的规范文档，只看某一部分的话，加一点耐心查找和理解，并不难。</p>
-<p>最后，前面用到了十六进制编辑器，选择不少；甚至一些文本编辑器，通过插件或者开关也可以支持。我使用的是以下这个，免费不开源，还挺好用，供参考：</p>
-<p><a href="https://mh-nexus.de/en/downloads.php?product=HxD20" target="_blank" rel="external">https://mh-nexus.de/en/downloads.php?product=HxD20</a></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://jmperezperez.com/more-progressive-image-loading/" target="_blank" rel="external">https://jmperezperez.com/more-progressive-image-loading/</a></p>
-<p><a href="https://www.hostinger.com/tutorials/website/improving-website-performance-using-progressive-jpeg-images" target="_blank" rel="external">https://www.hostinger.com/tutorials/website/improving-website-performance-using-progressive-jpeg-images</a></p>
-<hr>
-<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;网页上的图片，先加载一个模糊预览，然后逐渐变清晰，怎么实现的？&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="png" scheme="https://jaycechant.info/tags/png/"/>
-    
-      <category term="jpg" scheme="https://jaycechant.info/tags/jpg/"/>
     
   </entry>
   

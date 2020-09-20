@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2020/golang-in-action-day-2/</loc>
+    
+    <lastmod>2020-09-20T10:23:43.015Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/</loc>
     
-    <lastmod>2020-08-29T15:43:31.422Z</lastmod>
+    <lastmod>2020-08-30T03:14:05.397Z</lastmod>
     
   </url>
   
@@ -436,14 +443,14 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/list/my-dev-env-list/index.html</loc>
+    <loc>https://jaycechant.info/list/my-software-and-service-list/index.html</loc>
     
     <lastmod>2017-01-23T07:30:50.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://jaycechant.info/list/my-software-and-service-list/index.html</loc>
+    <loc>https://jaycechant.info/list/my-dev-env-list/index.html</loc>
     
     <lastmod>2017-01-23T07:30:50.000Z</lastmod>
     
