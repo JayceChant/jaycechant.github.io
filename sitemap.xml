@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2020/golang-in-action-day-3/</loc>
+    
+    <lastmod>2020-09-24T16:23:45.599Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/list/essential-steps-on-newly-installed-Linux/index.html</loc>
+    
+    <lastmod>2020-09-23T16:44:29.236Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/golang-in-action-day-2/</loc>
     
-    <lastmod>2020-09-20T10:23:43.015Z</lastmod>
+    <lastmod>2020-09-22T04:16:44.541Z</lastmod>
     
   </url>
   
@@ -124,13 +138,6 @@
     <loc>https://jaycechant.info/list/mirror-list/index.html</loc>
     
     <lastmod>2020-04-13T05:49:22.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jaycechant.info/list/essential-steps-on-newly-installed-Linux/index.html</loc>
-    
-    <lastmod>2020-04-13T04:38:40.561Z</lastmod>
     
   </url>
   
