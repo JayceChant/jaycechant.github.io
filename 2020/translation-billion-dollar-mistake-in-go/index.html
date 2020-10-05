@@ -4,29 +4,29 @@
 <head>
   <meta charset="utf-8">
   
-  <title>价值十亿美元的 Go 语言错误（翻译） | 存档Save&amp;Load</title>
+  <title>Go 语言中价值十亿美元的错误（翻译） | 存档Save&amp;Load</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="原文：Billion-Dollar Mistake in Go ?
 地址：https://hackernoon.com/billion-dollar-mistake-in-go-ll1s3tkc
 作者：Harri Lainio（@lainio）
 翻译：Jayce Chant（博客：jaycechant.info，公众号ID： jayceio）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="价值十亿美元的 Go 语言错误（翻译）">
+<meta property="og:title" content="Go 语言中价值十亿美元的错误（翻译）">
 <meta property="og:url" content="https://jaycechant.info/2020/translation-billion-dollar-mistake-in-go/index.html">
 <meta property="og:site_name" content="存档Save&Load">
 <meta property="og:description" content="原文：Billion-Dollar Mistake in Go ?
 地址：https://hackernoon.com/billion-dollar-mistake-in-go-ll1s3tkc
 作者：Harri Lainio（@lainio）
 翻译：Jayce Chant（博客：jaycechant.info，公众号ID： jayceio）">
-<meta property="og:image" content="https://jaycechant.info/../images/billion-dollar-mistake.png">
-<meta property="og:updated_time" content="2020-10-05T16:37:15.491Z">
+<meta property="og:image" content="https://jaycechant.info/../../images/billion-dollar-mistake.png">
+<meta property="og:updated_time" content="2020-10-05T17:18:13.072Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="价值十亿美元的 Go 语言错误（翻译）">
+<meta name="twitter:title" content="Go 语言中价值十亿美元的错误（翻译）">
 <meta name="twitter:description" content="原文：Billion-Dollar Mistake in Go ?
 地址：https://hackernoon.com/billion-dollar-mistake-in-go-ll1s3tkc
 作者：Harri Lainio（@lainio）
 翻译：Jayce Chant（博客：jaycechant.info，公众号ID： jayceio）">
-<meta name="twitter:image" content="https://jaycechant.info/../images/billion-dollar-mistake.png">
+<meta name="twitter:image" content="https://jaycechant.info/../../images/billion-dollar-mistake.png">
   
     <link rel="alternative" href="/atom.xml" title="存档Save&amp;Load" type="application/atom+xml">
   
@@ -102,7 +102,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      价值十亿美元的 Go 语言错误（翻译）
+      Go 语言中价值十亿美元的错误（翻译）
     </h1>
   
 
@@ -122,7 +122,7 @@
 </blockquote>
 <p>以下为译文：</p>
 <hr>
-<p><img src="../images/billion-dollar-mistake.png" alt=""></p>
+<p><img src="../../images/billion-dollar-mistake.png" alt=""></p>
 <p>以下示例代码来自 Go 的 <a href="https://golang.org/pkg/os/" target="_blank" rel="external">标准库文档</a>：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">data := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="number">100</span>)</div><div class="line">count, err := file.Read(data)</div><div class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">    log.Fatal(err)</div><div class="line">&#125;</div><div class="line">fmt.Printf(<span class="string">"read %d bytes: %q\n"</span>, count, data[:count])</div></pre></td></tr></table></figure>
 <p>代码看起来没什么问题。出自标准库官方文档的代码，肯定不会错，对吧。</p>
@@ -140,7 +140,7 @@
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Copy</span><span class="params">(dst Writer, src Reader)</span> <span class="params">(written <span class="keyword">int64</span>, err error)</span></span> &#123;</div><div class="line">    src.Read() <span class="comment">// 现在 read 的语义是来自 io.Reader 吗?</span></div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>那这个版本是不是应该只使用 <code>os.File</code> 的语义呢？(注意，这些只是虚构的例子)</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Copy</span><span class="params">(dst os.File, src os.File)</span> <span class="params">(written <span class="keyword">int64</span>, err error)</span></span> &#123;</div><div class="line">    src.Read() <span class="comment">// 那现在 read 的语义是不是来自 os.File 的 Read 函数呢 ?</span></div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>实践中认为，使用接口语义总是比绑定自己的实现要更好——这就是有名的 <a href="https://zh.wikipedia.org/wiki/%E6%9D%BE%E8%80%A6%E5%90%88" target="_blank" rel="external">松耦合</a>。</p>
+<p>实践中认为，总是应该使用接口语义，而不是绑定到具体的实现——这就是有名的 <a href="https://zh.wikipedia.org/wiki/%E6%9D%BE%E8%80%A6%E5%90%88" target="_blank" rel="external">松耦合</a>。</p>
 <h2 id="io-Reader-的问题"><a href="#io-Reader-的问题" class="headerlink" title="io.Reader 的问题"></a>io.Reader 的问题</h2><p>这个接口有以下问题：</p>
 <ul>
 <li>如果不学习 <code>io.Reader</code> 的文档，你就不能安全地使用任何 <code>Read</code> 函数的实现。</li>
@@ -166,7 +166,7 @@
 <h2 id="作为可辨识联合（Discriminated-Unions）的错误"><a href="#作为可辨识联合（Discriminated-Unions）的错误" class="headerlink" title="作为可辨识联合（Discriminated Unions）的错误"></a>作为可辨识联合（<a href="https://en.wikipedia.org/wiki/Disjoint_sets" target="_blank" rel="external">Discriminated Unions</a>）的错误</h2><p><code>io.Reader</code> 接口和 <code>io.EOF</code> 指出了 Go 目前的错误处理中所缺少的东西，那就是 <strong>错误的分类（the error distinction）</strong>。例如，Swift 和 Rust 不允许部分失败。函数调用要么成功，要么失败。这就是 Go 的错误返回值的问题之一。编译器无法提供任何支持。众所周知，这同样也是 C 语言的非标准错误返回的问题——当你有一个重叠的错误返回通道时就会这样。</p>
 <p>Herb Shutter（译者注：C++ 程序设计专家，曾担任 ISO C++ 的秘书和会议召集人，原文有笔误，应为 Sutter）特意在他的 C++ 提案《<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0709r0.pdf" target="_blank" rel="external">零开销的确定性异常：抛出值（Zero-overhead deterministic exceptions: Throwing values）</a>》中提到：</p>
 <blockquote>
-<p>『正常』与 『错误』（控制流）是一个非常基础的语义区分，而且可能是任何编程语言中最重要的区分，尽管这一点通常被低估了。</p>
+<p>『正常』与 『错误』（控制流）是一个非常基础的语义区分，而且可能在任何编程语言中都是最重要的区分，尽管这一点总是被低估。</p>
 </blockquote>
 <h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>Go 当前 <code>io.Reader</code> 接口存在问题，是因为违反了语义的区分。</p>
 <h3 id="增加语义上的区别"><a href="#增加语义上的区别" class="headerlink" title="增加语义上的区别"></a>增加语义上的区别</h3><p>首先，我们通过声明一个新的接口函数，停止使用返回错误来处理不是错误的东西。</p>
@@ -255,7 +255,7 @@
       <ul>
         
           <li>
-            <a href="/2020/translation-billion-dollar-mistake-in-go/">价值十亿美元的 Go 语言错误（翻译）</a>
+            <a href="/2020/translation-billion-dollar-mistake-in-go/">Go 语言中价值十亿美元的错误（翻译）</a>
           </li>
         
           <li>
