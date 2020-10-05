@@ -4,8 +4,25 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/translation-billion-dollar-mistake-in-go/</loc>
+    <lastmod>2020-10-05T16:37:15.491Z</lastmod>
+    <data>
+        <display>
+        <title>价值十亿美元的 Go 语言错误（翻译）</title>
+        <pubTime>2020-10-01T15:52:05.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/golang-in-action-day-3/</loc>
-    <lastmod>2020-09-24T16:23:45.599Z</lastmod>
+    <lastmod>2020-09-24T18:44:56.149Z</lastmod>
     <data>
         <display>
         <title>Go 语言实战（3）： 类型</title>
@@ -298,9 +315,9 @@
         <title>跟黄执中学观念传递：简单、意外、具体</title>
         <pubTime>2020-05-12T09:16:34.000Z</pubTime>
         
-        <tag>写作</tag>
-         
         <tag>语言表达</tag>
+         
+        <tag>写作</tag>
          
          
            
@@ -429,10 +446,6 @@
         <title>镜像清单</title>
         <pubTime>2016-12-31T02:29:12.000Z</pubTime>
         
-        <tag>Android</tag>
-         
-        <tag>Jenkins</tag>
-         
         <tag>pip</tag>
          
         <tag>Ubuntu</tag>
@@ -444,6 +457,10 @@
         <tag>npm</tag>
          
         <tag>maven</tag>
+         
+        <tag>Android</tag>
+         
+        <tag>Jenkins</tag>
          
          
            
@@ -496,11 +513,11 @@
         <title>nodePPT 简介及快速上手</title>
         <pubTime>2016-06-20T06:35:29.000Z</pubTime>
         
-        <tag>how-to</tag>
+        <tag>nodePPT</tag>
          
         <tag>Markdown</tag>
          
-        <tag>nodePPT</tag>
+        <tag>how-to</tag>
          
          
            
@@ -715,9 +732,9 @@
         <title>golang 预置 json 包的值覆盖测试</title>
         <pubTime>2019-05-19T16:45:38.000Z</pubTime>
         
-        <tag>golang</tag>
-         
         <tag>json</tag>
+         
+        <tag>golang</tag>
          
          
            
@@ -812,9 +829,9 @@
         <title>MathJax 简介 与 实例</title>
         <pubTime>2016-06-21T10:04:01.000Z</pubTime>
         
-        <tag>how-to</tag>
-         
         <tag>nodePPT</tag>
+         
+        <tag>how-to</tag>
          
         <tag>Mathjax</tag>
          
@@ -852,9 +869,9 @@
         <title>用 Syncthing 备份的技巧</title>
         <pubTime>2016-08-28T07:57:03.000Z</pubTime>
         
-        <tag>Syncthing</tag>
-         
         <tag>skill</tag>
+         
+        <tag>Syncthing</tag>
          
         <tag>dropbox</tag>
          
@@ -894,11 +911,11 @@
         <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
         <pubTime>2017-01-20T06:44:31.000Z</pubTime>
         
+        <tag>trouble</tag>
+         
         <tag>Jenkins</tag>
          
         <tag>Java</tag>
-         
-        <tag>trouble</tag>
          
         <tag>Tomcat</tag>
          
@@ -936,9 +953,9 @@
         <title>json-lib-2.4-jdk15 的疑似 bug</title>
         <pubTime>2017-02-21T09:12:31.000Z</pubTime>
         
-        <tag>Java</tag>
-         
         <tag>json</tag>
+         
+        <tag>Java</tag>
          
          
            
@@ -1051,27 +1068,6 @@
 
     
   <url>
-    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>vsftp 503 和 500 错误</title>
-        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
-        
-        <tag>trouble</tag>
-         
-        <tag>Ubuntu</tag>
-         
-        <tag>vsftp</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     <data>
@@ -1093,6 +1089,27 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>vsftp 503 和 500 错误</title>
+        <pubTime>2016-12-29T02:53:19.000Z</pubTime>
+        
+        <tag>trouble</tag>
+         
+        <tag>Ubuntu</tag>
+         
+        <tag>vsftp</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2012/hello-octopress/</loc>
     <lastmod>2017-01-25T04:21:21.968Z</lastmod>
     <data>
@@ -1102,11 +1119,11 @@
         
         <tag>how-to</tag>
          
+        <tag>unfinished</tag>
+         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
-         
-        <tag>unfinished</tag>
          
          
            
@@ -1126,9 +1143,9 @@
         <title>Jenkins JavaMail 配置：JCE 及其他</title>
         <pubTime>2017-01-11T07:02:31.000Z</pubTime>
         
-        <tag>Jenkins</tag>
-         
         <tag>trouble</tag>
+         
+        <tag>Jenkins</tag>
          
         <tag>JavaMail</tag>
          
@@ -1193,13 +1210,13 @@
         <title>博客迁移到了Hexo（附折腾记录）</title>
         <pubTime>2016-06-27T07:46:12.000Z</pubTime>
         
-        <tag>git</tag>
-         
         <tag>blog</tag>
+         
+        <tag>hexo</tag>
          
         <tag>node.js</tag>
          
-        <tag>hexo</tag>
+        <tag>git</tag>
          
         <tag>trouble</tag>
          
@@ -1253,9 +1270,9 @@
         <title>刷OJ的技巧</title>
         <pubTime>2016-12-09T01:35:03.000Z</pubTime>
         
-        <tag>skill</tag>
-         
         <tag>OJ</tag>
+         
+        <tag>skill</tag>
          
          
            
@@ -1305,9 +1322,9 @@
         <title>用Markdown写日志</title>
         <pubTime>2012-04-10T08:39:00.000Z</pubTime>
         
-        <tag>how-to</tag>
-         
         <tag>Markdown</tag>
+         
+        <tag>how-to</tag>
          
         <tag>blog</tag>
          

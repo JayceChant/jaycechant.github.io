@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2020/translation-billion-dollar-mistake-in-go/</loc>
+    
+    <lastmod>2020-10-05T16:37:15.491Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/golang-in-action-day-3/</loc>
     
-    <lastmod>2020-09-24T16:23:45.599Z</lastmod>
+    <lastmod>2020-09-24T18:44:56.149Z</lastmod>
     
   </url>
   
@@ -429,14 +436,14 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
+    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
+    <loc>https://jaycechant.info/2016/vsftp-error-503-and-500/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     
