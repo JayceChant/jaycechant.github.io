@@ -4,6 +4,46 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/golang-in-action-day-4/</loc>
+    <lastmod>2020-10-17T07:33:37.054Z</lastmod>
+    <data>
+        <display>
+        <title>Go 语言实战（4）：运算符</title>
+        <pubTime>2020-10-08T09:32:18.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
+         
+           
+             
+              <breadCrumb title="Go 语言实战" url="https://jaycechant.info/categories/Go-%E8%AF%AD%E8%A8%80%E5%AE%9E%E6%88%98/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2020/golang-in-action-day-5/</loc>
+    <lastmod>2020-10-17T07:19:14.426Z</lastmod>
+    <data>
+        <display>
+        <title>Go 语言实战（5）：控制结构</title>
+        <pubTime>2020-10-17T07:07:07.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
+         
+           
+             
+              <breadCrumb title="Go 语言实战" url="https://jaycechant.info/categories/Go-%E8%AF%AD%E8%A8%80%E5%AE%9E%E6%88%98/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/translation-billion-dollar-mistake-in-go/</loc>
     <lastmod>2020-10-05T17:18:13.072Z</lastmod>
     <data>
@@ -315,9 +355,9 @@
         <title>跟黄执中学观念传递：简单、意外、具体</title>
         <pubTime>2020-05-12T09:16:34.000Z</pubTime>
         
-        <tag>语言表达</tag>
-         
         <tag>写作</tag>
+         
+        <tag>语言表达</tag>
          
          
            
@@ -448,9 +488,9 @@
         
         <tag>pip</tag>
          
-        <tag>Ubuntu</tag>
-         
         <tag>mirror</tag>
+         
+        <tag>Ubuntu</tag>
          
         <tag>aliyun</tag>
          
@@ -513,11 +553,11 @@
         <title>nodePPT 简介及快速上手</title>
         <pubTime>2016-06-20T06:35:29.000Z</pubTime>
         
+        <tag>how-to</tag>
+         
         <tag>nodePPT</tag>
          
         <tag>Markdown</tag>
-         
-        <tag>how-to</tag>
          
          
            
@@ -829,9 +869,9 @@
         <title>MathJax 简介 与 实例</title>
         <pubTime>2016-06-21T10:04:01.000Z</pubTime>
         
-        <tag>nodePPT</tag>
-         
         <tag>how-to</tag>
+         
+        <tag>nodePPT</tag>
          
         <tag>Mathjax</tag>
          
@@ -1031,9 +1071,9 @@
         <title>Windows 下 Python 2x 和 3x 版本共存</title>
         <pubTime>2012-04-11T11:46:00.000Z</pubTime>
         
-        <tag>Python</tag>
-         
         <tag>unfinished</tag>
+         
+        <tag>Python</tag>
          
          
            
@@ -1050,11 +1090,11 @@
         <title>在 Windows 搭建Python多版本环境</title>
         <pubTime>2016-07-12T07:21:27.000Z</pubTime>
         
-        <tag>Python</tag>
-         
         <tag>unfinished</tag>
          
         <tag>trouble</tag>
+         
+        <tag>Python</tag>
          
         <tag>pip</tag>
          
@@ -1117,13 +1157,13 @@
         <title>Hello Octopress</title>
         <pubTime>2012-04-11T10:28:00.000Z</pubTime>
         
-        <tag>how-to</tag>
-         
-        <tag>unfinished</tag>
-         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
+         
+        <tag>how-to</tag>
+         
+        <tag>unfinished</tag>
          
          
            
@@ -1189,9 +1229,9 @@
         <title>升级 pip 时的一个坑</title>
         <pubTime>2016-12-29T02:50:03.000Z</pubTime>
         
-        <tag>Python</tag>
-         
         <tag>trouble</tag>
+         
+        <tag>Python</tag>
          
         <tag>pip</tag>
          
@@ -1322,9 +1362,9 @@
         <title>用Markdown写日志</title>
         <pubTime>2012-04-10T08:39:00.000Z</pubTime>
         
-        <tag>Markdown</tag>
-         
         <tag>how-to</tag>
+         
+        <tag>Markdown</tag>
          
         <tag>blog</tag>
          
