@@ -4,19 +4,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Go 语言实战（5）：控制结构 | 存档Save&amp;Load</title>
+  <title>Go 语言实战（5）：流程控制 | 存档Save&amp;Load</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="这一期介绍 控制结构，下一期开始引入实战项目：一开始不能太贪心，会先尝试做一个 CLI 工具。">
+  <meta name="description" content="这一期介绍 程序的流程控制，下一期开始引入实战项目：一开始不能太贪心，会先尝试做一个 CLI 工具。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Go 语言实战（5）：控制结构">
+<meta property="og:title" content="Go 语言实战（5）：流程控制">
 <meta property="og:url" content="https://jaycechant.info/2020/golang-in-action-day-5/index.html">
 <meta property="og:site_name" content="存档Save&Load">
-<meta property="og:description" content="这一期介绍 控制结构，下一期开始引入实战项目：一开始不能太贪心，会先尝试做一个 CLI 工具。">
+<meta property="og:description" content="这一期介绍 程序的流程控制，下一期开始引入实战项目：一开始不能太贪心，会先尝试做一个 CLI 工具。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2020-10-17T07:19:14.426Z">
+<meta property="og:updated_time" content="2020-10-17T16:02:06.585Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Go 语言实战（5）：控制结构">
-<meta name="twitter:description" content="这一期介绍 控制结构，下一期开始引入实战项目：一开始不能太贪心，会先尝试做一个 CLI 工具。">
+<meta name="twitter:title" content="Go 语言实战（5）：流程控制">
+<meta name="twitter:description" content="这一期介绍 程序的流程控制，下一期开始引入实战项目：一开始不能太贪心，会先尝试做一个 CLI 工具。">
 <meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
   
     <link rel="alternative" href="/atom.xml" title="存档Save&amp;Load" type="application/atom+xml">
@@ -97,7 +97,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Go 语言实战（5）：控制结构
+      Go 语言实战（5）：流程控制
     </h1>
   
 
@@ -105,7 +105,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>这一期介绍 控制结构，下一期开始引入实战项目：一开始不能太贪心，会先尝试做一个 CLI 工具。</p>
+        <p>这一期介绍 程序的流程控制，下一期开始引入实战项目：一开始不能太贪心，会先尝试做一个 CLI 工具。</p>
 <a id="more"></a>
 <h2 id="控制结构"><a href="#控制结构" class="headerlink" title="控制结构"></a>控制结构</h2><p>程序有三种基本的控制结构，分别是 <strong>顺序、分支（选择） 和 循环</strong> 。其中顺序结构不需要任何特殊的语句，程序语句按顺序执行即可。需要控制语句的是剩下两种结构。</p>
 <p>注意，Go 语言的代码块不能省略大括号（<code>{}</code>，又叫花括号），哪怕只有一行。这是为了保持语言的可伸缩性，使得语言在不同规模和不同的上下文都不会出现歧义。与之相反，条件表达式处于关键字和左大括号 <code>{</code> 中间，而且总是只有一行，所以不需要加括号 <code>()</code> 。</p>
@@ -119,9 +119,9 @@
 <li>赋值。</li>
 <li>变量的短声明。</li>
 </ul>
-<p>变量短声明很可能是用得最多的语句，因为在这里声明变量可以限制变量的作用域，仅限于控制结构内部，但需要注意变量遮盖的问题：</p>
+<p>变量短声明很可能是用得最多的语句，因为在这里声明变量可以限制变量的作用域，仅限于控制结构内部，但需要注意变量遮盖（shadow）的问题：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">a := <span class="number">1</span></div><div class="line"><span class="keyword">if</span> a &lt; <span class="number">10</span> &#123;</div><div class="line">    a = <span class="number">10</span></div><div class="line">&#125;</div><div class="line"><span class="comment">// 外层 a 被修改，是 10</span></div><div class="line">fmt.Println(a)</div><div class="line"></div><div class="line">b := <span class="number">1</span></div><div class="line"><span class="keyword">if</span> b := <span class="number">2</span>; b &lt; <span class="number">10</span> &#123; <span class="comment">// 声明了一个新的变量 b，作用域为整个 if-else 控制结构</span></div><div class="line">    b = <span class="number">10</span></div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// 如果条件满足执行到这（例如 b:= 11），这里访问的也是内层 b</span></div><div class="line">&#125;</div><div class="line"><span class="comment">// 外层 b 仍然是 1</span></div><div class="line">fmt.Println(b)</div></pre></td></tr></table></figure>
-<h3 id="1-分支结构"><a href="#1-分支结构" class="headerlink" title="1 分支结构"></a>1 分支结构</h3><p>分支结构会指定一个到多个条件，通过测试哪些条件得到满足来决定执行路径。Go 里面可以实现分支结构的语句有：</p>
+<h3 id="1-分支结构"><a href="#1-分支结构" class="headerlink" title="1. 分支结构"></a>1. 分支结构</h3><p>分支结构会指定一个到多个条件，通过测试哪些条件得到满足来决定执行路径。Go 里面可以实现分支结构的语句有：</p>
 <h4 id="if-语句"><a href="#if-语句" class="headerlink" title="if 语句"></a>if 语句</h4><p>Go 的 if 语句跟其它语言差别不大，直接上例子。</p>
 <p>细节差别有：表达式不用括号，代码块不能省略大括号，<code>else if</code> 不像一些语言可以写成 <code>elif</code> （Go 很省关键字）。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// if 的条件表达式只能为 布尔 bool 类型</span></div><div class="line"></div><div class="line"><span class="comment">// 1. 只有 if 子句</span></div><div class="line"><span class="keyword">if</span> 布尔表达式 &#123; <span class="comment">// 不像 C 语言，布尔表达式不用加括号</span></div><div class="line">    <span class="comment">// 条件为真才执行</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 2. 加上 else 子句</span></div><div class="line"><span class="keyword">if</span> 布尔表达式 &#123;</div><div class="line">    <span class="comment">// 表达式为真执行这里</span></div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// 否则执行这里</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 3. else 后面可以嵌套更多 if 语句</span></div><div class="line"><span class="keyword">if</span> 条件<span class="number">1</span> &#123;</div><div class="line">    <span class="comment">// 条件1 为真</span></div><div class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> 条件<span class="number">2</span> &#123;</div><div class="line">    <span class="comment">// 条件2 为真</span></div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// 都不满足</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -132,7 +132,7 @@
 <p>Go 的接口变量允许储存任何满足接口的类型的值，举例说类型 <code>T</code> 满足接口 <code>I</code> ，那么 <code>T</code> 的值 <code>t</code> 就可以赋值给 <code>I</code> 的变量 <code>i</code> ：<code>var i I = t</code> 。</p>
 <p>而将接口变量 <code>i</code> 转换为具体的类型 <code>T</code> 时，除了显式的类型转换 <code>t = T(i)</code> ，还可以用 <strong>类型断言</strong> <code>t = i.(T)</code> 。两者之间一个明显的差别是，类型转换需要开发者自行确保可以转换，否则就会产生一个运行时 panic；而类型断言有安全形式 <code>t, ok = i.(T)</code> ，如果转换失败，<code>ok</code> 的值为 <code>false</code> ，并不会产生 panic。不过这里不是讨论类型断言，不详细展开。</p>
 <p>类型 switch 借用了类型断言的形式，但是括号里的不是某个具体的类型，而是关键字 <code>type</code> ，也就是 <code>i.(type)</code> ；然后 case 后面接的，就不再是值，而是具体的类型。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">switch i.(type) &#123;</div><div class="line">case 类型1:</div><div class="line">    // 如果 i 的值是 类型1 时执行</div><div class="line">case 类型2:</div><div class="line">    // i 为类型2 时执行</div><div class="line">case nil:</div><div class="line">    // 除了类型，还能判断 i 是否为 nil</div><div class="line">default:</div><div class="line">    // 上述 case 均不满足时执行</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 类型 switch 判断还可以包含一个短声明，提供一个转换后的变量供 switch 结构体内部调用</div><div class="line">switch x := i.(type) &#123;</div><div class="line">case nil:</div><div class="line">    // i 为 nil，没有动态类型信息，x 的类型仍然是 i 的接口类型</div><div class="line">	fmt.Println("i 为 nil")</div><div class="line">case int:</div><div class="line">    // x 的类型是 int</div><div class="line">	fmt.Println(x)</div><div class="line">case func(int) float64:</div><div class="line">    // x 的类型是签名为 func(int) float64 的函数</div><div class="line">    fmt.Println(x(1))</div><div class="line">case bool, string:</div><div class="line">    // 条件类型不止一个，无法确定命中的类型，x 的类型没有做转换，仍是 i 的接口类型</div><div class="line">    fmt.Println(x)</div><div class="line">default:</div><div class="line">    // i 虽然不为 nil，但是没有命中任何类型，x 的类型仍然是 i 的接口类型</div><div class="line">	fmt.Println("意料以外的类型")</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">switch i.(type) &#123;</div><div class="line">case 类型1:</div><div class="line">    // 如果 i 的值是 类型1 时执行</div><div class="line">case 类型2:</div><div class="line">    // i 为类型2 时执行</div><div class="line">case nil:</div><div class="line">    // 除了类型，还能判断 i 是否为 nil</div><div class="line">default:</div><div class="line">    // 上述 case 均不满足时执行</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 类型 switch 还可以包含一个短声明，提供一个转换后的变量供 switch 结构体内部调用</div><div class="line">switch x := i.(type) &#123;</div><div class="line">case nil:</div><div class="line">    // i 为 nil，没有动态类型信息，x 的类型仍然是 i 的接口类型</div><div class="line">	fmt.Println("i 为 nil")</div><div class="line">case int:</div><div class="line">    // x 的类型是 int</div><div class="line">	fmt.Println(x)</div><div class="line">case func(int) float64:</div><div class="line">    // x 的类型是签名为 func(int) float64 的函数</div><div class="line">    fmt.Println(x(1))</div><div class="line">case bool, string:</div><div class="line">    // 条件类型不止一个，无法确定命中的类型，x 的类型没有做转换，仍是 i 的接口类型</div><div class="line">    fmt.Println(x)</div><div class="line">default:</div><div class="line">    // i 虽然不为 nil，但是没有命中任何类型，x 的类型仍然是 i 的接口类型</div><div class="line">	fmt.Println("意料以外的类型")</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h5 id="与-C-风格-switch-的差别"><a href="#与-C-风格-switch-的差别" class="headerlink" title="与 C 风格 switch 的差别"></a>与 C 风格 switch 的差别</h5><p>所以总结下来，switch 语句实际上包含了</p>
 <ul>
 <li>C 风格的 switch-case 经典用法。</li>
@@ -164,7 +164,7 @@
 <p>select 语句里的每个 case 后面都接一个通信操作，要么接收要么发送。</p>
 <p>执行时，会在可以执行的 case 中 <strong>随机</strong> 执行一个（注意是随机，switch 则是从上到下测试第一个满足的），其它 case 忽略。如果没有可以执行的 case，则会执行 default 子句；没有可执行的 case 且没有 default 子句，则会阻塞直到有可以执行的 case 为止。所以如果不想阻塞，就一定要增加 default 子句。</p>
 <p>select 语句常常嵌套在循环结构里，实现对通道轮询的效果。详细用法在介绍并发和通道时再展开。</p>
-<h3 id="2-循环结构"><a href="#2-循环结构" class="headerlink" title="2 循环结构"></a>2 循环结构</h3><p>在 Go 里面实现循环结构，只有一个 for 语句。看起来这又是省关键字的结果。Go 的不同写法，可以实现 C 风格里的 for、while 和 do-while ，甚至还有 Java 的 for-each 或 Python 的 for-range 效果：</p>
+<h3 id="2-循环结构"><a href="#2-循环结构" class="headerlink" title="2. 循环结构"></a>2. 循环结构</h3><p>在 Go 里面实现循环结构，只有一个 for 语句。看起来这又是省关键字的结果。Go 的不同写法，可以实现 C 风格里的 for、while 和 do-while ，甚至还有 Java 的 for-each 或 Python 的 for-range 效果：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 1. 经典写法</span></div><div class="line"><span class="comment">// 初始化语句和步进语句都是简单语句，循环条件必须是布尔表达式</span></div><div class="line"><span class="comment">// 3 个部分可以任意省略，但是分号要保留（这才看得出来没省略的是哪部分）</span></div><div class="line"><span class="comment">// 循环条件如果省略，等同于 true，变成死循环，需要内部有 break 语句 或 return 语句 结束循环</span></div><div class="line"><span class="keyword">for</span> 初始化语句; 循环条件（布尔表达式）; 步进语句 &#123;</div><div class="line">    <span class="comment">// 循环体</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 2. while 写法</span></div><div class="line"><span class="comment">// 如果只保留循环条件，用法等同于 while</span></div><div class="line"><span class="comment">// 同样的，如果省略循环条件，就会变成死循环</span></div><div class="line"><span class="keyword">for</span> 循环条件 &#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 3. do-while 写法</span></div><div class="line"><span class="comment">// do&#123;...&#125;while(循环条件) 和 while 相比，是把判断后置，无论如何至少执行一次</span></div><div class="line"><span class="comment">// 可以通过死循环再 break/return 跳出来模拟</span></div><div class="line"><span class="keyword">for</span> &#123;</div><div class="line">    <span class="comment">// 循环体</span></div><div class="line">    </div><div class="line">    <span class="comment">// 不满足继续循环的条件时退出</span></div><div class="line">    <span class="keyword">if</span> !循环条件 &#123;</div><div class="line">        <span class="keyword">break</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 4. for-range 写法</span></div><div class="line"><span class="keyword">for</span> i, x = <span class="keyword">range</span> 表达式 &#123;</div><div class="line">    <span class="comment">// 循环体</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>range 表达式的右边，可以是 数组、数组的指针、切片（slice）、字符串（<code>string</code>）、映射（<code>map</code>）或者可接收（可读）的通道（<code>chan</code>）。换句话说，它们的成员元素可以枚举。</p>
 <p>range 表达式本质上是一个语法糖，实际上底层实现还是展开成普通的 for 循环，帮你枚举对象里的成员元素。对于通道以外的类型而言，展开后的三个部分可以近似看作：取第一个元素（初始化）；没遍历到最后一个元素（循环条件）；取下一个元素（步进）。而对于通道而言，循环条件变成了通道还没关闭。</p>
@@ -183,7 +183,7 @@
 <li>执行循环体；</li>
 <li>执行步进（post）语句，并回到 2。</li>
 </ol>
-<h3 id="3-控制语句"><a href="#3-控制语句" class="headerlink" title="3 控制语句"></a>3 控制语句</h3><p>控制语句主要针对循环结构，除了按照 for 语句的规则执行，还可以加入一些控制语句，改变执行的方向。</p>
+<h3 id="3-控制语句"><a href="#3-控制语句" class="headerlink" title="3. 控制语句"></a>3. 控制语句</h3><p>控制语句主要针对循环结构，除了按照 for 语句的规则执行，还可以加入一些控制语句，改变执行的方向。</p>
 <p>分别有 <code>break</code> 、<code>continue</code> 和 <code>goto</code> 三种语句。这三种语句的用法跟 C 家族语言基本一致：</p>
 <ul>
 <li><p><code>break</code> 跳出当前的循环，并继续执行循环之后的语句。<code>break</code> 也可以用于跳出 switch 代码块，但由于 Go 的 switch 默认会在 case 结尾退出，所以 switch 里 <code>break</code> 用得比较少。</p>
@@ -223,7 +223,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2020/golang-in-action-day-5/" data-id="ckgdd759b0058hgxlzdq7fg16" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2020/golang-in-action-day-5/" data-id="ckgnfxvp80043w0xlb6kcmgqb" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -238,6 +238,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2020/golang-in-action-day-6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          Go 语言实战（6）：命令行程序（1）
+        
+      </div>
+    </a>
   
   
     <a href="/2020/golang-in-action-day-4/" id="article-nav-older" class="article-nav-link-wrap">
@@ -264,7 +273,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Go-语言实战/">Go 语言实战</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/刷题/">刷题</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/科普/">科普</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/粤语/">粤语</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Go-语言实战/">Go 语言实战</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/刷题/">刷题</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/科普/">科普</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/粤语/">粤语</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -282,7 +291,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -294,7 +303,11 @@
       <ul>
         
           <li>
-            <a href="/2020/golang-in-action-day-5/">Go 语言实战（5）：控制结构</a>
+            <a href="/2020/golang-in-action-day-6/">Go 语言实战（6）：命令行程序（1）</a>
+          </li>
+        
+          <li>
+            <a href="/2020/golang-in-action-day-5/">Go 语言实战（5）：流程控制</a>
           </li>
         
           <li>
@@ -307,10 +320,6 @@
         
           <li>
             <a href="/2020/golang-in-action-day-3/">Go 语言实战（3）： 类型</a>
-          </li>
-        
-          <li>
-            <a href="/2020/golang-in-action-day-2/">Go 语言实战（2）： 常量与变量</a>
           </li>
         
       </ul>

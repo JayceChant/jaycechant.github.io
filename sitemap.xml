@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://jaycechant.info/2020/golang-in-action-day-4/</loc>
+    <loc>https://jaycechant.info/2020/golang-in-action-day-6/</loc>
     
-    <lastmod>2020-10-17T07:33:37.054Z</lastmod>
+    <lastmod>2020-10-24T08:47:08.007Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://jaycechant.info/2020/golang-in-action-day-5/</loc>
     
-    <lastmod>2020-10-17T07:19:14.426Z</lastmod>
+    <lastmod>2020-10-17T16:02:06.585Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/2020/golang-in-action-day-4/</loc>
+    
+    <lastmod>2020-10-17T07:49:35.465Z</lastmod>
     
   </url>
   
