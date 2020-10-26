@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2020/three-things-to-do-when-you-hit-a-crossroads-translation/</loc>
+    
+    <lastmod>2020-10-26T09:41:56.120Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/golang-in-action-day-6/</loc>
     
-    <lastmod>2020-10-24T08:47:08.007Z</lastmod>
+    <lastmod>2020-10-25T13:37:44.978Z</lastmod>
     
   </url>
   
@@ -478,14 +485,14 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/list/my-software-and-service-list/index.html</loc>
+    <loc>https://jaycechant.info/list/my-dev-env-list/index.html</loc>
     
     <lastmod>2017-01-23T07:30:50.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://jaycechant.info/list/my-dev-env-list/index.html</loc>
+    <loc>https://jaycechant.info/list/my-software-and-service-list/index.html</loc>
     
     <lastmod>2017-01-23T07:30:50.000Z</lastmod>
     

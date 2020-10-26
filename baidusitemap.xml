@@ -4,8 +4,25 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/three-things-to-do-when-you-hit-a-crossroads-translation/</loc>
+    <lastmod>2020-10-26T09:41:56.120Z</lastmod>
+    <data>
+        <display>
+        <title>遇到十字路口，你要做的三件事（翻译）</title>
+        <pubTime>2020-10-26T05:51:10.000Z</pubTime>
+        
+        <tag>翻译</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/golang-in-action-day-6/</loc>
-    <lastmod>2020-10-24T08:47:08.007Z</lastmod>
+    <lastmod>2020-10-25T13:37:44.978Z</lastmod>
     <data>
         <display>
         <title>Go 语言实战（6）：命令行程序（1）</title>
@@ -756,9 +773,9 @@
         
         <tag>golang</tag>
          
-        <tag>glide</tag>
-         
         <tag>dep</tag>
+         
+        <tag>glide</tag>
          
          
            
