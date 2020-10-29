@@ -2,9 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2020/golang-in-action-day-7/</loc>
+    
+    <lastmod>2020-10-29T12:03:27.512Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/three-things-to-do-when-you-hit-a-crossroads-translation/</loc>
     
-    <lastmod>2020-10-26T09:41:56.120Z</lastmod>
+    <lastmod>2020-10-26T12:37:34.547Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/</loc>
+    
+    <lastmod>2020-10-26T09:45:49.816Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/2020/translation-billion-dollar-mistake-in-go/</loc>
+    
+    <lastmod>2020-10-26T09:45:40.960Z</lastmod>
     
   </url>
   
@@ -30,13 +51,6 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/2020/translation-billion-dollar-mistake-in-go/</loc>
-    
-    <lastmod>2020-10-05T17:18:13.072Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jaycechant.info/2020/golang-in-action-day-3/</loc>
     
     <lastmod>2020-09-24T18:44:56.149Z</lastmod>
@@ -54,13 +68,6 @@
     <loc>https://jaycechant.info/2020/golang-in-action-day-2/</loc>
     
     <lastmod>2020-09-22T04:16:44.541Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/</loc>
-    
-    <lastmod>2020-08-30T03:14:05.397Z</lastmod>
     
   </url>
   

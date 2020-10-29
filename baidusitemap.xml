@@ -4,13 +4,71 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/golang-in-action-day-7/</loc>
+    <lastmod>2020-10-29T12:03:27.512Z</lastmod>
+    <data>
+        <display>
+        <title>Go 语言实战（7）：命令行程序（2）</title>
+        <pubTime>2020-10-27T09:36:37.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
+         
+           
+             
+              <breadCrumb title="Go 语言实战" url="https://jaycechant.info/categories/Go-%E8%AF%AD%E8%A8%80%E5%AE%9E%E6%88%98/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/three-things-to-do-when-you-hit-a-crossroads-translation/</loc>
-    <lastmod>2020-10-26T09:41:56.120Z</lastmod>
+    <lastmod>2020-10-26T12:37:34.547Z</lastmod>
     <data>
         <display>
         <title>遇到十字路口，你要做的三件事（翻译）</title>
         <pubTime>2020-10-26T05:51:10.000Z</pubTime>
         
+        <tag>翻译</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/</loc>
+    <lastmod>2020-10-26T09:45:49.816Z</lastmod>
+    <data>
+        <display>
+        <title>Go 在 Google：服务于软件工程的语言设计（翻译）</title>
+        <pubTime>2020-08-23T11:09:37.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
+        <tag>翻译</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2020/translation-billion-dollar-mistake-in-go/</loc>
+    <lastmod>2020-10-26T09:45:40.960Z</lastmod>
+    <data>
+        <display>
+        <title>Go 语言中价值十亿美元的错误（翻译）</title>
+        <pubTime>2020-10-01T15:52:05.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
         <tag>翻译</tag>
          
          
@@ -81,23 +139,6 @@
 
     
   <url>
-    <loc>https://jaycechant.info/2020/translation-billion-dollar-mistake-in-go/</loc>
-    <lastmod>2020-10-05T17:18:13.072Z</lastmod>
-    <data>
-        <display>
-        <title>Go 语言中价值十亿美元的错误（翻译）</title>
-        <pubTime>2020-10-01T15:52:05.000Z</pubTime>
-        
-        <tag>golang</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://jaycechant.info/2020/golang-in-action-day-3/</loc>
     <lastmod>2020-09-24T18:44:56.149Z</lastmod>
     <data>
@@ -133,23 +174,6 @@
              
               <breadCrumb title="Go 语言实战" url="https://jaycechant.info/categories/Go-%E8%AF%AD%E8%A8%80%E5%AE%9E%E6%88%98/"/>
           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/</loc>
-    <lastmod>2020-08-30T03:14:05.397Z</lastmod>
-    <data>
-        <display>
-        <title>Go 在 Google：服务于软件工程的语言设计（翻译）</title>
-        <pubTime>2020-08-23T11:09:37.000Z</pubTime>
-        
-        <tag>golang</tag>
-         
-         
-           
         </display>
     </data>
     </url>
@@ -592,9 +616,9 @@
         
         <tag>how-to</tag>
          
-        <tag>nodePPT</tag>
-         
         <tag>Markdown</tag>
+         
+        <tag>nodePPT</tag>
          
          
            
@@ -1108,9 +1132,9 @@
         <title>Windows 下 Python 2x 和 3x 版本共存</title>
         <pubTime>2012-04-11T11:46:00.000Z</pubTime>
         
-        <tag>unfinished</tag>
-         
         <tag>Python</tag>
+         
+        <tag>unfinished</tag>
          
          
            
@@ -1127,11 +1151,11 @@
         <title>在 Windows 搭建Python多版本环境</title>
         <pubTime>2016-07-12T07:21:27.000Z</pubTime>
         
+        <tag>Python</tag>
+         
         <tag>unfinished</tag>
          
         <tag>trouble</tag>
-         
-        <tag>Python</tag>
          
         <tag>pip</tag>
          
@@ -1194,13 +1218,13 @@
         <title>Hello Octopress</title>
         <pubTime>2012-04-11T10:28:00.000Z</pubTime>
         
-        <tag>Ruby</tag>
-         
-        <tag>Octopress</tag>
-         
         <tag>how-to</tag>
          
         <tag>unfinished</tag>
+         
+        <tag>Ruby</tag>
+         
+        <tag>Octopress</tag>
          
          
            
@@ -1266,9 +1290,9 @@
         <title>升级 pip 时的一个坑</title>
         <pubTime>2016-12-29T02:50:03.000Z</pubTime>
         
-        <tag>trouble</tag>
-         
         <tag>Python</tag>
+         
+        <tag>trouble</tag>
          
         <tag>pip</tag>
          

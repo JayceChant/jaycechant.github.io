@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Go 语言实战（7）：命令行程序（2） | 存档Save&amp;Load</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="上一期 我们有了一个最简单的命令行程序。从命令行参数输入一系列的编号，程序就会排好序重新输出。
+接下来让我们继续改进程序。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go 语言实战（7）：命令行程序（2）">
+<meta property="og:url" content="https://jaycechant.info/2020/golang-in-action-day-7/index.html">
+<meta property="og:site_name" content="存档Save&Load">
+<meta property="og:description" content="上一期 我们有了一个最简单的命令行程序。从命令行参数输入一系列的编号，程序就会排好序重新输出。
+接下来让我们继续改进程序。">
+<meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+<meta property="og:updated_time" content="2020-10-29T12:03:27.512Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go 语言实战（7）：命令行程序（2）">
+<meta name="twitter:description" content="上一期 我们有了一个最简单的命令行程序。从命令行参数输入一系列的编号，程序就会排好序重新输出。
+接下来让我们继续改进程序。">
+<meta name="twitter:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+  
+    <link rel="alternative" href="/atom.xml" title="存档Save&amp;Load" type="application/atom+xml">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+</head>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">存档Save&amp;Load</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">存档意味着放下包袱，搞砸了不过回来读档</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/list">List</a>
+        
+          <a class="main-nav-link" href="https://github.com/JayceChant">Github</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+          <a class="main-nav-link" href="/sitemap.xml">Sitemap</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+        <form action="" accept-charset="utf-8" class="search-form">
+          <input id="searchtext" type="search" name="q" maxlength="20" class="search-form-input" placeholder="Search" onkeypress="if(event.keyCode==13){document.getElementById('searchsub').click();return false;}">
+          <input id="searchsub" type="submit" value="" class="search-form-submit" onclick="window.open('https://global.bing.com/search?&amp;q=site:jaycechant.info '+document.getElementById('searchtext').value, '_blank')">
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-golang-in-action-day-7" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/golang-in-action-day-7/" class="article-date">
+  <time datetime="2020-10-27T09:36:37.000Z" itemprop="datePublished">2020-10-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Go-语言实战/">Go 语言实战</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Go 语言实战（7）：命令行程序（2）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="../golang-in-action-day-6/">上一期</a> 我们有了一个最简单的命令行程序。从命令行参数输入一系列的编号，程序就会排好序重新输出。</p>
+<p>接下来让我们继续改进程序。</p>
+<a id="more"></a>
+<h2 id="准备知识"><a href="#准备知识" class="headerlink" title="准备知识"></a>准备知识</h2><h3 id="标志（flag）参数"><a href="#标志（flag）参数" class="headerlink" title="标志（flag）参数"></a>标志（flag）参数</h3><p>我们在之前已经了解过命令行参数。在 <code>gosort</code> 程序中，就是通过命令行参数，输入需要排序的编号。</p>
+<p>简单的命令行参数输入后变成了字符串切片，只有位置（下标）的差别，不方便传递复杂的参数。如果规定特定次序的参数表示特定的含义，不好记忆不说，还无法缺省（因为一旦缺省，次序就乱了）。而像 <code>gosort</code> 程序这样，普通参数（又叫位置参数）数量不确定，把特殊参数放到最后面也达不到缺省的效果。</p>
+<p>我们需要 标志（flag）参数，通过在短横线（也就是减号 <code>-</code> ）后面加上参数名，构成一个标志，使得参数变得有名字，不再受限于顺序。使用效果类似这样：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 假定 gosort 支持标志参数 -x</span></div><div class="line"></div><div class="line"><span class="comment"># 允许缺省，此时 -x 为默认值</span></div><div class="line"><span class="comment"># 123 456 789 为三个普通参数，是需要排序的编号，下同</span></div><div class="line">gosort 123 456 789</div><div class="line"></div><div class="line"><span class="comment"># 如果 -x 是一个布尔参数，那么有 -x 表示 true</span></div><div class="line">gosort -x 123 456 789</div><div class="line"></div><div class="line"><span class="comment"># 如果 -x 不是布尔型的参数，那么还要指定 -x 的值</span></div><div class="line"><span class="comment"># 可以使用等号</span></div><div class="line">gosort -x=out.txt 123 456 789</div><div class="line"><span class="comment"># 也可以不用等号，紧接着的第一个参数被认为是指定的值</span></div><div class="line">gosort -x out.txt 123 456 789</div></pre></td></tr></table></figure>
+<p>自己实现标志参数并不难，只需要检查每一个命令行参数，找出短横线开头的，然后根据类型决定要不要读下一个参数作为值；处理的同时，要把标志参数和位置参数分开，供后续使用。虽然不难，实现起来比较琐碎，一不小心会漏掉一些边界条件，需要耐心地去测试完善。</p>
+<p>你可以尝试实现看看。不过这里我们偷个懒，使用标准库自带的 <code>flag</code> 包。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 注意 xFlag 不是 bool 而是 *bool（bool指针）</span></div><div class="line"><span class="comment">// 创建时的三个参数，分别是参数名，默认值和参数说明</span></div><div class="line"><span class="keyword">var</span> xFlag = flag.Bool(<span class="string">"x"</span>, flase, <span class="string">"试用 flag 参数，默认为 false"</span>)</div><div class="line"><span class="comment">// 解析需要放在所有 flag 设置好之后</span></div><div class="line">flag.Parse()</div><div class="line"><span class="comment">// 需要解引用获取 bool 值</span></div><div class="line"><span class="keyword">if</span> *xFlag &#123;</div><div class="line">    <span class="comment">// -x 设置为 true 时的操作</span></div><div class="line">&#125;</div><div class="line"><span class="comment">// 可以通过 flag 包访问位置参数的数量和值（去掉了程序名和标志参数)</span></div><div class="line">fmt.Println(<span class="string">"位置参数一共有"</span>, flag.NArg(), <span class="string">"个，分别是："</span>, flag.Args())</div></pre></td></tr></table></figure>
+<p>除了直接生成标志参数后返回储存地址（指针），也可以声明好变量之后，在设置标志参数时指定储存的变量。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 注意这里的 name 直接就是 string，不是指针</span></div><div class="line"><span class="keyword">var</span> name <span class="keyword">string</span></div><div class="line"><span class="comment">// 将 name 的地址传给标志参数</span></div><div class="line">flag.StringVar(&amp;name, <span class="string">"name"</span>, <span class="string">"无名"</span>, <span class="string">"试用 string 类型的 flag 参数"</span>)</div><div class="line"><span class="comment">// 解析时参数会储存到指定的变量</span></div><div class="line">flag.Parse()</div><div class="line"><span class="comment">// name 本身就是 string，无需解引用</span></div><div class="line">fmt.Println(name)</div></pre></td></tr></table></figure>
+<p>简单总结一下：</p>
+<ul>
+<li><code>flag</code> 包保存着关于标志参数的全局状态， <code>flag.Parse()</code>  必须在 <strong>所有标志参数设置好之后、访问任意一个参数值之前调用</strong> 。</li>
+<li><code>flag</code> 只支持基本类型 + <code>time.Duration</code> 类型的参数，每个类型有两个设置函数：不带 <code>Var</code> 结尾的直接返回储存变量的指针，带 <code>Var</code> 结尾的则需要你指定指针。</li>
+<li>在使用时，标志参数必须位于所有位置参数之前，否则会被当做位置参数。例如 <code>gosort -x 123 456 -name bob</code> 无法得到 <code>name</code> 参数，反而会得到这样的位置参数： <code>[&quot;123&quot;,&quot;456&quot;,&quot;-name&quot;,&quot;bob&quot;]</code> 。</li>
+<li>标志参数名尽量避开 <code>h</code> 和 <code>help</code> ，因为 <code>flag</code> 包默认实现了这两个标志，打印帮助信息。</li>
+</ul>
+<p>更复杂的标志参数，可以使用第三方包 <code>github.com/urfave/cli</code> 和 <code>github.com/spf13/cobra</code>，它们在 <code>flag</code> 的基础上，封装了更高级的用法。但目前为止，<code>flag</code> 已经够用了。</p>
+<blockquote>
+<p>记得标准库和第三方包的详细文档，可以在 pkg.go.dev 搜到。</p>
+<p>在这一期里，部分函数只会做简略的介绍，详细的函数签名和用法需要大家自行看文档。</p>
+</blockquote>
+<h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><blockquote>
+<p>篇幅关系，只展示代码的关键部分，需要补足剩余的代码才能编译运行。</p>
+</blockquote>
+<p>在开始改进之前，先将之前的程序做一点小调整：把排序和拼接的代码，单独抽取成一个函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 为了不修改包级变量（os.Args 以及后面的 flag.Args()）</span></div><div class="line">    <span class="comment">// 排序前先拷贝一份</span></div><div class="line">    s := <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="built_in">len</span>(os.Args)<span class="number">-1</span>)</div><div class="line">    <span class="built_in">copy</span>(s, os.Args[<span class="number">1</span>:]))</div><div class="line">    fmt.Println(sortStrings(s)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 因为不需要供包外调用，函数名小写开头即可</span></div><div class="line"><span class="comment">// 上一期介绍过函数签名和函数原型，读者想必可以看懂这个函数的参数和返回值</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">sortStrings</span><span class="params">(strs []<span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</div><div class="line">    sort.Strings(strs)</div><div class="line">    <span class="keyword">return</span> strings.Join(strs, <span class="string">","</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>将功能相对独立的、会被复用的代码抽取成函数是一个好的编程习惯，将函数内部控制在较少的容易理解的行数，可以让程序代码行数持续膨胀的同时，保持一个较好的可读性。</p>
+<h3 id="按数值排序"><a href="#按数值排序" class="headerlink" title="按数值排序"></a>按数值排序</h3><p>还记得我们的需求吗？待排序的是一组提交编号，它们是单调递增的序列号。在实际使用中，因为代码库特别庞大，到后期提交编号达到好几位数，位数要过很长时间才增长一位，给人一种编号位数一直就是这么多的错觉。实际上并不是这样，编号用完了还是要进位的，9999 之后，就是 10000 了。</p>
+<p>之前的实现按文本（字符串）排序，就出问题了。例如 <code>9,80,564,1253</code> 这几个数，如果按照数值排序，现在的顺序就是升序；可如果按字符串排序，则刚好反过来，顺序是 <code>1253,564,80,9</code> 。因为字符串是头部对齐后从左到右比较的，前缀分出先后就直接结束比较。</p>
+<p>我们需要先将提交编号转换为数字，再按数字的规则排序。另一方面，按照字符串排序可以保留，让 <code>gosort</code> 程序有更多的用途，这时就需要一个标志参数区分开。现在规定默认情况按数值排序，而当设置 <code>-l</code> （lexically）时按字符串排序。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 设置 bool 型的标志参数 -l</span></div><div class="line">    <span class="keyword">var</span> lex <span class="keyword">bool</span></div><div class="line">    flag.BoolVar(&amp;lex, <span class="string">"l"</span>, <span class="literal">false</span>, <span class="string">"sort lexically"</span>)</div><div class="line">    flag.Parse()</div><div class="line"></div><div class="line">    <span class="keyword">var</span> res <span class="keyword">string</span></div><div class="line">    <span class="keyword">if</span> lex &#123;</div><div class="line">        <span class="comment">// 如果设置了 -l，调用之前的sortStrings()</span></div><div class="line">        <span class="comment">// flag.Args() 返回的切片在 Parse() 的时候已经去掉了多余的参数</span></div><div class="line">        s := <span class="built_in">make</span>([]<span class="keyword">string</span>, flag.NArg())</div><div class="line">        <span class="built_in">copy</span>(s, flag.Args())</div><div class="line">        res = sortStrings(s)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// 否则先转为整型切片再排序</span></div><div class="line">        <span class="comment">// 由于没有对返回的切片进行修改，所以无需拷贝</span></div><div class="line">        nums, err := strsToNums(flag.Args())</div><div class="line">        <span class="comment">// 命令行参数不一定都是数字，转换有可能失败，此时要打印错误信息并退出</span></div><div class="line">        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">            fmt.Println(err)</div><div class="line">            <span class="comment">// 0 以外的值表示异常退出</span></div><div class="line">            <span class="comment">// 退出后，后面的代码都不会再执行</span></div><div class="line">            os.Exit(<span class="number">1</span>)</div><div class="line">        &#125;</div><div class="line">        res = sortNums(nums)</div><div class="line">    &#125;</div><div class="line">    fmt.Println(res)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>首先是设置标志参数并储存在变量 <code>lex</code> ，这部分内容参考前面的准备知识。然后程序根据 <code>lex</code> 的值执行不同的分支。如果是字符串排序，就是之前的函数。另外一个分支则多了几个新函数。</p>
+<p><code>strsToNums()</code> 是我们自己实现的函数，用来把字符串切片转换为整型数切片。因为转换有可能失败，所以返回值列表里还带着一个 <code>error</code> 类型的返回值。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">strsToNums</span><span class="params">(strs []<span class="keyword">string</span>)</span> <span class="params">([]<span class="keyword">int</span>, error)</span></span> &#123;</div><div class="line">    <span class="comment">// 创建同样大小的 int 切片，用来存放转换的结果</span></div><div class="line">    nums := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="built_in">len</span>(strs))</div><div class="line">    <span class="keyword">var</span> err error</div><div class="line">    <span class="comment">// 遍历每个字符串并转换</span></div><div class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> strs &#123;</div><div class="line">        nums[i], err = strconv.Atoi(strs[i])</div><div class="line">        <span class="comment">// 这里的逻辑是，只要其中一个字符串转换失败，就返回空白切片和错误</span></div><div class="line">        <span class="comment">// 你也可以改为忽略不能转换的字符串，继续转换和排序</span></div><div class="line">        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="literal">nil</span>, err</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> nums, <span class="literal">nil</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里使用了标准库函数 <code>strconv.Atoi()</code> 。<code>strconv</code> 是 String  Convert 的缩写，这个包里是跟字符串转换相关的工具函数，其中 <code>Atoi()</code> 就是把按十进制显示的字符串，转换为 <code>int</code> 型。因为字符串储存的不一定是十进制数，就有可能转换失败。</p>
+<p><code>sortNums()</code> 是另一个我们自己实现的函数，跟之前的 <code>sortStrings()</code> 类似。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">sortNums</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">string</span></span> &#123;</div><div class="line">    sort.Ints(nums)</div><div class="line">    <span class="keyword">return</span> numsJoin(nums)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>由于整型切片无法直接 <code>strings.Join()</code> ，为了让 <code>sortNums()</code> 内部跟 <code>sortStrings()</code> 保持类似，我们又自行实现了 <code>numsJoin()</code>。把整型数拼接成逗号隔开的字符串有很多种具体的做法，这里是其中一种：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 实现 1</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">numsJoin</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">string</span></span> &#123;</div><div class="line">    <span class="comment">// 一种直观的想法就是，再逐个转换回字符串，再 strings.Join()</span></div><div class="line">    strs := <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="built_in">len</span>(nums))</div><div class="line">    <span class="keyword">for</span> i := <span class="keyword">range</span> nums &#123;</div><div class="line">        <span class="comment">// 每个整型数都一定有对应的字符串表示，不存在失败，所以返回值里没有 error</span></div><div class="line">        strs[i] = strconv.Itoa(nums[i])</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> strings.Join(strs, <span class="string">","</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>不过我嫌这里做了两次转换（先从整型到一个个字符串，再把字符串拼成长字符串），有点浪费。能不能一步到位呢，于是我又写了第二种实现：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 实现 2</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">numsJoin</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">string</span></span> &#123;</div><div class="line">    <span class="comment">// 声明一个 byte 切片作为缓冲区</span></div><div class="line">    <span class="comment">// 这里无需 make，因为后续的两个 append 操作都会根据需要扩展切片，包括 nil 切片也能处理</span></div><div class="line">    <span class="keyword">var</span> buf []<span class="keyword">byte</span></div><div class="line">    <span class="keyword">for</span> _, n := <span class="keyword">range</span> nums &#123;</div><div class="line">        <span class="comment">// 把转换后的字符串放进缓冲区（以字节的形式）</span></div><div class="line">        strconv.AppendInt(buf, <span class="keyword">int64</span>(n), <span class="number">10</span>)</div><div class="line">        <span class="comment">// 把逗号放进缓冲区</span></div><div class="line">        <span class="built_in">append</span>(buf, <span class="string">','</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// byte 切片转换为字符串，只转换一次</span></div><div class="line">    <span class="keyword">return</span> <span class="keyword">string</span>(buf)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我还能基于 <code>bytes.Buffer</code> 和 <code>strings.Builder</code> 写出别的实现版本。</p>
+<p>但第一种实现就挺好的。这里只是展示，有时同一个功能可以有多种实现方式。开发的首要任务是实现功能，并且尽可能让代码易读，不容易出错。性能有时也重要，但必须是经过分析，确认有性能差异，并且这个差异对于程序的表现有影响。第二种实现一定比第一种性能好吗？差异是否大到值得特意去优化？使用看起来性能好但是不熟悉的实现，是否会带入潜在的 bug？答案都是不确定的。</p>
+<p>这里为了行文方便，每个函数分开讨论，实际上它们都放在 <code>main.go</code> 里。在 Go 里，包级成员（包括函数）的引用顺序和声明顺序无关，只要不存在循环引用即可。一般的惯例是，<code>init()</code> 和 <code>main</code> （如果有）最前面，然后是导出（exported）成员（就是首字母大写那些），然后是未导出（unexported）成员。未导出函数之间，先被引用到的就放前面。</p>
+<p>现在重新编译之后执行一下程序看看效果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&gt; gosort -h</div><div class="line">Usage of gosort:</div><div class="line">  <span class="_">-l</span>    sort lexically</div><div class="line"></div><div class="line">&gt; gosort 1253 80 9 564</div><div class="line">9,80,564,1253</div><div class="line"></div><div class="line">&gt; gosort 1253 abc 80 9 564</div><div class="line">strconv.Atoi: parsing <span class="string">"abc"</span>: invalid syntax</div><div class="line"></div><div class="line">&gt; gosort <span class="_">-l</span> 1253 abc 80 9 564</div><div class="line">1253,564,80,9,abc</div></pre></td></tr></table></figure>
+<h3 id="从文件输入输出"><a href="#从文件输入输出" class="headerlink" title="从文件输入输出"></a>从文件输入输出</h3><p>现在程序默认按数值排序，即使遇到长度不同的提交编号也不怕；同时按文本排序的功能也没丢掉，偶尔还能用来排一下人名之类的文本信息。程序够用了吗？</p>
+<p>还是回到最初的需求。为什么不人工检查排序呢？因为编号多，最多达几十上百，这种数量，人工排序又慢又累又容易错。甚至不要说排序，就是把编号全部输入一遍，也是慢、累、易错。实际工作中都是打开记事本，把大家回复的编号整理起来，然后直接复制到命令行作为参数。有时还得追加提交编号，就把新的编号放到记事本最后面，然后 Ctrl + A（全选），Ctrl + C（复制），来到命令行，Ctrl + V（粘贴），熟练到麻木。</p>
+<p>为什么要重复做这四个动作，能不能告诉程序，直接从指定的文件读编号？当然可以。不过从命令行参数输入编号还是得保留，方便数量少时使用。</p>
+<p>这时可以设置标志参数 <code>-f</code> （file，不过为了跟后面的输出区分，还是理解为 from 吧），传入一个文件，让程序改为从文件读入。这里假定文本文件里只有编号，以空白字符隔开。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 省略 -l 部分代码...</span></div><div class="line">    <span class="keyword">var</span> from <span class="keyword">string</span></div><div class="line">    flag.StringVar(&amp;from, <span class="string">"-f"</span>, <span class="string">""</span>, <span class="string">"input from file"</span>)</div><div class="line">    flag.Parse()</div><div class="line">    </div><div class="line">    <span class="keyword">var</span> strs []<span class="keyword">string</span></div><div class="line">    <span class="keyword">if</span> from != <span class="string">""</span> &#123;</div><div class="line">        <span class="comment">// 如果不是文件，输出错误信息并退出</span></div><div class="line">        <span class="keyword">if</span> !isFile(from) &#123;</div><div class="line">            fmt.Println(from, <span class="string">" is not a file"</span>)</div><div class="line">            os.Exit(<span class="number">1</span>)</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// 读取文件有多种实现方式，这里采用了最简单的 ioutil 包</span></div><div class="line">        buf, err := ioutil.ReadFile(from)</div><div class="line">        <span class="comment">// 如果读取文件有错误，也是输出错误信息并退出</span></div><div class="line">        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">            fmt.Println(<span class="string">"read "</span>, from, <span class="string">" fail: "</span>, err)</div><div class="line">            os.Exit(<span class="number">1</span>)</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// 这里不要用 strings.Spilt(string(buf), " ")，因为间隔的空白字符可能不止一个</span></div><div class="line">        <span class="comment">// Fields() 以任意数量的空白字符作为分割</span></div><div class="line">        strs = strings.Fields(<span class="keyword">string</span>(buf))</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 无论是否从文件读入，位置参数都追加到后面</span></div><div class="line">    <span class="comment">// ... 的含义，请参考上一期可变参数部分</span></div><div class="line">    strs = <span class="built_in">append</span>(strs, flag.Args()...)</div><div class="line"></div><div class="line">    <span class="keyword">var</span> res <span class="keyword">string</span></div><div class="line">    <span class="keyword">if</span> lex &#123;</div><div class="line">        <span class="comment">// 前面 append 时字符串追加到了新切片，这里不用再拷贝</span></div><div class="line">        res = sortStrings(strs)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        nums, err := strsToNums(strs)</div><div class="line">    <span class="comment">// 省略之后的代码...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>增加了 <code>-f</code> 参数之后，如果 <code>from</code> 有值，而且这个值确实是一个有效的文件，就会从里面读取内容。位置参数的值同时也追加到切片里。</p>
+<p>这里面用到的新函数，只有 <code>isFile()</code> 是自行实现，其它像 <code>ioutil.ReadFile()</code> 和 <code>strings.Fields()</code> 可以直接查询文档。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 判断是否文件的固定套路</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">isFile</span><span class="params">(path <span class="keyword">string</span>)</span> <span class="title">bool</span></span> &#123;</div><div class="line">    info, err := os.Stat(path)</div><div class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &amp;&amp; !os.IsExist(err) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> !info.IsDir()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>相应地，从命令行复制大段的输出也不够方便。极端的情况下，太多的输出甚至会超出命令行的缓冲区。可以从文件输入，自然也可以从文件输出。跟 <code>-f</code> 参数类似，我使用 <code>-o</code> （output）参数指定输出文件。参数设置就不再示范了，这里看一下怎么写入文件。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 省略...</span></div><div class="line">    <span class="keyword">var</span> output <span class="keyword">string</span></div><div class="line">    </div><div class="line">    <span class="comment">// 省略...</span></div><div class="line">    </div><div class="line">    <span class="keyword">if</span> output == <span class="string">""</span> &#123;</div><div class="line">        fmt.Println(res)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        err := ioutil.WriteFile(output, []<span class="keyword">byte</span>(res), <span class="number">0666</span>)</div><div class="line">        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">            fmt.Println(<span class="string">"write result to "</span>, output, <span class="string">" fail: "</span>, err)</div><div class="line">            os.Exit(<span class="number">1</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>同样地，为了偷懒，直接用 <code>ioutil.WriteFile()</code> ，三个参数分别是文件名（路径），写入的数据（<code>string</code> 需要转换为 字节切片）和 文件权限。这个函数在遇到目标文件存在且有写权限时，会直接覆盖原来的内容，但不改动权限；如果文件不存在，则以指定权限创建文件。<code>0666</code> 为八进制数，对应 Linux 的权限值（在 Windows 系统 Go 会自动转换为相应的操作）。</p>
+<p>接下来试一下修改后的程序。我们首先创建一个 <code>input.txt</code> （注意前后和中间间隔有多余空格，实际操作中不小心多输入空格是非常常见的）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">123 456 111      983</div></pre></td></tr></table></figure>
+<p>然后执行程序：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 使用 strings.Spilt(string(buf), " ") 分割文件输入的效果</span></div><div class="line"><span class="comment"># 分割结果里出现了空白字符串，无法转换为数字</span></div><div class="line">&gt; gosort <span class="_">-f</span> input.txt 256</div><div class="line">strconv.Atoi: parsing <span class="string">""</span>: invalid syntax</div><div class="line"></div><div class="line"><span class="comment"># 使用 strings.Fields(string(buf)) 的效果</span></div><div class="line">&gt; gosort <span class="_">-f</span> input.txt 256</div><div class="line">111,123,256,456,983</div><div class="line"></div><div class="line"><span class="comment"># 参数较多时，为了视觉上紧凑，可以用等号连接</span></div><div class="line">&gt; gosort <span class="_">-f</span>=input.txt -o=output.txt 256</div><div class="line"><span class="comment"># 没有错误的话没有输出，结果在 output.txt 里</span></div></pre></td></tr></table></figure>
+<h3 id="其它改进"><a href="#其它改进" class="headerlink" title="其它改进"></a>其它改进</h3><p>除此之外，还能想到一些有用的功能。</p>
+<h4 id="去重"><a href="#去重" class="headerlink" title="去重"></a>去重</h4><p>无论是有人不小心回复了重复的编号，还是管理员整理时多写了，编号偶尔会出现重复。重复的内容，在不同场景下，造成的影响可大可小。对于一些严格的场景，我们更希望编号里没有重复。这就要求对结果进行去重。</p>
+<p>这时我们可以增加一个 <code>-u</code> （unique）的 <code>bool</code> 参数，表示开启去重。（当然也可以默认去重，设置一个反向的开关表示保留重复。）去重可以在排序之后做，因为这时重复元素相邻，更容易处理。这个功能实现起来并不难，对切片做一次遍历即可，大家可以尝试自己实现。如果一时没有概念，可以先用 Go 语言完成这道题 <a href="https://leetcode-cn.com/problems/remove-element/" target="_blank" rel="external">https://leetcode-cn.com/problems/remove-element/</a> ，做出这道题就知道如何高效地在切片里去除元素了。</p>
+<p>需要注意的是，因为有 <code>[]string</code> 和 <code>[]int</code> 两种切片，去重的逻辑可能要实现两个版本（视乎你的代码实现）。这是 Go 目前不便的其中一个地方：没有泛型，会一定程度导致代码重复。</p>
+<h4 id="自定义分隔符"><a href="#自定义分隔符" class="headerlink" title="自定义分隔符"></a>自定义分隔符</h4><p>现在的程序，根据常用的场景，默认了输入的分隔符是空白字符，输出的分隔符是半角逗号 <code>,</code> 。但这个设定不会总是好使。有可能输入文件是其他人整理的，可能是别的系统导出的，用了别的分隔符；输出内容也可能用于别的场景，需要别的格式。</p>
+<p>这时我们需要针对每个场景修改代码，重新编译吗？没有必要。只要设置对应的标志参数，允许分别指定分隔符就好。而如果没有指定，还是用原本的默认符号。两个符号分别用于分割输入的内容，和拼接输出的内容，需要调整相关的代码，可能用到的函数基本都在 <code>strings</code> 包里。</p>
+<p>这两个功能添加上之后，实现效果大概是这样的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 这里我定义输入分隔符的参数为 -i，输出分隔符的参数为 -s</span></div><div class="line">&gt;gosort -u -i=, <span class="_">-s</span>=- 111,111,555,678,333,567,678</div><div class="line">111-333-555-567-678</div></pre></td></tr></table></figure>
+<h2 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h2><ol>
+<li><code>numsJoin()</code> 的第二种实现有几个 bug，你发现了吗？</li>
+<li>通过自行查阅文档，了解 <code>strings.Builder</code> 的用法，你可以写出 <code>numsJoin()</code> 的第三种实现吗？</li>
+<li>你可以自行实现 <strong>去重</strong> 和 <strong>自定义分隔符</strong> 两个功能吗？</li>
+</ol>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://jaycechant.info/2020/golang-in-action-day-7/" data-id="ckgus5uml003w4cxl4lyyxmw1" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="https://jaycechant.info/2020/golang-in-action-day-7/#disqus_thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/golang/">golang</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/three-things-to-do-when-you-hit-a-crossroads-translation/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">遇到十字路口，你要做的三件事（翻译）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Go-语言实战/">Go 语言实战</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/刷题/">刷题</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/科普/">科普</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/粤语/">粤语</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Algorithm/" style="font-size: 13.33px;">Algorithm</a> <a href="/tags/Anaconda/" style="font-size: 10px;">Anaconda</a> <a href="/tags/Android/" style="font-size: 11.67px;">Android</a> <a href="/tags/Android-sdk/" style="font-size: 10px;">Android-sdk</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/DNS/" style="font-size: 10px;">DNS</a> <a href="/tags/JCE/" style="font-size: 10px;">JCE</a> <a href="/tags/Java/" style="font-size: 11.67px;">Java</a> <a href="/tags/JavaMail/" style="font-size: 10px;">JavaMail</a> <a href="/tags/Jenkins/" style="font-size: 16.67px;">Jenkins</a> <a href="/tags/LeetCode/" style="font-size: 15px;">LeetCode</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/Markdown/" style="font-size: 13.33px;">Markdown</a> <a href="/tags/Mathjax/" style="font-size: 10px;">Mathjax</a> <a href="/tags/OJ/" style="font-size: 10px;">OJ</a> <a href="/tags/Octopress/" style="font-size: 10px;">Octopress</a> <a href="/tags/OpenGrok/" style="font-size: 10px;">OpenGrok</a> <a href="/tags/Python/" style="font-size: 16.67px;">Python</a> <a href="/tags/Ruby/" style="font-size: 10px;">Ruby</a> <a href="/tags/Syncthing/" style="font-size: 10px;">Syncthing</a> <a href="/tags/TDD/" style="font-size: 10px;">TDD</a> <a href="/tags/Tomcat/" style="font-size: 10px;">Tomcat</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/algorithm/" style="font-size: 11.67px;">algorithm</a> <a href="/tags/aliyun/" style="font-size: 10px;">aliyun</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/byobu/" style="font-size: 11.67px;">byobu</a> <a href="/tags/ctags/" style="font-size: 10px;">ctags</a> <a href="/tags/dep/" style="font-size: 11.67px;">dep</a> <a href="/tags/document/" style="font-size: 10px;">document</a> <a href="/tags/dropbox/" style="font-size: 10px;">dropbox</a> <a href="/tags/file-system/" style="font-size: 10px;">file-system</a> <a href="/tags/flutter/" style="font-size: 10px;">flutter</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/glide/" style="font-size: 10px;">glide</a> <a href="/tags/golang/" style="font-size: 20px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/how-to/" style="font-size: 16.67px;">how-to</a> <a href="/tags/jpg/" style="font-size: 10px;">jpg</a> <a href="/tags/json/" style="font-size: 11.67px;">json</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/mirror/" style="font-size: 10px;">mirror</a> <a href="/tags/netdisk/" style="font-size: 10px;">netdisk</a> <a href="/tags/node-js/" style="font-size: 11.67px;">node.js</a> <a href="/tags/nodePPT/" style="font-size: 11.67px;">nodePPT</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/pgyer/" style="font-size: 10px;">pgyer</a> <a href="/tags/pip/" style="font-size: 15px;">pip</a> <a href="/tags/png/" style="font-size: 10px;">png</a> <a href="/tags/practice/" style="font-size: 11.67px;">practice</a> <a href="/tags/presentation/" style="font-size: 11.67px;">presentation</a> <a href="/tags/review/" style="font-size: 10px;">review</a> <a href="/tags/screen/" style="font-size: 11.67px;">screen</a> <a href="/tags/service/" style="font-size: 10px;">service</a> <a href="/tags/skill/" style="font-size: 13.33px;">skill</a> <a href="/tags/smtp/" style="font-size: 10px;">smtp</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/solution-report/" style="font-size: 10px;">solution-report</a> <a href="/tags/supervisor/" style="font-size: 10px;">supervisor</a> <a href="/tags/thought/" style="font-size: 10px;">thought</a> <a href="/tags/trouble/" style="font-size: 18.33px;">trouble</a> <a href="/tags/unfinished/" style="font-size: 13.33px;">unfinished</a> <a href="/tags/virtualenv/" style="font-size: 10px;">virtualenv</a> <a href="/tags/vsftp/" style="font-size: 10px;">vsftp</a> <a href="/tags/why/" style="font-size: 11.67px;">why</a> <a href="/tags/写作/" style="font-size: 13.33px;">写作</a> <a href="/tags/动态规划/" style="font-size: 10px;">动态规划</a> <a href="/tags/安全/" style="font-size: 10px;">安全</a> <a href="/tags/数据结构/" style="font-size: 10px;">数据结构</a> <a href="/tags/翻译/" style="font-size: 13.33px;">翻译</a> <a href="/tags/语言表达/" style="font-size: 10px;">语言表达</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/golang-in-action-day-7/">Go 语言实战（7）：命令行程序（2）</a>
+          </li>
+        
+          <li>
+            <a href="/2020/three-things-to-do-when-you-hit-a-crossroads-translation/">遇到十字路口，你要做的三件事（翻译）</a>
+          </li>
+        
+          <li>
+            <a href="/2020/golang-in-action-day-6/">Go 语言实战（6）：命令行程序（1）</a>
+          </li>
+        
+          <li>
+            <a href="/2020/golang-in-action-day-5/">Go 语言实战（5）：流程控制</a>
+          </li>
+        
+          <li>
+            <a href="/2020/golang-in-action-day-4/">Go 语言实战（4）：运算符</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://hexo.io/zh-cn/" target="_blank">Hexo主页</a>
+          </li>
+        
+          <li>
+            <a href="https://hexo.io/zh-cn/docs/" target="_blank">Hexo文档</a>
+          </li>
+        
+          <li>
+            <a href="https://github.com/xiangming/landscape-plus" target="_blank">landscape-plus项目主页</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jayce Sigit Chant<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/list" class="mobile-nav-link">List</a>
+  
+    <a href="https://github.com/JayceChant" class="mobile-nav-link">Github</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+    <a href="/sitemap.xml" class="mobile-nav-link">Sitemap</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+<script>
+  var disqus_shortname = 'jaycetb';
+  
+  var disqus_url = 'https://jaycechant.info/2020/golang-in-action-day-7/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>window._bd_share_config={"common":{},"share":{"bdCustomStyle":"/css/bdshare.css"}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+<! -- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+                processEscapes: true
+                    
+}
+  
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+                  
+}
+    
+        });
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                            all[i].SourceElement().parentNode.className += ' has-jax';
+                                    
+            }
+                
+        });
+</script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>
