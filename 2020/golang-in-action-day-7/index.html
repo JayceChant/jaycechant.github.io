@@ -15,7 +15,7 @@
 <meta property="og:description" content="上一期 我们有了一个最简单的命令行程序。从命令行参数输入一系列的编号，程序就会排好序重新输出。
 接下来让我们继续改进程序。">
 <meta property="og:image" content="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
-<meta property="og:updated_time" content="2020-10-29T12:03:27.512Z">
+<meta property="og:updated_time" content="2020-10-30T01:55:45.784Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go 语言实战（7）：命令行程序（2）">
 <meta name="twitter:description" content="上一期 我们有了一个最简单的命令行程序。从命令行参数输入一系列的编号，程序就会排好序重新输出。
@@ -136,7 +136,7 @@
 <p>篇幅关系，只展示代码的关键部分，需要补足剩余的代码才能编译运行。</p>
 </blockquote>
 <p>在开始改进之前，先将之前的程序做一点小调整：把排序和拼接的代码，单独抽取成一个函数：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 为了不修改包级变量（os.Args 以及后面的 flag.Args()）</span></div><div class="line">    <span class="comment">// 排序前先拷贝一份</span></div><div class="line">    s := <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="built_in">len</span>(os.Args)<span class="number">-1</span>)</div><div class="line">    <span class="built_in">copy</span>(s, os.Args[<span class="number">1</span>:]))</div><div class="line">    fmt.Println(sortStrings(s)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 因为不需要供包外调用，函数名小写开头即可</span></div><div class="line"><span class="comment">// 上一期介绍过函数签名和函数原型，读者想必可以看懂这个函数的参数和返回值</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">sortStrings</span><span class="params">(strs []<span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</div><div class="line">    sort.Strings(strs)</div><div class="line">    <span class="keyword">return</span> strings.Join(strs, <span class="string">","</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="comment">// 为了不修改包级变量（os.Args 以及后面的 flag.Args()）</span></div><div class="line">    <span class="comment">// 排序前先拷贝一份</span></div><div class="line">    s := <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="built_in">len</span>(os.Args)<span class="number">-1</span>)</div><div class="line">    <span class="built_in">copy</span>(s, os.Args[<span class="number">1</span>:]))</div><div class="line">    fmt.Println(sortStrings(s))</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 因为不需要供包外调用，函数名小写开头即可</span></div><div class="line"><span class="comment">// 上一期介绍过函数签名和函数原型，读者想必可以看懂这个函数的参数和返回值</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">sortStrings</span><span class="params">(strs []<span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</div><div class="line">    sort.Strings(strs)</div><div class="line">    <span class="keyword">return</span> strings.Join(strs, <span class="string">","</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>将功能相对独立的、会被复用的代码抽取成函数是一个好的编程习惯，将函数内部控制在较少的容易理解的行数，可以让程序代码行数持续膨胀的同时，保持一个较好的可读性。</p>
 <h3 id="按数值排序"><a href="#按数值排序" class="headerlink" title="按数值排序"></a>按数值排序</h3><p>还记得我们的需求吗？待排序的是一组提交编号，它们是单调递增的序列号。在实际使用中，因为代码库特别庞大，到后期提交编号达到好几位数，位数要过很长时间才增长一位，给人一种编号位数一直就是这么多的错觉。实际上并不是这样，编号用完了还是要进位的，9999 之后，就是 10000 了。</p>
 <p>之前的实现按文本（字符串）排序，就出问题了。例如 <code>9,80,564,1253</code> 这几个数，如果按照数值排序，现在的顺序就是升序；可如果按字符串排序，则刚好反过来，顺序是 <code>1253,564,80,9</code> 。因为字符串是头部对齐后从左到右比较的，前缀分出先后就直接结束比较。</p>
@@ -179,7 +179,7 @@
 <h4 id="自定义分隔符"><a href="#自定义分隔符" class="headerlink" title="自定义分隔符"></a>自定义分隔符</h4><p>现在的程序，根据常用的场景，默认了输入的分隔符是空白字符，输出的分隔符是半角逗号 <code>,</code> 。但这个设定不会总是好使。有可能输入文件是其他人整理的，可能是别的系统导出的，用了别的分隔符；输出内容也可能用于别的场景，需要别的格式。</p>
 <p>这时我们需要针对每个场景修改代码，重新编译吗？没有必要。只要设置对应的标志参数，允许分别指定分隔符就好。而如果没有指定，还是用原本的默认符号。两个符号分别用于分割输入的内容，和拼接输出的内容，需要调整相关的代码，可能用到的函数基本都在 <code>strings</code> 包里。</p>
 <p>这两个功能添加上之后，实现效果大概是这样的：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 这里我定义输入分隔符的参数为 -i，输出分隔符的参数为 -s</span></div><div class="line">&gt;gosort -u -i=, <span class="_">-s</span>=- 111,111,555,678,333,567,678</div><div class="line">111-333-555-567-678</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 这里我定义输入分隔符的参数为 -i，输出分隔符的参数为 -s</span></div><div class="line">&gt; gosort -u -i=, <span class="_">-s</span>=- 111,111,555,678,333,567,678</div><div class="line">111-333-555-567-678</div></pre></td></tr></table></figure>
 <h2 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h2><ol>
 <li><code>numsJoin()</code> 的第二种实现有几个 bug，你发现了吗？</li>
 <li>通过自行查阅文档，了解 <code>strings.Builder</code> 的用法，你可以写出 <code>numsJoin()</code> 的第三种实现吗？</li>
@@ -192,7 +192,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2020/golang-in-action-day-7/" data-id="ckgus5uml003w4cxl4lyyxmw1" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2020/golang-in-action-day-7/" data-id="cki244tij007g38xl0w2klndn" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -207,6 +207,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2020/get-ready-for-a-new-life/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          迎接一个新生命的到来：备孕篇
+        
+      </div>
+    </a>
   
   
     <a href="/2020/three-things-to-do-when-you-hit-a-crossroads-translation/" id="article-nav-older" class="article-nav-link-wrap">
@@ -251,7 +260,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -261,6 +270,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/get-ready-for-a-new-life/">迎接一个新生命的到来：备孕篇</a>
+          </li>
         
           <li>
             <a href="/2020/golang-in-action-day-7/">Go 语言实战（7）：命令行程序（2）</a>
@@ -276,10 +289,6 @@
         
           <li>
             <a href="/2020/golang-in-action-day-5/">Go 语言实战（5）：流程控制</a>
-          </li>
-        
-          <li>
-            <a href="/2020/golang-in-action-day-4/">Go 语言实战（4）：运算符</a>
           </li>
         
       </ul>
