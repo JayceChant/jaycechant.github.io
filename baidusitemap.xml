@@ -5,12 +5,29 @@
     
   <url>
     <loc>https://jaycechant.info/2020/origin-of-names-of-provincial-administrative-regions-in-china/</loc>
-    <lastmod>2020-12-07T14:18:37.860Z</lastmod>
+    <lastmod>2020-12-19T16:27:04.608Z</lastmod>
     <data>
         <display>
         <title>我国省级行政区名称起源</title>
         <pubTime>2020-11-05T02:24:15.000Z</pubTime>
         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2020/why-element-type-of-slice-cannot-be-converted-in-go/</loc>
+    <lastmod>2020-12-19T09:32:51.584Z</lastmod>
+    <data>
+        <display>
+        <title>答读者问：为什么 Go 里面不能把任意切片转换为 []interface{} ？</title>
+        <pubTime>2020-12-14T19:04:10.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
          
            
         </display>
@@ -1250,11 +1267,11 @@
         
         <tag>how-to</tag>
          
-        <tag>unfinished</tag>
-         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
+         
+        <tag>unfinished</tag>
          
          
            
@@ -1345,9 +1362,9 @@
          
         <tag>blog</tag>
          
-        <tag>hexo</tag>
-         
         <tag>node.js</tag>
+         
+        <tag>hexo</tag>
          
         <tag>trouble</tag>
          

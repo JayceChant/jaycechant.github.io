@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaycechant.info/"/>
-  <updated>2020-11-29T06:34:31.924Z</updated>
+  <updated>2020-12-19T09:32:51.584Z</updated>
   <id>https://jaycechant.info/</id>
   
   <author>
@@ -14,6 +14,104 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>答读者问：为什么 Go 里面不能把任意切片转换为 []interface{} ？</title>
+    <link href="https://jaycechant.info/2020/why-element-type-of-slice-cannot-be-converted-in-go/"/>
+    <id>https://jaycechant.info/2020/why-element-type-of-slice-cannot-be-converted-in-go/</id>
+    <published>2020-12-14T19:04:10.000Z</published>
+    <updated>2020-12-19T09:32:51.584Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文来源于一个朋友的提问。</p>
+<blockquote>
+<p>数组怎么样展开？</p>
+</blockquote>
+<a id="more"></a>
+<p>问题描述比较模糊，进一步沟通之后得知，他需要的是将一个数组（其实是切片）展开，来作为函数的可变参数。</p>
+<h2 id="可变参数"><a href="#可变参数" class="headerlink" title="可变参数"></a>可变参数</h2><p>关于可变参数，之前在<a href="../golang-in-action-day-6/">这里</a>（函数签名部分）介绍过。考虑到那篇文章内容比较多，这里再介绍一下。</p>
+<p>简单来说，可变参数就是函数里以 <code>x ...T</code> 这种形式声明的参数。举例说 <code>f(s ...int)</code>，参数 <code>s</code> 接受零到多个 <code>int</code> 型的参数，可以像这样调用 <code>f(a, b, c)</code> （<code>a</code>，<code>b</code>，<code>c</code> 都是 <code>int</code> 型的值）。逐个传入的参数（实参）会装包成一个切片 <code>s</code>，传递给函数。</p>
+<p><img src="../images/golang-variadic-argument/golang-variadic-argument.png" alt=""></p>
+<p>从函数内部的角度，这跟 <code>f(s []int)</code> 是等价的。而从调用方的角度看则有差别：可变参数接受多个 <code>int</code> 型参数，而后者只能接受一个 <code>[]int</code> 类型参数。</p>
+<p>如果有多个同类型参数，遇到第二种函数定义（参数类型是切片），就只能自己先创建一个切片，再直接传递切片。不过相信你也明白了，可变参数不过是把创建切片过程省略的<strong>语法糖</strong>：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 函数签名：f(s []int)</span></div><div class="line">a := []<span class="keyword">int</span>&#123;x, y, z&#125;</div><div class="line">f(a)</div></pre></td></tr></table></figure>
+<p>反过来，有一个 <code>[]int</code> 变量 <code>b</code> ，需要传递给可变参数怎么办？难道要 <code>f(b[0], b[1], b[2])</code> 这样一个个用下标访问？如果切片很长，又或者直接不确定长度怎么办？</p>
+<p>在其它语言，例如 Python 里，对于可迭代类型对象（Iterator Types），可以用装包和拆包（解包）解决这个问题，使用上非常灵活。</p>
+<p>Go （看起来）也可以解包：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 函数签名：f(s ...int)</span></div><div class="line">f(b...)</div></pre></td></tr></table></figure>
+<p>注意 <code>...</code> 的位置，声明时在前，调用时在后。</p>
+<p>但，这是一个假的解包。这只是<strong>又一个语法糖</strong>，背后把 <code>b</code> 直接赋值给 <code>s</code> 。把 <code>b</code> 拆分成逐个参数传递，然后重新打包成切片 <code>s</code> 这件事，根本<strong>没有发生</strong>。</p>
+<p>你以为的解包：</p>
+<p><em>（图中的细箭头表示指针，粗箭头表示拷贝）</em></p>
+<p><img src="../images/golang-variadic-argument/golang-variadic-argument-unpack-expected.png" alt=""></p>
+<p>或者至少是这样的：</p>
+<p><img src="../images/golang-variadic-argument/golang-variadic-argument-unpack-expected2.png" alt=""></p>
+<p>其实是这样的：</p>
+<p><img src="../images/golang-variadic-argument/golang-variadic-argument-unpack-indeed.png" alt=""></p>
+<p>切片是引用类型，变量本身保存的是头信息（元数据），里面有一个指向底层数组的指针，元素数据保存在数组里。在赋值和传参时，拷贝的只是切片头（slice header），底层数组并不会递归拷贝。新旧切片共享同一个底层数组。</p>
+<p><code>...</code> 只是表示 <code>b</code> 是一组参数，而不是一个参数。如果缺少 <code>...</code> ，直接 <code>f(b)</code> ，会把 <code>b</code> 直接当成一个参数（也就是 <code>s</code> 切片的一个元素），参数的 <code>[]int</code> 类型和元素的 <code>int</code> 不匹配。</p>
+<p>好消息是，没有额外开销。坏消息是，因此使用上多了很多限制。</p>
+<ul>
+<li><code>b</code> 必须是相同类型的切片。<code>[]string</code> 传递给 <code>[]int</code> 固然不行；因为没有经过解包后重新装包，数组传递给切片也不行。</li>
+<li><code>...</code> （姑且还是叫解包）不能跟其它参数或者其它解包参数一起使用。<code>f(x, b...)</code> 或者 <code>f(b..., c...)</code> 都会报错。因为没有经过解包后重新装包，元素 <code>x</code> 和切片 <code>b</code> ，或者<code>b</code> 和 <code>c</code> 两个切片，都不会组成一个新切片。</li>
+<li>修改 <code>s</code> 的元素，会影响到 <code>b</code> 。（因为它们共享一个底层数组）</li>
+</ul>
+<h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><p>由于没有看到具体代码，根据对方的描述，猜测问题出在没有理解『伪解包』上。所以我对这部分进行了解释。</p>
+<p>然而问题并没有解决，第二天提问者又来了。</p>
+<p>这次提问者给了更详细的信息。</p>
+<p>他需要调用 <code>gorm</code> 包的 <code>Having</code> 方法，方法签名是：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *DB)</span> <span class="title">Having</span><span class="params">(query <span class="keyword">interface</span>&#123;&#125;, values ...<span class="keyword">interface</span>&#123;&#125;)</span> *<span class="title">DB</span></span></div></pre></td></tr></table></figure>
+<p>看起来跟我的猜测差不多。还有什么该注意的我忘了说？</p>
+<p>我正想要代码和具体的报错信息，对方说了一句：</p>
+<blockquote>
+<p>为什么 []string 不能转为 []interface{}？</p>
+</blockquote>
+<p>我一下子明白了问题所在：解包的实参是一个 <code>[]string</code> 而不是 <code>[]interface{}</code> 。</p>
+<p>如果是多个 <code>string</code> 变量作为 <code>values</code> 参数，反而没有问题。但是把 <code>[]string</code> 解包，就报错了。</p>
+<p>当然，提问者自己也意识到问题出在这里了，只是不明白原因。而我过分关注可变参数，忘了留意类型。</p>
+<p>这个现象很容易重现，完全没必要用到 <code>gorm</code> 包。下面的代码就报同样的错误：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">	<span class="string">"fmt"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">	fmt.Print(<span class="string">"this"</span>, <span class="number">1</span>, <span class="string">"is"</span>, <span class="string">"fine"</span>)</div><div class="line"></div><div class="line">	ifaces := []<span class="keyword">interface</span>&#123;&#125;&#123;<span class="number">1</span>, <span class="string">"good"</span>, <span class="string">"case"</span>, <span class="string">"here"</span>&#125;</div><div class="line">    <span class="comment">// OK</span></div><div class="line">	fmt.Print(ifaces...)</div><div class="line"></div><div class="line">	strs := []<span class="keyword">string</span>&#123;<span class="string">"bad"</span>, <span class="string">"case"</span>, <span class="string">"here"</span>&#125;</div><div class="line">	<span class="comment">// cannot use strs (variable of type []string) as []interface&#123;&#125; value in argument to fmt.Print</span></div><div class="line">	fmt.Print(strs...)</div><div class="line"></div><div class="line">	ifaces2 := <span class="built_in">make</span>([]<span class="keyword">interface</span>&#123;&#125;, <span class="number">0</span>)</div><div class="line">	<span class="keyword">for</span> _, str := <span class="keyword">range</span> strs &#123;</div><div class="line">		ifaces2 = <span class="built_in">append</span>(ifaces2, str)</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// OK now</span></div><div class="line">	fmt.Print(ifaces2...)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意是 <code>fmt.Print(...interface{})</code> ，内置函数 <code>print(...Type)</code>  的原理不在今天的讨论范围。</p>
+<hr>
+<p>当然理解可变参数也很必要。我们还是需要先理解（伪）解包，知道解包的背后是直接传递切片。如果是语言做了真实的解包和重新装包，这个问题也就不存在了（见 <code>ifaces2</code> 部分代码）。</p>
+<p>一旦了解这些，提问者很自然地发现问题变成了：既然任意类型都<strong>可以转换为空接口</strong> <code>interface{}</code>，为什么 <code>[]string</code> （或者任意别的类型的切片）<strong>不能转为空接口切片</strong> <code>[]interface{}</code>？</p>
+<p><strong>是的，不可以。其它强类型语言也不可以。其它容器也不可以。</strong></p>
+<p>简单粗暴的结论就是：</p>
+<ul>
+<li><p>子类型变量可以向父类型变量转换；但存放子类型的容器跟存放父类型的容器<strong>没有关系</strong>，不能转换。（为了方便理解，父子类型借用的 Java 的概念，Go 没有继承机制。）</p>
+</li>
+<li><p>Go 里面没有继承，只有接口和实现；同时（暂时）没有泛型，只有内置派生类型（slice, map, chan 等）可以指定元素的类型。Go 版本的表述是，即使类型 <code>T</code> 满足接口 <code>I</code>，各自的派生类型也没有任何关系（例如 <code>[]T</code> 和 <code>[]I</code>）。</p>
+</li>
+</ul>
+<p>在 Java 里，<code>Integer</code> 是 <code>Number</code> 的子类，<code>ArrayList&lt;Integer&gt;</code> 是 <code>List&lt;Integer&gt;</code> 的子类。但是，<code>List&lt;Integer&gt;</code> 跟 <code>List&lt;Number&gt;</code> 没有继承关系，不能转换，只能创建新容器，然后拷贝元素。</p>
+<p>对应到 Go 里，<code>string</code> 满足 <code>interface{}</code> ，<code>string</code> 变量可以转换为 <code>interface{}</code> 变量；但对应的切片 <code>[]string</code> 却不能转换为 <code>[]interface{}</code> 。<code>map</code> 和 <code>chan</code> 同理。</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>设计成这样的理由，稍微解释就很容易理解。</p>
+<p>无论 Java 的类继承和接口实现，还是 Go 的鸭子类型接口，都是为了实现多态。</p>
+<p>关于多态（特别是不同语言下的多态）这里不展开。一句话来形容的话，Java 的多态是『代父从军』，『龙生九子，各有不同』；Go 的多态则是『如果它跑起来像鸭子，叫起来像鸭子，那它就是一只鸭子』，但是每一只『鸭子』可以有自己不同的行为。</p>
+<p>具体的实现只要满足相同的约束，就可以赋值给上层抽象类型（父类型或者接口），当作该类型使用；与此同时，不同的实现有不同的行为。调用代码只需要认准上层类型的约束，不必关心具体实现的行为，达到调用和实现的<strong>松耦合</strong>。这样可以做到在不修改调用的情况下，替换掉具体实现。</p>
+<p><code>Integer</code> 完全可以当作 <code>Number</code> 使用，因为 <code>Number</code> 有的行为 <code>Integer</code> 都有；日后也可以根据需要替换成 <code>Float</code> 或者 <code>Double</code>。<code>ArrayList&lt;T&gt;</code> 和 <code>List&lt;T&gt;</code> 也类似（注意，<code>T</code> 是同一个类型）。Go 的空接口 <code>interface{}</code> 对类型没有任何约束，可以接受任何类型。</p>
+<p>可一旦涉及容器，情况就变了。如果一个 <code>ArrayList&lt;Integer&gt;</code> 可以当作 <code>ArrayList&lt;Number&gt;</code> ，意味着调用方可以往里面添加任何 <code>Number</code> 类型（及子类型），有可能是 <code>Integer</code> ，也可能是 <code>Float</code> 或者 <code>Double</code> 。</p>
+<p>背后的具体实现 <code>ArrayList&lt;Integer&gt;</code> 可以放别的 <code>Number</code> 类型吗？不行。</p>
+<p>同样的，<code>[]string</code> 不能存放 <code>string</code> 以外的元素。如果允许 <code>[]string</code> 转换成 <code>[]interface{}</code> 变量，<strong>意味着需要接受任意类型的元素</strong>。</p>
+<p>总结：</p>
+<p>父类或者接口作为上层抽象类型，在运行时可能会被替换为任意子类型，其<strong>可接受的行为应该是子类型的子集</strong> 。（父亲会的技能，孩子们都要会。父亲不能接孩子们不会的活，否则这个活就无法在运行时分派给孩子们干。）</p>
+<p><code>[]interface{}</code> 可以接受的元素类型，比任意具体类型的切片都要多，显然不满足上述条件。从『空接口是任意类型的抽象』，得出空接口切片（或者其它容器）也是上层抽象，就属于想当然了。</p>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文来源于一个朋友的提问。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;数组怎么样展开？&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+      <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
+    
+  </entry>
   
   <entry>
     <title>迎接一个新生命的到来：备孕篇</title>
@@ -229,7 +327,7 @@
     <link href="https://jaycechant.info/2020/origin-of-names-of-provincial-administrative-regions-in-china/"/>
     <id>https://jaycechant.info/2020/origin-of-names-of-provincial-administrative-regions-in-china/</id>
     <published>2020-11-05T02:24:15.000Z</published>
-    <updated>2020-12-07T14:18:37.860Z</updated>
+    <updated>2020-12-19T16:27:04.608Z</updated>
     
     <content type="html"><![CDATA[<p>作为广东人，我专门了解过『广东』 和『粤』这两个名字的来源。也大概知道其它一些省份名字的起源。</p>
 <p>印象里是以自然地理命名为主。在地名里出现东南西北还有阴阳（山南水北谓之阳）的，一般都是用来指示在某个地理标志的旁边，而这样的名字很常见。</p>
@@ -277,7 +375,7 @@
 <p>1843 年《南京条约》上海作为通商五口开埠。1845年中英《上海租地章程》开始租界历史。此后法国与美国相继在上海设立租界。租界逐渐形成不受中国管辖，拥有独立司法、行政权力的地区。之后历经数次扩张，范围基本为今上海的核心区域的大部分地区。凭借独特的政治制度和地理位置，上海开埠后逐渐发展为远东最繁荣的经济和商贸中心。新中国成立后，上海市从江苏省划出，设为直辖市。</p>
 <p>简称沪，源于古时当地人创造的一种名为“扈”的捕鱼工具，东晋时松江入海口称之为沪渎（今上海市青浦区东北旧青浦镇西）。有时也称申，相传上海西部战国时曾为楚国公子春申君的封地。</p>
 <h4 id="辽宁"><a href="#辽宁" class="headerlink" title="辽宁"></a>辽宁</h4><p>取<strong>辽河永远安宁</strong>之意。</p>
-<p>东北地区在古代大部分时间属于渔猎民族活动范围，建立过多个国家，不直接受中原管治。元开始纳入中央王朝管治。清初将这里作为自己的起源禁地，禁止汉人入内，并作为流放犯人之地，设东北三将军镇守。</p>
+<p>东北地区在古代大部分时间属于渔猎先民活动范围，建立过多个国家，不直接受中原管治。元开始纳入中央王朝管治。清初将这里作为自己的起源禁地，禁止汉人入内，并作为流放犯人之地，设东北三将军镇守。</p>
 <p>南部为镇守盛京等处将军，又称奉天将军。光绪三十三年（1907 年）裁三将军，改东北三省。南京国民政府时期考虑到『奉天』取自『奉天承运』，君主思想浓厚，改今名。</p>
 <p>简称辽。辽河旧称巨流河，西汉前称句骊河。</p>
 <h4 id="吉林"><a href="#吉林" class="headerlink" title="吉林"></a>吉林</h4><p>满语吉林乌拉的简称，意为<strong>沿着松花江</strong>，原指今吉林市。</p>
@@ -330,66 +428,134 @@
 <p>简称川。因先秦时期境内分属巴国和蜀国，又简称蜀或巴蜀。</p>
 <h2 id="组合命名"><a href="#组合命名" class="headerlink" title="组合命名"></a>组合命名</h2><p>所谓组合命名，是指行政区在调整设置时，从辖区里最主要的州府，各取一字，组合为名。这种组合得到的名字一共有 4 个。</p>
 <p>如果细究的话，来源的两个字本身又可以进一步分类。</p>
-<h4 id="甘肃"><a href="#甘肃" class="headerlink" title="甘肃"></a>甘肃</h4><p><strong>甘州</strong>（今张掖） + <strong>肃州</strong>（今酒泉）。其中甘州在西魏时由西凉州更名，以城内甘泉遍地，泉水清洌甘甜而得名。肃州在隋朝建立，肃字来源未见记载，推测为肃清边患之意。</p>
+<h4 id="甘肃"><a href="#甘肃" class="headerlink" title="甘肃"></a>甘肃</h4><p><strong>甘州</strong>（今张掖） + <strong>肃州</strong>（今酒泉）。</p>
+<p>其中甘州在西魏时由西凉州更名，以城内甘泉遍地，泉水清洌甘甜而得名。肃州在隋朝建立，肃字来源未见记载，推测为肃清边患之意。</p>
 <p>甘肃境内是周人和秦人的发祥地。春秋时东部属秦，西部属西戎。汉时归凉州。</p>
 <p>唐时甘肃一带分属关内道、陇右道和山南道，其中最大的是甘州和肃州。</p>
 <p>宋时归西夏，西夏取甘州和肃州首字，置<strong>甘肃</strong>军，『甘肃』正式成为行政区。</p>
 <p>元一度设西夏中兴行省，后移治甘州路，改<strong>甘肃</strong>等处行中书省。明划入陕西等处承宣布政使司。</p>
 <p>清分陕西西部为巩昌省，后改<strong>甘肃</strong>省，管辖整个西域。清末新疆单独划出，民国将青海、宁夏单独建省，甘肃形成现在的区域。</p>
 <p>简称甘。又简称陇，来自境内的山脉陇山，即六盘山。</p>
-<h4 id="江苏"><a href="#江苏" class="headerlink" title="江苏"></a>江苏</h4><p><strong>江宁</strong>（今南京） + <strong>苏州</strong>。其中江宁取<strong>江南安宁</strong>之意。苏州原名<strong>姑苏</strong>，原为姑胥，是禹舜时胥的封地，后因吴语中胥、苏音近改为苏。胥本义为小吏。</p>
+<h4 id="江苏"><a href="#江苏" class="headerlink" title="江苏"></a>江苏</h4><p><strong>江宁</strong>（今南京） + <strong>苏州</strong>。</p>
+<p>其中江宁取<strong>江南安宁</strong>之意。苏州原名<strong>姑苏</strong>，原为姑胥，是禹舜时胥的封地，后因吴语中胥、苏音近改为苏。胥本义为小吏。</p>
 <h5 id="江宁"><a href="#江宁" class="headerlink" title="江宁"></a>江宁</h5><p>西晋改东吴都城建业（今南京）为秣陵县，又分出临江县，次年改名<strong>江宁</strong>县，为『江宁』名字之始；又从秣陵县分出建业县，又改称建邺，后避司马邺讳改建康。东晋及南朝宋、齐、梁、陈均建都建康，连东吴在内为六朝，故称『六朝古都』。</p>
 <p>建康城在隋灭陈后被下令『平荡耕垦』，夷为平地，合建康、秣陵等县为江宁县。唐初以江宁县置江宁郡，后置升州。五代吴改金陵府，南唐改<strong>江宁</strong>府，是南京全境（大致）最早以江宁为名。此后历代多次改置，至明朝改应天府，前期为首都，成祖北迁后为陪都。清初降格为江宁府，为江南省首府。</p>
-<h5 id="苏州"><a href="#苏州" class="headerlink" title="苏州"></a>苏州</h5><p>传说舜封胥于江东，从此称江东一带为姑胥，姑为古吴语拟声词，无义。胥在江东灵岩山下建姑胥城（今苏州吴中区木渎镇）。周时泰伯奔吴，后代迁姑胥城，以胥有狱卒之意，<strong>改胥为苏</strong>。吴王阖闾在灵岩山建姑苏台，灵岩山为<strong>姑苏</strong>山。春秋战国时姑苏城历属吴国、越国、楚国江东郡。秦改江东郡为会稽郡。隋灭陈后，废吴郡，以姑苏山为名改吴州为<strong>苏州</strong>，是『苏州』作为地名的开始。</p>
+<h5 id="苏州"><a href="#苏州" class="headerlink" title="苏州"></a>苏州</h5><p>传说舜封胥于江东，从此称江东一带为姑胥，姑为古吴语拟声词，无义。胥在江东灵岩山下建姑胥城（今苏州吴中区木渎镇）。周时泰伯奔吴，后代迁姑胥城，以胥有狱卒之意，<strong>改胥为苏</strong>。</p>
+<p>吴王阖闾在灵岩山建姑苏台，灵岩山为<strong>姑苏</strong>山。春秋战国时姑苏城历属吴国、越国、楚国江东郡。秦改江东郡为会稽郡。隋灭陈后，废吴郡，以姑苏山为名改吴州为<strong>苏州</strong>，是『苏州』作为地名的开始。</p>
 <p>唐时为江南东道治所。北宋末升平江府，元改平江路，明改苏州府，直隶南京。</p>
-<h5 id="江苏-1"><a href="#江苏-1" class="headerlink" title="江苏"></a>江苏</h5><p>江苏境内在春秋时属吴国。明以前一直分属不同行政区。唐初分属江南道、淮南道、河南道。宋代分属江南东路、两浙西路、淮南东路、京东西路。元初属江淮等处行中书省，后以长江为界，分属河南江北等处行中书省和江浙等处行中书省。明建都南京（后为陪都），今江苏省、安徽省和上海市境内州府直属中央，为直隶（迁都后为南直隶）。清初改南直隶为<strong>江南</strong>省，治江宁府，设江南左、右布政使司。康熙时，江南右布政使司改<strong>江南苏松常镇太</strong>等处承宣布政使司，简称<strong>江苏</strong>布政使司，为『江苏』一名的开始。乾隆时将安徽、江苏两省列入《大清会典》，史称『江南分省』。</p>
+<h5 id="江苏-1"><a href="#江苏-1" class="headerlink" title="江苏"></a>江苏</h5><p>江苏境内在春秋时属吴国。明以前一直分属不同行政区。</p>
+<p>唐初分属江南道、淮南道、河南道。宋代分属江南东路、两浙西路、淮南东路、京东西路。元初属江淮等处行中书省，后以长江为界，分属河南江北等处行中书省和江浙等处行中书省。</p>
+<p>明建都南京（后为陪都），今江苏省、安徽省和上海市境内州府直属中央，为直隶（迁都后为南直隶）。清初改南直隶为<strong>江南</strong>省，治江宁府，设江南左、右布政使司。康熙时，江南右布政使司改<strong>江南苏松常镇太</strong>等处承宣布政使司，简称<strong>江苏</strong>布政使司，为『江苏』一名的开始。乾隆时将安徽、江苏两省列入《大清会典》，史称『江南分省』。</p>
 <p>简称苏。</p>
-<h4 id="安徽"><a href="#安徽" class="headerlink" title="安徽"></a>安徽</h4><p><strong>安庆</strong> + <strong>徽州</strong>（今黄山市大部、绩溪、婺源）。其中安庆于南宋由舒州改置<strong>安庆</strong>军，后因宋宁宗曾任安庆军节度使升为安庆府。徽州原名歙（shè）州，南宋平定方腊之乱后改名徽州，是徽文化的发源地。</p>
-<h5 id="安庆"><a href="#安庆" class="headerlink" title="安庆"></a>安庆</h5><p>隋改熙郡（今安庆）为熙州，再改为同<strong>安</strong>郡。唐改为舒州。北宋徽宗时置舒州德庆军。南宋高宗升潜藩康州（今肇庆德庆县）为德庆府，后因德庆军与德庆府同名，取『同安郡』的安与『德庆军』的庆，改称<strong>安庆</strong>军，『安庆』之名始于此。宋宁宗时升安庆府。</p>
+<h4 id="安徽"><a href="#安徽" class="headerlink" title="安徽"></a>安徽</h4><p><strong>安庆</strong> + <strong>徽州</strong>（今黄山市大部、绩溪、婺源）。</p>
+<p>其中安庆于南宋由舒州改置<strong>安庆</strong>军，后因宋宁宗曾任安庆军节度使升为安庆府。徽州原名歙（shè）州，南宋平定方腊之乱后改名徽州，是徽文化的发源地。</p>
+<h5 id="安庆"><a href="#安庆" class="headerlink" title="安庆"></a>安庆</h5><p>隋改熙郡（今安庆）为熙州，再改为同<strong>安</strong>郡。唐改为舒州。北宋徽宗时置舒州德庆军。</p>
+<p>南宋高宗升潜藩康州（今肇庆德庆县）为德庆府，后因德庆军与德庆府同名，取『同安郡』的安与『德庆军』的庆，改称<strong>安庆</strong>军，『安庆』之名始于此。宋宁宗时升安庆府。</p>
 <h5 id="徽州"><a href="#徽州" class="headerlink" title="徽州"></a>徽州</h5><p>隋灭陈后，改新安郡为歙州（今安徽歙县、绩溪、黄山市部分地区、江西婺源等地）。宋徽宗宣和年间，方腊于歙州起义，次年被平定。歙州因此改<strong>徽</strong>州，以徽岭、徽水（今绩溪县西北）为名。</p>
-<h5 id="安徽-1"><a href="#安徽-1" class="headerlink" title="安徽"></a>安徽</h5><p>安徽境内情况与江苏类似，明以前分属不同行政区。唐初分属江南道、淮南道。宋朝主要分属江南东路、淮南西路。元朝主要分属河南江北行省和江浙行省。明朝与江苏同在南直隶，清初改江南省，设设江南左、右布政使司。康熙时改江南左布政使司为<strong>江南安徽</strong>等处承宣布政使司，简称<strong>安徽</strong>布政使司，为『安徽』一名的开始。乾隆时『江南分省』，列入《大清会典》。</p>
+<h5 id="安徽-1"><a href="#安徽-1" class="headerlink" title="安徽"></a>安徽</h5><p>安徽境内情况与江苏类似，明以前分属不同行政区。唐初分属江南道、淮南道。宋朝主要分属江南东路、淮南西路。元朝主要分属河南江北行省和江浙行省。</p>
+<p>明朝与江苏同在南直隶，清初改江南省，设设江南左、右布政使司。康熙时改江南左布政使司为<strong>江南安徽</strong>等处承宣布政使司，简称<strong>安徽</strong>布政使司，为『安徽』一名的开始。乾隆时『江南分省』，列入《大清会典》。</p>
 <p>简称皖，因安庆府境内有皖山（天柱山）、皖水（皖河），先秦时曾有皖国。有时也简称徽。</p>
-<h4 id="福建"><a href="#福建" class="headerlink" title="福建"></a>福建</h4><p><strong>福州</strong> + <strong>建州</strong>（今建瓯市周边）。其中<strong>福</strong>州唐开元年间由闽州改置，得名于州西北的福山。建州为唐改<strong>建安</strong>郡所置，得名于东汉献帝的年号。</p>
-<h5 id="建安四县"><a href="#建安四县" class="headerlink" title="建安四县"></a>建安四县</h5><p>福建境内在上古属于百越地区，为闽越。战国时越国（今浙江境内，为于越）亡于楚，于越人一支外迁到闽中地区，与当地闽人一起建立闽越国，又叫东越。</p>
+<h4 id="福建"><a href="#福建" class="headerlink" title="福建"></a>福建</h4><p><strong>福州</strong> + <strong>建州</strong>（今建瓯市周边）。</p>
+<p>其中<strong>福</strong>州唐开元年间由闽州改置，得名于州西北的福山。建州为唐改<strong>建安</strong>郡所置，得名于东汉献帝的年号。</p>
+<h5 id="建安四县"><a href="#建安四县" class="headerlink" title="建安四县"></a>建安四县</h5><p>福建境内在先秦时期属于百越地区，为闽越。战国时越国（今浙江境内，为于越）亡于楚，于越人一支外迁到闽中地区，与当地闽人一起建立闽越国，又叫东越。</p>
 <p>秦时设闽中郡，治东治，废去闽越王王位，降为郡长。汉初复封闽越国，至武帝时叛汉被灭，宫城焚毁，越人北迁江淮。东治设侯官驻守，闽地远属会稽郡管辖。汉昭帝时遗民渐多，设治县（今福州市区及闽侯县一部分），东汉初改东侯官都尉。</p>
 <p>东汉献帝建安元年，会稽太守孙策攻侯官，废侯官都尉，并在侯官北面设<strong>建安</strong>（今建瓯）、南平、汉兴（今浦城）三县，取『建安年间，南方平定，汉室复兴』之意，连侯官在内，为福建境内最早四县。</p>
 <h5 id="福州-与-建州"><a href="#福州-与-建州" class="headerlink" title="福州 与 建州"></a>福州 与 建州</h5><p>三国时东吴以会稽郡南部诸县设<strong>建安</strong>郡，治建安县。自晋至唐初，今福州、南平周边地区几经改置，先后改闽州、泉州（今福州，与今泉州不同）、建安郡等。</p>
 <p>唐高祖武德元年置<strong>建</strong>州，初治闽县，四年移治建安县，六年以闽县复置泉州（与建州并设）。睿宗时泉州改闽州，玄宗时以闽州西北福山为名改<strong>福</strong>州。泉州（福州）先后还析出漳、汀、武荣（后升泉州，即今泉州）诸州，福建各州基本成型。</p>
 <h5 id="福建-1"><a href="#福建-1" class="headerlink" title="福建"></a>福建</h5><p>唐时福建境内属江南东道，安史之乱后期，肃宗在境内设<strong>福建</strong>观察使，辖福州、建州在内的数州，为『福建』名字的开端。宋置<strong>福建</strong>路，接近今辖区。元属江浙等处行中书省。明设<strong>福建</strong>等处承宣布政使司，辖区基本维持至今。</p>
 <p>简称闽，最早见于《山海经·海内南经》『闽在海中，其西北有山，一曰闽中山在海中。』汉代《说文解字》中说『闽，东南越，蛇种。』可见古闽人有蛇图腾崇拜，而这也体现在了『闽』字当中。</p>
-<h2 id="特殊含义"><a href="#特殊含义" class="headerlink" title="特殊含义"></a>特殊含义</h2><h4 id="北京"><a href="#北京" class="headerlink" title="北京"></a>北京</h4><p><strong>北方的首都</strong>之意。</p>
-<p>简称京。京本义为人工筑的高丘，引申为高大。因为国都大多建在高地，后泛指汉字文化圈内的国都。</p>
-<h4 id="广东"><a href="#广东" class="headerlink" title="广东"></a>广东</h4><p><strong>广南东路</strong>的简称。广字取自广信县（今梧州封开一带），汉武帝平定南越国，颁圣旨有『初开粤地，宜广布恩信』，取其意设广信。宋朝两广分置为广南东路、广南西路，后续的行政区变更则直接以广东、广西为名。</p>
+<h2 id="特殊含义"><a href="#特殊含义" class="headerlink" title="特殊含义"></a>特殊含义</h2><p>这类命名方式，名字里的关键信息具有特殊含义。除了北京的京字代表首都以外，其它名字大多是纪念重要事件。</p>
+<p>这一类命名有 6 个。</p>
+<h4 id="北京"><a href="#北京" class="headerlink" title="北京"></a>北京</h4><p><strong>北方的首都</strong>之意。京本义为人工筑的高丘，引申为高大。因为国都大多建在高地，后泛指汉字文化圈内的国都。</p>
+<p>北京地区的建城历史已有三千多年，历来是北方边防重镇。先秦时期境内先属于蓟国；蓟被燕所灭后纳入燕国。秦设蓟县（约为今北京西城区，不是天津蓟县），为广阳郡治所，属幽州。西晋时幽州移治范阳（今北京到保定之间），十六国后赵时迁回蓟县。唐代安禄山、五代时刘守光分别在此建立过割据政权，国号均为燕。</p>
+<p>后晋为了打败后唐，向契丹称臣，割让燕云十六州，其中包括幽（今北京）、顺（今北京顺义）、檀（今北京密云）、儒（今北京延庆）四州。北京地区开始纳入北方民族的控制范围，为辽、金打开了进入中原的大门。</p>
+<p>北宋初年意图收复十六州，辽于是在北京地区建立陪都，称<strong>南京</strong>幽都府，后改南京析津府，再改燕京，为北京地区最早被称为『京』。（南京是相对辽上京临潢府而言。上京遗址在今内蒙古赤峰市巴林左旗附近。）金朝灭辽和北宋后，海陵王完颜亮迁都北京，称中都大兴府。</p>
+<p>蒙古大军攻下金中都后，进行了屠杀焚城，城池被毁。忽必烈即位后，决定以汉地为统治基础，以燕京为首都，后改中都路大兴府，再改大都路。</p>
+<p>明朝在应天府（今南京）建都，改元大都为北平府。明成祖取得皇位后，升为<strong>北京</strong>顺天府，称为行在，为『北京』一名之始；同时完善京杭大运河，保证北京的物资供给。18 年后，迁都北京，应天府改南京。清朝承明制。</p>
+<p>辛亥革命后，民国定都南京。北京兵变后，袁世凯定都北京，直至北洋政府垮台。此时北京仍依清制称顺天府，至民国三年改称京兆地方，直辖北洋政府。</p>
+<p>1928 年北伐成功后，国民政府重新定都南京，北京改称北平特别市，撤销京兆地方。1930 年改河北省北平市，同年改回行政院直辖市。</p>
+<p>新中国成立后改回北京市，重新成为首都。</p>
+<p>简称京。</p>
+<h4 id="广东"><a href="#广东" class="headerlink" title="广东"></a>广东</h4><p><strong>广南东路</strong>的简称。广字取自广信县（今梧州封开一带），汉武帝平定南越国，颁圣旨有『初开粤地，宜<strong>广</strong>布恩<strong>信</strong>』，取其意设广信。</p>
+<p>先秦时期整个南方地区被中原称为南蛮，属于禹贡九州中的扬州百越之地。这一时期中原政权并没有对两广地区有实质性的控制。传说楚王曾在广州设置楚庭，今越秀山上有清代所建『古之楚庭』石牌坊记载了这个传说。但传说真实性，以及楚庭实际所指，至今存疑。</p>
+<p>秦统一六国之后，继续征服百越，将岭南纳入版图，在今两广地区设置南海郡、桂林郡、象郡。广东境内主要属南海郡，治番禺县（今广州）。广西境内主要属桂林郡，部分属南海郡和象郡。</p>
+<p>秦末乱世，南海郡尉任嚣病重，传位龙川县令赵佗，赵佗以此建立南越国，并兼并了桂林和象郡。南越国疆域最大时包括两广大部分，福建小部分，以及越南北部和中部地区。汉朝建立后，南越国向汉朝称臣。吕后掌权期间两国交恶，赵佗称帝。吕后死后关系缓和。</p>
+<p>到汉武帝时，南越国不愿归附，被汉朝所灭，属地分置南海、苍梧、郁林、合浦、交趾、九真、日南、琼崖、儋耳九郡，属交趾刺史部。在苍梧郡设<strong>广信</strong>县，作为交趾刺史部驻地。交趾刺史部东汉时改交州。州治一度迁往龙编县（今越南河内东边），又迁回广信。</p>
+<p>三国时属孙吴。孙权将州治迁回番禺县。后分交州合浦以北置广州（相当于今广东及广西北部），交州移治龙编，史称『交广分治』。这是『广州』这个名字第一次出现。</p>
+<p>唐置岭南道，后分岭南东道和岭南西道，广东境内属岭南东道。宋初复置岭南道，后改广南道，再改路，又分置为广南东路、广南西路。</p>
+<p>元朝时两广没有独立的行政区，广东大部分属江西行省，广西及雷州半岛、海南岛属湖广行省。</p>
+<p>明朝设<strong>广东</strong>、<strong>广西</strong>两个承宣布政使司，『广东』、『广西』正式成为行政区名。雷州半岛和海南岛开始归属广东。之后两广辖境基本沿袭明制。</p>
+<p>新中国成立后，钦州、廉州（今钦州、防城港、北海）划入广西，怀集划入广东。1988 年海南独立建省。</p>
 <p>简称粤。粤，古同越，古代时有混用。先秦时期中原称长江以南至今越南北部大部分地区为百越。秦末汉初广东境内曾建立南越国。后为了跟百越其它地区区分，逐渐固定使用粤字。</p>
-<h4 id="广西"><a href="#广西" class="headerlink" title="广西"></a>广西</h4><p><strong>广南西路</strong>的简称。参见『广东』部分。</p>
-<p>简称桂，因为广西境内在秦时主要属于桂林郡。《山海经·海内南经》有『桂林八树，在贲隅西』。贲隅即番禺，现在的广州（而不仅仅是番禺区）。</p>
-<h4 id="新疆"><a href="#新疆" class="headerlink" title="新疆"></a>新疆</h4><p>原汉朝西域，清朝收复后取故土新归之意。简称新或疆。</p>
-<h4 id="天津"><a href="#天津" class="headerlink" title="天津"></a>天津</h4><p>明成祖纪念靖难之役，改名天津，即天子津（天子经过的渡口）。简称津。</p>
+<h4 id="广西"><a href="#广西" class="headerlink" title="广西"></a>广西</h4><p><strong>广南西路</strong>的简称。</p>
+<p>先秦时期，广西地区远离中原，和广东地区一起被称为南蛮。广西境内同属百越，主要为西瓯和雒越族群。</p>
+<p>因两广历史上长期作为一个整体，广西得名历史参见『广东』条目。</p>
+<p>新中国成立后，改壮族自治区。</p>
+<p>简称桂，因为广西境内在秦时主要属于桂林郡。《山海经·海内南经》有『桂林八树，在贲隅西』。贲隅即番禺，指番禺县（今广州）或番禺城（今广州越秀区）。</p>
+<h4 id="新疆"><a href="#新疆" class="headerlink" title="新疆"></a>新疆</h4><p>原汉朝西域，清朝收复后取<strong>故土新归</strong>之意。</p>
+<p>新疆境内在汉朝时被称为西域，存在许多古国，如龟兹、楼兰、于阗、车师、焉耆、疏勒、康居、月氏等。这些古国同时处于汉朝和匈奴的影响之下。</p>
+<p>公元前一世纪，匈奴冒顿单于即位后，统一漠北，歼灭月氏国，控制西域诸国。汉武帝决心联合西域各国夹击匈奴，派张骞两次出使西域，汉朝与西域之间连接起了丝绸之路。到汉宣帝时，汉朝在与匈奴的争斗中胜出，在龟兹建西域都护府，西域诸国成为汉朝属国，西域首次<strong>纳入中国版图</strong>。</p>
+<p>西晋因北方胡族入侵而亡，进入五胡十六国时期，西北先后建立多个不同民族的政权，都试图控制西域，最后由北魏统一中国北方，控制西域东南部。</p>
+<p>南北朝时期，吐谷浑和柔然分别从南北入侵西域，北朝逐渐失去对西域的控制。直到隋炀帝打败吐谷浑，重新控制西域东南部。</p>
+<p>唐朝太宗至高宗年间，或诸国来朝，或唐发兵征伐，唐在西域<strong>设安西、北庭两都护府</strong>。玄宗时，曾在都护府上又设碛西节度使。同时，在龟兹、于阗、疏勒、碎叶（一度是焉耆）设军事建制，史称安西四镇。</p>
+<p>安史之乱时，吐蕃逐渐控制天山南部及河西走廊，甚至一度攻占并洗劫长安城。回鹘则控制漠南漠北至中亚的广大地区，包括西域北部。</p>
+<p>唐朝末年，吐蕃、回鹘衰落，中原政权也无暇顾及西域，西域诸国重新陷入混战。蒙古高原的回鹘汗国灭亡之后，分三路西迁：一支迁河西走廊，称甘州回鹘，后与部分西州回鹘和蒙古等其他民族融合，形成今裕固族；一支迁吐鲁番盆地，称高昌回鹘或西州回鹘，后来除部分拒绝伊斯兰化东迁到河西外，大部分与察合台汗国人融合成为维吾尔族族源之一；一支迁帕米尔高原，称葱岭回鹘，融入葛逻禄人，建立喀喇汗王朝。</p>
+<p>喀喇汗国控制西域西部，虽为第一个改宗伊斯兰教的突厥语国家，但保持了东方王朝的特色，强调与中原传统的联系。中亚的历史记录也把喀喇汗王朝当作中国的一部分。同时期西域还有高昌、于阗等国。</p>
+<p>辽朝被金所灭后，辽宗室耶律大石逃避金朝追击，西迁称帝建立西辽（又称喀喇契丹）。耶律大石受过汉文化教育，在辽朝担任过翰林院编修，沿袭辽制，以中国自居。随后向西域、蒙古高原、中亚乃至西亚扩张，统治西域八十余年，后被蒙古所灭。蒙古帝国时期，西域分属不同汗国。</p>
+<p>明初为防范漠北蒙古鞑靼和瓦剌，于哈密设卫所。后不敌吐鲁番汗国，卫所多次被破内迁，至明末退守嘉峪关。明中期，东察合台汗国演变成叶尔羌汗国。</p>
+<p>清朝时，蒙古准噶尔部以伊犁为根据地建立准噶尔汗国，南部的叶尔羌汗国则由和卓家族掌握了实权。</p>
+<p>1755 年清朝灭准噶尔，后又平定阿睦尔撒纳反叛和大小和卓之乱，西域全境平定，乾隆命名为<strong>新疆</strong>，在伊犁设伊犁将军。出自给陕甘总督的谕令『<strong>新辟疆土</strong>如伊犁一带，距内地远，一切事宜难以遥制』，为『新疆』一名之始。但此时新疆还不是专称，雍正时贵州新辟疆土也叫新疆。</p>
+<p>1864 年，塔城条约向俄国割让新疆西北部巴尔喀什湖南部大片土地，苏联解体后这些地方属于中亚多个国家。同年，新疆发生叛乱，并得到英俄两国支持，清朝最后只剩下塔城、哈密等少数据点。</p>
+<p>1875 年左宗棠督办新疆事务开始，陆续收复天山南北，至 1881 年收复被俄国占领的伊犁地区。1884 年依左宗棠建议，新疆正式建省，此时的『新疆』的含义出自左宗棠的奏折『他族逼处，<strong>故土新归</strong>』。</p>
+<p>新中国建立后改为自治区。</p>
+<p>简称新或疆。</p>
+<h4 id="天津"><a href="#天津" class="headerlink" title="天津"></a>天津</h4><p>明成祖纪念靖难之役，改名天津，即<strong>天子津</strong>（天子经过的渡口）。</p>
+<p>简称津。</p>
 <h4 id="重庆"><a href="#重庆" class="headerlink" title="重庆"></a>重庆</h4><p>南宋光宗先封恭王，后即帝位，升恭州为重庆府，取<strong>双重喜庆</strong>之意。宋朝有皇帝即位时，将潜藩升府的惯例。</p>
-<p>重庆在清末以前一直归属四川，可以参考『四川』部分。秦占领蜀地后，在重庆境内设巴郡，历属荆州、益州、巴州、楚州。隋朝以渝水（嘉陵江）改渝州，宋徽宗时改恭州，再因宋光宗升<strong>重庆</strong>府，为重庆名字的开始。清末中英签订《烟台条约》，英国可向重庆派驻领事；《马光条约》开始，重庆正式成为内陆通商口岸。抗日战争时期，国民政府先定重庆为战时首都，后升格为直辖市，从四川省分出，后定为永久陪都。新中国成立后重新并入四川省，1997 年设为直辖市。</p>
+<p>双重喜庆最常见的说法是，赵惇于淳熙十六年（1189 年）正月被封恭王，紧接着同年二月受禅登基，故为重庆。这个说法是<strong>站不住脚</strong>的。赵惇早于 1162 年孝宗登基的时候就被封为恭王，1171 年被封为太子，然后又过了 18 年到了 42 岁才登基，受封恭王早就是 27 年前的事了。登基时已是太子，喜庆的事要么不算，要么封王和封太子一起算，为什么只是双重？而且宋朝的皇帝，基本都是先封王在登基的，为什么唯独这次是重庆？</p>
+<p>另一个说法是，因为赵惇受禅登基，登基庆典时父母俱在，是为重庆。这个说法似乎更合理一些。但实际的原因已不可考。</p>
+<p>重庆在清末以前一直归属四川，可以参考『四川』部分。</p>
+<p>秦占领蜀地后，在重庆境内设巴郡，历属荆州、益州、巴州、楚州。隋朝以渝水（嘉陵江）改渝州。</p>
+<p>宋徽宗时改恭州，再因宋光宗升<strong>重庆</strong>府，为重庆名字的开始。</p>
+<p>清末中英签订《烟台条约》，英国可向重庆派驻领事；《马光条约》开始，重庆正式成为内陆通商口岸。抗日战争时期，国民政府先定重庆为战时首都，后升格为直辖市，从四川省分出，后定为永久陪都。</p>
+<p>新中国成立后重新并入四川省，1997 年设直辖市。</p>
 <p>简称渝，因渝水及渝州。又简称巴，因先秦时期境内主要属于巴国，且巴国定都境内。</p>
 <h2 id="民族"><a href="#民族" class="headerlink" title="民族"></a>民族</h2><p>这类命名有 4 个，3 个直接来自民族名，1 个来自原住民族群。（台湾对原住民的族群认定尚存争议。）</p>
-<h4 id="西藏"><a href="#西藏" class="headerlink" title="西藏"></a>西藏</h4><p>来自<strong>藏族</strong>，古称吐蕃、乌斯藏。</p>
+<h4 id="西藏"><a href="#西藏" class="headerlink" title="西藏"></a>西藏</h4><p>来自<strong>藏族</strong>，古称吐蕃、乌思藏（卫藏）。</p>
 <p>其中藏（gtsang）在藏语是本是满盈、纯净、清澈的意思，后用来指雅鲁藏布江（藏曲），再后来再后来又引申指雅鲁藏布江的发源地——以日喀则为中心的后藏地区。也可以算因江河得名。</p>
 <p>简称藏。</p>
-<h4 id="内蒙古"><a href="#内蒙古" class="headerlink" title="内蒙古"></a>内蒙古</h4><p>来自<strong>蒙古族</strong>。</p>
-<p>蒙古原为蒙古族其中一个东胡族源的部落，旧称蒙兀室韦，见于《旧唐书》。铁木真曾祖合不勒汗统一尼伦各部，建立蒙兀国，但在铁木真父亲被塔塔儿部毒死后亡国。铁木真后来经过征战，统一了漠北各部，并通过千户制、万户制打破原来部落的各自为政，结成统一的军事组织，使得蒙古从一个部落名逐渐变成统一的民族认知。</p>
+<h4 id="内蒙古"><a href="#内蒙古" class="headerlink" title="内蒙古"></a>内蒙古</h4><p>来自<strong>内札萨克蒙古</strong>，指归附清朝较早的漠南蒙古各旗。</p>
+<p>蒙古高原自古是北方游牧先民的活动范围，活跃的民族先后有匈奴、东胡、鲜卑、柔然、突厥、回鹘、契丹等。（注意这些民族并非严格的并列关系，有些是同一民族在不同时期的称呼。像契丹是柔然的一支，而鲜卑和柔然又源自东胡。）</p>
+<p>汉武帝时汉朝成功控制漠南及河西走廊，将匈奴赶到漠北。漠南成为汉人政权与北方民族的缓冲区，主要为汉人聚居。</p>
+<p>五代十国时期，契丹人建立契丹国（后改辽国），成为蒙古草原上的第一个帝国，定都上京（今内蒙古赤峰市巴林左旗附近）。后来辽被金所灭，在此期间蒙兀室韦趁机摆脱辽的控制，开始在蒙古草原上扩张。</p>
+<p>蒙兀室韦是一个东胡族源的部落，最早见于《旧唐书》。铁木真（即成吉思汗）曾祖合不勒汗统一尼伦各部，建立<strong>蒙兀汗国</strong>。汗位传至铁木真父亲也速该，也速该被塔塔儿部毒死，蒙兀儿亡国。</p>
+<p>铁木真经过征战，带领蒙古乞颜部崛起，统一了漠北各部，建立<strong>大蒙古国</strong>，『蒙古』成为各部统一的名称。蒙古帝国打破不同部落的各自为政，将各部重新编成九十五个千户，蒙古成为军政合一的国家，『蒙古』这个名字又从部落名逐渐变成统一的民族认同。</p>
+<p>在第四任蒙古大汗蒙哥去世后，领有汉地、主张汉化的忽必烈，与受漠北蒙古贵族拥护的阿里不哥争夺汗位，最后忽必烈胜出，同时控制漠南（大约相当于今内蒙古）、漠北（大约相当于今蒙古国）。</p>
+<p>但忽必烈的汗位并没有得到所有蒙古贵族的承认，其它汗国时而独立，时而承认宗主自治，使蒙古帝国事实上分裂成四大汗国。忽必烈在其领地内改国号为大元，建立元朝，承袭了蒙古帝国在汉地、蒙古高原及西伯利亚的领土。</p>
+<p>元被明朝所灭之后，残余势力退居漠北，史称北元。北元覆灭后，分出鞑靼、瓦剌、兀良哈三部。漠南则在 15 世纪末由成吉思汗十五世孙达延汗统一。漠南蒙古其中一支，达延汗的孙子俺答汗率土默特部驻牧呼和浩特，后归顺明朝，这部分后来变成了内属蒙古。</p>
+<p>到后金崛起时，察哈尔部的林丹汗为蒙古大汗。察哈尔部与后金交战兵败，林丹汗逃亡，其子额哲投降，漠南蒙古被并入后金（后来的清朝）版图，为内札萨克蒙古。后来归顺的漠北蒙古被称为外札萨克蒙古。两者合称外藩蒙古，由世袭的札萨克管理；与之相对的是土默特等内属蒙古，由朝廷官员直接治理。</p>
+<p>清朝后期文书开始出现<strong>内蒙古</strong>和<strong>外蒙古</strong>的概念，分别指代内札萨克二十四部 和 喀尔喀四部。</p>
+<p>在清朝灭亡、民国建立之际，受沙皇俄国影响，泛蒙古主义兴起。发生辛亥革命的 1911 年，外蒙古喀尔喀四部宣布脱离清朝统治。为实现蒙古统一，还向内蒙古出兵。1915 年中、俄、外蒙三方会谈，签订《中俄蒙协约》，袁世凯政府以承认外蒙自治和俄国在外蒙的一系列特权，换取俄国承认中国为外蒙的宗主国。1921 年外蒙古在苏联的帮助下建立共和国。1946 年，民国政府承认外蒙古独立。</p>
+<p>与此同时，内蒙古在民国政府治下，仍分属绥远、热河、察哈尔、宁夏、兴安等省。</p>
+<p>1947 年，内蒙古举行人民代表会议，成立内蒙古自治政府，是抗战后中共领导的第一个少数民族自治政府。新中国成立后转制为内蒙古自治区政府。</p>
 <p>简称内蒙、蒙。</p>
-<h4 id="宁夏"><a href="#宁夏" class="headerlink" title="宁夏"></a>宁夏</h4><p>取<strong>夏地安宁</strong>之意。西夏是党项族建立的政权，国号源于发祥地夏州及家族封号夏国公。而夏州之名，来自晋时匈奴铁弗部人赫连勃勃建立的政权大夏。有人认为这是因为匈奴是夏后氏之后。</p>
-<p>宁夏境内在西夏以前参考『甘肃』部分。宋时西夏占据今甘肃、宁夏地区，以宁夏为中心建立大夏国，定都兴庆府（今银川）。</p>
-<p>元于西夏故地设西夏中兴行省，又称<strong>宁夏</strong>行省，取『夏地安宁』之意，为『宁夏』地名之始。后废西夏行省，改甘肃行省，建宁夏府路辖宁夏平原地区，归属甘肃行省。之后一直归属甘肃。</p>
+<h4 id="宁夏"><a href="#宁夏" class="headerlink" title="宁夏"></a>宁夏</h4><p>取<strong>夏地安宁</strong>之意。西夏是党项族建立的政权，国号源于发祥地夏州及家族封号夏国公。</p>
+<p>宁夏境内长期作为中原与西北先民对峙的前线，处于中原和周边部落国家的交替控制下。部分参考『甘肃』条目。</p>
+<p>东晋时匈奴铁弗部人赫连勃勃在关中及河套地区建立大夏，又称胡夏、赫连夏，大部分时间定都统万城（今陕西靖边县红墩界乡白城子村无定河北岸）。有人认为匈奴是夏后氏之后，所以国号称夏。后被北魏所灭，置夏州，铁弗部逐渐融入汉族。</p>
+<p>宋时西夏占据今甘肃、宁夏地区，以宁夏为中心建立大夏国，定都兴庆府（今银川）。后亡于蒙古。党项族人后融入各族。据传李自成为党项人。</p>
+<p>元朝于西夏故地设西夏中兴行省，又称<strong>宁夏</strong>行省，取『夏地安宁』之意，为『宁夏』地名之始。后废西夏行省，改甘肃行省，建宁夏府路辖宁夏平原地区，归属甘肃行省。之后一直归属甘肃。</p>
 <p>民国时独立建省。新中国改自治区。</p>
 <p>简称宁。</p>
 <h4 id="台湾"><a href="#台湾" class="headerlink" title="台湾"></a>台湾</h4><p>即<strong>台窝湾</strong>，又叫大员，为平埔原住民的社名，在今台南市安平区大员镇。</p>
 <p>台湾对原住民的认定尚存在争议。过往认为大武垅为西拉雅族的分支，原因之一是荷兰人以西拉雅语传教时，大武垅族被认为是西拉雅语使用者。后来发现大武垅语和西拉雅语之间的差异，且族人自我认同跟西拉雅族不同，开始逐渐将大武垅族独立出来。<strong>大武垅</strong>族自称 Taivoan 或 Taibowan，音近闽南语之『大满』、『台窝湾』、『台湾』，加之族人发源自台南，也的确曾建立台欧湾社（Taiouwang），有学者认为是台湾一名的来源。荷兰人来台时最早接触该名，并在荷兰统治时期逐渐代指岛内全境，称为大员。清朝时定名台湾。</p>
-<p><em>台湾历史在两岸存在争议（即使在岛内，蓝绿阵营之间、汉人和原住民之间也有巨大分歧）。主要分歧点在岛上原住民的来源，以及岛上与中原大陆之间早期关系上。学术上就有争议的事再加上政治因素，这浑水就不趟了。</em></p>
-<p>可以确定的是，随着 17 世纪闽粤沿海汉人开始大量移居，汉人逐渐成为岛上居民的主体，中华文化也成为了岛上的主流文化。这点即使经过半个世纪的日治时期也未曾改变。目前的台湾地区当局，也是内战失败退守台湾的中华民国政府。海峡两岸同属一个中国，台湾是中国不可分割的一部分。</p>
-<p>现岛上 97.64% 人口为汉人，除了保留原有风俗的原住民，岛上居民大多使用繁体中文，讲国语、闽南话、客家话等汉语方言。</p>
+<p><em>台湾历史在两岸存在争议（即使在岛内，蓝绿阵营之间、汉族和原住民之间也有分歧）。主要分歧点在岛上原住民的来源，以及岛上与中原大陆之间早期关系上。学术上就有争议的事再加上政治因素，不讨论。</em></p>
+<p>可以确定的是，随着 17 世纪闽粤沿海汉人开始大量移居，汉人逐渐成为岛上居民的主体，中华文化也成为了岛上的主流文化。即使经过半个世纪的日治时期也未曾改变。现岛上近 98% 人口为汉族，除了保留原有风俗的原住民，岛上居民大多使用繁体中文，讲国语、闽南话、客家话等汉语方言。</p>
+<p>政治上，目前的台湾地区当局，是内战失败退守台湾的中华民国政府。台湾当局从未宣布独立（是的，虽然绿营小动作很多，但不敢正式宣布）。无论在共和国还是所谓民国的行政区划上，台湾都是中国的一个省。海峡两岸同属一个中国，台湾是中国不可分割的一部分。</p>
 <p>简称台。</p>
 <h2 id="存疑"><a href="#存疑" class="headerlink" title="存疑"></a>存疑</h2><p>云南县得名较早，确切由来已不存。</p>
-<p>贵州由于地处偏远，是汉族为主的行政区中建制较晚的一个，到明朝设贵州宣布政使司才正式纳入中央政府的管理。对于贵州中贵字的起源，有多种说法，并不明确。</p>
+<p>贵州地处偏远，是汉族为主的行政区中建制较晚的一个。贵州中贵字的起源，有多种说法，并不明确。</p>
 <h4 id="云南"><a href="#云南" class="headerlink" title="云南"></a>云南</h4><p>汉武帝时在境内置云南县（今云南大理祥云县），为『云南』最早记录。因汉代无史籍记载，后人对『云南』的名称由来作出各种推测：有<strong>彩云之南</strong>、<strong>云山之南</strong>、少数民族地名改易等。</p>
-<p>先秦时期，云南境内为多个方国，境内民族被中原称为西南夷。秦统一六国后，在云南东北部设立郡县。汉武帝时征服西南夷，设益州郡和 24 县，其中包括云南县。</p>
+<p>先秦时期，云南境内为多个方国，境内先民被中原称为西南夷。秦统一六国后，在云南东北部设立郡县。汉武帝时征服西南夷，设益州郡和 24 县，其中包括云南县。</p>
 <p>由于远离中央，境内地方豪强势力较强，名义上为州县，时有豪强获得实际的独立。唐朝洱海地区的蒙舍诏部落首领皮罗阁兼并其他五诏，建立南诏国，被唐朝封为<strong>云南</strong>王。后历经多个政权，至白族段氏建立大理国时，辖今云南、贵州、四川西南、缅甸北部，及老挝和越南少数地区。</p>
 <p>元朝征服大理国，设<strong>云南</strong>等路行中书省，云南正式成为行省。之后有过短暂的割据政权，都很快被中央政权镇压。</p>
 <p>简称滇，来自滇池和古滇国。滇字来源有多种解释，可能来源于族名、少数民族语言演变等。滇原指云南及贵州地区，直至贵州建省，滇变为专指云南省。</p>
@@ -3622,70 +3788,6 @@
       <category term="LeetCode" scheme="https://jaycechant.info/tags/LeetCode/"/>
     
       <category term="Algorithm" scheme="https://jaycechant.info/tags/Algorithm/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>在静态页中使用必应搜索</title>
-    <link href="https://jaycechant.info/2020/use-bing-search-in-your-static-pages/"/>
-    <id>https://jaycechant.info/2020/use-bing-search-in-your-static-pages/</id>
-    <published>2020-05-24T01:20:03.000Z</published>
-    <updated>2020-05-24T11:49:36.371Z</updated>
-    
-    <content type="html"><![CDATA[<p>博客搜索框跳转搜索结果，搜索引擎从 BD 改 必应。很琐碎，且没有什么技术含量。纯粹因为平时不写前端，记一下，避免以后忘了还得查这些琐碎的内容。</p>
-<a id="more"></a>
-<h2 id="原版"><a href="#原版" class="headerlink" title="原版"></a>原版</h2><p>博客是 github pages，生成器是 hexo，模板 landscape-plus。自带的搜索框如下：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://www.baidu.com/baidu"</span> <span class="attr">method</span>=<span class="string">"get"</span> <span class="attr">accept-charset</span>=<span class="string">"utf-8"</span> <span class="attr">class</span>=<span class="string">"search-form"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"search"</span> <span class="attr">name</span>=<span class="string">"word"</span> <span class="attr">maxlength</span>=<span class="string">"20"</span> <span class="attr">class</span>=<span class="string">"search-form-input"</span> <span class="attr">placeholder</span>=<span class="string">"Search"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">""</span> <span class="attr">class</span>=<span class="string">"search-form-submit"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">tn</span> <span class="attr">type</span>=<span class="string">hidden</span> <span class="attr">value</span>=<span class="string">"bds"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">cl</span> <span class="attr">type</span>=<span class="string">hidden</span> <span class="attr">value</span>=<span class="string">"3"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">ct</span> <span class="attr">type</span>=<span class="string">hidden</span> <span class="attr">value</span>=<span class="string">"2097152"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"si"</span> <span class="attr">value</span>=<span class="string">"&lt;%- config.url.replace(/^https?:\/\//, '') %&gt;"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div></pre></td></tr></table></figure>
-<blockquote>
-<p><code>&lt;%- config.url.replace(/^https?:\/\//, &#39;&#39;) %&gt;</code> 是 hexo 的模板代码，实际页面会替换成 <code>jaycechant.info</code> 。这样写是为了把域名变成变量，避免以后如果改域名还得一个一个地方修改。</p>
-</blockquote>
-<p>就一个 form，action 设置为 get baidu 搜索页，下面的 input 都会按 name 追加在 query string。通过这种方式，在提交时跳转到一个搜索结果。</p>
-<p>例如，搜索博客的关于 Golang 的内容：<code>http://www.baidu.com/baidu?word=Golang&amp;tn=bds&amp;cl=3&amp;ct=2097152&amp;si=jaycechant.info</code></p>
-<p>显示：<strong>很抱歉，没有找到与“Golang”相关的网页。</strong></p>
-<p>很长一段时间，都没有注意到它。早期文章少，也用不上搜索。</p>
-<p>直到有一天，发现博客还有引用 http 资源，排查的时候，才留意到这个搜索框。因为众所周知的原因，不想用 BD。何况它也没收录我的博客。</p>
-<h2 id="更换"><a href="#更换" class="headerlink" title="更换"></a>更换</h2><h3 id="失败"><a href="#失败" class="headerlink" title="失败"></a>失败</h3><p>首选 Google。不过这不光是给我用的，读者也可能用，只能选方便访问的 Bing。</p>
-<p>同样在 Bing 搜上面的内容，拿到对应的 URL ：<code>https://bing.com/search?q=site%3ajaycechant.info+Golang</code></p>
-<p>这回有结果了。</p>
-<p>不过 <code>site</code> 参数跟搜索关键词混在一起，需要想办法自动添加。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"https://global.bing.com/search"</span> <span class="attr">method</span>=<span class="string">"get"</span> <span class="attr">accept-charset</span>=<span class="string">"utf-8"</span> <span class="attr">class</span>=<span class="string">"search-form"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"search"</span> <span class="attr">name</span>=<span class="string">"q"</span> <span class="attr">maxlength</span>=<span class="string">"20"</span> <span class="attr">class</span>=<span class="string">"search-form-input"</span> <span class="attr">placeholder</span>=<span class="string">"Search"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">""</span> <span class="attr">class</span>=<span class="string">"search-form-submit"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"si"</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">value</span>=<span class="string">"&lt;%- config.url.replace(/^https?:\/\//, '') %&gt;"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"ensearch"</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">value</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>这样是不行的。Bing 不识别 <code>si</code> 。类似的， <code>site</code> 也不识别。搜索，查文档，测试，Bing 貌似没有给来源站点提供独立的 query 参数。</p>
-<p>也试过放两个 <code>q</code> 参数，后面那个 <code>&lt;input name=&quot;q&quot; type=&quot;hidden&quot; value=&quot;site:jaycechant.info&quot;&gt;</code> ，也不行，同名的两个 query 参数，只有最后一个会起效，相当于覆盖效果。</p>
-<h3 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h3><p>然后发现自己陷入思维定势。被从原来的搜索框改限定了思路。</p>
-<p>用 js 拼接一下 q 的 value 就可以了。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"https://global.bing.com/search"</span> <span class="attr">accept-charset</span>=<span class="string">"utf-8"</span> <span class="attr">class</span>=<span class="string">"search-form"</span> <span class="attr">onsubmit</span>=<span class="string">"document.getElementById('searchtext').value+=' &lt;%- config.url.replace(/^https?:\/\//, '') %&gt;';return true;"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"searchtext"</span> <span class="attr">type</span>=<span class="string">"search"</span> <span class="attr">name</span>=<span class="string">"q"</span> <span class="attr">maxlength</span>=<span class="string">"20"</span> <span class="attr">class</span>=<span class="string">"search-form-input"</span> <span class="attr">placeholder</span>=<span class="string">"Search"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">""</span> <span class="attr">class</span>=<span class="string">"search-form-submit"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"ensearch"</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">value</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>这样已经足够简单了，不过表单一提交就会跳转到搜索页，能不能留住读者，不要跳出博客？这个简单，可以用 <code>target=&quot;_blank&quot;</code> 解决。</p>
-<p>不过还有一个问题：关键词被修改了，如果连续搜索，关键词会不断添加 site。要么难看，干扰真正的关键词；要么要读者手动删掉。</p>
-<h3 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h3><p>还是思维定势：这个 form 一定要提交吗？</p>
-<p>直接 <code>onclick=&quot;window.open(&#39;&#39;)&quot;</code> 不行吗？</p>
-<p>回车不起效？拦截 keycode 就好了。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span> <span class="attr">accept-charset</span>=<span class="string">"utf-8"</span> <span class="attr">class</span>=<span class="string">"search-form"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"searchtext"</span> <span class="attr">type</span>=<span class="string">"search"</span> <span class="attr">name</span>=<span class="string">"q"</span> <span class="attr">maxlength</span>=<span class="string">"20"</span> <span class="attr">class</span>=<span class="string">"search-form-input"</span> <span class="attr">placeholder</span>=<span class="string">"Search"</span> <span class="attr">onkeypress</span>=<span class="string">"if(event.keyCode==13)&#123;document.getElementById('searchsub').click();return false;&#125;"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"searchsub"</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">""</span> <span class="attr">class</span>=<span class="string">"search-form-submit"</span> <span class="attr">onclick</span>=<span class="string">"window.open('https://global.bing.com/search?q=site:&lt;%- config.url.replace(/^https?:\/\//, '') %&gt; '+document.getElementById('searchtext').value, '_blank')"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"ensearch"</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">value</span>=<span class="string">"1"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>效果还满意，不多折腾，收工。</p>
-<h2 id="其他方案"><a href="#其他方案" class="headerlink" title="其他方案"></a>其他方案</h2><p>除此以外，还有一些备选方案，因为时间关系，没有折腾，先 Mark。</p>
-<h3 id="第三方站内搜索"><a href="#第三方站内搜索" class="headerlink" title="第三方站内搜索"></a>第三方站内搜索</h3><p>调用第三方的服务，如 <a href="http://www.swiftype.com/" target="_blank" rel="external">Swiftype</a> ，<a href="https://www.algolia.com" target="_blank" rel="external">algolia</a>，<a href="https://www.bonsai.io/" target="_blank" rel="external">Bonsai</a>，<a href="https://www.expertrec.com/" target="_blank" rel="external">ExpertRec</a>，<a href="https://www.aliyun.com/product/opensearch" target="_blank" rel="external">阿里云开放搜索</a> 等。</p>
-<p>简单说，注册帐号，提供站点地址，配置各种选项，他们就帮忙索引。然后通过 API 也好，嵌入 js 也好，提供搜索服务。</p>
-<p>本质上跟传统搜索引擎没有太大区别，只是既然你注册了，就一定会收录你的站点，以及可以配置。</p>
-<p>相应的，多数收费，最多提供有条件的免费（限时、限额）。</p>
-<h3 id="基于-js-的站内搜索"><a href="#基于-js-的站内搜索" class="headerlink" title="基于 js 的站内搜索"></a>基于 js 的站内搜索</h3><p>静态博客如果不想依赖其它服务，那么唯一可以提供动态能力的，就只有 js 了。仍然是静态页，没有 hosted server，就把跑脚本的负担，转移到浏览器。</p>
-<p>选项有 <a href="https://lunrjs.com/" target="_blank" rel="external">lunr.js</a>，基于 lunr.js 的 <a href="https://github.com/weixsong/elasticlunr.js" target="_blank" rel="external">elasticlunr.js</a> ， <a href="https://fusejs.io/" target="_blank" rel="external">Fuse.js</a> 等。</p>
-<p>简单说，静态站点生成时，就把索引一起生成。搜索时，脚本在用户端运行，读取索引进行搜索。</p>
-<p>看着很美好，但是有一些因素制约了使用：</p>
-<ul>
-<li>所有索引数据加载到用户端，并在浏览器运行，对于网速和性能有一定要求，否则影响用户体验。</li>
-<li>同样的，索引数据不能太大，因此不适合大站点使用；小站点也不方便做全文索引，大多只索引 title 和 tag。</li>
-<li>需要索引，也就需要分词，很多 lib 对中文支持不好，需要额外增加插件或者踩坑。</li>
-</ul>
-<p>纯记录，暂时没有动力折腾这两种方案。</p>
-<hr>
-<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;博客搜索框跳转搜索结果，搜索引擎从 BD 改 必应。很琐碎，且没有什么技术含量。纯粹因为平时不写前端，记一下，避免以后忘了还得查这些琐碎的内容。&lt;/p&gt;
-    
-    </summary>
-    
     
   </entry>
   
