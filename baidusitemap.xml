@@ -4,8 +4,23 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2020/insurance-for-kids/</loc>
+    <lastmod>2020-12-28T08:32:44.217Z</lastmod>
+    <data>
+        <display>
+        <title>为什么不要先给小孩子买保险？</title>
+        <pubTime>2020-11-16T17:38:01.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/origin-of-names-of-provincial-administrative-regions-in-china/</loc>
-    <lastmod>2020-12-19T16:27:04.608Z</lastmod>
+    <lastmod>2020-12-27T02:28:17.172Z</lastmod>
     <data>
         <display>
         <title>我国省级行政区名称起源</title>
@@ -20,7 +35,7 @@
     
   <url>
     <loc>https://jaycechant.info/2020/why-element-type-of-slice-cannot-be-converted-in-go/</loc>
-    <lastmod>2020-12-19T09:32:51.584Z</lastmod>
+    <lastmod>2020-12-19T16:52:43.553Z</lastmod>
     <data>
         <display>
         <title>答读者问：为什么 Go 里面不能把任意切片转换为 []interface{} ？</title>
@@ -463,9 +478,9 @@
         <title>跟黄执中学观念传递：简单、意外、具体</title>
         <pubTime>2020-05-12T09:16:34.000Z</pubTime>
         
-        <tag>写作</tag>
-         
         <tag>语言表达</tag>
+         
+        <tag>写作</tag>
          
          
            
@@ -1202,9 +1217,9 @@
          
         <tag>unfinished</tag>
          
-        <tag>trouble</tag>
-         
         <tag>pip</tag>
+         
+        <tag>trouble</tag>
          
         <tag>virtualenv</tag>
          
@@ -1267,11 +1282,11 @@
         
         <tag>how-to</tag>
          
+        <tag>unfinished</tag>
+         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
-         
-        <tag>unfinished</tag>
          
          
            
@@ -1339,9 +1354,9 @@
         
         <tag>Python</tag>
          
-        <tag>trouble</tag>
-         
         <tag>pip</tag>
+         
+        <tag>trouble</tag>
          
          
            
@@ -1362,11 +1377,11 @@
          
         <tag>blog</tag>
          
+        <tag>trouble</tag>
+         
         <tag>node.js</tag>
          
         <tag>hexo</tag>
-         
-        <tag>trouble</tag>
          
          
            
