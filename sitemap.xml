@@ -2,9 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2020/suisuikang/</loc>
+    
+    <lastmod>2020-12-31T14:10:38.072Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/origin-of-names-of-provincial-administrative-regions-in-china/</loc>
     
-    <lastmod>2020-12-30T14:55:31.048Z</lastmod>
+    <lastmod>2020-12-31T04:11:21.312Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/2020/memory-leak-caused-by-substrings-in-go/</loc>
+    
+    <lastmod>2020-12-30T16:30:40.355Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/2020/golang-in-action-day-8/</loc>
+    
+    <lastmod>2020-12-30T16:20:01.317Z</lastmod>
     
   </url>
   
