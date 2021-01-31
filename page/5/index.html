@@ -75,6 +75,158 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-golang-1-13-env-for-win" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/golang-1-13-env-for-win/" class="article-date">
+  <time datetime="2020-03-10T15:07:44.000Z" itemprop="datePublished">2020-03-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/golang-1-13-env-for-win/">配置 1.13+ 的 golang 环境（Windows 篇）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前段时间为 go 1.13 写了 <a href="../setup-golang-env-for-1-13-and-above/">《配置 1.13+ 的 golang 环境》</a> （注：现在go 1.14 都发布了），以区别于 1.9 还在用 GOPATH 时写的  <a href="../../setup-golang-env/">《配置 Golang 开发环境》</a> 。考虑到后者写了 Win 环境下的配置，于是前者就写一下 Linux 环境。</p>
+<p>当下这个时间点，当然参考 1.13+ 那篇。可是在 Windows 配置怎么办？那就把文中系统相关的操作（主要是环境变量）换成 Win 的对应操作。两篇文章，分别涉及到了 “&lt; 1.13 &amp; Win” 和 “1.13+ &amp; Linux”，看完举一反三，应该新旧版本两个系统平台，都会配置了。</p>
+<p>结果今晚让朋友看着新教程（1.13+）配置 Win 下 go 1.13+ 环境，证明我还是太天真：这些配置教程的目标读者很可能根本没有跨平台的经验，一个 Linux 的操作在 Windows 下对应着什么，他们完全没有概念 [摊手]。</p>
+<p>一气之下，只好再发一篇。注意，这篇 <strong>没有任何新内容</strong>，纯粹是旧文的重新组合！（Windows &amp; go 1.13+）</p>
+        
+          <p class="article-more-link">
+            <a href="/2020/golang-1-13-env-for-win/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://jaycechant.info/2020/golang-1-13-env-for-win/" data-id="ckkl7fdg9003d8kxlhn7j5gaf" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="https://jaycechant.info/2020/golang-1-13-env-for-win/#disqus_thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/golang/">golang</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-correct-way-to-delete-an-opened-file" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/correct-way-to-delete-an-opened-file/" class="article-date">
+  <time datetime="2020-02-19T16:05:41.000Z" itemprop="datePublished">2020-02-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/correct-way-to-delete-an-opened-file/">删除打开文件的正确方法（Linux）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>凭记忆复述一个坑，稍微带到 Linux 文件系统知识。时间久远，记忆可能存在差错。发现了错误请留言告知，感激不尽。</p>
+<p>标题的中文断句上容易有歧义，重复一下英文：correct way to delete an opened file ，关键在 『打开了的文件』或者叫 『已经打开的文件』，怎么解释都比 opened 拗口。</p>
+<p>（由于当时没有留下记录，文中 shell 输出均为写文章时 <strong>模拟重现</strong>，并非第一现场。）</p>
+        
+          <p class="article-more-link">
+            <a href="/2020/correct-way-to-delete-an-opened-file/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://jaycechant.info/2020/correct-way-to-delete-an-opened-file/" data-id="ckkl7fdg600388kxlo861lbem" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="https://jaycechant.info/2020/correct-way-to-delete-an-opened-file/#disqus_thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/file-system/">file-system</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-golang-1-13-module-VS-package" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/golang-1-13-module-VS-package/" class="article-date">
+  <time datetime="2020-01-20T08:50:37.000Z" itemprop="datePublished">2020-01-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/golang-1-13-module-VS-package/">golang 1.13 - module VS package</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在写 《<a href="https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/">配置 1.13+ 的 golang 环境</a>》时，花了大量篇幅解释 module 的概念，还有 module 与 package 之间的联系。眼看字数翻了一番，干脆把这部分另起一篇。</p>
+        
+          <p class="article-more-link">
+            <a href="/2020/golang-1-13-module-VS-package/#more">阅读全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="https://jaycechant.info/2020/golang-1-13-module-VS-package/" data-id="ckkl7fdg400378kxlbqz25abb" class="article-share-link" data-share="baidu">分享到</a>
+      
+
+      
+        <a href="https://jaycechant.info/2020/golang-1-13-module-VS-package/#disqus_thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/golang/">golang</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-setup-golang-env-for-1-13-and-above" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/setup-golang-env-for-1-13-and-above/" class="article-date">
@@ -110,7 +262,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/" data-id="ckjcxf71f003n1cxlc8lm4o53" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2020/setup-golang-env-for-1-13-and-above/" data-id="ckkl7fdg300368kxlwjkkrypq" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -160,7 +312,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2020/save-load-a-solution-for-ordinary-people/" data-id="ckjcxf71c003i1cxl67ud0mf9" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2020/save-load-a-solution-for-ordinary-people/" data-id="ckkl7fdgr00428kxlo4zg1p1p" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -211,7 +363,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2019/golang-1-13-from-dep-to-mod/" data-id="ckjcxf71e003k1cxlt203hotm" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2019/golang-1-13-from-dep-to-mod/" data-id="ckkl7fdg000318kxl2ou085nx" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -261,7 +413,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2019/golang-json-overlaying/" data-id="ckjcxf71a003e1cxl3i08f28w" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2019/golang-json-overlaying/" data-id="ckkl7fdg200348kxlwosioblh" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -319,7 +471,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2019/golang-unsafe-cast-between-string-and-bytes/" data-id="ckjcxf717003c1cxl439si152" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2019/golang-unsafe-cast-between-string-and-bytes/" data-id="ckkl7fdfz00308kxlz5rd6vtr" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -369,7 +521,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2019/why-not-install-conda-with-pip/" data-id="ckjcxf716003a1cxlc9np1ntv" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2019/why-not-install-conda-with-pip/" data-id="ckkl7fdfw002w8kxliyaffzzc" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -419,7 +571,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="https://jaycechant.info/2018/setup-golang-env/" data-id="ckjcxf71g003p1cxlnzgt6skp" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="https://jaycechant.info/2018/setup-golang-env/" data-id="ckkl7fdfu002t8kxl3e84ply4" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -436,160 +588,9 @@
 
 
   
-    <article id="post-glide-from-start-up-to-give-up" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/glide-from-start-up-to-give-up/" class="article-date">
-  <time datetime="2018-10-24T10:01:17.000Z" itemprop="datePublished">2018-10-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/glide-from-start-up-to-give-up/">golang 依赖管理：glide 从入门到放弃（转投 dep）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="0x0-结论"><a href="#0x0-结论" class="headerlink" title="0x0 结论"></a>0x0 结论</h2><p>先丢结论，两个推荐选项：</p>
-<ul>
-<li>forked glide + 配置 mirror ：<a href="https://github.com/xkeyideal/glide">https://github.com/xkeyideal/glide</a> ，具体修复哪些 bug ，以及它特有的 mirror 配置，请看 <a href="https://github.com/xkeyideal/glide/blob/master/README_CN.md">https://github.com/xkeyideal/glide/blob/master/README_CN.md</a></li>
-<li>dep + proxy ：<a href="https://github.com/golang/dep">https://github.com/golang/dep</a> ，proxy 不过是设置 <code>http_proxy</code> 和 <code>https_proxy</code> 两个环境变量。</li>
-</ul>
-        
-          <p class="article-more-link">
-            <a href="/2018/glide-from-start-up-to-give-up/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="https://jaycechant.info/2018/glide-from-start-up-to-give-up/" data-id="ckjcxf71b003g1cxlkmilvpec" class="article-share-link" data-share="baidu">分享到</a>
-      
-
-      
-        <a href="https://jaycechant.info/2018/glide-from-start-up-to-give-up/#disqus_thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dep/">dep</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/glide/">glide</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/golang/">golang</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-why-you-should-learn-python" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/why-you-should-learn-python/" class="article-date">
-  <time datetime="2017-10-18T15:37:29.000Z" itemprop="datePublished">2017-10-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/why-you-should-learn-python/">为什么你应该学 Python</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>人生苦短，我用Python</p>
-        
-          <p class="article-more-link">
-            <a href="/2017/why-you-should-learn-python/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="https://jaycechant.info/2017/why-you-should-learn-python/" data-id="ckjcxf71200371cxlyq48mqno" class="article-share-link" data-share="baidu">分享到</a>
-      
-
-      
-        <a href="https://jaycechant.info/2017/why-you-should-learn-python/#disqus_thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/why/">why</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-use-screen-as-byobu-backend" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/use-screen-as-byobu-backend/" class="article-date">
-  <time datetime="2017-09-19T08:57:40.000Z" itemprop="datePublished">2017-09-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/use-screen-as-byobu-backend/">改用 screen 作为 byobu 的后端</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>如题，一分钟Mark文。</p>
-        
-          <p class="article-more-link">
-            <a href="/2017/use-screen-as-byobu-backend/#more">阅读全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="https://jaycechant.info/2017/use-screen-as-byobu-backend/" data-id="ckjcxf70y00321cxl88yi4a98" class="article-share-link" data-share="baidu">分享到</a>
-      
-
-      
-        <a href="https://jaycechant.info/2017/use-screen-as-byobu-backend/#disqus_thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/byobu/">byobu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/screen/">screen</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
     </nav>
   
 </section>
@@ -618,7 +619,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">四月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -630,23 +631,23 @@
       <ul>
         
           <li>
+            <a href="/2021/time-is-up/">现在写，可能都来不及了...</a>
+          </li>
+        
+          <li>
+            <a href="/2021/should-i-transfer-to-ITBP/">should i transfer to ITBP</a>
+          </li>
+        
+          <li>
+            <a href="/2021/a-remind/">a remind</a>
+          </li>
+        
+          <li>
             <a href="/2020/memory-leak-caused-by-substrings-in-go/">Go 语言字符串子串引起的内存泄漏</a>
           </li>
         
           <li>
             <a href="/2020/golang-in-action-day-8/">Go 语言实战（8）：命令行程序（3）</a>
-          </li>
-        
-          <li>
-            <a href="/2020/suisuikang/">关于保险的两个追加话题之一：惠民保</a>
-          </li>
-        
-          <li>
-            <a href="/2020/why-element-type-of-slice-cannot-be-converted-in-go/">答读者问：为什么 Go 里面不能把任意切片转换为 []interface{} ？</a>
-          </li>
-        
-          <li>
-            <a href="/2020/insurance-for-kids/">为什么不要先给小孩子买保险？</a>
           </li>
         
       </ul>
@@ -684,7 +685,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2020 Jayce Sigit Chant<br>
+      &copy; 2021 Jayce Sigit Chant<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
       .
       Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
