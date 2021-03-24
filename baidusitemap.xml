@@ -4,8 +4,25 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2021/golang-format-verbs/</loc>
+    <lastmod>2021-03-24T04:48:06.266Z</lastmod>
+    <data>
+        <display>
+        <title>Go 语言格式化动词</title>
+        <pubTime>2021-03-14T16:43:36.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2020/golang-in-action-day-8/</loc>
-    <lastmod>2021-02-21T16:07:05.743Z</lastmod>
+    <lastmod>2021-02-21T16:29:38.013Z</lastmod>
     <data>
         <display>
         <title>Go 语言实战（8）：命令行（3）CLI 框架</title>
@@ -61,23 +78,6 @@
         <title>我国省级行政区名称起源</title>
         <pubTime>2020-11-05T02:24:15.000Z</pubTime>
         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2020/memory-leak-caused-by-substrings-in-go/</loc>
-    <lastmod>2020-12-30T16:30:40.355Z</lastmod>
-    <data>
-        <display>
-        <title>Go 语言字符串子串引起的内存泄漏</title>
-        <pubTime>2020-12-30T16:23:04.000Z</pubTime>
-        
-        <tag>golang</tag>
-         
          
            
         </display>
@@ -1141,9 +1141,9 @@
         <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
         <pubTime>2017-01-20T06:44:31.000Z</pubTime>
         
-        <tag>Jenkins</tag>
-         
         <tag>Java</tag>
+         
+        <tag>Jenkins</tag>
          
         <tag>trouble</tag>
          
@@ -1164,9 +1164,9 @@
         <title>git: 在两个 repo 之间 merge</title>
         <pubTime>2017-01-21T03:28:29.000Z</pubTime>
         
-        <tag>git</tag>
-         
         <tag>skill</tag>
+         
+        <tag>git</tag>
          
          
            
@@ -1444,9 +1444,9 @@
          
         <tag>blog</tag>
          
-        <tag>node.js</tag>
-         
         <tag>hexo</tag>
+         
+        <tag>node.js</tag>
          
         <tag>trouble</tag>
          

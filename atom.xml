@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaycechant.info/"/>
-  <updated>2021-01-31T14:47:43.222Z</updated>
+  <updated>2021-03-24T04:48:06.266Z</updated>
   <id>https://jaycechant.info/</id>
   
   <author>
@@ -14,6 +14,231 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Go 语言格式化动词</title>
+    <link href="https://jaycechant.info/2021/golang-format-verbs/"/>
+    <id>https://jaycechant.info/2021/golang-format-verbs/</id>
+    <published>2021-03-14T16:43:36.000Z</published>
+    <updated>2021-03-24T04:48:06.266Z</updated>
+    
+    <content type="html"><![CDATA[<p>这期算是 《<a href="../../categories/Go-语言实战/">Go 语言实战</a> 》的番外，内容以翻译整理为主。</p>
+<a id="more"></a>
+<p>它不在原本的规划之内。</p>
+<p>但随着内容的深入，程序变得越来越复杂，我们将不可避免地会遇到 bug，需要调试，需要（往 console 或 日志）输出调试信息。这时数据的格式化输出变得尤为重要。</p>
+<p>实际上，前面已经多次用到了格式化。与其每次用到零碎地介绍，不如集中一期整理好。</p>
+<p>介绍、翻译、注释、举例，内容有点多，不必全篇记忆。记住常用部分，剩下的留个印象，需要时回来翻阅就好。</p>
+<p>[TOC]</p>
+<h2 id="fmt-包"><a href="#fmt-包" class="headerlink" title="fmt 包"></a>fmt 包</h2><p>格式化的功能，主要在 <code>fmt</code> 包内，<code>fmt</code> 是 <strong>format</strong> 的略写。</p>
+<p>当然，除了临时的简单调试，直接用 <code>fmt</code> 输出到终端（terminal）来调试不太规范。标准输出的内容非常容易丢失，还是写入日志文件方便事后对比分析。</p>
+<p>更多的时候，我们会用各种日志库来输出。但这些日志库，要么底层还是调用了 <code>fmt</code> ，要么自己实现的格式化也会尽量和 <code>fmt</code> 兼容。所以学习格式化仍然是必要的。下面主要的内容均来自 <code>fmt</code> 包。</p>
+<h3 id="输出-Printing"><a href="#输出-Printing" class="headerlink" title="输出 Printing"></a>输出 Printing</h3><blockquote>
+<p>注：print 对应的中文翻译应为 印刷、打印。</p>
+<p>但在当前上下文中，print 并非指将内容打印到纸张等介质。而是指的是将各种数据，按照某种格式，转换为字符序列（并输出到抽象文件）的过程。</p>
+<p>所以为了方便理解，我将其替换成了『输出』，请读者知悉。</p>
+</blockquote>
+<p><code>fmt</code> 包中名字里带 <code>Print</code> 的函数很多，但无非是两个选项的排列组合。理解了每个部分的含义，一眼就能明白函数的用途。</p>
+<p>前缀代表输出目标：</p>
+<ol>
+<li><p><code>Fprint</code> 中前缀 <code>F</code> 代表 <strong>file</strong> ，表示内容 <strong>输出到文件</strong>。</p>
+<p> 当然这里的文件是抽象的概念，实际对应的是 <code>io.Writer</code> 接口。<code>Fprint</code> 开头的函数，第一个参数总是 <code>io.Writer</code>。通过传递不同的文件给函数，可以把内容输出到不同的地方。</p>
+<p> 常见的用法，是打开一个文件，将文件对象作为第一个参数，将内容输出到该文件。当然，不要被 <strong>文件</strong> 这个词误导了，抽象的文件可以是任意的字节流（stream）。具体到这里，只要是可写入的对象（带 <code>Write([]byte)(int, error)</code> 方法），都满足 <code>io.Writer</code> 接口。</p>
+</li>
+<li><p><code>Print</code> （没有前缀）表示内容 <strong>输出到标准输出</strong>，也就是 控制台（console）或者叫终端（terminal）。</p>
+<p> 实际上调用的是 <code>Fprint(os.Stdout, a...)</code> ，换言之背后指定输出的文件为标准输出。</p>
+</li>
+<li><p><code>Sprint</code> 中前缀 <code>S</code> 表示 <strong>string</strong> ，表示内容 <strong>输出到字符串</strong> ，然后将字符串返回。</p>
+</li>
+</ol>
+<p>后缀表示格式：</p>
+<ol>
+<li><p><code>Print</code> （没有后缀），表示输出时格式不进行额外的处理。</p>
+<p> 也就是按参数的 <strong>默认格式</strong> ，顺序输出。</p>
+</li>
+<li><p><code>Println</code> 的后缀 <code>ln</code> 代表 <strong>line</strong> ，表示按行输出。</p>
+<p> 实际上它只是比 <code>Print</code> 的多做两件事：所有参数之间增加一个空格；输出的最后会追加一个换行符。</p>
+</li>
+<li><p><code>Printf</code> 的后缀 <code>f</code> 代表 <strong>format</strong> ，表示格式化输出。</p>
+<p> 第一个参数是 <strong>格式化字符串</strong> ，通过里面的 <strong>格式化动词（verb）</strong> 来控制后续参数值的输出格式。</p>
+</li>
+</ol>
+<p>直接看代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">fmt.Print(<span class="string">"Print:"</span>, <span class="number">1</span>, <span class="string">"two"</span>, <span class="number">3.0</span>, <span class="string">"over."</span>)</div><div class="line">fmt.Println(<span class="string">"Println:"</span>, <span class="number">1</span>, <span class="string">"two"</span>, <span class="number">3.0</span>, <span class="string">"over."</span>)</div><div class="line">fmt.Printf(<span class="string">"Printf: %d, %s, %f, %s"</span>, <span class="number">1</span>, <span class="string">"two"</span>, <span class="number">3.0</span>, <span class="string">"over."</span>)</div><div class="line">fmt.Print(<span class="string">"======"</span>) <span class="comment">// 增加一行观察 Printf 的换行行为</span></div></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Print:1two3over.Println: 1 two 3 over.</div><div class="line">Printf: 1, two, 3.000000, over.======</div></pre></td></tr></table></figure>
+<p>给三个函数都输入 5 个参数</p>
+<ul>
+<li><code>Print</code> 将 5 个参数的值以默认格式依次输出，每个值中间没有加分隔符，末尾也没有换行。（因为没有换行，这里特意加了一个句点 <code>.</code> 方便区分不同函数的输出）</li>
+<li><code>Println</code> 同样以默认格式输出，只是增加了空格分隔不同的值，并且末尾增加了换行。</li>
+<li><code>Printf</code> 的第一个参数跟其它参数有所区别，必须是格式化字符串（format specifier）。后续参数跟字符串里的格式化动词一一对应，按照动词指定的方式，格式化后填入对应的位置，再一起输出。</li>
+</ul>
+<p>接下来，重点就是这些结尾带 <code>f</code> 的函数里面，格式化动词的使用。为了跟格式化字符串里一般的内容区分开来，格式化动词以百分号 <code>%</code> 开头，后面接一个字母表示。有时候为了更精确地控制格式，在百分号和字母之间还会可能会有标志选项（如整型数填充前导零，浮点数控制小数点的位数）。</p>
+<p>在不是特别严谨的语境，<strong>动词</strong> 可以是指由 百分号（%）、标志选项（可选）、字母 这三者组合的整体。但更严谨地说，动词特指后面的字母。理解这一点有助于读懂下面的文档。</p>
+<p>下面直接 选译/注释 文档中关于格式化动词的部分：</p>
+<p>（部分格式与 Go 的版本有关，这里选译的是当下最新的 1.16 版本）</p>
+<hr>
+<p><code>fmt</code> 包实现了格式化输入输出（I/O），其功能类似于 C 语言的 <code>printf</code> 和 <code>scanf</code> 。格式化 <strong>动词（verbs）</strong> 是从 C 语言的动词中衍生出来的，但更简单。</p>
+<p><strong>动词</strong>：</p>
+<h4 id="一般动词"><a href="#一般动词" class="headerlink" title="一般动词"></a>一般动词</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">%v	以默认格式输出值 （v 代表 Value，不同类型的默认格式参见下方内容）</div><div class="line">	当打印结构体 （struct） 时，加号 (%+v) 会添加字段名</div><div class="line">%#v	输出值的 Go 语法表示</div><div class="line">%T	输出值类型的 Go 语法表示 （T 代表 Type）</div><div class="line">%%	输出一个百分号 (%)；不消耗任何值 （因为 % 用作了动词开头，为了区分，输出 % 需要转义）</div></pre></td></tr></table></figure>
+<blockquote>
+<p>注：只看介绍，所谓输出 “ Go 的语法表示” 并不直观。实际上这是指一个值在代码里的字面量形式。</p>
+<p>对于输出值和字面量一样的类型（布尔类型、数字类型），没有差别；对于字符串，“语法表示意味着带上引号；对于剩下的派生类型，意味着语法表示需要包含类型信息。</p>
+<p>看几个例子：</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">i := <span class="number">1</span></div><div class="line">fmt.Printf(<span class="string">"%v\n"</span>, i)</div><div class="line">fmt.Printf(<span class="string">"%#v\n"</span>, i)</div><div class="line">fmt.Printf(<span class="string">"%T\n"</span>, i)</div><div class="line"></div><div class="line">fmt.Println()</div><div class="line"></div><div class="line">a := <span class="keyword">struct</span> &#123;</div><div class="line">	name <span class="keyword">string</span></div><div class="line">	age  <span class="keyword">int</span></div><div class="line">&#125;&#123;name: <span class="string">"alice"</span>, age: <span class="number">24</span>&#125;</div><div class="line">fmt.Printf(<span class="string">"%v\n"</span>, a)</div><div class="line">fmt.Printf(<span class="string">"%#v\n"</span>, a)</div><div class="line">fmt.Printf(<span class="string">"%T\n"</span>, a)</div><div class="line"></div><div class="line">fmt.Println()</div><div class="line"></div><div class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;</div><div class="line">	name <span class="keyword">string</span></div><div class="line">	age  <span class="keyword">int</span></div><div class="line">&#125;</div><div class="line">p := Person&#123;name: <span class="string">"bob"</span>, age: <span class="number">26</span>&#125;</div><div class="line">fmt.Printf(<span class="string">"%v\n"</span>, p)</div><div class="line">fmt.Printf(<span class="string">"%#v\n"</span>, p)</div><div class="line">fmt.Printf(<span class="string">"%T\n"</span>, p)</div><div class="line"></div><div class="line">fmt.Println()</div><div class="line"></div><div class="line">s := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</div><div class="line">fmt.Printf(<span class="string">"%v\n"</span>, s)</div><div class="line">fmt.Printf(<span class="string">"%#v\n"</span>, s)</div><div class="line">fmt.Printf(<span class="string">"%T\n"</span>, s)</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">1</div><div class="line">1</div><div class="line">int</div><div class="line"></div><div class="line">&#123;alice 24&#125;</div><div class="line">struct &#123; name string; age int &#125;&#123;name:<span class="string">"alice"</span>, age:24&#125;</div><div class="line">struct &#123; name string; age int &#125;</div><div class="line"></div><div class="line">&#123;bob 26&#125;</div><div class="line">main.Person&#123;name:<span class="string">"bob"</span>, age:26&#125;</div><div class="line">main.Person</div><div class="line"></div><div class="line">[1 2 3]</div><div class="line">[]int&#123;1, 2, 3&#125;</div><div class="line">[]int</div></pre></td></tr></table></figure>
+<h4 id="布尔类型（Boolean）"><a href="#布尔类型（Boolean）" class="headerlink" title="布尔类型（Boolean）"></a>布尔类型（Boolean）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">%t	单词 true 或者 false （t 代表 True value，真值）</div></pre></td></tr></table></figure>
+<h4 id="整型数（Integer）"><a href="#整型数（Integer）" class="headerlink" title="整型数（Integer）"></a>整型数（Integer）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">%b	以 2 为基数输出 （b 代表 Binary，二进制）</div><div class="line">%c	输出对应 Unicode 码点所代表的字符 （c 代表 Character，字符）</div><div class="line">%d	以 10 为基数输出 （d 代表 Decimal，十进制）</div><div class="line">%o	以 8 为基数输出 （o 代表 Octal，八进制）</div><div class="line">%O	以 8 为基数输出，以 0o 为前缀 （同上，大写表示增加前缀）</div><div class="line">%q	一个单引号字符，按 Go 语法安全转义。 （q 代表 quote，引号）</div><div class="line">%x	以 16 为基数输出，a-f 为小写字母 （x 代表 heXadecimal）</div><div class="line">%X	以 16 为基数输出，A-F 为大写字母 （同上，大写表示字母大写）</div><div class="line">%U	Unicode 格式：如 U+1234；与 &quot;U+%04X&quot; 效果一样 （U 代表 Unicode）</div></pre></td></tr></table></figure>
+<blockquote>
+<p>注：特别说明一下 <code>%c</code> 和 <code>%q</code>。</p>
+<p>首先需要注意到，自 1.9 以后，<code>byte</code> 类型实际上是 <code>uint8</code> 的别名（alias），<code>rune</code> 则是 <code>int32</code> 的别名。</p>
+<p>这意味着如果以 <code>%v</code> 输出，这两个类型都会被当做数字输出。</p>
+<p>想要输出对应的字符，就要考虑使用 <code>%c</code> 。</p>
+<p><code>%q</code> 也是输出字符，只是有两点区别：</p>
+<ol>
+<li>带单引号</li>
+<li>对于不可打印字符（non-printable characters，不过叫『不可见字符』更容易理解），会按 Go 语法进行转义。</li>
+</ol>
+<p>举例说，对于字母 A，<code>%c</code> 输出 <code>A</code>，<code>%q</code> 输出 <code>&#39;A&#39;</code> ；中文也是类似效果。而对于换行符，对应一个换行的动作，而不是一个可以看得见的字符，用 <code>%c</code> 输出会得到一个换行，用 <code>%q</code> 输出则得到 <code>&#39;\n&#39;</code> （得到一个转义）。</p>
+<p>两者的区别跟 <code>%v</code> 与 <code>%#v</code> 的区别比较类似。</p>
+</blockquote>
+<h4 id="浮点数和复数的（浮点数）成分"><a href="#浮点数和复数的（浮点数）成分" class="headerlink" title="浮点数和复数的（浮点数）成分"></a>浮点数和复数的（浮点数）成分</h4><p>（Floating-point and complex constituents）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">%b	无小数科学记数法，指数以 2 为底数（但整数部分和指数部分均为十进制数），</div><div class="line">	相当于以 strconv.FormatFloat 函数的 &apos;b&apos; 格式，</div><div class="line">	如：-123456p-78 （分隔的 p 代表 power (of 2)， 2 的幂）</div><div class="line">%e	科学记数法，如：-1.234456e+78 （e 代表 Exponent，指数）</div><div class="line">%E	科学记数法，如：-1.234456E+78</div><div class="line">%f	无指数的小数，如：123.456 （f 代表 floating-point，浮点数）</div><div class="line">%F	%f 的同义词</div><div class="line">%g	指数较大时等同于 %e ，否则为 %f 。精度在下面讨论。</div><div class="line">	（换言之，%g 取 %e 和 %f 中较短的格式表示）</div><div class="line">%G	指数较大时等同于 %E ，否则为 %F</div><div class="line">%x	十六进制记数法(指数为十进制，底数为 2 )，如：-0x1.23abcp+20</div><div class="line">	（与 %b 的区别是，左边的实数为十六进制，而且可以有小数）</div><div class="line">%X	十六进制符号大写，如：-0X1.23ABCP+20</div></pre></td></tr></table></figure>
+<blockquote>
+<p>注：这部分的个别动词，在输出时可能同时混用 二进制、十进制和十六进制，记忆起来会比较混乱。如 <code>%x</code>，实数（又叫尾数）为十六进制，底数为 2，指数却又是十进制。建议大家自己在代码里实际尝试，加深印象。</p>
+<p>还好如果不是涉及特殊数值的运算和表示，特殊的动词一般用得不多。日常表示浮点数，掌握 <code>%f</code>, <code>%e</code> 和 <code>%g</code> 就够了。关于浮点数的多种字面量表示方法，可以参考往期的内容 <a href="../../2020/golang-in-action-day-2/">Go 语言实战（2）： 常量与变量</a> 中，浮点数字面量部分。</p>
+</blockquote>
+<h4 id="字符串与字节切片"><a href="#字符串与字节切片" class="headerlink" title="字符串与字节切片"></a>字符串与字节切片</h4><p>（对以下动词而言两者等价）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">%s	字符串或字节切片未经解释的字节（uninterpreted bytes） （s 代表 String，字符串）</div><div class="line">%q	一个双引号字符串，按 Go 语法安全转义</div><div class="line">%x	以十六进制数输出，小写，每个字节对应两个字符</div><div class="line">%X	以十六进制数输出，大写，每个字节对应两个字符</div></pre></td></tr></table></figure>
+<blockquote>
+<p>注：想理解何为 uninterpreted，先要理解何为 interpreted。</p>
+<p>对于脚本语言，解释器就叫 interpreter；分析或执行读入的内容，得到结果的过程，就是解释 interpret。如解释 <code>1 + 2</code> ，得到 <code>3</code> 。</p>
+<p>在这里，对于字符串（字符序列）而言，解释主要是指字符转义。<code>%s</code> 动词不会对字符序列的内容进行转义。</p>
+<p>但这里有一个非常容易让人迷惑的点，看下面例子：</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">str1 := <span class="string">"1\t2\n3"</span></div><div class="line">fmt.Printf(<span class="string">"%s\n-----\n"</span>, str1)</div><div class="line"></div><div class="line">str2 := <span class="string">`1\t2\n3`</span></div><div class="line">fmt.Printf(<span class="string">"%s\n-----\n"</span>, str2)</div><div class="line"></div><div class="line">str3 := []<span class="keyword">byte</span>&#123;<span class="string">'1'</span>, <span class="string">'\\', '</span>t<span class="string">', '</span><span class="number">2</span><span class="string">', '</span>\\<span class="string">', '</span>n<span class="string">', '</span><span class="number">3</span><span class="string">'&#125;</span></div><div class="line">fmt.Printf("%s\n-----\n", str3)</div></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1	2</div><div class="line">3</div><div class="line">-----</div><div class="line">1\t2\n3</div><div class="line">-----</div><div class="line">1\t2\n3</div><div class="line">-----</div></pre></td></tr></table></figure>
+<blockquote>
+<p>第一个例子很容易让人以为 <code>%s</code> 还是发生了转义。</p>
+<p>实际上转义发生在源码编译阶段，而不是输出阶段。也就是对于双引号字符串，编译器已经对其完成了转义。<code>str1</code> 储存在内存里的内容，是 [‘1’, 9, ‘2’, 13, ‘3’] ，其中 9 就是制表符的 ascii 码，13 是 换行符的 ascii 码。这里已经找不到 反斜杠、字母 t 和 n 了。</p>
+<p>再看接下来的两个例子就很好理解了。反引号字符串告诉编译器不要转义，字节切片则直接逐个指定每个字节的内容，所以 <code>str2</code> 和 <code>str3</code> 的字节序列里，储存的就是字面意义的 “\t” 和 “\n” 。</p>
+<p>当然还有更直观的方式，可以看出字节序列的不同：</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">str1 := <span class="string">"1\t2\n3"</span></div><div class="line">fmt.Printf(<span class="string">"% x\n"</span>, str1)</div><div class="line"></div><div class="line">str2 := <span class="string">`1\t2\n3`</span></div><div class="line">fmt.Printf(<span class="string">"% x\n"</span>, str2)</div><div class="line"></div><div class="line">str3 := []<span class="keyword">byte</span>&#123;<span class="string">'1'</span>, <span class="string">'\\', '</span>t<span class="string">', '</span><span class="number">2</span><span class="string">', '</span>\\<span class="string">', '</span>n<span class="string">', '</span><span class="number">3</span><span class="string">'&#125;</span></div><div class="line">fmt.Printf("% x\n", str3)</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<p>（具体每个十六进制数对应的字符，这里就不再解释了，反正不同是非常直观的）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">31 09 32 0a 33</div><div class="line">31 5c 74 32 5c 6e 33</div><div class="line">31 5c 74 32 5c 6e 33</div></pre></td></tr></table></figure>
+<h4 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">%p	以十六进制数表示的第 1 个元素（下标 0）的地址，以 0x 开头</div><div class="line">	（p 代表 Pointer，指针，也就是以指针形式输出地址）</div></pre></td></tr></table></figure>
+<h4 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">%p	十六进制数地址，以 0x 开头</div><div class="line">	%b, %d, %o, %x 和 %X 动词也可以用于指针，</div><div class="line">	实际上就是把指针的值当作整型数一样格式化。</div></pre></td></tr></table></figure>
+<h4 id="v-的默认格式"><a href="#v-的默认格式" class="headerlink" title="%v 的默认格式"></a>%v 的默认格式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">bool:						%t</div><div class="line">int, int8 等有符号整数:		%d</div><div class="line">uint, uint8 等无符号整数:		%d, 如果以 %#v 输出则是 %#x</div><div class="line">float32, complex64 等:		%g</div><div class="line">string:						%s</div><div class="line">chan:						%p</div><div class="line">指针:							%p</div></pre></td></tr></table></figure>
+<h4 id="复合对象"><a href="#复合对象" class="headerlink" title="复合对象"></a>复合对象</h4><p>对于复合对象，将根据这些规则，递归地打印出元素，像下面这样展开：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">struct:				&#123;field0 field1 ...&#125;</div><div class="line">array, slice:		[elem0 elem1 ...]</div><div class="line">maps:				map[key1:value1 key2:value2 ...]</div><div class="line">上述类型的指针:		&amp;&#123;&#125;, &amp;[], &amp;map[]</div></pre></td></tr></table></figure>
+<h4 id="宽度与精度"><a href="#宽度与精度" class="headerlink" title="宽度与精度"></a>宽度与精度</h4><p>宽度由紧接在动词前的一个可选的十进制数指定。如果没有指定，则宽度为表示数值所需的任何值。</p>
+<p>精度是在（可选的）宽度之后，由一个句点（<code>.</code> ，也就是小数点）和一个十进制数指定。如果没有句点，则表示使用默认精度。如果有句点，句点后面却没有数字，则表示精度为零。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">%f		默认宽度，默认精度</div><div class="line">%9f		宽度 9，默认精度</div><div class="line">%.2f	默认宽度，精度 2</div><div class="line">%9.2f	宽度 9, 精度 2</div><div class="line">%9.f	宽度 9, 精度 0</div></pre></td></tr></table></figure>
+<p>宽度和精度以 Unicode 码点为单位，也就是 runes。（这与 C 语言的 <code>printf</code> 不同，后者总是以字节为单位。）标志中的任意一个或两个都可以用字符 <code>*</code> 代替，从而使它们的值从下一个操作数获得（在要格式化的操作数之前），这个操作数的类型必须是 <code>int</code> 。</p>
+<blockquote>
+<p>注：<code>*</code> 的用法并不直观，举个例子就很好理解。</p>
+<p><code>fmt.Printf(&quot;%*.*f&quot;, 6, 3, 4.5)</code></p>
+<p>输出 <code>4.500</code> （注意 4 前面有一个并不明显的空格，加上数字和小数点，宽度正好为 6 ）</p>
+</blockquote>
+<p>对于大多数的值来说，宽度是要输出的最小符号（rune）数，必要时用空格填充。</p>
+<p>然而，对于 字符串、字节切片 和 字节数组 来说，精度限制了要格式化的输入长度（而不是输出的大小），必要时会进行截断。通常它是以符号（rune） 为单位的，但当这些类型以 <code>%x</code> 或 <code>%X</code> 格式进行格式化时，以字节（byte）为单位。</p>
+<p>对于浮点值，宽度设置字段的最小宽度，精度设置小数点后的位数；但对于 <code>%g</code> / <code>%G</code>，精度设置最大的有意义数字（去掉尾部的零）。例如，给定 <code>12.345</code>，格式 <code>%6.3f</code> 打印 <code>12.345</code>，而 <code>%.3g</code> 打印 <code>12.3</code>。<code>%e</code>、<code>%f</code> 和 <code>%#g</code> 的默认精度是 6 ；对于 <code>%g</code>，默认精度是唯一识别数值所需的最少数字个数。</p>
+<blockquote>
+<p>注：关于如何精确控制浮点值的宽度和精度，这段说明看似说清楚了，实际执行中却常常让人迷惑。看网上的讨论，已经有很多人在诟病这一点。跟更早的文档相比，现在的版本好像已经调整过表述，但是帮助有限。</p>
+<p>如果你需要精确控制以达到排版对齐一类的目的，可以参考这个讨论 <a href="https://stackoverflow.com/questions/36464068/fmt-printf-with-width-and-precision-fields-in-g-behaves-unexpectedly" target="_blank" rel="external">https://stackoverflow.com/questions/36464068/fmt-printf-with-width-and-precision-fields-in-g-behaves-unexpectedly</a></p>
+<p>讨论篇幅过长且拗口，不再翻译。总的来说，精度控制有效数字，但因为有效数字不包括小数点和前导零，带前导零和小数点的数会更长；宽度控制最小宽度，在长度不足时会填充到指定宽度，但超出时并不会截断，总位数仍然可能超出。最后你可能需要制表符 <code>\t</code> 来帮助对齐。</p>
+</blockquote>
+<p>对于复数，宽度和精度分别应用于两个分量（均为浮点数），结果用小括号包围。所以 <code>%f</code> 应用于 <code>1.2+3.4i</code> 输出 <code>(1.200000+3.400000i)</code> 。</p>
+<h4 id="其它标志"><a href="#其它标志" class="headerlink" title="其它标志"></a>其它标志</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">+	始终输出数字值的符号（正负号）；</div><div class="line">	对 %q(%+q) 保证只输出 ASCII 码 （ASCII 码以外的内容转义）</div><div class="line">-	空格填充在右边，而不是左边</div><div class="line">#	备选格式：二进制(%#b)加前导 0b ，八进制(%#o)加前导 0 ；</div><div class="line">	十六进制(%#x 或 %#X)加前导 0x 或 0X ；%p (%#p) 取消前导 0x ；</div><div class="line">	对于 %q ，如果 strconv.CanBackquote 返回true，则输出一个原始（反引号）字符串；</div><div class="line">	总是输出 %e, %E, %f, %F, %g 和 %G 的小数点；</div><div class="line">	不删除 %g 和 %G 的尾部的零；</div><div class="line">	对于 %U (%#U)，如果该字符可打印（printable，即可见字符），则在 Unicode 码后面输出字符，</div><div class="line">	例如 U+0078 &apos;x&apos;。</div><div class="line">&apos; &apos;	(空格) 为数字中的省略的正号留一个空格 (%d)；</div><div class="line">	以十六进制输出字符串或切片时，在字节之间插入空格 (%x, %X)</div><div class="line">0	用前导零而不是空格来填充；</div><div class="line">	对于数字来说，这会将填充位置移到符号后面</div></pre></td></tr></table></figure>
+<p>动词会忽略它不需要的标志。例如十进制没有备选格式，所以 <code>%#d</code> 和 <code>%d</code> 的行为是一样的。</p>
+<p>对于每个类似 <code>Printf</code> 的函数，都有一个对应的 <code>Print</code> 函数，它不接受格式，相当于对每个操作数都应用 <code>%v</code> 。另一个变体 <code>Println</code> 在操作数之间插入空格，并在结尾追加一个换行。（注：这个我们在开头就已经讨论过）</p>
+<p>无论用什么动词，如果操作数是一个接口值，则使用内部的具体值，而不是接口本身。因此：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> i <span class="keyword">interface</span>&#123;&#125; = <span class="number">23</span></div><div class="line">fmt.Printf(<span class="string">"%v\n"</span>, i)</div></pre></td></tr></table></figure>
+<p>会输出 <code>23</code> 。</p>
+<p>除了使用动词 <code>%T</code> 和 <code>%p</code> 输出时，对于实现特定接口的操作数，需要考虑特殊格式化。以下规则按应用顺序排列：</p>
+<ol>
+<li><p>如果操作数是 <code>reflect.Value</code>，则操作数被它所持有的具体值所代替，然后继续按下一条规则输出。</p>
+</li>
+<li><p>如果操作数实现了 <code>Formatter</code> 接口，则会被调用。在这种情况下，动词和标志的解释由该实现控制。</p>
+</li>
+<li><p>如果 <code>%v</code> 动词与 <code>#</code> 标志 (<code>%#v</code>) 一起使用，并且操作数实现了 <code>GoStringer</code> 接口，则该接口将被调用。</p>
+</li>
+</ol>
+<p>如果格式 （注意 <code>Println</code> 等函数隐含 <code>%v</code> 动词）对字符串有效 (<code>%s</code>, <code>%q</code>, <code>%v</code>, <code>%x</code>, <code>%X</code>)，则适用以下两条规则：</p>
+<ol>
+<li>如果操作数实现了 <code>error</code> 接口，将调用 <code>Error</code> 方法将对象转换为字符串，然后按照动词（如果有的话）的要求进行格式化。</li>
+<li>如果操作数实现了 <code>String() string</code> 方法，则调用该方法将对象转换为字符串，然后按照动词（如果有的话）的要求进行格式化。</li>
+</ol>
+<p>对于复合操作数，如 切片 和 结构体，格式递归地应用于每个操作数的元素，而不是把操作数当作一个整体。因此，<code>%q</code> 将引用字符串切片中的每个元素，而 <code>%6.2f</code> 将控制浮点数组中每个元素的格式。</p>
+<p>然而，当以适用于字符串的动词(<code>%s</code>, <code>%q</code>, <code>%x</code>, <code>%X</code>)，输出一个字节切片时，它将被视为一个字符串，作为一个单独的个体。</p>
+<p>为了避免在以下情况出现递归死循环：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> X <span class="keyword">string</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(x X)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123; <span class="keyword">return</span> Sprintf(<span class="string">"&lt;%s&gt;"</span>, x) &#125;</div></pre></td></tr></table></figure>
+<p>在触发递归之前先转换类型：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(x X)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123; <span class="keyword">return</span> Sprintf(<span class="string">"&lt;%s&gt;"</span>, <span class="keyword">string</span>(x)) &#125;</div></pre></td></tr></table></figure>
+<p>无限递归也可以由自引用的数据结构触发，例如一个包含自己作为元素的切片，然后该类型还要有一个 <code>String</code> 方法。然而，这种异常的情况是非常罕见的，所以 <code>fmt</code> 包并没有对这种情况进行保护。</p>
+<p>在输出一个结构体时，<code>fmt</code> 不能，也不会，对未导出字段调用 <code>Error</code> 或 <code>String</code> 等格式化方法。</p>
+<h4 id="显式参数索引"><a href="#显式参数索引" class="headerlink" title="显式参数索引"></a>显式参数索引</h4><p>在 <code>Printf</code>, <code>Sprintf</code> 和 <code>Fprintf</code> 中，默认的行为是，每个格式化动词对调用中传递的连续参数进行格式化。然而，紧接在动词前的符号 <code>[n]</code> 表示第 n 个单一索引参数将被格式化。在宽度或精度的 <code>*</code> 前同样的记号，表示选择对应参数索引的值。在处理完括号内的表达式 <code>[n]</code> 后，除非另有指示，否则后续的动词将依次使用 n+1、n+2等参数。</p>
+<p>举例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fmt.Sprintf(<span class="string">"%[2]d %[1]d\n"</span>, <span class="number">11</span>, <span class="number">22</span>)</div></pre></td></tr></table></figure>
+<p>将输出 <code>22 11</code> 。 而</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fmt.Sprintf(<span class="string">"%[3]*.[2]*[1]f"</span>, <span class="number">12.0</span>, <span class="number">2</span>, <span class="number">6</span>)</div></pre></td></tr></table></figure>
+<p>等价于</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fmt.Sprintf(<span class="string">"%6.2f"</span>, <span class="number">12.0</span>)</div></pre></td></tr></table></figure>
+<p>将输出 <code>12.00</code> （注意 12 前有一个空格）。</p>
+<p>因为显式索引会影响后续的动词，所以这个记号可以通过重置索引为第一个参数，达到重复的目的，来多次打印相同的数值：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fmt.Sprintf(<span class="string">"%d %d %#[1]x %#x"</span>, <span class="number">16</span>, <span class="number">17</span>)</div></pre></td></tr></table></figure>
+<p>将输出 <code>16 17 0x10 0x11</code> 。</p>
+<h4 id="格式错误"><a href="#格式错误" class="headerlink" title="格式错误"></a>格式错误</h4><p>如果给一个动词提供了无效的参数，比如给 <code>%d</code> 提供了一个字符串，生成的字符串将包含对问题的描述，像以下这些例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Wrong type or unknown verb: %!verb(type=value)</div><div class="line">	Printf(&quot;%d&quot;, &quot;hi&quot;):        %!d(string=hi)</div><div class="line">Too many arguments: %!(EXTRA type=value)</div><div class="line">	Printf(&quot;hi&quot;, &quot;guys&quot;):      hi%!(EXTRA string=guys)</div><div class="line">Too few arguments: %!verb(MISSING)</div><div class="line">	Printf(&quot;hi%d&quot;):            hi%!d(MISSING)</div><div class="line">Non-int for width or precision: %!(BADWIDTH) or %!(BADPREC)</div><div class="line">	Printf(&quot;%*s&quot;, 4.5, &quot;hi&quot;):  %!(BADWIDTH)hi</div><div class="line">	Printf(&quot;%.*s&quot;, 4.5, &quot;hi&quot;): %!(BADPREC)hi</div><div class="line">Invalid or invalid use of argument index: %!(BADINDEX)</div><div class="line">	Printf(&quot;%*[2]d&quot;, 7):       %!d(BADINDEX)</div><div class="line">	Printf(&quot;%.[2]d&quot;, 7):       %!d(BADINDEX)</div></pre></td></tr></table></figure>
+<p>所有的错误都以字符串 <code>%!</code> 开头，有时后面跟着一个字符（动词），最后以括号内的描述结尾。</p>
+<p>如果一个 <code>Error</code> 或 <code>String</code> 方法在被输出例程调用时触发了 panic ，那么 <code>fmt</code> 包会重新格式化来自 panic 的错误消息，并在其上注明它是通过 <code>fmt</code> 包发出的。例如，如果一个 <code>String</code> 方法调用 <code>panic(&quot;bad&quot;)</code> ，则产生的格式化消息看起来会是这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">%!s(PANIC=bad)</div></pre></td></tr></table></figure>
+<p><code>%!s</code> 只是显示失败发生时使用的打印动词。然而，如果 panic 是由 <code>Error</code> 或 <code>String</code> 方法的 nil 接收者（receiver）引起的，则输出的是未修饰的字符串 <code>&lt;nil&gt;</code>。</p>
+<hr>
+<p>实际上，这一套函数的命名规则和格式化动词，基本继承自 C 语言，只是做了少量的调整和改进。有 C/C++ 经验的朋友应该非常熟悉。没有写过 C 的朋友，经过整理，也会有助于记忆和理解。</p>
+<p>上述内容涉及到类型方面的知识，如果有朋友还不熟悉，可以参考往期的内容：<a href="../../2020/golang-in-action-day-3/">Go 语言实战（3）： 类型</a></p>
+<h4 id="Errorf"><a href="#Errorf" class="headerlink" title="Errorf()"></a>Errorf()</h4><p>Go 在 1.13 中专门为 <code>fmt.Errorf()</code> 新增了一个动词 <code>%w</code> 。文档是这样介绍的：</p>
+<blockquote>
+<p>如果格式化字符串包含一个 <code>%w</code> 动词，并且该动词对应一个 <code>error</code> 操作数，<code>Errorf</code> 返回的 <code>error</code> 将实现一个 <code>Unwrap</code> 方法，会返回前面传入的 <code>error</code> 。包含一个以上的 <code>%w</code> 动词 或 提供一个没有实现 <code>error</code> 接口的操作数是无效的。无效的 <code>%w</code> 动词是 <code>%v</code> 的同义词。</p>
+</blockquote>
+<p>文档的说明严谨但拗口。好在这部分代码不长，直接贴出来看看：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// go/src/fmt/errors.go</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Errorf</span><span class="params">(format <span class="keyword">string</span>, a ...<span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">error</span></span> &#123;</div><div class="line">	p := newPrinter()</div><div class="line">	p.wrapErrs = <span class="literal">true</span></div><div class="line">	p.doPrintf(format, a)</div><div class="line">	s := <span class="keyword">string</span>(p.buf)</div><div class="line">	<span class="keyword">var</span> err error</div><div class="line">	<span class="keyword">if</span> p.wrappedErr == <span class="literal">nil</span> &#123;</div><div class="line">		err = errors.New(s)</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		err = &amp;wrapError&#123;s, p.wrappedErr&#125;</div><div class="line">	&#125;</div><div class="line">	p.free()</div><div class="line">	<span class="keyword">return</span> err</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">type</span> wrapError <span class="keyword">struct</span> &#123;</div><div class="line">	msg <span class="keyword">string</span></div><div class="line">	err error</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *wrapError)</span> <span class="title">Error</span><span class="params">()</span> <span class="title">string</span></span> &#123;</div><div class="line">	<span class="keyword">return</span> e.msg</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *wrapError)</span> <span class="title">Unwrap</span><span class="params">()</span> <span class="title">error</span></span> &#123;</div><div class="line">	<span class="keyword">return</span> e.err</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>传入的参数，实际上通过 <code>p.doPrintf</code> （一系列 <code>Printf</code> 函数的内部实现） 变成了字符串 <code>s</code>。此时 <code>%w</code> 是 <code>%v</code> 的同义词，参数里即使有 <code>error</code> ，也是取 <code>Error()</code> 方法返回的字符串。</p>
+<p>然后再看是否有需要包裹（wrap）的 <code>error</code> 。这需要一个 <code>%w</code> 动词并对应的操作数满足 <code>error</code> 接口，仅有其中之一，或者参数顺序不对应，都不算。如无，则通过 <code>errors.New(s)</code> 返回一个只有字符串的最基本的 <code>error</code> ；否则返回一个同时包含 格式化字符串 和 内部错误的 <code>wrapError</code> 。跟基本的 <code>error</code> 相比，它多了一个获取内部错误的 <code>Unwrap</code> 方法。</p>
+<h3 id="输入-Scanning"><a href="#输入-Scanning" class="headerlink" title="输入 Scanning"></a>输入 Scanning</h3><p>除了输出（Printing），<code>fmt</code> 包还提供了一系列类似的函数负责输入，将特定格式的文本（formated text）解析为对应的值。</p>
+<p>与 Printing 类似，通过前后缀的组合来区分读取的来源和格式化方式：</p>
+<ul>
+<li>前缀：<code>Fscan</code> 表示从文件（<code>io.Reader</code>）读取；<code>Scan</code> （无前缀）表示从标准输入 <code>os.Stdin</code> 读取；<code>Sscan</code> 表示从字符串读取；</li>
+<li>后缀：<code>Scan</code> （无后缀）表示把换行当成普通空白字符，遇到换行不停止；<code>Scanln</code> 表示遇到换行或者 <code>EOF</code> 停止；<code>Scanf</code> 表示根据格式化字符串里的动词控制读取。</li>
+</ul>
+<p>Scanning 使用几乎一样的一系列动词（除了没有 <code>%p</code>, <code>%T</code> 动词，没有 <code>#</code> 和 <code>+</code> 标志），这里不再重复介绍这些动词。动词的含义也基本一致，只是在非常细微的地方，为方便输入做了变通：</p>
+<ul>
+<li>对于浮点数和复数，所有有效动词都是等价的；进制以文本内容、而不是动词为准。（因为尾数和指数可能是不同的进制，无法单靠动词指定）</li>
+<li>对于整型数，则以动词指定的进制为准；仅在 <code>%v</code> 时依靠前缀判断进制。</li>
+<li>宽度仍然有效，用来限制读取的最大符号数（去掉前导空格）；如 <code>123456</code> ，如果用 <code>%3d%d</code> 来解析，会被理解为 <code>123</code> 和 <code>456</code> 两个数；精度不再有意义。</li>
+<li>对于数字类型，数字之间可以添加下划线提高可读性，读取时会忽略下划线，不影响解析。</li>
+</ul>
+<p>其它更细致的差别（包括与 C 语言的差别），像符号的消耗，空白字符串的匹配，就不再展开。建议大家自己尝试，遇到问题直接去看文档。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://pkg.go.dev/fmt" target="_blank" rel="external">https://pkg.go.dev/fmt</a> ：<code>fmt</code> 官方文档，翻译整理难免有理解偏差，以文档为准</li>
+</ul>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这期算是 《&lt;a href=&quot;../../categories/Go-语言实战/&quot;&gt;Go 语言实战&lt;/a&gt; 》的番外，内容以翻译整理为主。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
+    
+  </entry>
   
   <entry>
     <title>现在写，可能都来不及了...</title>
@@ -85,42 +310,11 @@
   </entry>
   
   <entry>
-    <title>Go 语言字符串子串引起的内存泄漏</title>
-    <link href="https://jaycechant.info/2020/memory-leak-caused-by-substrings-in-go/"/>
-    <id>https://jaycechant.info/2020/memory-leak-caused-by-substrings-in-go/</id>
-    <published>2020-12-30T16:23:04.000Z</published>
-    <updated>2020-12-30T16:30:40.355Z</updated>
-    
-    <content type="html"><![CDATA[<p>有朋友问：</p>
-<blockquote>
-<p>反复在长字符串里提取子串，引起 OOM。怀疑长字符串没能释放，怎么样把长字符串释放掉？</p>
-</blockquote>
-<a id="more"></a>
-<p>长字符串长度 1W+，子串 100 以内，反复进行 3000 次。</p>
-<h2 id="字符串的底层实现"><a href="#字符串的底层实现" class="headerlink" title="字符串的底层实现"></a>字符串的底层实现</h2><hr>
-<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;有朋友问：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;反复在长字符串里提取子串，引起 OOM。怀疑长字符串没能释放，怎么样把长字符串释放掉？&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-    
-      <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Go 语言实战（8）：命令行（3）CLI 框架</title>
     <link href="https://jaycechant.info/2020/golang-in-action-day-8/"/>
     <id>https://jaycechant.info/2020/golang-in-action-day-8/</id>
     <published>2020-12-30T15:55:36.000Z</published>
-    <updated>2021-02-21T16:07:05.743Z</updated>
+    <updated>2021-02-21T16:29:38.013Z</updated>
     
     <content type="html"><![CDATA[<p>经过前面两期的介绍，相信大家已经可以写简单的命令行程序，并且能够使用命令行参数。</p>
 <p>即使遇到一些困难，建立直观认识和了解关键词之后，在网络上搜索答案也变得相对容易。</p>
@@ -215,7 +409,7 @@
 </ul>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>到这里，鸽了很久的 CLI （命令行程序）部分暂告一段落。</p>
 <p>在实际写过几个 go 程序之后，相信大家对于 go 已经有一些直观的认识。与此同时，前面只介绍了很少一部分语言特性，在实际编程中可能会产生各种疑惑。后面几期回归基础知识讲解，希望能解开其中一部分疑惑。</p>
-<p>最后的最后，关于 CLI 程序，推荐一篇文章：《<a href="[做一个命令行工具，是一件挺酷的事儿 (qq.com">做一个命令行工具，是一件挺酷的事儿</a>](<a href="https://mp.weixin.qq.com/s/Bs44U4ejmJazSnOUWAhaRg))》" target="_blank" rel="external">https://mp.weixin.qq.com/s/Bs44U4ejmJazSnOUWAhaRg))》</a></p>
+<p>最后的最后，关于 CLI 程序，推荐一篇文章：《<a href="https://mp.weixin.qq.com/s/Bs44U4ejmJazSnOUWAhaRg" target="_blank" rel="external">做一个命令行工具，是一件挺酷的事儿</a>》</p>
 <hr>
 <p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
 ]]></content>
