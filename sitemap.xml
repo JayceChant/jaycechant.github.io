@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2021/golang-in-action-day-9-pointer-reference-and-value/</loc>
+    
+    <lastmod>2021-05-16T10:41:37.413Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/2020/origin-of-names-of-provincial-administrative-regions-in-china/</loc>
+    
+    <lastmod>2021-05-13T10:12:43.851Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2021/pineapple-with-caramel-flavor/</loc>
     
     <lastmod>2021-05-06T17:13:52.478Z</lastmod>
@@ -33,13 +47,6 @@
     <loc>https://jaycechant.info/2020/suisuikang/</loc>
     
     <lastmod>2021-01-11T16:34:30.624Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jaycechant.info/2020/origin-of-names-of-provincial-administrative-regions-in-china/</loc>
-    
-    <lastmod>2020-12-31T04:11:21.312Z</lastmod>
     
   </url>
   
@@ -520,6 +527,13 @@
   </url>
   
   <url>
+    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
+    
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
@@ -528,13 +542,6 @@
   
   <url>
     <loc>https://jaycechant.info/2016/solution-report-start-from-an-easy-problem/</loc>
-    
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
     
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     
@@ -555,14 +562,14 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/list/my-software-and-service-list/index.html</loc>
+    <loc>https://jaycechant.info/list/my-dev-env-list/index.html</loc>
     
     <lastmod>2017-01-23T07:30:50.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://jaycechant.info/list/my-dev-env-list/index.html</loc>
+    <loc>https://jaycechant.info/list/my-software-and-service-list/index.html</loc>
     
     <lastmod>2017-01-23T07:30:50.000Z</lastmod>
     

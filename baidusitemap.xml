@@ -4,6 +4,41 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2021/golang-in-action-day-9-pointer-reference-and-value/</loc>
+    <lastmod>2021-05-16T10:41:37.413Z</lastmod>
+    <data>
+        <display>
+        <title>Go 语言实战（9）：指针、引用和值</title>
+        <pubTime>2021-05-16T07:51:22.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
+         
+           
+             
+              <breadCrumb title="Go 语言实战" url="https://jaycechant.info/categories/Go-%E8%AF%AD%E8%A8%80%E5%AE%9E%E6%88%98/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jaycechant.info/2020/origin-of-names-of-provincial-administrative-regions-in-china/</loc>
+    <lastmod>2021-05-13T10:12:43.851Z</lastmod>
+    <data>
+        <display>
+        <title>我国省级行政区名称起源</title>
+        <pubTime>2020-11-05T02:24:15.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2021/pineapple-with-caramel-flavor/</loc>
     <lastmod>2021-05-06T17:13:52.478Z</lastmod>
     <data>
@@ -80,21 +115,6 @@
         <display>
         <title>关于保险的两个追加话题之一：穗岁康</title>
         <pubTime>2020-12-28T08:26:42.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2020/origin-of-names-of-provincial-administrative-regions-in-china/</loc>
-    <lastmod>2020-12-31T04:11:21.312Z</lastmod>
-    <data>
-        <display>
-        <title>我国省级行政区名称起源</title>
-        <pubTime>2020-11-05T02:24:15.000Z</pubTime>
         
          
            
@@ -696,9 +716,9 @@
         
         <tag>pip</tag>
          
-        <tag>mirror</tag>
-         
         <tag>Ubuntu</tag>
+         
+        <tag>mirror</tag>
          
         <tag>aliyun</tag>
          
@@ -763,9 +783,9 @@
         
         <tag>how-to</tag>
          
-        <tag>Markdown</tag>
-         
         <tag>nodePPT</tag>
+         
+        <tag>Markdown</tag>
          
          
            
@@ -944,9 +964,9 @@
         
         <tag>golang</tag>
          
-        <tag>dep</tag>
-         
         <tag>glide</tag>
+         
+        <tag>dep</tag>
          
          
            
@@ -1272,6 +1292,31 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
+    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
+    <data>
+        <display>
+        <title>在 Windows 搭建Python多版本环境</title>
+        <pubTime>2016-07-12T07:21:27.000Z</pubTime>
+        
+        <tag>unfinished</tag>
+         
+        <tag>Python</tag>
+         
+        <tag>pip</tag>
+         
+        <tag>trouble</tag>
+         
+        <tag>virtualenv</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2012/make-python-2x-coexist-with-3x-on-Win/</loc>
     <lastmod>2017-01-25T04:21:21.984Z</lastmod>
     <data>
@@ -1279,9 +1324,9 @@
         <title>Windows 下 Python 2x 和 3x 版本共存</title>
         <pubTime>2012-04-11T11:46:00.000Z</pubTime>
         
-        <tag>Python</tag>
-         
         <tag>unfinished</tag>
+         
+        <tag>Python</tag>
          
          
            
@@ -1303,31 +1348,6 @@
         <tag>practice</tag>
          
         <tag>solution-report</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jaycechant.info/2016/python-multi-env-for-win/</loc>
-    <lastmod>2017-01-25T04:21:21.984Z</lastmod>
-    <data>
-        <display>
-        <title>在 Windows 搭建Python多版本环境</title>
-        <pubTime>2016-07-12T07:21:27.000Z</pubTime>
-        
-        <tag>Python</tag>
-         
-        <tag>unfinished</tag>
-         
-        <tag>trouble</tag>
-         
-        <tag>pip</tag>
-         
-        <tag>virtualenv</tag>
          
          
            
@@ -1365,13 +1385,13 @@
         <title>Hello Octopress</title>
         <pubTime>2012-04-11T10:28:00.000Z</pubTime>
         
-        <tag>how-to</tag>
-         
-        <tag>unfinished</tag>
-         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
+         
+        <tag>how-to</tag>
+         
+        <tag>unfinished</tag>
          
          
            
@@ -1439,9 +1459,9 @@
         
         <tag>Python</tag>
          
-        <tag>trouble</tag>
-         
         <tag>pip</tag>
+         
+        <tag>trouble</tag>
          
          
            
@@ -1460,13 +1480,13 @@
         
         <tag>blog</tag>
          
+        <tag>trouble</tag>
+         
         <tag>hexo</tag>
          
         <tag>node.js</tag>
          
         <tag>git</tag>
-         
-        <tag>trouble</tag>
          
          
            
