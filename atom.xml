@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaycechant.info/"/>
-  <updated>2021-05-16T12:02:48.369Z</updated>
+  <updated>2021-05-06T17:13:52.478Z</updated>
   <id>https://jaycechant.info/</id>
   
   <author>
@@ -14,197 +14,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Go 语言实战（9）：指针、引用和值</title>
-    <link href="https://jaycechant.info/2021/golang-in-action-day-9-pointer-reference-and-value/"/>
-    <id>https://jaycechant.info/2021/golang-in-action-day-9-pointer-reference-and-value/</id>
-    <published>2021-05-16T07:51:22.000Z</published>
-    <updated>2021-05-16T12:02:48.369Z</updated>
-    
-    <content type="html"><![CDATA[<p>在经过编写 CLI 程序的尝试之后，我们继续回来聊 Go 语言的基础知识。</p>
-<p>相信实际写过一些代码之后，会更容易理解。</p>
-<a id="more"></a>
-<p>原计划这期聊 数组和切片。考虑到聊切片时，无论如何绕不开指针和引用的话题，干脆提到前面来。</p>
-<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>[TOC]</p>
-<h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><p>指针（Pointer）本质上是一个<strong>指向</strong>某块计算机内存的地址。就像日常的门牌地址一样。只不过内存地址是一个数字编号，对应的是一个个字节（byte）。</p>
-<p>当然，高级语言能访问到的内存，经过了操作系统内存管理的抽象，并不是连续的物理内存，而是映射得到的虚拟内存。但现在不必关注这些细节，当它是连续内存就好。</p>
-<p><img src="../../images/golang-in-action-day9/pointer-mem.svg" alt=""></p>
-<p>出于<strong>内存安全</strong>和<strong>屏蔽底层细节</strong>的考虑，C++ 以后的高级语言大多不再支持指针，而是改为使用『引用』。引用和指针的差别，我们后面说。</p>
-<p>Go 作为 C 的『嫡亲』后继，为了性能和灵活性，保留了指针，而且用法基本一样。但 Go 增加了 <strong>逃逸分析</strong> 和 <strong>垃圾回收（GC）</strong>，一定程度上解决掉了 悬挂指针 和 内存泄漏 的问题，降低了开发者的认知负担。（注意，Go 还是可能发生内存泄漏，只是需要特定的条件，发生概率大大降低了。）</p>
-<h3 id="Go-指针"><a href="#Go-指针" class="headerlink" title="Go 指针"></a>Go 指针</h3><p>先上代码，来点直观认识</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 声明</span></div><div class="line"><span class="keyword">var</span> pa, pb *<span class="keyword">int</span></div><div class="line"></div><div class="line"><span class="comment">// 取址</span></div><div class="line"><span class="keyword">var</span> a = <span class="number">10</span> <span class="comment">// 默认为 int</span></div><div class="line">pa = &amp;a</div><div class="line"></div><div class="line"><span class="comment">// 解引用（取值）</span></div><div class="line"><span class="keyword">var</span> b = *pa</div><div class="line"></div><div class="line"><span class="comment">// 输出</span></div><div class="line">fmt.Println(<span class="string">"a:"</span>, a)</div><div class="line">fmt.Println(<span class="string">"b:"</span>, b)</div><div class="line">fmt.Println(<span class="string">"&amp;a:"</span>, &amp;a)</div><div class="line">fmt.Println(<span class="string">"&amp;b:"</span>, &amp;b)</div><div class="line">fmt.Println(<span class="string">"pa:"</span>, pa)</div><div class="line">fmt.Println(<span class="string">"pb:"</span>, pb)</div><div class="line">fmt.Println(<span class="string">"*pa:"</span>, *pa)</div><div class="line">fmt.Println(<span class="string">"*pb:"</span>, *pb)</div></pre></td></tr></table></figure>
-<blockquote>
-<p>关于取址运算符 <code>&amp;</code> 和 解引用运算符 <code>*</code> 的详细介绍（优先级、可寻址等内容），请参考第 4 期的《<a href="../../2020/golang-in-action-day-4/">运算符</a>》。</p>
-<p>解引用 dereference：取址 address 的反操作，意味根据类型，从地址中取出对应的值。</p>
-</blockquote>
-<p>上面的代码输出</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">a: 10</div><div class="line">b: 10</div><div class="line">&amp;a: 0xc0000140a0</div><div class="line">&amp;b: 0xc0000140a8</div><div class="line">pa: 0xc0000140a0</div><div class="line">pb: &lt;nil&gt;</div><div class="line">*pa: 10</div><div class="line">panic: runtime error: invalid memory address or nil pointer dereference</div></pre></td></tr></table></figure>
-<p>指针的零值是 <code>nil</code> ，对一个 <code>nil</code> 指针解引用会引起运行时错误，引发一个 panic。</p>
-<p>通过下图，可以清晰看到4 个变量之间的关系。</p>
-<p><img src="../../images/golang-in-action-day9/example1.svg" alt=""></p>
-<blockquote>
-<p>注1：<code>int</code> 类型在 64 位机器上是 64 位，占据 8 个字节。</p>
-<p>注2：两个指针实际上也是保存在内存上，但是为了特意区分，也为了避免内存的图示画得太长，所以把它们单独放在左边示意。</p>
-</blockquote>
-<p>指针允许程序以简洁的方式引用另一个（较大的）值而不必拷贝它，允许在不同的地方之间共享一个值，可以简化很多数据结构的实现。保留指针，让 Go 的代码更灵活，以及更好的性能表现。</p>
-<h3 id="指针的类型"><a href="#指针的类型" class="headerlink" title="指针的类型"></a>指针的类型</h3><p>指针是派生类型，派生自其它类型。类型 <code>*Type</code> 表示『指向 Type 类型变量的指针』，常常简称『Type 类型的指针』，其中 <code>Type</code> 可以为任意类型，被称作指针的 基类型（base type）。换言之，从 <code>Type</code> 类型，派生出 <code>*Type</code> 类型。</p>
-<p>前面说到，内存地址是一个编号，指针的底层类型（underlying type）相当于是整型数（<code>uintptr</code>），宽度与平台相关，保证可以存下内存地址。</p>
-<p>但指针又不仅仅是一个整型数，上面还附加了类型信息。指针指向的类型不同，派生出的指针类型也不同。所以指针不是一个类型，而是一类类型；类型有无数多种，对应的指针（包括指向指针的指针）的类型也有无数种。</p>
-<p><code>*int16</code> 跟 <code>*int8</code> 就是不同类型。它们虽然存了同样长度的地址，但 基类型 不同，解引用时会有不同的行为。不同类型的指针之间无法进行转换。（除非通过 <code>unsafe</code> 包进行强制转换。包名 unsafe 道出风险，这个包里的都是危险操作，后果自负。）</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 为了方便理解，写成二进制，高8位的字节是 3，低 8 位的字节是 1，对应的数字是 3x2^8+1 = 769</span></div><div class="line"><span class="keyword">var</span> c <span class="keyword">uint16</span> = <span class="number">0</span>b00000011_00000001</div><div class="line">pc16 := &amp;c</div><div class="line">fmt.Println(<span class="string">"pc16:"</span>, pc16)</div><div class="line">fmt.Println(<span class="string">"*pc16:"</span>, *pc16)</div><div class="line"><span class="comment">// 为了演示，将 *uint16 强制转换为 *uint8，实际开发中不推荐，除非你清楚自己在做什么</span></div><div class="line">pc8 := (*<span class="keyword">uint8</span>)(unsafe.Pointer(pc16))</div><div class="line">fmt.Println(<span class="string">"pc8:"</span>, pc8)</div><div class="line">fmt.Println(<span class="string">"*pc8:"</span>, *pc8)</div></pre></td></tr></table></figure>
-<p>输出</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">pc16: 0xc0000a2058</div><div class="line">*pc16: 769</div><div class="line">pc8: 0xc0000a2058</div><div class="line">*pc8: 1</div></pre></td></tr></table></figure>
-<p>可以看到，两个指针保存了同样的地址，按理说解引用取出的内容应该是一样的。但事实是，解引用还跟类型相关：地址只指明了取内容的起点，基类型指定取多少个字节，以及如何解释取出来的比特。在这里，对 <code>*uint16</code> 解引用取出了两个字节，按整型数解释为 <code>796</code> ；对 <code>*uint8</code> 解引用则取了一个字节，解释为 <code>1</code> 。</p>
-<p><img src="../../images/golang-in-action-day9/pointer-base-type.svg" alt=""></p>
-<p>这里还得知了一个额外的信息：我的电脑是小端字节序，换句话说，数字是从低字节到高字节存储的，也就是 <code>00000001 00000011</code> ，跟手写的习惯是相反的，所以才会在只取一个字节时，取到了低字节。</p>
-<h3 id="逃逸分析与垃圾回收"><a href="#逃逸分析与垃圾回收" class="headerlink" title="逃逸分析与垃圾回收"></a>逃逸分析与垃圾回收</h3><p>在 C/C++ 里面使用指针，容易发生两类问题：</p>
-<ul>
-<li><p>悬空指针（dangling pointer）：又叫野指针（wild pointer），是指非空的指针没能指向相应类型的有效对象，或者换句话说，不能解析到一个有效的值。这有可能是对指针做了错误的运算，或者目标内存被意外回收了。</p>
-</li>
-<li><p>内存泄漏（memory leak）：是指因为疏忽或者错误，没有释放已经不再使用的内存，造成内存的浪费。在 C/C++ 这类没有内存管理的语言里，常见的泄漏原因是在释放动态分配的内存之前，就失去了对这些内存的控制。</p>
-</li>
-</ul>
-<p>Go 里面不允许对指针做算术运算，基本排除对指针运算错误导致的问题。剩下还能出问题的，就是释放内存的时机：释放早了，悬空指针；释放晚了或者干脆没释放，内存泄漏。来看看 C 的例子：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 注意这是 C 代码，不要跟 Go 代码混淆</span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span>* <span class="title">getPtrOnStack</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="comment">// n 分配在栈上，函数返回即被回收</span></div><div class="line">    <span class="keyword">int</span> n;</div><div class="line">    <span class="keyword">int</span>* pi = &amp;n;</div><div class="line">    <span class="keyword">return</span> pi;</div><div class="line">&#125; </div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span>* <span class="title">mallocInt</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="comment">// 动态分配的内存分配在堆上，需要自行释放</span></div><div class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="comment">// pi 为悬空指针</span></div><div class="line">    <span class="keyword">int</span>* pi = getPtrOnStack();</div><div class="line">    <span class="keyword">int</span>* pi2 = mallocInt();</div><div class="line">    <span class="comment">// 申请的内存没有释放，应该先 free(pi2)</span></div><div class="line">    pi2 = <span class="number">0</span>;</div><div class="line">    <span class="comment">// pi2 置零后，失去了对未释放内存的控制，因为地址已经找不回了</span></div><div class="line">    <span class="comment">// 短时间内一次过运行的程序内存泄漏问题不大，到程序退出都会释放；</span></div><div class="line">    <span class="comment">// 但对于需要持续运行的程序，内存泄漏会造成严重后果。</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>Go 的解决方案是</p>
-<ul>
-<li><p>逃逸分析：由编译器对变量进行逃逸分析，判断变量的作用域是否超出函数的作用域，以此决定将内存分配在栈上还是堆上，不需要人工指定。这就解决了第一个问题，函数内部声明的变量，其内存可以在函数返回后继续使用。</p>
-</li>
-<li><p>垃圾回收：由运行时（runtime）负责不再引用的内存的回收。回收算法一直在改进，这里不展开。这就解决了第二个问题，当内存不再使用的时候，只要不引用即可（指针置零，或者指向别的内存），不需要手动释放。</p>
-</li>
-</ul>
-<p>因为这些改进，Go 里面的指针看起来跟 C/C++ 差不多，实际使用的负担却小很多。</p>
-<p>需要注意的是，垃圾回收无法解决『逻辑上』的内存泄漏。这是指程序逻辑已经不再用到某些内存，但是仍然持有这些内存的引用，导致垃圾回收无法识别并回收这些内存。这就好比清洁工只能保证地上和垃圾桶的干净，却无法判断办公桌上有哪些东西是没用的。</p>
-<h3 id="字段选择器"><a href="#字段选择器" class="headerlink" title="字段选择器"></a>字段选择器</h3><p>对于操作数 <code>x</code> ，如果想访问它的成员字段或者方法，可以使用字段选择器（field selector），实际上就是一个句点 <code>.</code> 加上字段名。</p>
-<p>举例说 <code>p</code> 是 <code>Person</code> 类型的变量，而 <code>Person</code> 有一个 <code>Name</code> 字段和 <code>Run()</code> 方法，就可以通过 <code>p.Name</code> 和 <code>p.Run()</code> 访问。</p>
-<p>这部分的详细内容，要等到结构体和方法部分再展开。这里只提一点与 C/C++ 的区别。</p>
-<p>还是以 <code>p</code> 和 <code>Person</code> 为例。在 C/C++ 里，只有 <code>p</code> 是一个 <code>Person</code> 类型变量的时候（相当于Go 语言的 <code>var p Person</code> ），才能用句点访问成员字段。如果 <code>p</code> 是一个 <code>Person</code> 类型的指针（相当于 Go 的 <code>var p *Person</code> ），则要用箭头操作符 <code>-&gt;</code> 访问成员。<code>p-&gt;Name</code> 跟 <code>(*p).Name</code> 等价。</p>
-<p>Go 里没有箭头操作符。两种操作都用字段选择器 <code>.</code> 表示。实际上这是 Go 提供的一个语法糖，当Go 发现 <code>p</code> 是一个指针而且没有相应名字的成员时，会自动在 <code>*p</code> 里寻找对应的成员。</p>
-<p>这样做，好处是省了一个操作符（Go 真的很省操作符和关键字），并且将值变量和指针变量的使用统一起来，在很多场景中可以不必关心使用的是一个值还是一个指针。而坏处也在于，在一些场景混淆了这两者。这个也是到结构体和方法时再细说。这里给一个直观的例子：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;</div><div class="line">    Name <span class="keyword">string</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> d Person</div><div class="line">d.Name = <span class="string">"David"</span></div><div class="line">fmt.Println(<span class="string">"d.Name"</span>, d.Name) <span class="comment">// 输出 d.Name David</span></div><div class="line"></div><div class="line">pd := &amp;d</div><div class="line">fmt.Println(<span class="string">"pd.Name"</span>, pd.Name) <span class="comment">// 输出 pd.Name David</span></div><div class="line"></div><div class="line"><span class="comment">// 这部分无法通过编译，错误是 ppd.Name undefined (type **Person has no field or method Name)</span></div><div class="line"><span class="comment">// ppd := &amp;pd</span></div><div class="line"><span class="comment">// fmt.Println("ppd.Name", ppd.Name)</span></div></pre></td></tr></table></figure>
-<p>从 <code>**Person</code> 的角度看，会觉得很不讲理：明明 <code>*Person</code> 也没有 <code>Name</code> 这个字段啊，为什么 <code>pd</code> 不报错？</p>
-<p>因为编译器识别到它是一个指针，自动从 <code>*pd</code> 里找字段。但是这个忙只帮忙向下找一层，对于 <code>ppd</code> ，<code>ppd.Name</code> 不存在，<code>(*ppd).Name</code> 也没有，就放弃了。</p>
-<p>不像在 C/C++ 里很多操作都依赖指针，指针的指针并不少见，Go 里很少用到多级指针，所以这种语法糖只包一层大部分情况够用。</p>
-<h2 id="指针、引用和值"><a href="#指针、引用和值" class="headerlink" title="指针、引用和值"></a>指针、引用和值</h2><blockquote>
-<p>这三个概念既存在包含关系，又存在对比，解释起来非常拗口。如果你看完之后还是云里雾里，请耐心再多看几遍，或者实际写代码感受一下。如果还是不能理解，一定是我水平的问题，请先跳过这一部分。欢迎留言告知你的想法。</p>
-</blockquote>
-<p>在第 2 期《<a href="../../2020/golang-in-action-day-2/">常量与变量</a>》里，有提到值的定义：『无法进一步求值的表达式（expression）』，例如 <code>4 + 3 * 2 / 1</code>  的<strong>值</strong>是 <code>10</code> 。而常量和变量，则可以理解为值的容器。（尽管常量在具体实现上，往往是编译期直接替换为目标值。）</p>
-<p>这个定义，强调与量并列。</p>
-<p>值也可以理解为『可以被程序操作的实体的表示』。这时不强调与量的区别，如果一个变量保存了一个值，出于方便，有时也称这个变量为一个值。</p>
-<p>虽然标题将指针、引用和值并列，其实<strong>引用和指针，本身也是值</strong>。它们都用来表示『可被程序操作的实体』。</p>
-<p>同时<strong>指针是引用的一种</strong>，是最简单的透明引用。</p>
-<p>换言之，三者之间构成这样一种包含关系：引用是值的一种特例，是一类<strong>可以间接访问其它值的值</strong>，区别于直接使用的值；指针是引用的一种特例，是一类简单的<strong>透明引用</strong>，区别于不透明的引用。</p>
-<h3 id="指针和值"><a href="#指针和值" class="headerlink" title="指针和值"></a>指针和值</h3><p>先对比指针和值。</p>
-<p>如果不考虑实际使用，从理论上说，指针类型跟别的整型一样，也是一个『可操作实体』，所以它也是值。在Go 里，指针跟所有值一样，赋值和参数传递的时候发生了拷贝。</p>
-<p><img src="../../images/golang-in-action-day9/copy-on-assignment.svg" alt=""></p>
-<p>但在使用中，大部分情况下，指针只是改善性能（避免拷贝）、提高代码灵活性（共享对象）、实现复杂数据结构的工具。我们<strong>并不关心指针的值本身，而是关心指针指向的值</strong>。为了方便讨论，常常将指针变量跟它指向的值，等同看待。（特别是 Go 取消了箭头操作符 <code>-&gt;</code>，值和指针都用同样的方式访问成员，更是弱化了这个区分。）</p>
-<p>几乎没有人会关心指针保存的地址值是多少，只会关心它是否有效，两个地址是否相等。地址的大小对于程序逻辑几乎没有影响。</p>
-<p>当强调 指针 和 值 的区别时，这里的值，就是指我们关心的，可以直接使用的值。</p>
-<blockquote>
-<p>实际上，这些区别同样存在于 引用 和 值 之间。只是指针的机制更简单透明，所以用了指针作为讨论的对象。</p>
-</blockquote>
-<h3 id="不透明引用"><a href="#不透明引用" class="headerlink" title="不透明引用"></a>不透明引用</h3><p>引用（reference）是指可以让程序间接访问其它值的值。<strong>指针是最简单的、透明的引用</strong>，也因为其机制透明和自由使用，是最强大有效的引用。</p>
-<p>但透明和自由，也要求使用者更了解底层细节，程序更容易出错。想降低使用难度，避免出错，就加上限制，屏蔽底层细节，变成不透明引用。例如，无法获取引用真实的值，无法控制引用的解释，强制的类型安全，禁止类型转换，甚至让它看起来像一个直接访问的值，不像引用。</p>
-<p>当我们将 指针 和 引用 并列时，指的就是不透明引用。</p>
-<p>来看看其它语言的情况：</p>
-<ul>
-<li><p>C++ 既有指针也有引用。C++ 的引用更接近别名（alias），是受限的指针（不能读取或修改地址值，也不需要显式的解引用，所有操作都作用于指向的值）。</p>
-</li>
-<li><p>Python 和 Java 都取消了指针，只保留了引用。Java 的基本类型是直接值，除此以外都是引用。Python 更彻底，一切皆对象，所有变量都是对象的引用。所以它们在赋值和传递时，没有拷贝对象，只拷贝引用。如果需要拷贝对象，就需要显式地调用拷贝函数或者克隆方法。一些 Python 教程很形象地称这种引用为『贴标签』。</p>
-</li>
-</ul>
-<p><img src="../../images/golang-in-action-day9/value-vs-reference.svg" alt=""></p>
-<p>Go 语言的引用，不像一般意义上的引用。</p>
-<p>其它语言的不透明引用，是一种<strong>语言级别的统一机制</strong>，是作为指针的替代方案出现的。</p>
-<p>Go 的引用，则是在已经有了 直接值 和 指针 的前提下，<strong>针对特定类型的优化</strong>：为了兼顾易用性和性能，针对具体类型，在 值 和 指针 之间折中。每种引用类型，有自己独特的机制。一般是由一个结构体负责管理元数据，结构体里有一个指针，指向真正要使用的目标数据。</p>
-<p>这种东西，如果在 C++ 或者 Java 里，就是一个官方提供的类（如 Java 的 <code>String</code> 类），可以看到它的内部机制。而 Go 引用的实现逻辑却内置在 runtime 里，不仅无法直接访问元数据，还表现得像在直接操作目标数据。你会以为它是个普通的值，直到某些行为跟想象中不一样，才想起了解它的底层结构。如果不去看 runtime 的源码，这些元数据结构体仿佛不存在。</p>
-<p>Go 的引用类型有：</p>
-<ul>
-<li><p>字符串 <code>string</code>：底层的数据结构为 <code>stringStruct</code> ，里面有一个指针指向实际存放数据的字节数组，另外还记录着字符串的长度。不过由于 <code>string</code> 是只读类型（所有看起来对 <code>string</code> 变量的修改，实际上都是生成了新的实例），在使用上常常把它当做值类型看待。由于做了特殊处理，它甚至可以作为常量。<code>string</code> 也是唯一零值不为 <code>nil</code> 的引用类型。</p>
-</li>
-<li><p>切片（slice）：底层数据结构为 <code>slice</code> 结构体 ，整体结构跟 <code>stringStruct</code> 接近，只是多了一个容量（capacity）字段。数据存放在指针指向的底层数组里。</p>
-</li>
-<li><p>映射（map）：底层数据结构为 <code>hmap</code> ，数据存放在数据桶（buckets）中，桶对应的数据结构为 <code>bmap</code> 。</p>
-</li>
-<li><p>函数（func）：底层数据结构为 <code>funcval</code> ，有一个指向真正函数的指针，指向另外的 <code>_func</code> 或者 <code>funcinl</code> 结构体（<code>funcinl</code> 代表被行内优化之后的函数）。</p>
-</li>
-<li><p>接口（interface）：底层数据结构为 <code>iface</code> 或 <code>eface</code> （专门为空接口优化的结构体），里面持有动态值和值对应的真实类型。</p>
-</li>
-<li><p>通道（chan）：底层数据结构为 <code>hchan</code>，分别持有一个数据缓冲区，一个发送者队列和一个接收者队列。</p>
-</li>
-</ul>
-<p>这些类型在直接赋值拷贝的时候，都只会拷贝它们的直接值，也就是<strong>元数据结构体</strong>；间接指向的底层数据，是在各个拷贝值之间共享的。除非是发生了类型转换这样的特殊情况。</p>
-<p><img src="../../images/golang-in-action-day9/slice-reference.svg" alt=""></p>
-<p>如果觉得不好记忆，有一个识别引用类型的快捷办法：凡是零值是 <code>nil</code> 的，都是引用类型。指针作为特殊的透明引用，一般单独讨论。而 字符串 <code>string</code> 因为做了特殊处理，零值为 <code>&quot;&quot;</code> ，需要额外记住。除了引用类型和指针，剩下的类型都是直接值类型。</p>
-<p>那些说引用类型只有需要 <code>make()</code> 的切片、映射、通道 三种的说法，是<strong>错误</strong>的！</p>
-<blockquote>
-<p>如果不记得都有哪些类型，零值是什么，可以看第 3 期《<a href="../../2020/golang-in-action-day-3/">类型</a>》。或者看下图的整理：</p>
-</blockquote>
-<p><img src="../../images/golang-in-action-day9/go-types.png" alt=""></p>
-<p>由于每一个类型的实现机制都有所不同，具体细节留到介绍这些类型时再讨论，不在这里展开。感兴趣可以到 <code>go目录/src/runtime</code> 下看源码（每个类型有自己单独的文件，如 <code>string.go</code>，个别没有单独源码的，在 <code>runtime2.go</code> 里面）。</p>
-<blockquote>
-<p>需要注意的是，Go 通过封装，刻意隐藏引用类型的内部细节。隐藏细节，意味着没有对这些细节作出承诺，这些细节完全可能在后续版本中变更。实际上这样的变更已经发生过。了解这些细节，是为了更好理解类型的一些特殊行为，而不是要依赖于这些细节。（考虑到海勒姆定律，这些细节最终还是会被一些程序依赖。）</p>
-<p>由于『引用类型』这个术语边界不明，特别是 Go 的实现方式跟其它语言存在差异，在表述上常常会造成混乱和误解，go101 的作者老貘推荐在 Go 里改为使用『指针持有者类型』来代替。这个术语是指一个类型要么本身就是一个指针，要么是一个包裹着指针的结构体，它的变量本身是一个直接值，这个值另外指向间接的值。当因为赋值或传参发生拷贝时，只拷贝了直接值部分，间接值被多个直接值共享。</p>
-</blockquote>
-<h2 id="指针传递、引用传递和值传递"><a href="#指针传递、引用传递和值传递" class="headerlink" title="指针传递、引用传递和值传递"></a>指针传递、引用传递和值传递</h2><p>因为指针和引用本质上也是值，字面意义上，Go 里面<strong>所有传递都是值传递</strong>。这句话正确却没有指导意义。</p>
-<p>Go 里的赋值和传参，总是会把传递的值<strong>本身</strong>拷贝一份。但如果这个（直接）值指向别的（间接）值，它所指向的（间接）值不会发生递归拷贝。</p>
-<p>因为这个特性，加上前面介绍的 直接值 、不透明引用 和 指针 的区别，这三种传递在使用上是有区别的。区分也很简单，赋值和参数的类型是什么类型，就是对应的传递方式。</p>
-<ul>
-<li><p>（直接）值传递：值发生了拷贝。对新值的任何修改，都不会影响原来的值。</p>
-<p>除非这个值是一个结构体，结构体成员字段里有引用类型或者指针，那么对这个字段而言，则是引用传递/指针传递。</p>
-</li>
-<li><p>引用传递：元数据发生了拷贝，但底层的间接值没有拷贝，仍然共享。</p>
-<ul>
-<li><p>对间接值的修改，会影响所有副本。（如，修改切片里的某个元素，就是修改了底层数组里的某个元素）</p>
-</li>
-<li><p>但对元数据的修改则不会影响其它副本。（如，对切片提取子切片，实际上修改了切片的访问范围）</p>
-</li>
-<li><p>有一种特殊的情况，就是修改元数据时改变了指向的间接值的指针，这之后对间接值的修改，都不再会影响其它副本。因为不再共享间接值。（如，对切片追加元素时，促发了底层数组的重新分配，指向了新的底层数组）</p>
-</li>
-</ul>
-</li>
-<li><p>指针传递：指针值（地址）发生了拷贝，共享指向的值。对间接值的修改，会影响所有副本。由于 Go 不允许对指针进行运算，不存在意外改变指针的情况。而如果是给指针赋新的值，后续的修改当然不再影响旧值指向的值。由于指针的机制透明，这点很好理解。</p>
-</li>
-</ul>
-<p>因为指针本身也是一种引用，本来指针和引用可以合并讨论。但由于引用屏蔽了实现细节，使得程序员不一定知道对引用的操作，作用的具体是哪一部分，也就比透明的指针多了更多的意外情况需要指出。</p>
-<h2 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h2><p>以下代码有 8 个真假判断，请在不运行的情况下，判断 true 还是 false，并说出理由。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">var</span> a1 = [<span class="number">5</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</div><div class="line">    <span class="keyword">var</span> a2 = a1</div><div class="line">    a2[<span class="number">0</span>] = <span class="number">99</span></div><div class="line">    <span class="comment">//fmt.Println(a1, a2)</span></div><div class="line">    fmt.Println(<span class="string">"a1[0]==a2[0]? "</span>, a1[<span class="number">0</span>] == a2[<span class="number">0</span>])</div><div class="line"></div><div class="line">    <span class="keyword">var</span> sa = a1[:]</div><div class="line">    sa[<span class="number">1</span>] = <span class="number">88</span></div><div class="line">    <span class="comment">//fmt.Println(a1, sa)</span></div><div class="line">    fmt.Println(<span class="string">"a1[1]==sa[1]? "</span>, a1[<span class="number">1</span>] == sa[<span class="number">1</span>])</div><div class="line"></div><div class="line">    <span class="keyword">var</span> s1 = []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</div><div class="line">    <span class="keyword">var</span> s2 = s1</div><div class="line">    s2[<span class="number">0</span>] = <span class="number">99</span></div><div class="line">    <span class="comment">//fmt.Println(s1, s2)</span></div><div class="line">    fmt.Println(<span class="string">"s1[0]==s2[0]? "</span>, s1[<span class="number">0</span>] == s2[<span class="number">0</span>])</div><div class="line"></div><div class="line">    <span class="keyword">var</span> s3 = s2[<span class="number">1</span>:<span class="number">4</span>]</div><div class="line">    s3[<span class="number">0</span>] = <span class="number">88</span></div><div class="line">    <span class="comment">//fmt.Println(s1, s3)</span></div><div class="line">    fmt.Println(<span class="string">"s1[1]==s3[0]? "</span>, s1[<span class="number">1</span>] == s3[<span class="number">0</span>])</div><div class="line"></div><div class="line">    <span class="keyword">var</span> s4 = <span class="built_in">append</span>(s2, <span class="number">6</span>)</div><div class="line">    s4[<span class="number">2</span>] = <span class="number">77</span></div><div class="line">    <span class="comment">//fmt.Println(s1, s4)</span></div><div class="line">    fmt.Println(<span class="string">"s1[2]==s4[2]? "</span>, s1[<span class="number">2</span>] == s4[<span class="number">2</span>])</div><div class="line"></div><div class="line">    <span class="keyword">var</span> oldLen <span class="keyword">int</span></div><div class="line"></div><div class="line">    oldLen = <span class="built_in">len</span>(s1)</div><div class="line">    <span class="comment">//fmt.Println(s1)</span></div><div class="line">    appendInt(s1, <span class="number">6</span>)</div><div class="line">    <span class="comment">//fmt.Println(s1)</span></div><div class="line">    fmt.Println(<span class="string">"len(s1)==oldLen+1?"</span>, <span class="built_in">len</span>(s1) == oldLen+<span class="number">1</span>)</div><div class="line"></div><div class="line">    oldLen = <span class="built_in">len</span>(s1)</div><div class="line">    <span class="comment">//fmt.Println(s1, s2)</span></div><div class="line">    appendIntPtr(&amp;s2, <span class="number">6</span>)</div><div class="line">    <span class="comment">//fmt.Println(s1, s2)</span></div><div class="line">    fmt.Println(<span class="string">"len(s1)==oldLen+1?"</span>, <span class="built_in">len</span>(s1) == oldLen+<span class="number">1</span>)</div><div class="line"></div><div class="line">    oldLen = <span class="built_in">len</span>(s1)</div><div class="line">    <span class="comment">//fmt.Println(s1)</span></div><div class="line">    appendIntPtr(&amp;s1, <span class="number">6</span>)</div><div class="line">    <span class="comment">//fmt.Println(s1)</span></div><div class="line">    fmt.Println(<span class="string">"len(s1)==oldLen+1?"</span>, <span class="built_in">len</span>(s1) == oldLen+<span class="number">1</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">appendInt</span><span class="params">(s []<span class="keyword">int</span>, elems ...<span class="keyword">int</span>)</span></span> &#123;</div><div class="line">    s = <span class="built_in">append</span>(s, elems...)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">appendIntPtr</span><span class="params">(ps *[]<span class="keyword">int</span>, elems ...<span class="keyword">int</span>)</span></span> &#123;</div><div class="line">    *ps = <span class="built_in">append</span>(*ps, elems...)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>满分：无需运行代码，全部判断正确。</p>
-</li>
-<li><p>优秀：有个别判断不确定，但看到运行结果可以推断出原因。</p>
-</li>
-<li><p>及格：有比较多的判断不确定，但在输出数组/切片元素（注释掉的代码行）之后能说出原因。</p>
-</li>
-<li><p>加把劲：即使看到元素输出，还是云里雾里。</p>
-</li>
-</ul>
-<p>对于从头开始学习的朋友来说，即使感觉云里雾里也不要紧，因为练习题不可避免地涉及到下一期要讨论的 <strong>数组 和 切片</strong>。如果之前没有了解，判断不了也是正常。这道题既是这期的课后练习，也可以理解为下期的课前预习。</p>
-<p>答案和解析会在下期公布。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li>Value-英文维基：<a href="https://en.wikipedia.org/wiki/Value_(computer_science" target="_blank" rel="external">https://en.wikipedia.org/wiki/Value_(computer_science</a>)</li>
-<li>Reference-英文维基：<a href="https://en.wikipedia.org/wiki/Reference_(computer_science" target="_blank" rel="external">https://en.wikipedia.org/wiki/Reference_(computer_science</a>)</li>
-<li>Pointer-英文维基：<a href="https://en.wikipedia.org/wiki/Pointer_(computer_programming" target="_blank" rel="external">https://en.wikipedia.org/wiki/Pointer_(computer_programming</a>)</li>
-<li>值部-Go语言101：<a href="https://gfw.go101.org/article/value-part.html" target="_blank" rel="external">https://gfw.go101.org/article/value-part.html</a></li>
-</ul>
-<hr>
-<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在经过编写 CLI 程序的尝试之后，我们继续回来聊 Go 语言的基础知识。&lt;/p&gt;
-&lt;p&gt;相信实际写过一些代码之后，会更容易理解。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Go 语言实战" scheme="https://jaycechant.info/categories/Go-%E8%AF%AD%E8%A8%80%E5%AE%9E%E6%88%98/"/>
-    
-    
-      <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
-    
-  </entry>
   
   <entry>
     <title>18 公斤菠萝怎么吃？来个焦糖风味吧</title>
@@ -3613,6 +3422,149 @@
     
     
       <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>LeetCode 解题：统计全 1 子矩阵</title>
+    <link href="https://jaycechant.info/2020/leetcode-1504-count-submatrices/"/>
+    <id>https://jaycechant.info/2020/leetcode-1504-count-submatrices/</id>
+    <published>2020-07-10T13:05:25.000Z</published>
+    <updated>2020-08-12T09:21:58.819Z</updated>
+    
+    <content type="html"><![CDATA[<p>上周末试着参加了一下 LeetCode 的周赛。</p>
+<a id="more"></a>
+<blockquote>
+<p>文章是 7/10 写的，所以这里指的是 7/5 的周赛</p>
+</blockquote>
+<p>90 分钟，总共四题，分别一题简单，两题中等，一题困难。在我看来，第 1、2 题都算简单，第 3 题的中等我很多年前做过；只有第 4 题最优解要用到比较少见的算法，不过还是有网友暴力解通过。</p>
+<p>就是这样的难度，第 2 题一开始没反应过来，先做后面，然后在第 3 题耗费了太多时间（约 1H），留给 2 、4 的时间都不太够，最后只 AC  1、3。相比之下，最快的参加者 17 分钟全部 AC。自尊心受到暴击，只能用刚刚恢复刷题，太生疏给自己台阶。做的时候感觉很顺畅，回头一看时间，都不知道怎么跑掉的。是中年人反应迟钝了吗？</p>
+<p>不管怎样，3、4 题还是值得说一下的。今天先讲第 3 题，对应 1504 号。</p>
+<p>英文：<a href="https://leetcode.com/problems/count-submatrices-with-all-ones/" target="_blank" rel="external">https://leetcode.com/problems/count-submatrices-with-all-ones/</a></p>
+<p>中文：<a href="https://leetcode-cn.com/problems/count-submatrices-with-all-ones/" target="_blank" rel="external">https://leetcode-cn.com/problems/count-submatrices-with-all-ones/</a></p>
+<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><h3 id="一句话概括"><a href="#一句话概括" class="headerlink" title="一句话概括"></a>一句话概括</h3><p>给定由 0, 1 组成的矩阵，<strong>求 元素全是 1 的子矩阵</strong> 的数量。</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">输入：</div><div class="line">1,0,1</div><div class="line">1,1,0</div><div class="line">1,1,0</div><div class="line"></div><div class="line">输出：13</div><div class="line"></div><div class="line">解释：</div><div class="line">有 6 个 1x1 的矩形。</div><div class="line">有 2 个 1x2 的矩形。</div><div class="line">有 3 个 2x1 的矩形。</div><div class="line">有 1 个 2x2 的矩形。</div><div class="line">有 1 个 3x1 的矩形。</div><div class="line">矩形数目总共 = 6 + 2 + 3 + 1 + 1 = 13</div></pre></td></tr></table></figure>
+<p>更多例子看测试用例</p>
+<h3 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h3><ul>
+<li>行列最小 1，最大 150</li>
+<li>矩阵元素只有 0 和 1</li>
+</ul>
+<p>为了后续方便讨论，约定行数为 R，列数为 C。</p>
+<h2 id="测试代码先行"><a href="#测试代码先行" class="headerlink" title="测试代码先行"></a>测试代码先行</h2><blockquote>
+<p>《<a href="../rapidly-generate-unit-tests-in-vs-code/">如何快速生成单元测试</a>》</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> <span class="string">"testing"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Test_numSubmat</span><span class="params">(t *testing.T)</span></span> &#123;</div><div class="line">	tests := []<span class="keyword">struct</span> &#123;</div><div class="line">		name <span class="keyword">string</span></div><div class="line">		mat  [][]<span class="keyword">int</span></div><div class="line">		want <span class="keyword">int</span></div><div class="line">	&#125;&#123;</div><div class="line">		&#123;</div><div class="line">			name: <span class="string">"min0"</span>,</div><div class="line">			mat: [][]<span class="keyword">int</span>&#123;</div><div class="line">				&#123;<span class="number">0</span>&#125;,</div><div class="line">			&#125;,</div><div class="line">			want: <span class="number">0</span>,</div><div class="line">		&#125;,</div><div class="line">		&#123;</div><div class="line">			name: <span class="string">"min1"</span>,</div><div class="line">			mat: [][]<span class="keyword">int</span>&#123;</div><div class="line">				&#123;<span class="number">1</span>&#125;,</div><div class="line">			&#125;,</div><div class="line">			want: <span class="number">1</span>,</div><div class="line">		&#125;,</div><div class="line">		&#123;</div><div class="line">			name: <span class="string">"1"</span>,</div><div class="line">			mat: [][]<span class="keyword">int</span>&#123;</div><div class="line">				&#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>&#125;,</div><div class="line">				&#123;<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>&#125;,</div><div class="line">				&#123;<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>&#125;,</div><div class="line">			&#125;,</div><div class="line">			want: <span class="number">13</span>,</div><div class="line">		&#125;,</div><div class="line">		&#123;</div><div class="line">			name: <span class="string">"2"</span>,</div><div class="line">			mat: [][]<span class="keyword">int</span>&#123;</div><div class="line">				&#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>&#125;,</div><div class="line">				&#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>&#125;,</div><div class="line">				&#123;<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>&#125;,</div><div class="line">			&#125;,</div><div class="line">			want: <span class="number">24</span>,</div><div class="line">		&#125;,</div><div class="line">		&#123;</div><div class="line">			name: <span class="string">"3"</span>,</div><div class="line">			mat: [][]<span class="keyword">int</span>&#123;</div><div class="line">				&#123;<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>&#125;,</div><div class="line">			&#125;,</div><div class="line">			want: <span class="number">21</span>,</div><div class="line">		&#125;,</div><div class="line">		&#123;</div><div class="line">			name: <span class="string">"4"</span>,</div><div class="line">			mat: [][]<span class="keyword">int</span>&#123;</div><div class="line">				&#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>&#125;,</div><div class="line">				&#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>&#125;,</div><div class="line">				&#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>&#125;,</div><div class="line">			&#125;,</div><div class="line">			want: <span class="number">5</span>,</div><div class="line">		&#125;,</div><div class="line">        <span class="comment">// 现在 LeetCode 周赛一次错误提交只罚时 5 分钟，代价不算大</span></div><div class="line">        <span class="comment">// 简单添加一些能马上想到的 case 即可，折腾超过 5 分钟不值</span></div><div class="line">        <span class="comment">// 能通过简单的 case 可以先提交一次，不行再针对强化</span></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">for</span> _, tt := <span class="keyword">range</span> tests &#123;</div><div class="line">		t.Run(tt.name, <span class="function"><span class="keyword">func</span><span class="params">(t *testing.T)</span></span> &#123;</div><div class="line">			<span class="keyword">if</span> got := numSubmat(tt.mat); got != tt.want &#123;</div><div class="line">				t.Errorf(<span class="string">"numSubmat() = %v, want %v"</span>, got, tt.want)</div><div class="line">			&#125;</div><div class="line">		&#125;)</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><p>暴力做法非常简单，一句话带过：首先 O(RC) 遍历左上角选点，然后 O(RC) 遍历右下角选点，再用 O(RC) 判断选定的矩阵是否全 1，<strong>时间复杂度为 O((RC)^3)</strong> ，空间复杂度 O(1)。（提醒：R 是行数，C 是列数）也许数据弱的话能 AC（我没试），比赛时间不够也许可以蒙一下，但没有讨论价值。</p>
+<p>这道题明显有大量重复子问题，稍有经验都应该马上往动态规划上靠。关于动态规划的基础常识，可以先看之前的文章：《<a href="../leetcode-10-regular-expression-matching/">LeetCode 题解： Regular Expression Matching</a>》，以后考虑围绕基础知识点写一些文章。</p>
+<p>想到 DP 容易，难点是定义子问题，状态如何转移。多年前那次和这次，都第一时间知道是 DP 的题，仍然耗费不少时间想具体的状态转移方程。（虽然做过，相似的矩阵题太多，过了一阵才认出来，又花了一点时间回想有哪些方案。）</p>
+<h3 id="思考方向"><a href="#思考方向" class="headerlink" title="思考方向"></a>思考方向</h3><p>最明显的重复运算，是对候选矩阵做全 1 判断。能否记录某些中间状态，根据少数点是否为 1， 结合这些中间状态得到下一个状态，避免前面判断过的 位置 再来一遍？</p>
+<p>根据以往做 DP 的经验，一般是 <code>dp[r][c]</code> 代表到 r 行 c 列为止的某个结果。例如，我们定义两个矩阵 <code>width[r][c]</code> 和 <code>height[r][c]</code> 代表以 (r, c) 为右下角的矩阵的最大宽度和最大高度，从左上到右下运算。有没有可能从前面的状态，推算出以(r, c) 为右下角的极大矩阵呢？</p>
+<p><img src="../../images/leetcode1504/leetcode1504-try-dp.svg" alt=""></p>
+<blockquote>
+<p>绿色表示已经处理过的点，白色表示待处理的点。下同。</p>
+</blockquote>
+<p>很难。我们找极大矩阵，是因为知道极大矩阵的大小，就很容易计算它有多少个子矩阵。但极大矩阵可以有很多个，光凭最大宽度和最大高度两个信息，无法计算出这么多个极大矩阵。那还要记录多少信息才够？</p>
+<p><img src="../../images/leetcode1504/leetcode1504-extreme-matrix.svg" alt=""></p>
+<blockquote>
+<p>极大矩阵是指，这个矩阵在边界上碰到了 0，没办法变得更大了。但它不一定是最大的矩阵。</p>
+<p>记录最大宽和最大高之所以很难用得上，是因为它们很可能不是在同一个矩阵上记录的，也很难用来计算那么多个极大矩阵。</p>
+</blockquote>
+<p>换一个角度看为什么这么难。假定可以用 O(1) 完成状态转移，计算出 (r, c) 点为右下角的所有极大矩阵，由于右下角只有 O(RC) 种情况，换言之时间复杂度从 O((RC)^3) 降到了 O(RC)，优化幅度非常大 。但多个极大矩阵真的能用 O(1) 时间就计算出来吗？要借用哪些中间结果？</p>
+<p>事实上，这个方向是可行的。但我们先从简单一点的开始。</p>
+<h2 id="压缩-DP"><a href="#压缩-DP" class="headerlink" title="压缩 + DP"></a>压缩 + DP</h2><p>二维的情况复杂，是因为长宽有多种组合；如果长宽不能同时达到最大，就会产生大量极大矩阵。</p>
+<p>那就 <strong>从一维开始找规律</strong> 。</p>
+<h3 id="一维问题：全-1-子段数"><a href="#一维问题：全-1-子段数" class="headerlink" title="一维问题：全 1 子段数"></a>一维问题：全 1 子段数</h3><p><img src="../../images/leetcode1504/leetcode1504-1d-dp.svg" alt=""></p>
+<p>一维的情况，问题简化成『统计全 1 子段数』，其中任意长度不为 0 的连续区间 ，都是子段（interval）。假定数组长度为 N，Brute-Force 的做法是，O(N) 选左端点，O(N) 选右端点，O(N) 判断是否全 1，时间复杂度 O(N^3)。</p>
+<p>这时用 DP，状态转移方程很好写。假定有一维数组 A，里面同样是 0 或 1。定义 L[i] 为 以第 i 个元素为右边界的子段的最大长度（换言之，连续多少个 1），很容易得到</p>
+<p>$$<br>\left{<br>\begin{array}{lr}<br>L<em>i = L</em>{i-1} + 1, &amp; (A_i = 1)\<br>L_i = 0 &amp; (A_i = 0)<br>\end{array}<br>\right.<br>$$</p>
+<p>大白话就是，<strong>遇到 1，最大长度加 1；遇到 0，长度清零</strong> 。</p>
+<p>再定义 C[i] 为到 第 i 个元素为止，累计的的字段数，状态转移方程为</p>
+<p>$$<br>\left{<br>\begin{array}{lr}<br>C<em>i = C</em>{i-1} + L_i, &amp; (A_i = 1)\<br>C<em>i = C</em>{i-1} &amp; (A_i = 0)<br>\end{array}<br>\right.<br>$$</p>
+<p>大白话就是，遇到 1，就增加『当前子段最大长度 L[i] 这么多个子段数』；遇到 0，统计数字不变。为什么是 L[i] ？因为 <strong>以 A[i] 为右端点的子段刚好是 L[i] 个，分别为长度为 1、长度为 2、长度为 … 长度为 L[i] </strong> 。</p>
+<p>DP 跟 BF 相比，省略了重复运算，但思维不严谨的话，很容易出现重复或者遗漏。我们来确认一下，是否每个左端点和右端点的组合都包含了一次：对于右端点，每个 A[i] = 1 ，都访问且只访问了一次；在确定右端点之后，每个和右端点连续（中间没有 0）的左端点都刚好统计了一次（L[i] 个）。</p>
+<p>对于每个元素 A[i]，分别需要常数时间计算 L[i] 和 C[i] ，时间复杂度为 O(N)。由于 L 和 C 都只和当前元素和前一个状态相关，只需保留最后一个状态，没有必要保存数组，空间复杂度为 O(1)。</p>
+<p>代码非常简单</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">numInterval</span><span class="params">(A []<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">	length := <span class="number">0</span></div><div class="line">	count := <span class="number">0</span></div><div class="line">	<span class="keyword">for</span> _, elem := <span class="keyword">range</span> A &#123;</div><div class="line">		<span class="keyword">if</span> elem == <span class="number">1</span> &#123;</div><div class="line">			length++</div><div class="line">			count += length</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			length = <span class="number">0</span></div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> count</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="二维问题：压缩成一维"><a href="#二维问题：压缩成一维" class="headerlink" title="二维问题：压缩成一维"></a>二维问题：压缩成一维</h3><p>一维的情况简单，我还是尽量详细地讲，因为这是理解接下来内容的基础。</p>
+<p>对于高度为 2 的矩阵，求全 1 子矩阵数。这些子矩阵，高度要么为 1，要么为 2。<strong>对于高度为 1 的子矩阵，情况退回到 一维，分别对每一行应用一维的算法即可</strong> 。而对于高度为 2 的子矩阵，可以『压缩』成高度为 1，再应用一维的算法。</p>
+<p><img src="../../images/leetcode1504/leetcode1504-2d-to-1d.svg" alt=""></p>
+<p><strong>以此类推，任意高度的子矩阵，也可以压缩成一行处理</strong> 。而且，<strong>R 行压缩成一行，并不需要每次从头开始压缩；只需要在前 R - 1 行的结果上，再合并一行</strong> 。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">numSubmat</span><span class="params">(mat [][]<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">	count := <span class="number">0</span></div><div class="line">	rowNum := <span class="built_in">len</span>(mat)</div><div class="line">	colNum := <span class="built_in">len</span>(mat[<span class="number">0</span>])</div><div class="line"></div><div class="line">	<span class="comment">// 压缩的结果只需要保留一行进行运算</span></div><div class="line">	<span class="comment">// 用 bool 值保存节省空间</span></div><div class="line">	mymat := <span class="built_in">make</span>([]<span class="keyword">bool</span>, colNum)</div><div class="line"></div><div class="line">	<span class="comment">// 遍历开始压缩的行数</span></div><div class="line">	<span class="keyword">for</span> rowSt := <span class="number">0</span>; rowSt &lt; rowNum; rowSt++ &#123;</div><div class="line">		<span class="keyword">for</span> col := <span class="number">0</span>; col &lt; colNum; col++ &#123;</div><div class="line">			mymat[col] = <span class="literal">true</span></div><div class="line">		&#125;</div><div class="line">		<span class="comment">// 遍历结束的行数</span></div><div class="line">		<span class="keyword">for</span> rowEd := rowSt; rowEd &lt; rowNum; rowEd++ &#123;</div><div class="line">			length := <span class="number">0</span></div><div class="line">			<span class="keyword">for</span> col := <span class="number">0</span>; col &lt; colNum; col++ &#123;</div><div class="line">				<span class="keyword">if</span> mat[rowEd][col] == <span class="number">0</span> &#123;</div><div class="line">					<span class="comment">// 同一列上任意一行为0，这个位置就断开了</span></div><div class="line">					mymat[col] = <span class="literal">false</span></div><div class="line">				&#125;</div><div class="line">				<span class="comment">// 压缩后，应用一维的算法</span></div><div class="line">				<span class="keyword">if</span> mymat[col] &#123;</div><div class="line">					length++</div><div class="line">					count += length</div><div class="line">				&#125; <span class="keyword">else</span> &#123;</div><div class="line">					length = <span class="number">0</span></div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> count</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>O(R) 遍历开始行，O(R) 遍历结束行，O(C) 的时间压缩每一行并应用一维的算法，时间复杂度为 O(R^2 * C)。只用了一行的额外空间保存压缩行，空间复杂度为 O(C)。由于 R 比 C 遍历多了一层，如果行数比列数大得多，可以将行列交换运算。代码比较麻烦，不再展开。</p>
+<p>回到正确性的问题，是否不重不漏？横向在一维时已经讨论过了。纵向，O(R^2) 把所有开始行和结束行的组合都遍历了。换言之，所有的左上角和右下角的组合，都刚好地访问了一遍。</p>
+<h2 id="单调栈-DP"><a href="#单调栈-DP" class="headerlink" title="单调栈 + DP"></a>单调栈 + DP</h2><p>上述解法已经相当优秀，将六次方的 BF 解法，降了 3 个阶。（这里为了方便讨论，把 R、C 看做相近的数量级，都当成 N 处理，相当于从 O(N^6) 降到了 O(N^3) 时间复杂度）</p>
+<p>当年第一次遇到这道题，我甚至都没能一下子想到这种办法，想通时已经不够时间实现和调试。还是事后同事 Lucy 跟我们讲了思路。之后很长一段时间，没有再细想，把这当成最优解。</p>
+<p>直到这次，顺便逛了一下讨论区，居然发现还能 O(RC) ！？</p>
+<blockquote>
+<p>以下解法并非我的原创，而是看了 LeetCode 美国站讨论区后，根据网友提供的思路，重新实现和用自己的话解释一遍。主要为了分享和加深理解。</p>
+<p>平时做的答案，其核心思想，其实也是学来的（主要是大学算法课）。毕竟常见，不需要特别声明。</p>
+<p>这次的解法比较绕，不敢掠美，特此声明。</p>
+</blockquote>
+<h3 id="子问题：分割极大矩阵"><a href="#子问题：分割极大矩阵" class="headerlink" title="子问题：分割极大矩阵"></a>子问题：分割极大矩阵</h3><p>我们回到一开始想到用 动态规划 时提出的问题：『<strong>能不能遍历为 1 的点作为右下角，结合少量中间状态，算出新的中间状态，并逐渐推导出答案？</strong>』</p>
+<p>这个问题难在子问题和中间状态的定义。怎么定义，中间状态定义多少个，才能应付最多时跟 R、C 同量级的极大矩阵？</p>
+<p>我们把问题简化，先不想怎么判断和划分，假定已经找到了一个 r 行 c 列的极大全 1 矩阵，里面有多少个 <strong>包含右下角的点</strong> 的子矩阵？</p>
+<p>答：r x c 个。</p>
+<p><img src="../../images/leetcode1504/leetcode1504-submat-with-same-right-bottom-point.svg" alt=""></p>
+<p>包含右下角（最后一行结束），子矩阵高度（开始行）有 r 种可能；包含右下角（最后一列结束），矩阵宽度（开始列）有 c 种可能。组成起来有 r x c 种 子矩阵。换言之，<strong>只要找到以当前点为右下角的极大子矩阵，就能直接算出以此为右下角的全部子矩阵数量</strong> 。</p>
+<p><img src="../../images/leetcode1504/leetcode1504-extreme-matrix-2.svg" alt=""></p>
+<p>难点在于极大子矩阵根本不止一个，叠在一起可能是锯齿状的，也可能是驼峰状的，极难记录和统计。不过只要用递归分治的思想划分一下子问题，难点就变简单了。</p>
+<p><img src="../../images/leetcode1504/leetcode1504-extreme-matrix-3.svg" alt=""></p>
+<p>我们定义 C[i][j] 为 『以点 (i, j) 为右下角的子矩阵数量』。mat[i][j] 为 0 时，这个点不能构成任何子矩阵，所以只讨论为 1 的情况。如图所示，以第一个白色点 (4, 5) 为右下角的极大子矩阵，一共有 3 种宽高组合（1x6, 2x4, 4x2），它们重叠在一起，构成了一个不规则的形状。将其纵向划分成 3 个互不重叠的 3 个矩阵 X, Y, Z。（不一定是 3 个，实际可能更多，最多时可以分成每列一个）</p>
+<p>那么 C[4][5] 就等于 X （包含右下角）的子矩阵数（4x2），加上 C[4][3]。之所以这样算，是因为所有以 (4, 3) 为右下角的子矩阵，都可以列数加 2 ，变成以 (4, 5) 为右下角。通过这样划分子问题，<strong>无论有多少个极大子矩阵，我们只需要计算包含当前右下角最右（同时也是最高）的一个极大子矩阵，再引用之前的子问题即可</strong> 。</p>
+<p>为什么最右的极大子矩阵一定是最高的呢？因为子矩阵的高度无法超过右下角所在列的高度。上图中 列4 的高度为 5 （蓝色的(0, 4)点），但是这个点无法跟右下角构成矩阵。</p>
+<h3 id="引入-高度记录-和-高度栈"><a href="#引入-高度记录-和-高度栈" class="headerlink" title="引入 高度记录 和 高度栈"></a>引入 高度记录 和 高度栈</h3><p>不过问题还没解决：</p>
+<ul>
+<li>如何知道最右的极大子矩阵的宽高？（4 和 2 怎么得到）</li>
+<li>如何知道上一个子问题是哪个？（怎么得知要引用 (4, 3) 的子问题） </li>
+</ul>
+<p>后面这个问题好回答，要引用的子问题，就是当前子问题减掉当前极大子矩阵宽度（2）的子问题。问题变成了：<strong>当前极大子矩阵的宽高如何获取</strong> 。</p>
+<p>为此，引入两个记录：</p>
+<ul>
+<li>高度记录 h[i][j] ，记录每列到当前点的最大高度（连续 1 的个数）。</li>
+<li>每行的高度栈，记录单调递增的高度序列。</li>
+</ul>
+<p>先说高度记录，计算方法跟上一个解法的最大长度一样，只是变成纵向。有了它，极大子矩阵的宽高都能获得：高，就是当前列的高度（例子中为 4）；宽则稍复杂一点，需要找到左边第一个比当前列低的列（例子中为 列 3），两列之间宽度就是极大子矩阵的宽度（5 - 3 = 2）。</p>
+<p>如果不考虑时间复杂度，高度记录就足以解决问题。但是每次都要搜索左边的高度记录，导致每行的复杂度为 O(C^2) ，乘以行数后整体为 O(R*C^2)，则跟第一种解法相比并无改进。所以引入高度栈，维护一个严格单调递增的高度序列。每当拿到新一列的高度，先将栈里大于等于当前列的高度出栈，剩下的栈顶的列，就是左边第一个比当前列低的列。完成之后将当前列进栈，继续下一步。</p>
+<blockquote>
+<p>实际实践中，栈里一般储存列号，方便计算宽度，高度根据列号到 高度数组查询。</p>
+</blockquote>
+<p><img src="../../images/leetcode1504/leetcode1504-height-stack.svg" alt=""></p>
+<p>由于高度一旦下降，之前更高的列就无法与后续的点构成矩阵，所以出栈的高度再也不会用到。每个列都只会进栈一次，也（最多）只会出栈一次，遍历一行的时间复杂度就降低到了 O(C)。</p>
+<p>如果这部分感觉有点迷糊，跟其它难点混在一起难以理解，可以先尝试做 LeetCode 84 ，在一维的情况下，把高度栈搞懂。</p>
+<p>上代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">numSubmat</span><span class="params">(mat [][]<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</div><div class="line">	count := <span class="number">0</span></div><div class="line">	rowNum := <span class="built_in">len</span>(mat)</div><div class="line">	colNum := <span class="built_in">len</span>(mat[<span class="number">0</span>])</div><div class="line"></div><div class="line">	<span class="comment">// 高度记录只用到最后一行，保留一行即可</span></div><div class="line">	heights := <span class="built_in">make</span>([]<span class="keyword">int</span>, colNum)</div><div class="line">	<span class="comment">// DP 解，以当前点为右下角的子矩阵数，同样只用到最后一行，只保留一行</span></div><div class="line">	dpCount := <span class="built_in">make</span>([]<span class="keyword">int</span>, colNum)</div><div class="line">	<span class="comment">// 高度栈，注意保存的是列号，列高还得到 heights 取</span></div><div class="line">	hStack := newStack()</div><div class="line">	<span class="comment">// 行循环</span></div><div class="line">	<span class="keyword">for</span> row := <span class="number">0</span>; row &lt; rowNum; row++ &#123;</div><div class="line">		<span class="comment">// 只有一个高度栈循环利用，每行开始前摇清空</span></div><div class="line">		hStack.clear()</div><div class="line"></div><div class="line">		<span class="comment">// 列循环</span></div><div class="line">		<span class="keyword">for</span> col := <span class="number">0</span>; col &lt; colNum; col++ &#123;</div><div class="line">			<span class="comment">// 计算当前列高度</span></div><div class="line">			<span class="keyword">if</span> mat[row][col] == <span class="number">1</span> &#123;</div><div class="line">				heights[col]++</div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				heights[col] = <span class="number">0</span></div><div class="line">			&#125;</div><div class="line"></div><div class="line">			<span class="comment">// 将栈里高度 大于等于当前列 的列出栈</span></div><div class="line">			<span class="keyword">for</span> hStack.size() &gt; <span class="number">0</span> &amp;&amp; heights[hStack.top()] &gt;= heights[col] &#123;</div><div class="line">				hStack.pop()</div><div class="line">			&#125;</div><div class="line"></div><div class="line"></div><div class="line">			<span class="keyword">if</span> hStack.size() == <span class="number">0</span> &#123;</div><div class="line">				<span class="comment">// 一直到最左，没有列比当前列 低，宽度直接为 列号 + 1 （列号从 0 开始）</span></div><div class="line">				dpCount[col] = heights[col] * (col + <span class="number">1</span>)</div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				<span class="comment">// 找到左边第一个比当前列低的列，宽度为列号的差，并加上该列的子矩阵数</span></div><div class="line">				preCol := hStack.top()</div><div class="line">				dpCount[col] = dpCount[preCol] + heights[col]*(col-preCol)</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			<span class="comment">// 当前列进栈</span></div><div class="line">			hStack.push(col)</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="comment">// 结束本行前，将本行结果累计，下一循环就会被覆盖</span></div><div class="line">		<span class="keyword">for</span> col := <span class="number">0</span>; col &lt; colNum; col++ &#123;</div><div class="line">			count += dpCount[col]</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> count</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 基于切片自行实现了一个简单的栈</span></div><div class="line"><span class="keyword">type</span> stack <span class="keyword">struct</span> &#123;</div><div class="line">	data []<span class="keyword">int</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">newStack</span><span class="params">()</span> *<span class="title">stack</span></span>      &#123; <span class="keyword">return</span> &amp;stack&#123;data: <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">0</span>)&#125; &#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *stack)</span> <span class="title">size</span><span class="params">()</span> <span class="title">int</span></span>  &#123; <span class="keyword">return</span> <span class="built_in">len</span>(s.data) &#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *stack)</span> <span class="title">push</span><span class="params">(v <span class="keyword">int</span>)</span></span> &#123; s.data = <span class="built_in">append</span>(s.data, v) &#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *stack)</span> <span class="title">top</span><span class="params">()</span> <span class="title">int</span></span>   &#123; <span class="keyword">return</span> s.data[<span class="built_in">len</span>(s.data)<span class="number">-1</span>] &#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *stack)</span> <span class="title">pop</span><span class="params">()</span></span>       &#123; s.data = s.data[:<span class="built_in">len</span>(s.data)<span class="number">-1</span>] &#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *stack)</span> <span class="title">clear</span><span class="params">()</span></span>     &#123; s.data = s.data[:<span class="number">0</span>] &#125;</div></pre></td></tr></table></figure>
+<p>正确性</p>
+<ul>
+<li>不重：右下角不同的子矩阵肯定不是同一个子矩阵。</li>
+<li>不漏：每一个点都作为右下角遍历了一次，每次把以该点为右下角的子矩阵都计算在内。</li>
+</ul>
+<p>复杂度</p>
+<ul>
+<li><p>时间复杂度：最外层每行遍历一次，内层同时做两件事：</p>
+<ul>
+<li>每个点作为右下角计算一次，计算过程为常数；</li>
+<li><p>每个列下标都进栈一次，最多出栈一次。（如果一直单调递增就不出栈）；</p>
+<p>整体的复杂度为 O(RC)。</p>
+</li>
+</ul>
+</li>
+<li><p>空间复杂度：常数组辅助变量，每组变量大小为 C；单调栈也最多进栈 C 个列下标，复杂度为 O(C)。</p>
+</li>
+</ul>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;上周末试着参加了一下 LeetCode 的周赛。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="刷题" scheme="https://jaycechant.info/categories/%E5%88%B7%E9%A2%98/"/>
+    
+    
+      <category term="动态规划" scheme="https://jaycechant.info/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"/>
     
   </entry>
   
