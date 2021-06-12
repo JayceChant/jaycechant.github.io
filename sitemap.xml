@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2017/git-merge-between-different-repo/</loc>
+    
+    <lastmod>2021-06-12T10:46:08.323Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2020/origin-of-names-of-provincial-administrative-regions-in-china/</loc>
     
     <lastmod>2021-05-28T07:45:57.429Z</lastmod>
@@ -492,13 +499,6 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/2017/git-merge-between-different-repo/</loc>
-    
-    <lastmod>2017-10-12T14:20:54.010Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://jaycechant.info/2017/suspected-bug-in-json-lib-2-4-jdk15/</loc>
     
     <lastmod>2017-09-24T10:00:50.146Z</lastmod>
@@ -562,14 +562,14 @@
   </url>
   
   <url>
-    <loc>https://jaycechant.info/list/my-software-and-service-list/index.html</loc>
+    <loc>https://jaycechant.info/list/my-dev-env-list/index.html</loc>
     
     <lastmod>2017-01-23T07:30:50.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://jaycechant.info/list/my-dev-env-list/index.html</loc>
+    <loc>https://jaycechant.info/list/my-software-and-service-list/index.html</loc>
     
     <lastmod>2017-01-23T07:30:50.000Z</lastmod>
     
