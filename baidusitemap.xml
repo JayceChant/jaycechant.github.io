@@ -4,6 +4,43 @@
 
     
   <url>
+    <loc>https://jaycechant.info/2022/farewell-2021/</loc>
+    <lastmod>2022-01-18T05:57:00.095Z</lastmod>
+    <data>
+        <display>
+        <title>告别 2021：近况与选题</title>
+        <pubTime>2022-01-01T12:57:54.000Z</pubTime>
+        
+        <tag>blog</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/</loc>
+    <lastmod>2022-01-01T12:52:58.601Z</lastmod>
+    <data>
+        <display>
+        <title>Go 在 Google：服务于软件工程的语言设计（翻译）</title>
+        <pubTime>2020-08-23T11:09:37.000Z</pubTime>
+        
+        <tag>golang</tag>
+         
+        <tag>翻译</tag>
+         
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jaycechant.info/2017/git-merge-between-different-repo/</loc>
     <lastmod>2021-06-12T10:46:08.323Z</lastmod>
     <data>
@@ -227,25 +264,6 @@
 
     
   <url>
-    <loc>https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/</loc>
-    <lastmod>2020-10-26T09:45:49.816Z</lastmod>
-    <data>
-        <display>
-        <title>Go 在 Google：服务于软件工程的语言设计（翻译）</title>
-        <pubTime>2020-08-23T11:09:37.000Z</pubTime>
-        
-        <tag>golang</tag>
-         
-        <tag>翻译</tag>
-         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://jaycechant.info/2020/translation-billion-dollar-mistake-in-go/</loc>
     <lastmod>2020-10-26T09:45:40.960Z</lastmod>
     <data>
@@ -343,7 +361,6 @@
     </data>
     </url>
 
-    
     
   <url>
     <loc>https://jaycechant.info/2020/golang-in-action-day-2/</loc>
@@ -714,9 +731,9 @@
         <title>小工具专题</title>
         <pubTime>2017-01-16T06:56:57.000Z</pubTime>
         
-        <tag>byobu</tag>
-         
         <tag>screen</tag>
+         
+        <tag>byobu</tag>
          
          
            
@@ -733,6 +750,8 @@
         <title>镜像清单</title>
         <pubTime>2016-12-31T02:29:12.000Z</pubTime>
         
+        <tag>Jenkins</tag>
+         
         <tag>pip</tag>
          
         <tag>Ubuntu</tag>
@@ -746,8 +765,6 @@
         <tag>maven</tag>
          
         <tag>Android</tag>
-         
-        <tag>Jenkins</tag>
          
          
            
@@ -1019,9 +1036,9 @@
         <title>golang 预置 json 包的值覆盖测试</title>
         <pubTime>2019-05-19T16:45:38.000Z</pubTime>
         
-        <tag>json</tag>
-         
         <tag>golang</tag>
+         
+        <tag>json</tag>
          
          
            
@@ -1118,9 +1135,9 @@
         
         <tag>how-to</tag>
          
-        <tag>Mathjax</tag>
-         
         <tag>nodePPT</tag>
+         
+        <tag>Mathjax</tag>
          
          
            
@@ -1156,9 +1173,9 @@
         <title>用 Syncthing 备份的技巧</title>
         <pubTime>2016-08-28T07:57:03.000Z</pubTime>
         
-        <tag>skill</tag>
-         
         <tag>Syncthing</tag>
+         
+        <tag>skill</tag>
          
         <tag>dropbox</tag>
          
@@ -1179,9 +1196,9 @@
         <title>改用 screen 作为 byobu 的后端</title>
         <pubTime>2017-09-19T08:57:40.000Z</pubTime>
         
-        <tag>byobu</tag>
-         
         <tag>screen</tag>
+         
+        <tag>byobu</tag>
          
          
            
@@ -1198,11 +1215,11 @@
         <title>Jenkins 'Could not initialize JFreeChart' 和 tomcat setenv.sh</title>
         <pubTime>2017-01-20T06:44:31.000Z</pubTime>
         
-        <tag>trouble</tag>
-         
         <tag>Jenkins</tag>
          
         <tag>Java</tag>
+         
+        <tag>trouble</tag>
          
         <tag>Tomcat</tag>
          
@@ -1278,9 +1295,9 @@
         <title>Linux 上 为 Jenkins 配置 Android-sdk 及其它</title>
         <pubTime>2017-01-16T03:24:34.000Z</pubTime>
         
-        <tag>Android</tag>
-         
         <tag>Jenkins</tag>
+         
+        <tag>Android</tag>
          
         <tag>Android-sdk</tag>
          
@@ -1322,9 +1339,9 @@
          
         <tag>unfinished</tag>
          
-        <tag>pip</tag>
-         
         <tag>trouble</tag>
+         
+        <tag>pip</tag>
          
         <tag>virtualenv</tag>
          
@@ -1387,11 +1404,11 @@
         
         <tag>how-to</tag>
          
-        <tag>unfinished</tag>
-         
         <tag>Ruby</tag>
          
         <tag>Octopress</tag>
+         
+        <tag>unfinished</tag>
          
          
            
@@ -1411,9 +1428,9 @@
         <title>Jenkins JavaMail 配置：JCE 及其他</title>
         <pubTime>2017-01-11T07:02:31.000Z</pubTime>
         
-        <tag>trouble</tag>
-         
         <tag>Jenkins</tag>
+         
+        <tag>trouble</tag>
          
         <tag>JavaMail</tag>
          
@@ -1459,9 +1476,9 @@
         
         <tag>Python</tag>
          
-        <tag>pip</tag>
-         
         <tag>trouble</tag>
+         
+        <tag>pip</tag>
          
          
            
@@ -1478,15 +1495,15 @@
         <title>博客迁移到了Hexo（附折腾记录）</title>
         <pubTime>2016-06-27T07:46:12.000Z</pubTime>
         
-        <tag>blog</tag>
+        <tag>git</tag>
          
-        <tag>trouble</tag>
+        <tag>blog</tag>
          
         <tag>node.js</tag>
          
         <tag>hexo</tag>
          
-        <tag>git</tag>
+        <tag>trouble</tag>
          
          
            
@@ -1538,9 +1555,9 @@
         <title>刷OJ的技巧</title>
         <pubTime>2016-12-09T01:35:03.000Z</pubTime>
         
-        <tag>OJ</tag>
-         
         <tag>skill</tag>
+         
+        <tag>OJ</tag>
          
          
            
