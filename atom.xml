@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaycechant.info/"/>
-  <updated>2022-01-18T05:57:00.095Z</updated>
+  <updated>2022-01-23T06:58:10.132Z</updated>
   <id>https://jaycechant.info/</id>
   
   <author>
@@ -16,11 +16,183 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>向 QT5 (C++) 程序传递编译期参数</title>
+    <link href="https://jaycechant.info/2022/pass-compile-time-arguments-to-qt5-cpp-program/"/>
+    <id>https://jaycechant.info/2022/pass-compile-time-arguments-to-qt5-cpp-program/</id>
+    <published>2022-01-16T09:17:11.000Z</published>
+    <updated>2022-01-23T06:58:10.132Z</updated>
+    
+    <content type="html"><![CDATA[<p>记在一个遗留 C++ 项目上改造版本号。</p>
+<a id="more"></a>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>C++ 加 QT5 的历史遗留项目。彻底重写不实际，很多坑要重新踩。原作者找不着人，连问都没人可以问。只能重构梳理之后 fix bug 先凑合用。</p>
+<p>琐碎的重构不值一提，唯独版本号的改造，可以记录一下，给以后参考。</p>
+<h3 id="版本号更新"><a href="#版本号更新" class="headerlink" title="版本号更新"></a>版本号更新</h3><p>之前的版本号是写死在代码里的。想起来改一下，有时就忘了。</p>
+<p>这样会有一些弊端：</p>
+<ul>
+<li><p>首先是增加记忆负担。</p>
+<p>  修改版本号动作很小。但开发的粒度跟发布的粒度并不一致。提交的是最小可运行粒度。发布则还要考虑业务和运营。一次发布往往包含多个提交。提交的时候，未必能预计到发布的时机并修改版本号。</p>
+</li>
+<li><p>相对可行的办法，是每次发布完，马上改掉版本号，作为下次发布的预备。</p>
+<p>  但这样提交历史里，会有大量版本号的提交，稀释了真正有用的提交。</p>
+</li>
+<li><p>何况即使这样，还是无法跟踪两次正式发布之间的测试版本。</p>
+<p>  一般完整的版本号，会同时包含 供用户关注的、粒度较大的『发布版本号』，和 内部跟踪的、粒度更小的『内部版本号』。git 的 commit hash (SHA-1) 就是一个天然的内部版本号，帮我们把程序唯一对应到一个提交。有些时候还要加上系统平台、架构或编译器的信息。可一旦加上这些信息，上面的问题就更严重了。</p>
+</li>
+</ul>
+<p>要么不记得，要么改不对，还污染历史。</p>
+<p>这些矛盾的根源，在于 <strong>版本号主要作用于 测试、发布、运维，帮我们跟踪代码版本、构建信息，其内容和代码逻辑本身几乎是正交的，是在代码提交完之后才真正确定下来的；却为了后续的跟踪，偏偏需要内置在程序里</strong> 。</p>
+<p>在代码里修改版本号，就成了当预言家，要预测版本什么时候发布，能不能通过测试，能不能正常发布，注定吃力不讨好。</p>
+<p>如果版本号里还需要包含 commit hash，在提交前就预测并写入代码，则几乎是不可能的任务。信息摘要有雪崩效应，hash 由提交的所有信息共同确定；但是在这个提交里，却要先把 hash 写入。这就陷入了 鸡-蛋悖论。</p>
+<h3 id="编译期确定"><a href="#编译期确定" class="headerlink" title="编译期确定"></a>编译期确定</h3><p>所以合理的做法是，代码里预留这些信息的位置和相关的代码，值等到代码提交后的某一刻再决定。一般来说，这个时刻就是编译的时候。</p>
+<p>对于 Go 而言，就是在编译时，给 linker 传递 <code>-ldflags &quot;-X &#39;&lt;包名&gt;.&lt;变量名&gt;=&lt;字符串&gt;&#39;&quot;</code> ，就可以给代码里对应的（string）变量赋值。</p>
+<p>举例说，如果在 <code>main.go</code> 里这样写</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> main</div><div class="line"></div><div class="line"><span class="keyword">import</span> (</div><div class="line">    <span class="string">"fmt"</span></div><div class="line">)</div><div class="line"></div><div class="line"><span class="keyword">var</span> version <span class="keyword">string</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</div><div class="line">    fmt.Println(version)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>编译时加上 <code>-ldflags &quot;-X &#39;main.version=v1.2.3&#39;&quot;</code> ，那么我们最后运行程序得到的输出就是 <code>v1.2.3</code> 。</p>
+<p>更具体地，我一般会在 <code>Makefile</code> 里这样写：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="section">build:</span></div><div class="line">	go build -ldflags <span class="string">"-X 'main.version=$(TAG)' -X 'main.goVersion=$(shell go version)' -X 'main.commitHash=$(shell git show -s --format=%H)' -X 'main.buildTime=$(shell date "</span>+%Y-%m-%d %T%z<span class="string">")'"</span></div></pre></td></tr></table></figure>
+<p>主版本号通过命令行通过环境变量 <code>TAG</code> 传入，其它的信息则通过 shell 自动获取。</p>
+<h2 id="C-和-QT5-下的方案"><a href="#C-和-QT5-下的方案" class="headerlink" title="C++ 和 QT5 下的方案"></a>C++ 和 QT5 下的方案</h2><p>我需要在 C++ 里做到类似的事情。</p>
+<blockquote>
+<p>特别强调，我本来用 C++ 就用得很浅，再加上已经有十年不怎么写，下面的内容仅仅对我而言值得记录一笔，对 C++ 高手来说可能完全不值一提。</p>
+</blockquote>
+<h3 id="D-参数"><a href="#D-参数" class="headerlink" title="-D 参数"></a>-D 参数</h3><p>项目用的是 g++ 编译器，可以很容易查到，最接近的做法，是给编译器传递 <code>-D&lt;宏&gt;[=值]</code> 来定义宏。</p>
+<p>举例说，<code>-DDEBUG_LOG</code> 相当于 <code>#define DEBUG_LOG</code> ；<code>-DVERSION=v1.2.3</code> 则相当于 <code>#define VERSION v1.2.3</code> 。注意 <code>-D</code> 和后续内容中间没有任何间隔或者符号。</p>
+<p>时间关系，我没有去确认其它编译器是否也有这个参数。</p>
+<h3 id="qmake-和-pro"><a href="#qmake-和-pro" class="headerlink" title="qmake 和 .pro"></a>qmake 和 .pro</h3><p>然而我们并不会手动调用 <code>g++</code> ，甚至都不会手写 <code>Makefile</code> 。项目下确实是有一个 <code>Makefile</code> ，但它是 <code>qmake</code> 自动生成的，任何修改都会在后续被覆盖。<code>qmake</code> 从 <code>&lt;项目名&gt;.pro</code> 生成 <code>Makefile</code> 。</p>
+<p>结合现有的 <code>.pro</code> 文件和网上的信息，很容易确定 <code>DEFINES</code> 的值，最终会变成 <code>Makefile</code> 里的 <code>-D</code> 参数。</p>
+<p>于是我在 <code>.pro</code> 加了一行</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># git commit hash</span></div><div class="line">DEFINES += COMMIT_HASH=<span class="variable">$(shell git show -s --format=%h --abbrev=10)</span></div></pre></td></tr></table></figure>
+<p>（暂时版本号里不想添加太多东西，只传入了 commit hash；甚至完整的 hash 都略嫌太长，只保留了前 10 位。）</p>
+<p>迫不及待地开始编译，得到的 <code>Makefile</code> 里却是这样的</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-DCOMMIT_HASH=$(shell -Dgit -Dshow -D-s -D--format=%h -D--abbrev=10)</div></pre></td></tr></table></figure>
+<p>以空格为分隔符，每一段都成了一个参数……</p>
+<p>不过这个很好解决，加个引号就行</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DEFINES += COMMIT_HASH="<span class="variable">$(shell git show -s --format=%h --abbrev=10)</span>"</div></pre></td></tr></table></figure>
+<p>引号也可以加在别的地方，只要把空格放在引号里，保证不会断开就行</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DEFINES += "COMMIT_HASH=<span class="variable">$(shell git show -s --format=%h --abbrev=10)</span>"</div></pre></td></tr></table></figure>
+<p>无论是哪一种，最后得到的 <code>Makefile</code> 里都是</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-DCOMMIT_HASH=$(shell git show -s --format=%h --abbrev=10)</div></pre></td></tr></table></figure>
+<p>有效信息已经从 <code>qmake</code> 和 <code>.pro</code> 传到了 <code>make</code> 和 <code>Makefile</code> 手里。接下来 <code>make</code> 执行时，会执行 <code>$(shell ...)</code> 里的内容，并将结果原地展开。那么从 <code>make</code> 传递给 <code>g++</code> 的时候，<code>-DCOMMIT_HASH=</code> 后面就已经是具体的值了。</p>
+<p>相当于 <code>#define COMMIT_HASH 具体的hash</code> </p>
+<h3 id="宏不是字符串"><a href="#宏不是字符串" class="headerlink" title="宏不是字符串"></a>宏不是字符串</h3><p>宏有了，我们终于来到代码部分。</p>
+<p>由于宏是外部定义的，代码里没有，直接用会报错。只是不同 IDE 具体报的错不同。（因为 QtCreator 不好用，我在 VS Code 里写代码，QtCreator 只用来编译。）</p>
+<p>即使不考虑这些报错，也可能存在后续忘了传对应参数的情况，从而导致代码有不可预料的结果。最好的办法还是加上 <code>#ifdef</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">QString version;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> COMMIT_HASH</span></div><div class="line">    version = COMMIT_HASH;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
+<p>加了之后，VS Code 不再报错了（其实是因为它认为这个宏没有定义，直接忽略了这段代码）。但 QtCreator 很聪明地意识到还有问题，报了一个 <code>expected expression</code> （这里需要一个表达式）。而如果改为将 <code>COMMIT_HASH</code> 当做字符串参数用，会提示少了参数。</p>
+<p>究其原因，是 <code>COMMIT_HASH</code> 只是一个宏，而且是一个外部定义的宏，不是字符串。</p>
+<h3 id="外部定义"><a href="#外部定义" class="headerlink" title="外部定义"></a>外部定义</h3><p>到这里，对 C++ 已经很生疏的我有点懵，然后就开始胡乱地尝试。（接下来的病急乱投医让各位见笑了）</p>
+<p>如果改为 <code>version = &quot;COMMIT_HASH&quot;;</code> ，倒是不报错了，但是 <code>version</code> 得到的，也确实只有一个 <code>&quot;COMMIT_HASH&quot;</code> 的字符串。这是因为</p>
+<blockquote>
+<p>宏参数不会在字符串常量内部替换（parameters are not replaced inside string constants）。</p>
+</blockquote>
+<p>宏是预处理器负责处理的，早在开始编译之前就已经被替换。如果在 <code>.pro</code> 里再额外加了引号，试图让宏的值带上引号呢：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DEFINES += COMMIT_HASH="\"<span class="variable">$(shell git show -s --format=%h --abbrev=10)</span>\""</div></pre></td></tr></table></figure>
+<p>相当于 <code>#define COMMIT_HASH &quot;具体的hash&quot;</code> 。然而没有用，仍然报错。</p>
+<p>因为这种外部定义的宏，跟真实写在代码里的宏，还不一样。</p>
+<p>实际在代码里定义一个 <code>COMMIT_HASH</code> 对比一下效果（以下报错都来自 VS Code）：</p>
+<ul>
+<li><code>#define COMMIT_HASH 1234</code> ，引用处报错 <code>no suitable constructor exists to convert from &quot;int&quot; to &quot;QString&quot; : C/C++(415)</code>；</li>
+<li><code>#define COMMIT_HASH 123aef</code> （没有 <code>0x</code> 前缀的 16进制数，模拟真实的 commit hash 值），报错 <code>user-defined literal operator not found : C/C++(2486)</code> ；</li>
+<li><code>#define COMMIT_HASH &quot;123aef&quot;</code> ，可以正常编译。</li>
+</ul>
+<p>有这些差别，是因为写在代码里的宏定义，就在编译器和工具链 <strong>眼皮底下</strong> ，完全可以先展开，再做静态分析。</p>
+<p>可对于外部定义的宏，这些分析就没法做。工具链无法确定这是什么东西，也就无法确定究竟是以上哪种情况。</p>
+<h3 id="套娃的-展开"><a href="#套娃的-展开" class="headerlink" title="套娃的 # 展开"></a>套娃的 # 展开</h3><p>我们需要给工具链一个保证：在不知道宏的值的情况下，拿到的仍然是一个字符串。</p>
+<p>对 C++ 来说，我们需要预处理运算符（stringizing operator）：<code>#</code> ，它会把参数对应的字面文本转换为字符串。</p>
+<p>是的，<code>#</code> 不仅是所有预处理指令（preprocessing directive）的开头，单独的 <code>#</code> 也是一个预处理运算符（preprocessing operator）。</p>
+<p>为此我找了两个参考文档，分别来自</p>
+<ul>
+<li>GNU ： <a href="https://gcc.gnu.org/onlinedocs/cpp/Stringizing.html" target="_blank" rel="external">https://gcc.gnu.org/onlinedocs/cpp/Stringizing.html</a></li>
+<li>微软 ： <a href="https://docs.microsoft.com/en-us/cpp/preprocessor/stringizing-operator-hash" target="_blank" rel="external">https://docs.microsoft.com/en-us/cpp/preprocessor/stringizing-operator-hash</a></li>
+</ul>
+<p>两边结合着理解。</p>
+<h4 id="第一层：直接用"><a href="#第一层：直接用" class="headerlink" title="第一层：直接用"></a>第一层：直接用</h4><p>上来直接把代码改为 <code>version = #COMMIT_HASH;</code> ，得到的错误是 <code>&#39;#&#39; not expected here : C/C++(10)</code> 。</p>
+<h4 id="第二层：函数宏"><a href="#第二层：函数宏" class="headerlink" title="第二层：函数宏"></a>第二层：函数宏</h4><p>结合例子理解一下，哦，貌似 <code>#</code> 只能在宏里面生效。好，改成这样</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> STR(S) #S</span></div><div class="line"></div><div class="line"><span class="comment">//....</span></div><div class="line"></div><div class="line">QString version;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> COMMIT_HASH</span></div><div class="line">    version = STR(COMMIT_HASH);</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
+<p>再试一下。这回可以正常编译。可是运行之后发现，得到的还是一个 <code>&quot;COMMIT_HASH&quot;</code> 。</p>
+<p>还是着急了，只看了文档开头就动手。还是要把文档看完。</p>
+<p>咦，不对啊，为什么 GNU 的例子展开了。你看</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> WARN_IF(EXP) \</span></div><div class="line">do &#123; <span class="meta-keyword">if</span> (EXP) \</div><div class="line">    fprintf (stderr, <span class="meta-string">"Warning: "</span> #EXP <span class="meta-string">"\n"</span>); &#125; \</div><div class="line">while (0)</div><div class="line"></div><div class="line">WARN_IF (x == <span class="number">0</span>);</div></pre></td></tr></table></figure>
+<p>等价于</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">do</span> &#123; <span class="keyword">if</span> (x == <span class="number">0</span>)</div><div class="line">    <span class="built_in">fprintf</span> (<span class="built_in">stderr</span>, <span class="string">"Warning: "</span> <span class="string">"x == 0"</span> <span class="string">"\n"</span>); &#125; <span class="keyword">while</span> (<span class="number">0</span>);</div></pre></td></tr></table></figure>
+<p>这 <code>EXP</code> 不是展开成 <code>x == 0</code> 了吗？</p>
+<p>真的吗？</p>
+<p>这里暂停让读者自己理一下。</p>
+<p>1</p>
+<p>2</p>
+<p>3</p>
+<p>4</p>
+<p>5</p>
+<p>哎呀，把自己绕进去了。让我们一一对应一下：</p>
+<ul>
+<li><code>EXP</code> 对应 <code>S</code> ；</li>
+<li>展开之后 <code>x == 0</code> 对应 <code>COMMIT_HASH</code> ；</li>
+<li>字符串里，<code>x</code> 没有进一步展开，<code>COMMIT_HASH</code> 也没有。</li>
+</ul>
+<p>好吧，确实没错。</p>
+<blockquote>
+<p><code>EXP</code> 的参数会 <strong>原封不动</strong> 替换到 if 语句中，并且被字符串化成为 <code>fprintf</code> 的参数。如果 <code>x</code> 是一个宏，它会在 if 语句中继续展开，但在字符串中不会。</p>
+<p>（The argument for EXP is substituted once, <strong>as-is</strong>, into the if statement, and once, stringized, into the argument to fprintf. If x were a macro, it would be expanded in the if statement, but <strong>not in the string</strong>.）</p>
+</blockquote>
+<p>看到这里我懂了，<code>#</code> 的字符串化 <strong>先起作用</strong>。然后 <strong>双引号阻止了里面的宏进一步展开</strong>。</p>
+<h4 id="第三层：套娃"><a href="#第三层：套娃" class="headerlink" title="第三层：套娃"></a>第三层：套娃</h4><p>那我就是需要继续展开怎么办？</p>
+<p>其实两边文档后面都给出了例子。还是以 GNU 的来参考（毕竟我们用的 g++）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> xstr(s) str(s)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> str(s) #s</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> foo 4</span></div><div class="line"></div><div class="line">str (foo)</div><div class="line">xstr (foo)</div></pre></td></tr></table></figure>
+<p><code>str (foo)</code> 对应的展开是 <code>&quot;foo&quot;</code> ， <code>xstr (foo)</code> 则经历了两次展开：</p>
+<ul>
+<li>第一步先展开成 <code>str(4)</code> ，</li>
+<li>第二步再展开成 <code>&quot;4&quot;</code> 。</li>
+</ul>
+<p>其实就是多展开一次，让 <code>#</code> 不那么快生效，好让传进去的宏有机会展开。</p>
+<p>果然，我的代码改为</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> STR(S) #S</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> VSTR(V) STR(V)</span></div><div class="line"></div><div class="line"><span class="comment">//....</span></div><div class="line"></div><div class="line">QString version;</div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> COMMIT_HASH</span></div><div class="line">    version = VSTR(COMMIT_HASH);</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
+<p>就达到了目的。到这里，运行之后，<code>version</code> 输出的就是具体的 git commit hash 了。</p>
+<h4 id="一点扩展"><a href="#一点扩展" class="headerlink" title="一点扩展"></a>一点扩展</h4><p>这里有了一个问题，如果传进去的宏，里面还有一层宏呢？</p>
+<p>以 GNU 的例子为例，如果变成这样</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> xstr(s) str(s)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> str(s) #s</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> foo bar</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> bar 4</span></div><div class="line"></div><div class="line">xstr (foo)</div></pre></td></tr></table></figure>
+<p>会得到什么？</p>
+<p>是 <code>&quot;bar&quot;</code> 还是 <code>&quot;4&quot;</code> ？</p>
+<p>函数宏的层数需要总是比参数宏多一层吗？</p>
+<p>需要再定义一层 <code>#define ystr(s) xstr(s)</code> 吗？</p>
+<p>还说说两层的函数宏就能应对所有情况？</p>
+<p>这个问题就留给读者自己尝试吧。</p>
+<p>欢迎在留言说说你的看法。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>我有十年不怎么写过 C++ 了。</p>
+<p>C++ 性能好，可以访问底层接口，可以精确控制代码行为和内存分配，支持多范式，开发自由度大，优点很多。所以在很多领域是首选。</p>
+<p>但真的太复杂了，新手容易玩脱，老手把代码写对也不算轻松。心智负担大，历史包袱重。</p>
+<p>要获得它那些优点，我甚至宁可写 C。其它场景，也优先 选择 Java，或者 Go。反正我是不可能选 C++ 作为新项目的开发语言了。何况现在还多了 Rust 这个选项。</p>
+<p>偏偏碰上这么一个遗留项目。</p>
+<p>只好把 C++ 临时捡起来，一顿重构。</p>
+<p>原作者大概水平不高，或者写得不用心，又或者两者都有。代码质量很差，大量面条代码，动辄几百行的函数，宁可拷贝也不肯抽取函数，前后打脸的变量命名和代码逻辑，想当然的并发代码 …… 反正就一个编程规范的反面教材，吐槽不完。他大概也发现自己维护不下去，在我接手之前就撂挑子了。</p>
+<p>重构过程按下不表，反正是一边猜测代码的意图，一边看运行效果去验证，等理解了，再去修正逻辑错误。</p>
+<p>慢慢算是改出一点效果。但是还是有很多地方不太确定意图，为了保持跟服务端的兼容性，需要进行灰度更新。</p>
+<p>出问题时，我需要能区分具体版本。</p>
+<p>于是就有了上面的一出。</p>
+<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><p>关于 hash 部分，之所以说预测 hash 值只是 <strong>几乎</strong> 不可能，是因为还有一种办法：随机碰撞。</p>
+<p>随机构造一个合法的 hash，尝试写入之后求真正的 hash，不断重试，直到构造的 hash 刚好和生成的 hash 一致为止。</p>
+<p>理论上这是可以做到的。但这种做法会消耗大量的算力和时间。比特币挖矿的 POW 跟这个接近，但只是限定得到的 hash 的开头的零的数量，就已经耗费如此巨大的算力。如果要求算出的 hash 跟 构造的值 完全一致，需要的碰撞次数可能是天文数字。我不是这方面的专业人员，估算得可能不准确。但要说对普通开发电脑来说不可能，应该还是中肯的。（Google 破解 SHA-1 时，动用了大量的计算机集群，才构造出一个 PDF，获得预先构造的 hash）</p>
+<p>而这，只是一次提交。难道每次提交都要动用超算，还要跑半天？</p>
+<hr>
+<p><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" alt="知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议"><br>本文为本人原创，采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">知识共享 “署名-非商业性使用-相同方式共享” 4.0 (CC BY-NC-SA 4.0)”许可协议</a>进行许可。<br>本作品可自由复制、传播及基于本作品进行演绎创作。如有以上需要，请留言告知，在文章开头明显位置加上署名（Jayce Chant）、原链接及许可协议信息，并明确指出修改（如有），不得用于商业用途。谢谢合作。<br>请点击查看<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external">协议</a>的中文摘要。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;记在一个遗留 C++ 项目上改造版本号。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="C++" scheme="https://jaycechant.info/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
     <title>告别 2021：近况与选题</title>
     <link href="https://jaycechant.info/2022/farewell-2021/"/>
     <id>https://jaycechant.info/2022/farewell-2021/</id>
     <published>2022-01-01T12:57:54.000Z</published>
-    <updated>2022-01-18T05:57:00.095Z</updated>
+    <updated>2022-01-18T11:22:10.207Z</updated>
     
     <content type="html"><![CDATA[<p>看一下公众号，一不小心，半年没有推送过了。</p>
 <a id="more"></a>
@@ -101,7 +273,7 @@
 <p>小时候觉得理所当然一直都会在的人，一一与我道别。</p>
 <p>不，更多时候根本来不及告别。</p>
 <p>《寻梦环游记》说，人会死去三次，最后一次是被世人遗忘之时。作为一个受过高中物理训练的人，觉得这种说法过于文艺——无论你是否记得，他们本人都不再有任何感知。</p>
-<p><a href="http://zhishifenzi.com/depth/depth/7233.html" target="_blank" rel="external">你我皆是星辰之子</a>，从星尘从来，终究回到星尘中去。</p>
+<p><a href="http://zhishifenzi.com/depth/depth/7233.html" target="_blank" rel="external">你我皆是星辰之子</a>，从星尘中来，终究回到星尘中去。</p>
 <p>饶是明白这些道理，我仍愿意记得他们。那些音容笑貌，今天在脑海里依然清晰，梦中还偶尔遇见，但不知道哪天就再也想不起。</p>
 <p>我愿意借助互联网，让他们存在过的痕迹，稍微多保留一会，甚至超过我存在的时间。（愿公众号，或者未来可能换的托管服务，基业长青）</p>
 <p>不去后悔过去与他们相处太少，因为总的时间有限，生命再来一次，不见得会分配得更好，无非蝴蝶效应、厚此薄彼。记住，是能做的最后一件事。</p>
@@ -3277,384 +3449,6 @@
     
     
       <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Go 在 Google：服务于软件工程的语言设计（翻译）</title>
-    <link href="https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/"/>
-    <id>https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/</id>
-    <published>2020-08-23T11:09:37.000Z</published>
-    <updated>2022-01-01T12:52:58.601Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解得还是不够深入，写得辞不达意。然后找到了 Rob Pike 在 8 年前的演讲稿，拜读学习之后，想推荐给我的读者作为学习资料。</p>
-</blockquote>
-<a id="more"></a>
-<blockquote>
-<p>结果在中文互联网只找到了 OSCHINA 上 13 年的众包翻译，再也没找到其他翻译版本。这个版本，不同译者，以及同一译者的不同段落，翻译水平差异极大：个别地方翻译得非常传神，更多时候是忠实的术语翻译，偶有生硬直译和机翻的感觉，同时也能找到一些明显的理解错误和低级的笔误。</p>
-<p>总的来说，如果对 Go、C 家族语言 以及 并发、垃圾回收等 涉及的主题有一定了解，翻译的瑕疵不影响理解。译文翻译于 13 年，很早，应该对中文世界早期 Go 的推广起了一定的作用，向这些译者致谢。但是如果是刚接触编程或者 Go 语言的初学者，个别错误可能会让人看得云里雾里。</p>
-<p>所以我不自量力地尝试自己翻译一遍。首先是试图提供一个质量稍微高一点点的版本（不一定能成功），其次也是希望通过这样再深入学习一遍。</p>
-<p>为了符合中文的阅读习惯，在（尽量）不影响原意的前提下，一些句子（特别是长从句）的语序作了调整，个别不符合中文表达习惯的表述做了删减或者补充。文中的加粗也是我个人划的重点。水平所限，译文在（计算机）专业上和英语理解上不可避免地会有理解偏差乃至错误，存疑的地方请结合原文理解。翻译过程有借助 辞典 和 DeepL 翻译器作为参考，个别表述有借鉴 OSCHINA 版译文。</p>
-<p>本文的翻译于 2022 年 1 月 1 日有更新。对部分术语的翻译做了调整；将部分英语式的长从句，改为了更符合中文习惯的短句。另外，注释中对当下现状的说明，也进行了更新。</p>
-</blockquote>
-<p>原文：<strong>Go at Google: Language Design in the Service of Software Engineering</strong></p>
-<p>地址：<a href="https://talks.golang.org/2012/splash.article" target="_blank" rel="external">https://talks.golang.org/2012/splash.article</a></p>
-<p>作者：Rob Pike</p>
-<p>翻译：Jayce Chant（博客：jaycechant.info，公众号ID： jayceio）</p>
-<blockquote>
-<p>Rob Pike：Unix 小组成员，参与了 Plan 9 计划，1992 年和 Ken Thompson 共同开发了 UTF-8。他和 Ken Thompson 也是 Go 语言最早期的设计者。</p>
-</blockquote>
-<h2 id="1-摘要"><a href="#1-摘要" class="headerlink" title="1. 摘要"></a>1. 摘要</h2><blockquote>
-<p>这是 Rob Pike 2012 年 10 月 25 日在 亚利桑那州 图森市 举行的 SPLASH 2012 会议上发表的主题演讲稿的修订版。</p>
-</blockquote>
-<p>我们在 Google 开发软件基础设施时，遇到了一些问题，针对这些问题，Go 语言在 2007 年末被构思出来。今天的计算环境，与正在使用的语言（主要是 C++、Java 和 Python）创建时的环境几乎毫无关系。<strong>多核处理器</strong>、<strong>网络系统</strong>、<strong>大规模计算集群</strong> 和 <strong>网络编程模型</strong> 所带来的问题，人们只是用临时方案绕过（being worked around），而不是正面解决（addressed head-on）。另外，软件的规模也发生了变化：今天的服务器程序由数千万行代码组成，需要成百上千的程序员共同协作，并且每天都在更新。更糟糕的是，即使是在大型编译集群上，软件的构建（build）时间也要延长到几分钟，甚至几小时。</p>
-<p>设计和开发 Go ，就是为了提高 <strong>这种环境下的工作效率</strong> 。 设计 Go 时的考虑因素，除了众所周知的像 <strong>内置并发</strong> 和 <strong>垃圾回收</strong>，还包括 <strong>严格的依赖管理</strong> 、系统规模增长时 <strong>软件架构的自适应性</strong>，以及 <strong>跨组件的健壮性</strong> 。</p>
-<p>本文将向你解释，如何在构建一个高效、编译型、轻量、且使人愉悦的编程语言的同时，去解决这些问题。事例 和 说明 都来自 Google 实际遇到的问题。</p>
-<h2 id="2-简介"><a href="#2-简介" class="headerlink" title="2. 简介"></a>2. 简介</h2><p>Go 是 Google 开发的一种 <strong>编译型</strong> 、 <strong>支持并发</strong> 、<strong>带垃圾回收</strong> 的 <strong>静态类型</strong> 语言。它首先是一个开源项目：是 Google 从公共代码库导入代码，而不是 Google 将内部代码开放出来。</p>
-<p>Go 运行效率高、可伸缩性强，而且工作效率高。有些程序员觉得用它干活很有趣；有些则觉得它缺乏想象力，甚至很无聊。在本文中，我们将解释为什么这些观点并不矛盾。<strong>Go 是为解决 Google 在软件开发中面临的问题而设计出来的，这导致 Go 并不是一门在研究领域有突破的语言；但它仍是设计实现大型软件项目的优秀工具。</strong></p>
-<blockquote>
-<p>译者注：要注意这是 12 年的演讲。Go 初期确实是为了解决 Google 内部问题而诞生。但如今已经是诞生的第 13 个年头，Go 早已被寄予更多的期待。它要解决的问题没变，但不再局限于 Google 的内部场景。</p>
-</blockquote>
-<h2 id="3-Go-在-Google"><a href="#3-Go-在-Google" class="headerlink" title="3. Go 在 Google"></a>3. Go 在 Google</h2><p>Google 设计 Go 用来帮助解决 Google 自己的问题，而 Google 的问题很 <strong>大</strong>。</p>
-<p>硬件大，软件也大。软件有好几百万行，服务器大部分用 C++，剩下的很多是 Java 和 Python。在一棵包含了所有软件的单棵大树的『头部』，成千上万的工程师在这些代码上工作，所以树的各个层次一天到晚都有重要变更。使用大型的、定制的分布式构建系统，使这种规模的开发变得可行，但它仍然很大。</p>
-<p>所有这些软件运行在数不清（zillions）的机器上，而这些机器又被划分成少数几个 <strong>相互独立</strong> 却又 <strong>相互连接</strong> 的计算集群。</p>
-<p>简而言之，在 Google ，软件开发的规模很大，可能速度缓慢，经常显得笨拙。但它仍是有效的。</p>
-<p>Go 项目的目标，是消除 Google 软件开发中的缓慢和笨拙，从而使开发过程更加高效和获得更强的可伸缩性（scalable）。<strong>这个语言是由编写、阅读、调试和维护大型软件系统的人设计的，也是为这些人设计的。</strong></p>
-<p>因此，Go 的目的不是要做编程语言设计的研究，而是要改善语言设计者及其同事的工作环境。Go 考虑的更多是软件工程的问题，而不是编程语言方面的科研。换句话说，<strong>它围绕的是『服务于软件工程的语言设计』</strong>。</p>
-<p>但是，一门编程语言如何对软件工程产生助益呢？本文剩下的内容就是要回答这个问题。</p>
-<blockquote>
-<p>译者注：在英文里，Scalability / Scalable 指的是适应规模上的变化，Extensibility / Extensible 指的是适应功能上的变化，基本不存在争议。</p>
-<p>但在中文里，两者都有被翻译成『可扩展性』，使得在中文语境下，可扩展性这个术语出现了歧义。为了避免这种混淆，本文统一将 Scalability / Scalable 翻译为『可伸缩性』。</p>
-</blockquote>
-<h2 id="4-痛点"><a href="#4-痛点" class="headerlink" title="4. 痛点"></a>4. 痛点</h2><p>在 Go 刚推出时，有人声称，它缺少现代语言所必需的某些特性或方法论。缺少这些的 Go 能有什么价值呢？我们的回答是，Go 所具备的某些特性，可以解决严重困扰大规模软件开发的一些问题。这些问题包括：</p>
-<ul>
-<li>构建速度慢</li>
-<li>失控的依赖关系</li>
-<li>每个程序员使用相同语言的不同子集</li>
-<li>程序难以理解（代码难以阅读，文档不完善等）</li>
-<li>重复劳动</li>
-<li>更新代价大</li>
-<li>版本偏斜（version skew）</li>
-<li>难以编写自动化工具</li>
-<li>跨语言构建</li>
-</ul>
-<p>一门语言的单个特性并不能解决这些问题。这需要有软件工程的大局观（larger view），所以在 Go 的设计中，我们试图把重点放在解决这些问题上。</p>
-<p>作为一个简单而且独立的例子，我们来看一下程序结构的表示方式。一些观察者反对 Go 用花括号（<code>{...}</code>）来表示类似于 C 的块状结构，他们更喜欢用 Python 或 Haskell 风格的空格来缩进。然而，我们见过太多由跨语言构建引起的构建和测试失败：嵌入到另一种语言里的 Python 代码段（例如通过 SWIG 调用），会因为周围代码缩进的变化而被意外地破坏，非常难以察觉。因此，我们的观点是，虽然空格缩进对于 <strong>小程序</strong> 来说是不错的选择，但它并不具有大程序所需要的可伸缩性；而且是<strong>代码库越大，异构性越强，麻烦就越多</strong> 。<strong>为了安全和可靠，最好还是放弃这点便利</strong>，所以 Go 还是用花括号把代码块包起来。</p>
-<h2 id="5-C-和-C-中的依赖关系"><a href="#5-C-和-C-中的依赖关系" class="headerlink" title="5. C 和 C++ 中的依赖关系"></a>5. C 和 C++ 中的依赖关系</h2><p>上面提到的可伸缩性和其它问题，一个更实质性的例子，是包依赖关系的处理。我们从回顾 C 和 C++ 的依赖关系如何工作开始讨论。</p>
-<p>ANSI C 最早于 1989 年标准化，它在标准头文件里推广了 <code>#ifndef</code> 『防护（guards）』的概念。这个做法现在已经是无处不在。具体做法是，每个头文件都要用一个条件编译语句（clause）包裹起来，这样做就算这个头文件被多次包含（included）也不会出错。例如，Unix 头文件 <code>&lt;sys/stat.h&gt;</code> 的结构是这样的：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 大段的版权和许可证声明 */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _SYS_STAT_H_</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _SYS_STAT_H_</span></div><div class="line"><span class="comment">/* 类型和其他定义 */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
-<p>这样做的目的，是让 C 语言预处理器在第二次及后续读到该文件时，忽略被包裹的内容。符号 <code>_SYS_STAT_H_</code>  在第一次读取文件时被定义，避免（guards）了后续的调用。</p>
-<p>这样设计有一些好处，最重要的是每个头文件可以安全地 <code>#include</code> 它所有的依赖，即使其他头文件也包含这些依赖，都不会有问题。如果遵循这个规则，并且按字母顺序排列 <code>#include</code> 语句，可以写出有条理的代码。</p>
-<p><strong>但它的可伸缩性非常差。</strong></p>
-<p>1984 年，有人发现编译 <code>ps.c</code> （Unix <code>ps</code> 命令的源码）时，整个预处理过程会遇到 37 次 <code>#include &lt;sys/stat.h&gt;</code> 。<strong>尽管后面 36 次，头文件的内容都会被忽略，但大多数 C 语言的实现每次都会打开文件、读取文件、完整扫描内容，一连串动作下来，一共 37 次。</strong> 这样做显然不够聪明，但是 C 预处理器需要处理非常复杂的宏语义，使它只能这样实现。</p>
-<p>这对软件造成的影响是， C 程序里 <code>#include</code> 语句会不断累积。添加 <code>#include</code> 语句不会破坏程序，却很难知道什么时候不再需要它们。即使删除一条 <code>#include</code> 后再编译一次也检查不出来，因为可能另一条 <code>#include</code> 引入的文件，本身又包含你刚刚删除的那条  <code>#include</code>。</p>
-<p>从技术的角度讲，没必要弄成这样子。意识到使用 <code>#ifndef</code> 防护的长期问题，Plan 9 库的设计者们采取了一种不同的、非 ANSI 标准的做法。在 Plan 9 里，头文件禁止包含更多的 <code>#include</code> 语句；所有的 <code>#include</code> 都要放在顶层 C 文件里。当然这样做需要一些纪律：程序员要按照正确的顺序、准确地列出必要的依赖关系。但文档可以为此提供帮助，在实践中效果非常好。这样做的结果是，无论一个 C 源文件有多少依赖，在编译该文件时，每个 <code>#include</code> 文件都只会被读取一次。而且，只要把 <code>#include</code> 语句先删掉，就能很容易地看出来它是否必要：当且仅当删除的依赖不必要时，编辑后的程序才能通过编译。</p>
-<p>Plan 9 做法最重要的结果，是编译速度更快：编译所需的 I/O 量比使用带有 <code>#ifndef</code> 防护的库时大大减少。</p>
-<p>但在 Plan 9 之外，『防护』法仍是 C 和 C++ 的公认做法。事实上，<strong>C++ 在更细的粒度上使用同样的做法还加剧了这个问题</strong> 。按照惯例，C++ 程序的结构通常是每个类有一个头文件，也可能是一小组的相关类有一个头文件，这种分组方式比像 <code>&lt;stdio.h&gt;</code> 这样的头文件要小得多。因此，它的依赖树要复杂得多，反映的不是库之间的依赖关系，而是完整的类型层次结构。此外，C++ 头文件通常包含真正的代码：类型、方法和模板声明——而不仅仅是一般 C 头文件里常见的简单常量和函数签名。因此，C++ 不仅向编译器推送了更多的信息，而且推送的内容更难编译，编译器的每次调用都必须重新处理这些信息。在构建一个大型的 C++ 二进制文件时，编译器可能要成千上万次地处理头文件 <code>&lt;string&gt;</code> 去学会如何表示一个字符串。（据记录，1984 年左右，Tom Cargill 就提到，使用 C 预处理器进行依赖管理将是 C++ 的长期负担，应该加以解决。）</p>
-<p>在 Google，构建一个 C++ 二进制文件，打开和读取不同的头文件可以达到数百个，次数可以达到数万次。2007 年，Google 的构建工程师对 Google 的一个主要二进制文件的编译进行了检测。这个二进制文件包含了大约两千个源文件，如果简单地连在一起，总共有 4.2 MB。在所有  <code>#include</code> 语句被展开后，超过 8 GB 内容被送到编译器的输入端，也就是源码 <strong>膨胀了 2000 倍</strong> 。</p>
-<p>另一个数据是，2003 年，Google 的构建系统从单一的 Makefile 转变为每个目录都有 Makefile 的设计，有了更好的管理，更明确的依赖关系。仅仅是因为有了更精确的依赖关系记录，一个典型的二进制文件在文件大小上就缩减了 40%。即便如此，C++ （或 C 语言）的特性使得自动验证这些依赖关系几乎不可能（impractical）。直到今天，我们对 Google 的大型 C++ 二进制文件的依赖关系，仍然缺乏准确的把握。</p>
-<p>依赖关系失控和规模太大的后果是，在单台计算机上构建 Google 服务器的二进制文件变得不可行（impractical），一个大型的分布式编译系统应运而生。有了这个加了 <strong>很多机器、很多缓存、很多复杂东西</strong> 的系统（不要忘了构建系统本身也是一个大程序），Google 的构建总算可以进行，虽然还是很麻烦。</p>
-<p>即使采用分布式构建系统，Google 的一次大型构建仍然需要很长时间。前面提到 2007 年的那个二进制程序使用上一版的分布式构建系统花了 45 分钟；同一程序今天的版本花了 27 分钟，当然这期间程序和它的依赖关系也还在增长。<strong>扩大构建系统的工程投入，只能勉强比它所构建的软件的增长速度领先一点点。</strong></p>
-<h2 id="6-走进-Go"><a href="#6-走进-Go" class="headerlink" title="6. 走进 Go"></a>6. 走进 Go</h2><p>当构建速度很慢时，就有了思考的时间。Go 有那么一个起源传说（origin myth），声称 Go 正是在其中一次 45 分钟的构建过程中被构思出来。设计一门新的语言，使它适合编写像 Web 服务器这样的大型 Google 程序，同时考虑到软件工程的因素，提高 Google 程序员的生活质量。大家认为这个目标值得一试。</p>
-<p>虽然到目前为止，讨论都集中在依赖关系上，但还有许多其他问题需要注意。一门语言要想在上述背景下取得成功，主要的考虑因素有：</p>
-<ul>
-<li>必须适应大规模开发。能在有 <strong>大量依赖关系</strong> 、<strong>大量程序员团队</strong> 一起协作的 <strong>大型程序项目</strong> 上很好地工作。</li>
-<li>必须是大家熟悉的，大致上类似于 C 语言的。在 Google 工作的程序员处于职业生涯的早期，对过程式编程语言（procedural languages），尤其是来自 C 家族的语言最熟悉。要想让程序员在新语言中快速提高工作效率，意味着语言不能太激进。</li>
-<li>必须是现代的。C、C++ 以及 Java 的某些方面都相当老旧，是在多核机器、网络 和 web 应用开发 出现之前设计的。新的做法可以更好地适应现代世界的一些特点，比如内置的并发支持。</li>
-</ul>
-<p>那么，在这样的背景下，让我们从软件工程的角度来看看 Go 的设计。</p>
-<h2 id="7-Go-的依赖关系"><a href="#7-Go-的依赖关系" class="headerlink" title="7. Go 的依赖关系"></a>7. Go 的依赖关系</h2><p>既然我们已经详细了解过 C 和 C++ 中的依赖关系，那么我们可以从 Go 如何处理依赖关系开始。依赖关系是由语言在语法和语义上定义的。它们是明确的、清晰的和『可计算』的，也就是说，很容易写工具来分析。</p>
-<p>Go 的语法是，在 <code>package</code> 语句（下一节的主题）之后，每个源文件可以有一个或多个导入语句，每个导入语句由 <code>import</code> 关键字和一个字符串常量组成，标识要导入到当前源文件（且只限当前源文件）的包：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"encoding/json"</span></div></pre></td></tr></table></figure>
-<p>让 Go 可以做到规模化、依赖智能化的第一步，是语言将 <strong>未使用的依赖</strong> （unused dependencies）定义为编译期错误（注意不是警告 warning，是错误 error）。如果源文件导入了一个它没有使用的包，程序就不能通过编译。这在结构上保证了，任何 Go 程序构建中的依赖关系树都是精确的，没有多余的边。换句话说，这保证了在构建程序时不会有多余的代码被编译，从而最大限度地减少了编译时间。</p>
-<p>第二步是在编译器的实现上，更进一步保证效率。假设一个有三个包的 Go 程序，依赖关系如下：</p>
-<ul>
-<li><code>A</code> 包导入了 <code>B</code> 包</li>
-<li><code>B</code> 包导入了 <code>C</code> 包</li>
-<li><code>A</code> 包没有导入 <code>C</code> 包</li>
-</ul>
-<p>这意味着， A 包只是在引用 B 包时，间接地引用了 C 包；换句话说，尽管 A 引用的来自 B 的某些代码引用了 C，但在 A 的源码里没有直接涉及来自 C 的标识符。例如， A 包可能引用了一个在 B 里面定义的结构体类型，该结构体有一个字段的类型是在 C 里定义的，但 A 本身并不直接引用 C 里面的类型。一个更具体的例子是，A 导入了一个格式化 I/O 包 B，B 使用了 C 提供的缓冲 I/O 实现，但 A 本身并没有调用缓冲 I/O。</p>
-<p>要构建这个程序，首先 C 被编译——被依赖的包必须在依赖它们的包之前构建。然后，B 被编译；最后 A 被编译，然后就可以链接程序。</p>
-<p>在 A 被编译时，编译器读取的是 B 的目标文件（object file）而不是源代码。B 的目标文件包含了、编译器在 A 的源代码里执行 <code>import &quot;B&quot;</code> 语句时，需要的所有类型信息。这些信息包括 B 的调用方（clients）在编译时需要的任何关于 C 的信息。换句话说，当 B 被编译时，生成的目标文件包含了 B 所有公共接口所需的依赖关系的类型信息。</p>
-<p>这种设计的一个重要的效果，就是 <strong>当编译器执行一条 <code>import</code> 语句时，只会打开一个文件</strong> ，那就是导入语句里的字符串所标识的目标文件。这让人不由得想起 Plan 9 C（相对于 ANSI C）的依赖管理方法，但实际上编译器在编译 Go 源文件的时候就会写入头文件。考虑到导入时读取的数据只是『导出的（exported）』数据，而不是一般的程序源代码，这个过程比 Plan 9 C 更自动，甚至更高效。这对整体编译时间可以造成巨大的影响，还能随着代码库的增长弹性地伸缩。与 C 和 C++ 的 『include 文件里还有 include』的模式相比，执行依赖图（dependency graph）然后编译，用时可以 <strong>指数级地减少</strong> 。</p>
-<p>值得一提的是，这种通用的依赖管理方法并不是独创的，其思想可以追溯到 20 世纪 70 年代，流传于 Modula-2 和 Ada 等语言中。在 C 语言家族中，Java 也有这种方法的元素。</p>
-<p>为了使编译更有效率，目标文件的内容是经过编排的，导出数据就在文件的开头。编译器只需读到导出数据的结尾就可以结束，不需要读取整个文件。</p>
-<p>这种依赖管理方法是 Go 编译比 C 或 C++ 快最大的一个原因。另一个因素是 Go 把导出数据放在目标文件里。作为对比，有些语言需要作者手写或编译器生成另外的文件，去保存这些信息。这就需要打开两倍数量的文件。在 Go 里，导入一个包只需要打开一个文件。另外，单文件的方式意味着导出数据（对应 C / C++ 里的头文件）相对于目标文件来说，永远不会过时。</p>
-<p>作为对比，我们测量了一个用 Go 编写的大型 Google 程序的编译情况，拿源代码的扇出量与前面做的 C++ 分析作比较。（译者注：这里的扇出量，指第五节提到的 C++ 头文件展开后的内容量和源代码的比值，为 2000 倍。）我们发现 Go 的情况大约是 40 倍，比 C++ 好了 50 倍（同时也更简单，因此处理速度更快），但还是比我们预期的大。这有两个原因。首先，我们发现了一个 bug：Go 编译器在导出部分，生成了大量不需要的数据。其次，导出数据使用的是一种冗长的编码，还有改进的余地。我们已经计划解决这些问题。</p>
-<blockquote>
-<p>译者注：在演讲的时间点，Go 还是 1.0 版本，到现在已经过去了 近 10 年，1.18 即将发布 。这中间 Go 团队投入了大量时间在 编译器、运行时 和 工具链的优化上，这两个问题应该已经得到了很大的改善，甚至可能已经彻底解决。</p>
-</blockquote>
-<p>尽管如此，减少到五十分之一，就足以把几分钟变成几秒钟，把茶歇时间变成交互式构建。</p>
-<p>Go 依赖图的另一个特点是它没有依赖环。<strong>语言定义了依赖中不能有循环导入</strong>，编译器和链接器都会检查确保不存在循环依赖。虽然循环导入偶尔有用，但它在规模增长时会带来严重的问题。循环导入要求编译器一次性处理更多的源文件，这就减缓了增量构建的速度。<strong>更重要的是，根据我们的经验，如果允许循环导入，最终会把大片的源码树，纠缠成难以独立管理的几大块，使二进制文件膨胀，并使初始化、测试、重构、发布和其他软件开发任务变得复杂。</strong></p>
-<p>缺少循环导入偶尔会造成烦恼，却能保持依赖树的干净，迫使包之间有明确的边界。<strong>就像 Go 里的许多设计决策一样，它迫使程序员更早地去考虑更大范围的问题（这个例子里，需要考虑包的边界）——这些问题如果留到以后，可能永远得不到令人满意的解决。</strong></p>
-<p>Go 设计标准库的过程中，花费了大量精力在控制依赖关系上。<strong>如果只是需要一个函数，拷贝一点代码可能比直接拉来一个大库强。</strong>（如果出现新的核心依赖关系，系统构建中的测试就会报告问题。）依赖关系清晰胜过代码重用。实践中的一个例子是，（底层的）<code>net</code> 包有自己的 整型 到 小数 的转换程序，以避免依赖更大的、依赖关系更复杂的格式化 I/O 包。另一个例子是字符串转换包 <code>strconv</code> 有一个私有的 『可打印』字符定义的实现，而不是引入大块头的 Unicode 字符类表；<code>strconv</code> 通过包的测试来确保符合 Unicode 标准。</p>
-<h2 id="8-包"><a href="#8-包" class="headerlink" title="8. 包"></a>8. 包</h2><p>Go 的包系统设计，将库、命名空间、模块的一些特性结合在一起，变成一个统一的结构。</p>
-<p>每一个 Go 源文件，例如 <code>&quot;encoding/json/json.go&quot;</code>，都会以一个 <code>package</code> 语句开始，像这样：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> json</div></pre></td></tr></table></figure>
-<p>其中 <code>json</code> 是 『包名』，一个简单的标识符。包名通常是简明扼要的。</p>
-<p>要使用一个包，导入语句里的包路径标识了要导入的文件。『路径』的含义并未在语言中指定，但在实践中，按照惯例，它是源包在代码库里的目录路径，以斜杠 <code>/</code> 分隔，像：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"encoding/json"</span></div></pre></td></tr></table></figure>
-<p>然后，在导入（importing，即调用方）的源文件里引用时，用包名（而不是路径）来修饰（qualify）被导入（imported）包的包中成员：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dec = json.NewDecoder(reader)</div></pre></td></tr></table></figure>
-<p>这种设计清晰明确。<code>Name</code> 对比 <code>pkg.Name</code> ，人们总是可以从语法中，判断出一个名字是否来自本地包。（这一点后面会有更多的介绍。）</p>
-<p>在我们的例子中，包的路径是 <code>&quot;encoding/json&quot;</code>，而包名是 <code>json</code>。在标准仓库之外，惯例是将项目或公司名称放在命名空间的根部：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"google/base/go/log"</span></div></pre></td></tr></table></figure>
-<p>重要的是要认识到包的路径是唯一的，但对包名却没有这样的要求。路径必须唯一地标识要导入的包，而包名只是一个约定，让包的调用方可以引用它的内容。包名不需要是唯一的，可以在每个导入（importing）的源文件里，通过在导入语句中提供一个本地标识符来重命名。下面两个导入都引用了包名为 <code>log</code> 的包，但要在同一个源文件里导入它们，必须（在本地）重命名其中一个包。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"log"</span> <span class="comment">// 标准包</span></div><div class="line"><span class="keyword">import</span> googlelog <span class="string">"google/base/go/log"</span> <span class="comment">// Google 特有的包</span></div></pre></td></tr></table></figure>
-<p>每个公司可能都有自己的 <code>log</code> 包，没有必要让包名独一无二。恰恰相反：<strong>Go 的风格建议保持包名短小精悍、清晰明确，而不是担心重名</strong> 。</p>
-<p>还有一个例子：在 Google 的代码库里，有很多个 <code>server</code> 包。</p>
-<h2 id="9-远程包"><a href="#9-远程包" class="headerlink" title="9. 远程包"></a>9. 远程包</h2><p>Go 的包系统有一个重要特性，包的路径可以是任意字符串，可以用它标识托管代码仓库的站点 URL ，以此来引用远程代码库。</p>
-<p>下面是使用 <code>github</code> 上的 <code>doozer</code> 包的方法。<code>go get</code> 命令使用 <code>go</code> 构建工具从站点获取仓库并安装它。一旦安装完毕，它就可以像其他普通的包一样被导入和使用。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ go get github.com/4ad/doozer // 获取包的 Shell 命令</div></pre></td></tr></table></figure>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> <span class="string">"github.com/4ad/doozer"</span> <span class="comment">// Doozer 调用方的 import 语句</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> client doozer.Conn         <span class="comment">// 调用方对包的引用</span></div></pre></td></tr></table></figure>
-<p>值得注意的是，<code>go get</code> 命令以递归的方式下载依赖，正是因为依赖关系是显式的所以才可以这样实现。另外，区别于其它语言使用集中式包注册，Go 导入路径的命名空间分配依赖于 URL，这使得包的命名是去中心化的，因而是可伸缩的。</p>
-<blockquote>
-<p>译者注：在演讲的时间点 ，包管理还是最简单的 GOPATH 模式。这种基于 Google 单一代码库的设计造成了各种不便，第三方包管理工具百花齐放。2015 年 Go 1.5 引入 Vendor 机制，到后面发现还是没有解决根本问题。第三方工具 dep 一度有希望转正，结果 2018 年官方推出 vgo （后改名 Go Modules 并入 <code>go</code> 工具链）统一了机制，到 2020 年的 1.14 正式宣布 Go Modules “ready for production”。</p>
-<p>现在 Go 的包管理已经有了很多变化，最主要的是引入了 module 的概念。</p>
-<p>而在即将发布的 1.18，还会迎来新的工作区模式。可以简单的认为，module 是 package 的集合，而 work 是一系列本地 module 的集合。</p>
-</blockquote>
-<h2 id="10-语法"><a href="#10-语法" class="headerlink" title="10. 语法"></a>10. 语法</h2><p>语法就是一门编程语言的用户界面。<strong>尽管语法对语义影响有限（语义很可能才是语言更重要的组成部分），但语法决定了语言的可读性，继而决定了语言的清晰度。</strong> 同时，语法对工具链而言至关重要：如果一门语言难以解析，就很难为其编写自动化工具。</p>
-<p>因此，Go 在设计时就考虑了语言的清晰度和工具链，拥有简洁的语法。与 C 家族的其他语言相比，它的语法规模不大，只有 25 个关键字（作为对比，C99 有 37 个；C++11 有 84 个；而且这两个数字还在继续增加）。更重要的是，语法很规范，所以很容易解析（应该说大多数规范；也有个别怪异的语法，我们本可以改善，结果发现得太晚）。与 C 和 Java，尤其是 C++ 不同，Go 可以在没有类型信息或符号表的情况下进行解析；不需要类型相关的上下文。语法容易推导，工具自然就容易编写。</p>
-<p>Go 语法里有一个细节会让 C 程序员感到惊讶，那就是声明语法更接近 Pascal 而不是 C。声明的名称出现在类型之前，并且使用了更多关键字（译者注：指 <code>var</code> 和 <code>type</code>关键字）：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fn <span class="function"><span class="keyword">func</span><span class="params">([]<span class="keyword">int</span>)</span> <span class="title">int</span></span></div><div class="line"><span class="title">type</span> <span class="title">T</span> <span class="title">struct</span> &#123; a, b <span class="keyword">int</span> &#125;</div></pre></td></tr></table></figure>
-<p>对比 C 语言</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> (*fn)(<span class="keyword">int</span>[]);</div><div class="line"><span class="keyword">struct</span> T &#123; <span class="keyword">int</span> a, b; &#125;</div></pre></td></tr></table></figure>
-<p>无论对人还是对计算机来说，由关键字引入的声明都更容易解析，而且使用 <strong>类型语法</strong> 而不是 C 那样的 <strong>表达式语法</strong> ，对解析有很大的帮助：它增加了语法，但消除了歧义。你还有另外一个选择：对于初始化声明，可以丢弃 <code>var</code> 关键字，直接从表达式中推断变量的类型。这两个声明是等价的；第二个声明更短也更地道：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buf *bytes.Buffer = bytes.NewBuffer(x) <span class="comment">// 显式指定类型</span></div><div class="line">buf := bytes.NewBuffer(x)                  <span class="comment">// 类型推断</span></div></pre></td></tr></table></figure>
-<p>在 <a href="https://golang.org/s/decl-syntax" target="_blank" rel="external">golang.org/s/decl-syntax</a> 有一篇博客文章，详细介绍了 Go 的声明语法，以及为什么它与 C 语言如此不同。</p>
-<p>对于简单的函数来说，函数语法是很直接的。这个例子声明了函数 <code>Abs</code>，它接受一个类型为 <code>T</code> 的变量 <code>x</code>，并返回一个 <code>float64</code> 的值：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">Abs</span><span class="params">(x T)</span> <span class="title">float64</span></span></div><div class="line"></div><div class="line">// 译者补充调用示例:</div><div class="line">// 假定已经初始化了一个变量 <span class="title">t</span>，类型为 <span class="title">T</span>，下同</div><div class="line"><span class="title">absT</span> := <span class="title">Abs</span><span class="params">(t)</span></div></pre></td></tr></table></figure>
-<p>方法（method）只是有一个特殊参数的函数，这个特殊参数就是它的接收者（receiver），可以通过点号 <code>.</code> 传递给函数。方法声明的语法将接收者放在函数名前面的括号里。下面是同一个函数，现在定义成 <code>T</code> 类型的方法：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(x T)</span> <span class="title">Abs</span><span class="params">()</span> <span class="title">float64</span></span></div><div class="line"></div><div class="line">// 译者补充调用示例:</div><div class="line"><span class="title">absT</span> := <span class="title">t</span>.<span class="title">Abs</span><span class="params">()</span></div></pre></td></tr></table></figure>
-<p>而这里是一个函数变量（闭包），参数类型为 <code>T</code>。Go 有一等函数（first-class function）和闭包：</p>
-<blockquote>
-<p>译者注：一等函数是指函数可以作为普通变量，可以作为其他函数的参数和返回值；作为对比， Java 只有类是一等公民，其他语言成分必须作为类的成员。</p>
-</blockquote>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">negAbs := <span class="function"><span class="keyword">func</span><span class="params">(x T)</span> <span class="title">float64</span></span> &#123; <span class="keyword">return</span> -Abs(x) &#125;</div><div class="line"></div><div class="line"><span class="comment">// 译者补充调用示例:</span></div><div class="line">negT := negAbs(t)</div></pre></td></tr></table></figure>
-<p>最后，在 Go 里函数可以返回多个值。常见的做法是将函数结果和错误值作为一对返回，就像这样：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">ReadByte</span><span class="params">()</span> <span class="params">(c <span class="keyword">byte</span>, err error)</span></span></div><div class="line"></div><div class="line"><span class="title">c</span>, <span class="title">err</span> := <span class="title">ReadByte</span><span class="params">()</span></div><div class="line"><span class="title">if</span> <span class="title">err</span> != <span class="title">nil</span> &#123; ... &#125;</div></pre></td></tr></table></figure>
-<p>错误处理我们后面再聊。</p>
-<p>Go 缺少了一个特性，那就是它不支持函数的默认参数（default function arguments）。这是一个故意的简化。经验告诉我们，默认参数会让给 API 打补丁变得太容易，仿佛只要添加更多参数就可以弥补设计上的缺陷。结果导致添加了过多的参数，参数之间的关系变得难以拆分、甚至无法理解。缺少默认参数的情况下，因为一个函数无法承载整个接口，就需要定义更多的函数或方法。但这会让 API 更清晰、更容易理解。这些函数也都需要单独命名，这使得有哪些函数、分别接受哪些参数一目了然，同时也鼓励人们对命名进行更多的思考，这是清晰度和可读性的一个关键方面。</p>
-<p>作为缺少默认参数的补偿，Go 支持易用的、类型安全的可变参数函数（variadic functions）。</p>
-<h2 id="11-命名"><a href="#11-命名" class="headerlink" title="11. 命名"></a>11. 命名</h2><p>Go 采用了一种不同寻常的做法，来定义标识符的可见性（所谓可见性，是指一个包的调用方是否可以通过标识符使用包内的成员）。不同于使用 <code>private</code> 和 <code>public</code> 等关键字，在 Go 里，命名本身就带有信息：标识符首字母的大小写决定了标识符的可见性。如果首字母是大写字母，标识符就会 <strong>被导出</strong> （公共）；否则就是私有的：</p>
-<ul>
-<li>首字母大写：<code>Name</code> 对包的调用方可见</li>
-<li>除此以外：<code>name</code> （或 <code>_Name</code>）对包的调用方不可见</li>
-</ul>
-<p>这条规则适用于变量、类型、函数、方法、常量、字段 …… 所有一切。<strong>这就是全部规则</strong> 。</p>
-<p>这个设计不是一个容易做的决定。我们纠结了一年多的时间，去考虑用什么符号指定标识符可见性。而一旦我们决定使用命名的大小写，我们很快就意识到它已经成为了语言里最重要的特性之一。名称毕竟是给包的调用方使用的；<strong>把可见性放在名称里而不是类型里，意味着只要看一眼，就能确定一个标识符是否公共 API 的一部分</strong> 。在使用 Go 一段时间之后，再去看其他语言，还要查找声明才能发现这些信息，就会觉得很累赘。</p>
-<p>这个做的结果，仍然是清晰度（clarity）：程序源码要简单直接地表达程序员的意图。</p>
-<p>另一个简化是，Go 有一个非常紧凑的作用域（scope）层次结构：</p>
-<ul>
-<li>全局 universe（预先声明的标识符，像 <code>int</code> 和 <code>string</code>）</li>
-<li>包 package（包的所有源文件都在同一个作用域）</li>
-<li>文件 file（仅用于导入包的重命名，实践中不是特别重要）</li>
-<li>函数 function（跟其它语言一样）</li>
-<li>代码块 block（跟其它语言一样）</li>
-</ul>
-<p>没有什么命名空间（name space）作用域、类（class）作用域或者其它结构的作用域。在 Go 里，名称只来自很少的地方，而且所有名称都遵循相同的作用域层次：在源码的任意位置，一个标识符只表示一个语言对象，和它的用法无关。（唯一的例外是语句标签 ，用作 <code>break</code> 等语句的目标；它们总是具有函数作用域。）</p>
-<p>这使代码更清晰。例如，请注意到方法声明了一个显式的接收者（explicit receiver），访问该类型的字段和方法必须用到它。没有隐式的（implicit） <code>this</code> 。也就是说，我们总是写：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rcvr.Field</div></pre></td></tr></table></figure>
-<p>（其中 <code>rcvr</code> 是给接收者变量随便起的名称）所以在词法上（lexically），该类型的所有元素，总是绑定到一个接收者类型的值上。类似地，对于导入的名称，包的限定符总是存在；人们写的是 <code>io.Reader</code> 而不是 <code>Reader</code> 。这样不仅清楚，而且释放了标识符 <code>Reader</code> 作为一个有用的名称，可以在任何包中使用。事实上，在标准库中有多个导出的标识符都叫 <code>Reader</code>，类似的还有很多 <code>Printf</code>，但具体引用了哪一个永远不会弄混。</p>
-<p>最后，这些规则结合在一起，保证除了顶层的预定义名称如 <code>int</code> 之外，每个名称（点号 <code>.</code> 前的第一部分）总是在当前包中声明。</p>
-<p>简而言之，名称总是本地的（local）。在 C、C++ 或 Java 里，名称 <code>y</code> 可以指向任何东西。在 Go 里，<code>y</code> （甚至大写的 <code>Y</code> ）总是在包内定义，而 <code>x.Y</code> 的解释很清楚：在本地找到<code>x</code> ，<code>Y</code> 就在里面。</p>
-<p>这些规则为可伸缩性提供了很重要的特性，因为它们保证了，在一个包里添加导出的名称，永远不会破坏这个包的调用方。<strong>命名规则解耦了包，提供了可伸缩性、清晰度和健壮性。</strong></p>
-<p>关于命名还有一个方面需要提及：方法查找总是只按名称，而不是按方法的签名（类型）。换句话说，一个类型永远不可能有两个同名的方法。给定一个方法 <code>x.M</code> ，永远只有一个 <code>M</code> 与 <code>x</code> 关联。同样，这使得只给定名称就能很容易地识别引用了哪个方法。这也使得方法调用的实现变得简单。</p>
-<blockquote>
-<p>译者注：换句话说，Go 不支持函数和方法重载。</p>
-<p>Go 的内置函数其实是有重载的。<code>make</code> 和 <code>len</code> 这些函数，参数类型不同，具体的行为也不一样。<code>make</code> 甚至还有一个到三个参数的三个版本。这些函数根据参数不同，在编译时被替换成了不同的函数实现。</p>
-<p>但为了保持代码清晰，实现简单和运行高效，Go 不支持用户代码的函数重载。</p>
-</blockquote>
-<h2 id="12-语义"><a href="#12-语义" class="headerlink" title="12. 语义"></a>12. 语义</h2><p>Go 语句的语义一般跟 C 语言类似。它是一种编译型、静态类型的过程式语言，支持指针等特性。习惯 C 家族语言的程序员应该会对它的设计感到熟悉。在推出一门新语言时，目标受众能够快速学会它是很重要的；将 Go 植根于 C 家族有助于确保年轻程序员能很容易学会 Go（他们大部分都知道 Java、JavaScript，也许还有 C）。</p>
-<p>尽管如此，Go 对 C 的语义还是做了很多小的改变，主要是出于健壮性的考虑。这些变化包括：</p>
-<ul>
-<li>没有指针运算</li>
-<li>没有隐式数字转换</li>
-<li>总是检查数组边界</li>
-<li>没有类型别名（声明 <code>type X int</code> 之后， <code>X</code> 和 <code>int</code> 是不同的类型，而不是别名）</li>
-<li><code>++</code> 和 <code>--</code> 是语句（statements）而不是表达式（expressions）</li>
-<li>赋值不是表达式</li>
-<li>对栈上变量取址是合法的（甚至是被鼓励的）</li>
-<li>其它</li>
-</ul>
-<blockquote>
-<p>译者注：</p>
-<ol>
-<li><p>Go 在 1.9 还是引入了类型别名，语法是 <code>type X = int</code> 。用来解决迁移、升级等重构场景下，类型重命名的兼容性问题，以及方便引用外部导入的类型。</p>
-<p> 实际上，类型别名仅在代码中存在，编译时会全部替换成实际的类型，不会产生新类型。</p>
-</li>
-<li><p>语句和表达式的差别是：语句是计算机角度的一个可执行动作，不一定有值；表达式是数学角度的可求值算式，一定有值，这个值可以放在赋值符号的右边，或者成为更大的表达式的一部分。</p>
-<p> 不再区分语句和表达式，是编程语言演化的其中一个趋势，这可以增强语言的表达能力。一般的做法，是增加求值规则（像语句的值是语句中最后一个表达式的值），给原本没有值的语句提供一个值，这样就可以通过拼接非常复杂的表达式，用很少的代码解决问题。例如，如果赋值语句有值，那么 <code>e = d = c = b = a = 10</code>  就是合法的；因为赋值运算符从右到左结合，这些赋值最后都会成功，都是 10。</p>
-<p> 但这很容易引起表达式的 滥用 和 误用。人们有可能写出非常难以理解的复杂表达式。或者因为不熟悉某些（本来是语句的）表达式的求值规则而制造难以排查的错误。</p>
-<p> Go 首先追求代码的清晰明确，而不是追求单纯的表达能力强或者代码行数少，所以反其道而行，反而去掉了某些语句的值。</p>
-</li>
-<li><p>栈上分配的内存会在函数返回后被回收，对栈上的变量取址并返回，会导致函数外部引用到已被回收的内存。这就是悬挂指针问题，困扰着大多数有指针的语言。Go 的解决方案是，在编译期做逃逸分析，识别出可能超出当前作用域的指针引用，将对应的内存分配到堆上。所以在 Go 里面，取址操作不用考虑变量究竟是栈上还是堆上的，编译器会反过来配合你。当然，如果是高频操作，可能要考虑一下拷贝和 GC 哪个开销大，传值（栈上分配，需要拷贝，不需要 GC）还是 传指针（如果发生逃逸，堆上分配，不需要拷贝，需要 GC）。</p>
-</li>
-</ol>
-</blockquote>
-<p>还有一些更大的变化，远离了传统的 C、C++ 甚至 Java 的模式。这些包括在语言级别上支持：</p>
-<ul>
-<li>并发</li>
-<li>垃圾回收</li>
-<li>接口类型</li>
-<li>反射（reflection）</li>
-<li>类型判断（type switches）</li>
-</ul>
-<p>下面的章节主要从软件工程的角度简要讨论 Go 中的两个主题：并发 和 垃圾回收。关于语言语义和用途的完整讨论，请参见 <a href="https://golang.org" target="_blank" rel="external">golang.org</a> 网站上的更多资料。</p>
-<h2 id="13-并发"><a href="#13-并发" class="headerlink" title="13. 并发"></a>13. 并发</h2><p>在多核机器上运行着 web 服务器，有多个客户端（multiple clients），这可以称之为一个典型的 Google 程序。对于这种典型的现代计算环境来说，并发非常重要。C++ 或 Java 都不是特别适合这类软件，它们在语言层面上缺乏足够的并发支持。</p>
-<p>Go 有作为一等公民的通道（channel），实现了 CSP 的一个变种（译者注：Communicating Sequential Processes，通信顺序进程）。选择 CSP 的部分原因是熟悉（我们其中一个人曾经在基于 CSP 思想的前辈语言上工作过），同时也是因为 CSP 很容易被添加到过程化编程模型中，而无需对模型进行深入的修改。也就是说，<strong>给定一个类似于 C 的语言，CSP 基本就能够以正交的方式添加到语言中，提供额外的表达能力，而不限制该语言的其他用途。</strong> 总之，语言的其他部分可以保持『普通』。</p>
-<p><strong>这个方法就是，将独立执行的函数，与其他普通的过程式代码结合。</strong></p>
-<p>这样得到的语言，允许我们将 并发 和 计算 平滑地结合起来。假设有一个 web 服务器，必须验证每次客户端调用的安全证书；在 Go 里面，很容易利用 CSP 来构造这样一个软件：用独立的执行过程来管理每个客户端，同时还能火力全开为昂贵的加密计算提供编译型语言的高执行效率。</p>
-<p>综上所述，CSP 对于 Go 和 Google 来说都很实用。在编写 web 服务器这种典型的 Go 程序时，这个模型是再适合不过了。</p>
-<p>有一个重要的注意事项：在并发的情况下，Go 并不是纯粹的内存安全（purely memory safe）语言。内存共享是合法的，在通道上传递指针也是符合惯例的（同时也是高效的）。</p>
-<p>Go 在并发计算的上下文没有采用『只写一次（write-once）』来处理值语义，看起来没有其它并发语言（如 Erlang）那么像回事，一些 并发 和 函数式编程 的专家对此感到失望。同样地，原因主要还是在于对问题领域的熟悉度和适用性。Go 的并发特性在大多数程序员熟悉的上下文中都能很好地发挥作用。<strong>Go 可以实现简单、安全的并发编程，但并不禁止不良的编程方式。</strong> 我们提供约定俗成的做法作为弥补，训练程序员将消息传递视为所有权控制的一种实现方式。我们的座右铭是：『<strong>不要通过共享内存来通信，要通过通信来共享内存</strong>』。</p>
-<blockquote>
-<p>译者注：『只写一次（write-once）』变量，在某些语言的实现里又叫『单次赋值（single-assignment）』变量（Erlang），或者『不可变（immutable）』变量（函数式编程）。换言之，这种变量只能在初始化时赋值（写入）一次，之后不能再修改；如果需要新的值，只能创建新的变量。这样可以避免在并发上下文意外修改了变量的值。</p>
-<p>虽然都不能修改，但还是要区分它和常量的区别。常量是在编译期就已经存在并确定了值；而不可变变量虽然赋值后不可修改，但其创建 / 赋值的时机和具体的值还是在运行时决定的。</p>
-<p>这其实是来自函数式编程『无副作用（side effect）』和『不修改状态（state）』的概念，虽然可以保证程序的正确性，却跟 C 家族的过程式编程模型差异很大，照搬过来需要对这个模型进行比较大的改动，这就违背 Go 的设计初衷了。</p>
-</blockquote>
-<p>从我们对 Go 和 并发编程 的新手程序员的有限了解来看，这是一种实用的做法。程序员享受着并发支持给网络软件带来的简单性，而简单性产生了健壮性。</p>
-<blockquote>
-<p>译者在网上看到一种说法：『Java 里多种同步方法、各种 Lock、并发调度等一系列复杂的功能在 Golang 里 <strong>都不存在</strong>，只靠 goroutine 和 channel 去处理并发。』，这种说法是错的。</p>
-<p>如上面所说，CSP 模型是以基本正交的方式，添加到 C 家族的过程式编程模型里的。增加了新的、简洁的表达方式，却没有限制原本的做法。</p>
-<p>Go 常用的并发控制的工具，除了内置的消息通道 <code>chan</code> （CSP 模型），还有：</p>
-<ul>
-<li><code>sync</code> 包提供的同步原语（其中包括互斥锁和读写互斥锁 <code>sync.Mutex</code> 和 <code>sync.RWMutex</code>，还有其它三个原语 <code>sync.WaitGroup</code> ， <code>sync.Once</code> 和 <code>sync.Cond</code> 。实际上你去看 <code>chan</code> 的源码，也是基于 runtime 内部的 <code>mutex</code> 实现的）；</li>
-<li>上下文 <code>context.Context</code></li>
-<li>其它扩展包中提供的工具</li>
-</ul>
-<p>可以看到，在 C 家族里常见的并发控制方式，基本都有提供，只是不再像 Java 那样以关键字的方式，而是以内置包的方式提供。</p>
-<p>Go 把 CSP 模型实现，并上升到内置类型（chan）和关键字（go）层面的支持，却并没有强迫程序员必须使用这个模型。</p>
-</blockquote>
-<h2 id="14-垃圾回收"><a href="#14-垃圾回收" class="headerlink" title="14. 垃圾回收"></a>14. 垃圾回收</h2><p>对于一门系统级编程语言来说，垃圾回收可能是一个有争议的特性。然而我们只花了很少时间，就决定 Go 将是一门带垃圾回收的语言。Go 没有显式的内存释放操作：已分配的内存返回内存池的唯一途径，就是垃圾回收器。</p>
-<p>这是一个很容易做出的决定，因为内存管理对一门语言的实际工作方式，有着深远的影响。在 C 和 C++ 中，编程时太多的精力都花在了内存的分配和释放上。这样的设计倾向于暴露本可以隐藏得很好的内存管理细节；但反过来说，对内存管理的过多顾虑又限制了内存的使用。相比之下，垃圾回收使得编程接口更清晰明确（garbage collection makes interfaces easier to specify）。</p>
-<p>此外，在支持并发的面向对象语言中，自动内存管理几乎是必不可少的，因为当一块内存的所有权在并发执行中来回传递时，管理起来是很棘手的。<strong>将行为和资源管理分开是很重要的。</strong></p>
-<p>一旦有了垃圾回收，语言使用起来就容易多了。</p>
-<p>当然，垃圾回收会带来巨大的成本：资源开销、执行延迟和实现的复杂性。尽管如此，我们相信，主要由程序员感受到的好处，要大于主要由语言实现者承担的成本。</p>
-<p>用 Java 作为服务器开发语言的经验，让一些人对面向用户的系统中的垃圾回收感到紧张。开销不可控，延迟随时可能变大，而且为了获得良好的性能，还需要进行很多参数调整。然而 Go 却不同，语言的特性能缓解其中一部分（当然还不是全部）的担忧。</p>
-<p>关键的一点是，<strong>Go 为程序员提供了工具，可以通过控制数据结构的布局来限制内存分配</strong> 。假设有一个简单的数据结构的类型定义，它包含一个字节型（数组）的缓冲区：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> X <span class="keyword">struct</span> &#123;</div><div class="line">    a, b, c <span class="keyword">int</span></div><div class="line">    buf [<span class="number">256</span>]<span class="keyword">byte</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在 Java 里，<code>buf</code> 字段需要第二次内存分配，对它的访问也需要第二层的间接访问。但在 Go 里面，缓冲区和包含它的结构体一起被分配在一个内存块中，不需要任何间接分配和访问。对于系统编程来说，这种设计可以获得更好的性能，同时减少回收器需要管理的内存块数量。在规模化的情况下，它可以带来显著的差异。</p>
-<p>举个更直接的例子，在 Go 里面，提供二阶内存分配器（second-order allocators）是很容易和很高效的。例如一个 arena 内存分配器可以一口气分配一大组的结构体，并用一个空闲链表（free list）将它们连接起来。像这样要反复使用很多小结构体的库，只要做适当的提前安排，就可以不产生垃圾，还能保持高效和快速响应。</p>
-<blockquote>
-<p>译者注：arena 是 Go 里面用来分配内存的连续虚拟地址区域，堆中分配的内存都来自这一区域，可以近似地看作堆。Go 有自主内存管理策略（基于 Thread-Caching Malloc 改进），会一次性向系统预申请一大块内存，并将空闲内存用 free list 连在一起。分配内存时会按照一定策略，根据大小优先从 free list 获取内存；如果对象销毁，则把内存归还 free list。只有空闲内存不够才会向系统申请新的内存，只有空闲内存特别多才会向系统释放内存，减少内存申请和释放的系统调用。</p>
-<p>这部分内容根据 Go 实现的改进可能会发生变化，请参考最新的文章，或者直接查看源码。 <code>https://github.com/golang/go/blob/master/src/runtime/malloc.go</code></p>
-</blockquote>
-<p>虽然 Go 是一种带垃圾回收的语言，但资深的程序员可以通过减少施加给回收器的压力，来提高性能。（另外，Go 安装时还附带了很多好用的工具，可以用来分析程序运行时的动态内存性能。）</p>
-<p>为了给程序员提供这种灵活性，Go 必须支持指向堆上分配对象的指针，我们称之为 <strong>内部指针</strong>（interior pointers）。上面例子里， <code>X.buf</code> 字段就存在于结构体内部，但获取这个内部字段的地址是合法的，例如将这个地址传递给一个 I/O 子程序。在 Java 以及很多支持垃圾回收的语言里，构造这样的内部指针是不可能，但在 Go 里面，这是很自然的做法。这个设计点会影响到可以使用哪些回收算法，并且可能会增加算法的实现难度，但是经过仔细考虑，我们决定有必要允许使用内部指针，因为这对程序员有好处，并且能够减少垃圾回收器的压力——尽管这样可能会让垃圾回收器更难实现。到目前为止，我们将类似的 Go 和 Java 程序进行对比的经验表明，使用内部指针可以对总的 arena 大小、执行延迟 和 回收时间产生显著影响。</p>
-<p>总而言之，Go 支持垃圾回收，但给程序员提供了一些工具来控制回收开销。</p>
-<p>垃圾回收器仍然是一个活跃的开发领域。目前的设计是一个并行的标记并清理（mark-and-sweep）回收器，仍然有机会改进它的性能甚至设计。（语言规范并没有规定回收器必须要使用任何特定实现。） 不过，如果程序员注意更巧妙地使用内存，目前的实现已经可以在生产环境工作得很好。</p>
-<blockquote>
-<p>译者注：Go 1.3 以前使用 mark-and-sweep 回收器，整个过程需要 STW（stop the world），对于内存的申请和释放量比较大和频繁的程序而言，回收造成的停顿会比较明显。</p>
-<p>后续的版本逐渐分离标记和清理过程，引入三色标记法，还有引入混合写屏障。总的趋势是将 GC 分散成多个可以（跟程序执行）并发的过程，将不得不 STW 的阶段和时间压缩到最小（通常小于 1ms），跟演讲发表时相比已经有了很大的改善。</p>
-</blockquote>
-<h2 id="15-组合，而不是继承"><a href="#15-组合，而不是继承" class="headerlink" title="15. 组合，而不是继承"></a>15. 组合，而不是继承</h2><p>Go 采用了一种不同寻常的面向对象编程方法，它允许在任何类型上添加方法，而不仅仅是类（classes）；但却没有任何形式的基于类型的继承，比如子类。这意味着 <strong>没有类型层次体系</strong> （type hierarchy）。这是一个有意的设计选择。虽然类型体系已经被用来构建了很多成功的软件，但我们认为这个模型已经被过度使用，是时候后退一步了。</p>
-<p>取而代之的是 Go 的接口，这个想法在其他地方已经被详细讨论过了（例如参见<a href="https://research.swtch.com/interfaces" target="_blank" rel="external">research.swtch.com/interfaces</a>），这里做一个简单的总结。</p>
-<p>在 Go 里面，一个接口 <strong>仅仅</strong> 是一组方法的集合。例如，这里是标准库中 <code>Hash</code> 接口的定义：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> Hash <span class="keyword">interface</span> &#123;</div><div class="line">    Write(p []<span class="keyword">byte</span>) (n <span class="keyword">int</span>, err error)</div><div class="line">    Sum(b []<span class="keyword">byte</span>) []<span class="keyword">byte</span></div><div class="line">    Reset()</div><div class="line">    Size() <span class="keyword">int</span></div><div class="line">    BlockSize() <span class="keyword">int</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>所有实现这些方法的数据类型都隐式地满足（satisfy）这个接口，没有 <code>implements</code> 声明。尽管如此，是否满足接口是在编译期静态检查的，所以接口是类型安全的。</p>
-<p>一个类型通常会满足许多接口，每个接口对应于其方法的一个子集。例如，任何满足 <code>Hash</code> 接口的类型也会满足 <code>Writer</code> 接口：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> Writer <span class="keyword">interface</span> &#123;</div><div class="line">    Write(p []<span class="keyword">byte</span>) (n <span class="keyword">int</span>, err error)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这种接口满足的流动性鼓励一种不同的软件构造方法。但在解释这个之前，我们应该先解释一下为什么 Go 没有子类。</p>
-<p>面向对象编程提供了一个强大的洞见：<strong>数据的行为可以独立于数据的表示进行泛化（generalized）。</strong> 当行为（方法集）是固定的时候，这个模型的效果最好，但是一旦你对一个类型进行了子类化，并添加了一个方法，行为就不再相同。相反地如果行为集是固定的，就好像 Go 静态定义的接口那样，行为的统一性使得数据和程序可以统一、正交、安全地组合。</p>
-<p>一个极端的例子是 Plan 9 内核，所有的系统数据项都实现了完全相同的接口，即由 14 个方法定义的文件系统 API。这种统一性允许的对象组合水平，即使在今天也极少能在其它系统上看到。这样的例子比比皆是。这里还有一个：一个系统可以将 TCP 协议栈导入（import，一个 Plan 9 的术语）到一台没有 TCP 甚至没有以太网（Ethernet）的计算机上，然后通过这个网络连接到一台 CPU 架构不同的机器上，导入它的 <code>/proc</code> 进程树，并运行一个本地调试器对远程进程进行断点调试。这种操作在 Plan 9 上简直稀松平常，根本没有任何特别之处。做这种事情的能力完全来自它的设计，不需要特殊的安排（而且都是用普通 C 语言代码完成的）。</p>
-<p>我们认为，这种组合式的系统构造风格，已经被那些推崇类型体系（type hierarchy）设计的语言所忽视。<strong>类型体系会造就脆弱易碎的代码。</strong> 体系结构必须在早期设计，往往是设计程序的第一步，而程序一旦写好早期的决定就很难再改动。因此， <strong>该模型鼓励在早期做过度设计，程序员试图预测软件可能需要的每一种使用方式，增加多个类型和抽象层，仅仅为了以防万一。这是本末倒置的做法。系统各个部分的交互方式应该随着系统的发展去适配，而不是在一开始就固定下来。</strong></p>
-<p>因此，Go 鼓励 <strong>组合</strong> 而不是继承，使用简单的、通常只有一个方法的接口来定义琐碎的行为，作为组件之间干净、可理解的边界。</p>
-<p>上面提到的 <code>Writer</code> 接口，它被定义在 <code>io</code> 包里：任何有 <code>Write</code> 方法的类型，只要有以下这个方法签名，就可以和补充的 <code>Reader</code> 接口一起工作：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> Reader <span class="keyword">interface</span> &#123;</div><div class="line">    Read(p []<span class="keyword">byte</span>) (n <span class="keyword">int</span>, err error)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这两个互补的方法可以类型安全地跟丰富的行为进行链接（chaining），就像通用的 Unix 管道（pipes）一样。文件、缓冲区、网络、加密器、压缩器、图像编码器等都可以链接在一起。格式化 I/O 子程序 <code>Fprintf</code> 采用一个 <code>io.Writer</code> 接口作为参数，而不是像在 C 语言里那样采用 <code>FILE*</code> 。格式化输出程序并不了解内容是写到了哪里，它可能是一个图像编码器，背后又输出给一个压缩器，压缩器又输出给一个加密器，加密器又输出给一个网络连接。</p>
-<p>接口组合是一种不同的编程风格，习惯了类型层次体系的人需要调整思路才能适应，但这样可以获得设计的适应性，这是通过类型体系很难实现的。</p>
-<p>还要注意的是，消除类型层次结构也消除了一种形式的依赖层次结构。接口的满足允许程序有机地生长，而不需要预先确定的合约。而且它是一种线性的增长形式，对一个接口的改变只影响该接口的直接用户，不需要再更新子树。缺乏 <code>implements</code> 声明会让一些人感到不安，但它能让程序自然、优雅、安全地生长。</p>
-<p>Go 的接口对程序设计有重大影响。其中一个地方是以接口为参数的函数。注意它们不是方法，而是函数。一些例子应该可以说明它们的强大。<code>ReadAll</code> 返回一个字节切片（数组），包含了所有可以从 <code>io.Reader</code> 接口读取的数据：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">ReadAll</span><span class="params">(r io.Reader)</span> <span class="params">([]<span class="keyword">byte</span>, error)</span></span></div></pre></td></tr></table></figure>
-<p>封装器（指接受一个接口参数并返回一个接口的函数）的使用也很普遍。下面是一些原型。 <code>LoggingReader</code> 记录传入的 <code>Reader</code> 的每个 <code>Read</code> 调用。 <code>LimitingReader</code> 在读取 <code>n</code> 个字节后停止。 <code>ErrorInjector</code> 通过模拟 I/O errors 来辅助测试。我们还能找到更多例子。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">LoggingReader</span><span class="params">(r io.Reader)</span> <span class="title">io</span>.<span class="title">Reader</span></span></div><div class="line"><span class="title">func</span> <span class="title">LimitingReader</span><span class="params">(r io.Reader, n <span class="keyword">int64</span>)</span> <span class="title">io</span>.<span class="title">Reader</span></div><div class="line"><span class="title">func</span> <span class="title">ErrorInjector</span><span class="params">(r io.Reader)</span> <span class="title">io</span>.<span class="title">Reader</span></div></pre></td></tr></table></figure>
-<p>这些设计与分层的、子类型继承的方法完全不同，它们是更松散的（甚至是临时的）、有机的、解耦的、独立的，因此是可伸缩的。</p>
-<h2 id="16-错误处理"><a href="#16-错误处理" class="headerlink" title="16. 错误处理"></a>16. 错误处理</h2><p>Go 没有传统意义上的异常机制，也就是说，没有与错误处理相关的控制结构。（Go 确实提供了处理异常情况的机制，例如除零异常。一对名为 <code>panic</code> 和 <code>recover</code> 的内置函数允许程序员处理类似的情况。然而，这些函数是故意设计得不好用，也很少使用，也没有像 Java 库使用异常那样，集成到代码库中。）</p>
-<p>错误处理的关键语言特性是一个预先定义的接口类型 <code>error</code> ，它代表了一个有 <code>Error</code> 方法可以返回字符串的值：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">type</span> error <span class="keyword">interface</span> &#123;</div><div class="line">    Error() <span class="keyword">string</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>代码库使用 <code>error</code> 类型来返回错误的描述。结合函数多值返回的能力，很容易将计算结果与错误值（如果有）一起返回。例如，Go 里等价于 C 的 <code>getchar</code> 的函数不会在遇到 <code>EOF</code> 时返回一个超出范围的值，也不会抛出一个异常；它只是在字符旁返回一个 <code>error</code> 值，如果是 <code>nil error</code> 值表示成功。下面是缓冲 I/O 包的 <code>bufio.Reader</code> 接口类型的 <code>ReadByte</code> 方法的签名：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="params">(b *Reader)</span> <span class="title">ReadByte</span><span class="params">()</span> <span class="params">(c <span class="keyword">byte</span>, err error)</span></span></div></pre></td></tr></table></figure>
-<p>这是一个简单清晰的设计，很容易理解。错误只是值，程序用它们来计算，就像用任意其他类型的值来计算一样。</p>
-<p>在 Go 中 <strong>不加入异常是一个刻意的选择</strong> 。虽然有很多批评者不同意这个决定，但有几个原因让我们相信它可以让软件变得更好。</p>
-<p>首先，计算机程序中的错误并不是真的『异常』（nothing truly exceptional，译者注：也可以翻译成：没有什么特别，平平无奇，这里翻译成异常，是为了跟 exception 的中文术语对应）。例如，无法打开文件是一个常见的问题，不值得使用特殊的语言结构； <code>if</code> 和 <code>return</code> 就可以了：</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">f, err := os.Open(fileName)</div><div class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</div><div class="line">    <span class="keyword">return</span> err</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>另外，如果使用特殊的控制结构，错误处理会扭曲（distorts）程序处理错误的控制流（control flow）。Java 风格的 <code>try-catch-finally</code> 块跟多个重叠的控制流互相交错，而这些控制流本身的交互就很复杂。相比之下，虽然 Go 使代码在检查错误时更加啰嗦，但显式的设计使控制流保持了字面意义上的（literally）简单直接。</p>
-<p>毫无疑问，由此产生的代码可能会更长，但这种代码的清晰和简单可以弥补它的啰嗦。<strong>明确的错误检查迫使程序员在错误出现时就考虑并处理它们。</strong> 异常太容易让人们忽略而不是处理它们，将责任推给调用栈，直到为时已晚，无法很好地修复乃至诊断问题。</p>
-<h2 id="17-工具"><a href="#17-工具" class="headerlink" title="17. 工具"></a>17. 工具</h2><p>软件工程需要工具。每一种语言都是在一个有其他语言和大量工具的环境中运行，这些工具用来编译、编辑、调试、分析性能、测试和运行程序。</p>
-<p>Go 的语法、包系统、命名惯例和其他特性在设计时就已经将工具易于编写考虑在内，库里面包括了 Go 的词法分析器、解析器和类型检查器。</p>
-<p>控制 Go 程序的工具非常容易编写，以至于这样的工具现在已经有很多，有些工具对软件工程产生了很有趣的影响。</p>
-<p>其中最著名的是 <code>gofmt</code> ，Go 的源代码格式化工具。从项目一开始，我们就打算用机器来格式化 Go 程序代码，从而消除程序员之间争论的一大类问题：该如何排版代码？ <code>gofmt</code> 运行在我们编写的所有 Go 程序上，大多数开源社区也在用它。它是作为代码仓库的『提交前（presubmit）』检查来运行的，以确保所有检入（check-in）的 Go 程序格式都是一样的。</p>
-<p><code>gofmt</code> 经常被用户推崇为 Go 最好的特性之一，尽管它根本不是 Go 语言的一部分。 <code>gofmt</code> 的存在和使用意味着，从一开始，社区里看到的代码总是按照 <code>gofmt</code> 的格式，所以 Go 程序有一个现在大家都很熟悉的统一风格。统一的表现形式使得代码更容易阅读，因此工作起来也更快。不用花时间格式化代码，时间就可以节省下来干别的。 <code>gofmt</code> 还影响了可伸缩性：<strong>既然所有的代码看起来都是一样的，团队就更容易一起合作，也更容易使用其他人的代码</strong>。</p>
-<blockquote>
-<p>译者注：</p>
-<p>这个功能虽然看起来不起眼，但在实际的团队开发中其实是很实用的。在使用别的没有统一风格的语言时，总是要为统一团队的代码风格付出额外的精力（尤其是有新成员加入时）。</p>
-<p>我们要么给团队制定统一的风格规范，并落实到每个人（最好使用格式化插件并应用相同的配置）；要么忍受代码里同时存在好几种风格穿插，影响阅读。</p>
-<p>更糟糕的情况是，几个人都启用了格式化插件，却应用了不同的配置，先后修改同一份代码，提交时就很容易出现大量差异乃至冲突，实际上仅仅是代码风格的差异。这些无关紧要的差异如果不小心提交到仓库，真正重要的修改就将被淹没其中，干扰我们日后查看历史分析问题。</p>
-</blockquote>
-<p><code>gofmt</code> 还使另一类我们之前没有清晰预见到的工具得以实现。 <code>gofmt</code> 的工作原理是解析源代码，并从解析树本身重新格式化。这使得在格式化之前可以编辑解析树，于是一套自动重构工具应运而生。这些工具很容易编写，由于它们直接在解析树上工作，所以语义丰富，可以自动生成规范格式化的代码。</p>
-<p>第一个例子是 <code>gofmt</code> 本身的 <code>-r</code> （rewrite）标志参数，它使用简单的模式匹配语言来实现表达式级别的重写。比如有一天，我们为切片表达式的右侧引入了一个默认值：切片本身的长度。只需一条命令，整个 Go 源代码树就被更新为使用这个默认值：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gofmt -r <span class="string">'a[b:len(a)] -&gt; a[b:]'</span></div></pre></td></tr></table></figure>
-<p>这个转换的一个关键点在于，因为输入和输出都是规范格式，对源代码所做的改变只是语义上的。</p>
-<p>一个类似但更复杂的处理是，当 Go 语言里以换行结束的语句，不再需要分号作为终止符时， <code>gofmt</code> 可以用来更新源码树。</p>
-<p>另一个重要的工具是 <code>gofix</code>，它可以运行用 Go 本身编写的『源码树重写模块（tree-rewriting modules）』，因此能够进行更高级的重构。 <code>gofix</code> 工具让我们在 Go 1 发布之前对 API 和 语言特性 进行了全面的修改，包括修改 map 删除条目的语法，为操作时间值引入全新的 API ，等等。随着这些变化的推出，用户只需要运行简单的命令就能更新他们的所有代码：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gofix</div></pre></td></tr></table></figure>
-<p>请注意，这些工具允许我们，在旧代码仍然可以正常工作的前提下，<strong>更新</strong> 代码。因此，Go 的代码仓库很容易随着库的演化保持更新。旧的 API 可以快速自动地被废弃，因此只需要维护一个版本的 API。例如，我们最近改变了 Go 的协议缓冲区实现，改为使用 “getter” 函数，而之前的接口并没有这些函数。我们在 Google 所有 Go 代码上运行 <code>gofix</code> 来更新所有使用协议缓冲区的程序，现在只有一个版本的 API 在使用。在 Google 的代码库规模下，对 C++ 或 Java 库进行类似的全面修改几乎是不可能实现的。</p>
-<p>Go 标准库里的解析包，让其他一些工具也得以实现。例如 <code>go</code> 工具，它可以管理程序的构建，包括从远程代码仓库获取包；<code>godoc</code> 文档提取器，是一个验证 API 兼容性合约是否随着库的更新而得到维护的程序；等等。</p>
-<p>尽管像这样的工具在语言设计中很少被提及，它们仍是语言生态系统中不可缺少的一部分，事实上，Go 在设计时就考虑到了工具的问题，这对语言、库和社区的发展都有巨大的影响。</p>
-<h2 id="18-结论"><a href="#18-结论" class="headerlink" title="18. 结论"></a>18. 结论</h2><p>Go 在 Google 内部用得越来越多。</p>
-<p>一些面向用户的大型服务都在使用它，包括 <code>youtube.com</code> 和 <code>dl.google.com</code> （提供 Chrome、Android 和其他下载的下载服务器），以及我们自己的 <code>golang.org</code> 。当然也有很多小的服务，大多是使用 Google App Engine 对 Go 的原生支持构建的。</p>
-<p>很多其他公司也在使用 Go；这个名单很长，其中比较著名的几个是：</p>
-<ul>
-<li>BBC Worldwide</li>
-<li>Canonical</li>
-<li>Heroku</li>
-<li>Nokia</li>
-<li>SoundCloud</li>
-</ul>
-<p>看来，Go 正在实现它的目标。不过，现在宣布成功还为时过早。我们还没有足够的经验——尤其是在大型程序（数百万行代码那种）方面的经验——去判断我们在创造一门弹性可伸缩的语言上，付出的努力是否得到了回报。尽管所有的指标都是正面的。</p>
-<p>在较小的范围内，一些小事情做得还不够好，可能会在 Go 以后的版本里微调（Go 2？）。例如，变量声明语法的形式太多，程序员很容易被非 nil 接口里面的 nil 值的行为搞糊涂，还有很多库和接口的细节可以再进行一轮设计。</p>
-<p>但值得注意的是， <code>gofix</code> 和 <code>gofmt</code> 在 Go 1 的前期给了我们许多修复其他问题的机会。正因为有这些工具，Go 在今天得以更接近它的设计者的期待，而这些工具本身也是由于语言的设计才得以实现。</p>
-<p>不是所有事情都已经固定不变。我们还在学习中（但语言暂时是冻结的）。</p>
-<blockquote>
-<p>译者注：根据译者的理解，这里的语言冻结，应该是指为了兑现 Go 1 backwards compatibility 的承诺，Go 1.x 的 API 已经基本固定，后续只会新增特性和对现有特性做兼容的微调，更多是在底层实现上做改进。破坏兼容性的修改，只能等到 Go 2。</p>
-</blockquote>
-<p>Go 语言的一个主要的弱点，是它的实现仍需努力改进。编译器生成的代码，尤其是运行时的性能应该更好，这方面的工作还在继续。目前已经取得了一些进展；事实上，一些基准测试显示，与 2012 年初发布的第一版 Go 相比，当前开发版的性能已经翻了一番。（译者注：演讲时距离 2012 年 3 月发布 1.0 才过去了 7 个月，最新版本大约是 1.0.3 ，性能的改进还是相当大的。）</p>
-<h2 id="19-小结"><a href="#19-小结" class="headerlink" title="19. 小结"></a>19. 小结</h2><p>软件工程指导了 Go 的设计。与大多数通用编程语言相比，Go 的设计是为了解决我们在构建大型服务器软件时，接触到的一系列软件工程问题。这么一说，可能让 Go 听起来相当沉闷和工业化，但事实上，在整个设计过程中，对清晰、简单和可组合性的关注反而导致了一门工作效率高且有趣的语言，很多程序员都觉得它表达力强而且功能强大。</p>
-<p>造就这个结果的特性包括：</p>
-<ul>
-<li>清晰的依赖关系</li>
-<li>清晰的语法</li>
-<li>清晰的语义</li>
-<li>组合而非继承</li>
-<li>编程模型提供的简单性（垃圾回收、并发）</li>
-<li>易用的工具（<code>go</code> 工具、<code>gofmt</code> 、 <code>godoc</code> 、 <code>gofix</code> ）</li>
-</ul>
-<p>如果你还没有尝试过 Go，我们建议你去尝试：</p>
-<p><a href="https://golang.org" target="_blank" rel="external">https://golang.org</a></p>
-<blockquote>
-<p>译者小结：</p>
-<p>一万八千多字，终于翻译完了。</p>
-<p>一开始我没有留意原文的字数，以为最多花两个晚上，就能翻译完。实际上，如果不涉及那么多专业概念，没有那么多上下文省略和带歧义的表述，这个长度两晚也是可以勉强完成的。</p>
-<p>可本文就是有很多地方，需要有相关的背景知识，无法单纯从原文确定作者的准确意思。没办法，有歧义又了解不够的地方，只好查资料、翻源码，猜测原作者最大可能想表达什么。所以导致翻译进度又慢又累。而即使这样，如开头所说，仍然无法避免会有理解偏差和错误。</p>
-<p>这样一来，对之前的译文就变得更加理解和宽容了。笔误和排版混乱仍然不应该。但那些在看起来显而易见的错误，也许只是刚好落入了我的认知范围；而我的译文里，难免也有理解不到位瞎蒙的地方，成为别人眼里的低级错误。</p>
-<p>欢迎留言指出错误，或者提出你不同的见解。</p>
-</blockquote>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;最近在写 Go 语言实战系列的文章，中间想聊一下 Go 的设计原则，发现自己理解得还是不够深入，写得辞不达意。然后找到了 Rob Pike 在 8 年前的演讲稿，拜读学习之后，想推荐给我的读者作为学习资料。&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-    
-      <category term="golang" scheme="https://jaycechant.info/tags/golang/"/>
-    
-      <category term="翻译" scheme="https://jaycechant.info/tags/%E7%BF%BB%E8%AF%91/"/>
     
   </entry>
   

@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jaycechant.info/2022/pass-compile-time-arguments-to-qt5-cpp-program/</loc>
+    
+    <lastmod>2022-01-23T06:58:10.132Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/</loc>
+    
+    <lastmod>2022-01-18T16:20:54.014Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://jaycechant.info/2022/farewell-2021/</loc>
     
-    <lastmod>2022-01-18T05:57:00.095Z</lastmod>
+    <lastmod>2022-01-18T11:22:10.207Z</lastmod>
     
   </url>
   
@@ -12,13 +26,6 @@
     <loc>https://jaycechant.info/list/essential-steps-on-newly-installed-Linux/index.html</loc>
     
     <lastmod>2022-01-04T13:45:11.956Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://jaycechant.info/2020/translation-language-design-in-the-service-of-software-engineering/</loc>
-    
-    <lastmod>2022-01-01T12:52:58.601Z</lastmod>
     
   </url>
   
